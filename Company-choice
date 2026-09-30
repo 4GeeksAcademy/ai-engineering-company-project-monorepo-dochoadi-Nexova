@@ -6,11 +6,13 @@ Elijo Nexova porque es una consultora que da servicio a otras empresas (como don
 
 ## Departamentos que me interesan
 
-Me interesa **Atención al Cliente**, porque responden a mano y tardan más de lo que deberían. También **Ventas**, porque no hacen seguimiento de sus clientes potenciales y pierden oportunidades por eso.
+Me interesa 
+**Atención al Cliente**, porque responden a mano y tardan más de lo que deberían 
+**Ventas**, porque no hacen seguimiento de sus clientes potenciales y pierden oportunidades por eso.
 
 ## My AI Agent Idea
 
-Un **HelpDesk Support Chatbot** para el equipo de Atención al Cliente Externalizado de Roberto Díaz — hoy sus 30 agentes resuelven cada incidencia a mano, sin base de conocimiento centralizada, y tardan de media 48 horas cuando el compromiso con el cliente es de 24.
+**HelpDesk Support Chatbot** para el equipo de Atención al Cliente Externalizado de Roberto Díaz — hoy sus 30 agentes resuelven cada incidencia a mano, sin base de conocimiento centralizada, y tardan de media 48 horas cuando el compromiso con el cliente es de 24.
 
 - **Qué haría el agente:** recibe la incidencia del cliente por chat o email, busca en la base de conocimiento (usando RAG) si existe una solución a un problema parecido, y si la encuentra responde directamente — esto sería el Nivel 1. Si no encuentra nada útil o el caso es delicado, lo escala a una persona del equipo de soporte con el contexto ya resumido — el Nivel 2. Cuando esa persona resuelve el caso, su solución se guarda en la base de conocimiento para que el chatbot la aprenda de cara a la próxima vez.
 - **Qué información necesitaría:** la base de conocimiento de soporte (procedimientos, preguntas frecuentes y soluciones ya documentadas — hoy no existe de forma centralizada, vive en la experiencia de cada agente y en un documento de Word compartido), el historial de casos ya resueltos, y los datos del ticket entrante (qué pregunta el cliente, a qué empresa cliente pertenece — Nexova da soporte a varias empresas distintas y nunca debe mezclar su información — y por qué canal llegó).
