@@ -1,19 +1,26 @@
 # Company Choice
-
+ 
 ## Por qué elijo Nexova
-
-Elijo Nexova porque es una consultora que da servicio a otras empresas (como donde yo trabajo), así que sus problemas me resultan familiares. Su equipo de soporte al cliente no cumple los tiempos de respuesta prometidos y no tiene un sistema que les ayude a resolver más rápido. Quiero usar el curso para construir justo ese tipo de herramienta.
-
+ 
+Empiezo el máster de AI Engineering viniendo del lado "cliente", no del lado técnico puro: llevo años gestionando equipos de soporte y cuentas B2B (ahora en Agilimo, antes en BlackBerry EMEA), así que cuando leí el contexto de Nexova me sonó a algo que ya he vivido de cerca. Es una consultora que da servicio a otras empresas, exactamente como hago yo con mis clientes. Su equipo de soporte no llega a los SLA que promete y todo se gestiona a mano — es el tipo de problema que he tenido delante en reuniones reales, aunque nunca lo haya resuelto con un agente de IA. Por eso elijo Nexova: no es la empresa que me suena más "de moda" para hacer IA, es la que puedo entender de verdad sin tener que inventarme el contexto de negocio.
+ 
 ## Departamentos que me interesan
-
-Me interesa 
-**Atención al Cliente**, porque responden a mano y tardan más de lo que deberían 
-**Ventas**, porque no hacen seguimiento de sus clientes potenciales y pierden oportunidades por eso.
-
+ 
+Me interesan dos: **Atención al Cliente** y **Selección de Personal**. En Atención al Cliente el problema es clarísimo para mí — sin base de conocimiento centralizada, todo depende de la memoria de cada agente, y el SLA se incumple sistemáticamente (justo el tipo de cosa que yo he tenido que explicar en un QBR con un cliente enfadado). En Selección el problema es distinto pero igual de manual: 40 consultores leyendo CVs uno a uno, a puro criterio personal, sin ningún sistema que les ayude a priorizar. Los dos me interesan porque en ambos casos el problema no es "falta tecnología rara", es que nadie ha automatizado tareas repetitivas que ya sabemos cómo resolver.
+ 
 ## My AI Agent Idea
-
-**HelpDesk Support Chatbot** para el equipo de Atención al Cliente Externalizado de Roberto Díaz — hoy sus 30 agentes resuelven cada incidencia a mano, sin base de conocimiento centralizada, y tardan de media 48 horas cuando el compromiso con el cliente es de 24.
-
-- **Qué haría el agente:** recibe la incidencia del cliente por chat o email, busca en la base de conocimiento (usando RAG) si existe una solución a un problema parecido, y si la encuentra responde directamente — esto sería el Nivel 1. Si no encuentra nada útil o el caso es delicado, lo escala a una persona del equipo de soporte con el contexto ya resumido — el Nivel 2. Cuando esa persona resuelve el caso, su solución se guarda en la base de conocimiento para que el chatbot la aprenda de cara a la próxima vez.
-- **Qué información necesitaría:** la base de conocimiento de soporte (procedimientos, preguntas frecuentes y soluciones ya documentadas — hoy no existe de forma centralizada, vive en la experiencia de cada agente y en un documento de Word compartido), el historial de casos ya resueltos, y los datos del ticket entrante (qué pregunta el cliente, a qué empresa cliente pertenece — Nexova da soporte a varias empresas distintas y nunca debe mezclar su información — y por qué canal llegó).
-- **Qué produciría o activaría:** una respuesta automática al cliente cuando el caso es de Nivel 1; un ticket escalado y resumido a una persona cuando es de Nivel 2; una actualización de la base de conocimiento cada vez que el equipo humano resuelve un caso nuevo que vale la pena recordar; y una alerta si un ticket se acerca al límite del SLA de 24 horas, para que un supervisor pueda intervenir antes de que se incumpla.
+ 
+La primera idea es un **HelpDesk Support Chatbot** para el equipo de Roberto Díaz (30 agentes externalizados). Ahora mismo cada incidencia se resuelve a mano, sin memoria compartida entre agentes, y el SLA comprometido es de 24h pero la media real ronda las 48.
+ 
+- **Qué haría el agente:** cuando llega una incidencia, busca primero si ya existe una solución parecida en una base de conocimiento (esto sería el Nivel 1 — la idea me la inspira el modelo de escalado que usábamos en BlackBerry, aunque ahí no había IA de por medio, era todo manual). Si encuentra algo, responde directo. Si no, o si el caso pinta delicado, lo pasa a una persona con el contexto ya resumido (Nivel 2). Cuando el humano resuelve algo nuevo, esa solución se guarda para la próxima vez, así el chatbot va aprendiendo con el tiempo en vez de quedarse parado desde el día uno.
+- **Qué información necesitaría:** sobre todo la base de conocimiento de soporte, que ahora mismo no existe como tal — vive repartida entre la experiencia de cada agente y un Word compartido en Drive (para mí ese es el problema real detrás de todo esto, no la falta de un chatbot). También el histórico de casos resueltos y los datos de cada ticket: qué pide el cliente, de qué empresa cliente es (Nexova da soporte a varias y no se puede mezclar información entre ellas) y por qué canal llegó.
+- **Qué produciría o activaría:** una respuesta automática cuando resuelve él solo, un ticket escalado y resumido cuando no puede, una actualización de la base de conocimiento con cada caso nuevo que vale la pena recordar, y una alerta cuando un ticket se acerca al límite del SLA para que un supervisor pueda intervenir antes de incumplirlo.
+## My Second AI Agent Idea
+ 
+La segunda idea sale de Selección, con Javier Almeida y sus 40 consultores. Cada uno lee entre 30 y 80 CVs por proceso y decide a ojo si encajan, sin ningún criterio compartido — dos consultores distintos pueden evaluar al mismo candidato de forma totalmente distinta, y eso no es culpa de nadie, es que no tienen ninguna herramienta que les dé un criterio común.
+ 
+La idea es un agente de **matching entre vacantes y CVs**, donde el propio equipo de RR.HH. define qué palabras clave y requisitos importan para cada vacante (cuáles son imprescindibles y cuáles simplemente suman puntos).
+ 
+- **Qué haría el agente:** compara cada CV recibido contra las keywords que ha marcado RR.HH. para esa vacante concreta y devuelve un ranking de candidatos por compatibilidad, en vez de una pila de PDFs sin ordenar. Todavía no he llegado al Milestone 2 del curso, pero por lo que he visto en la plantilla del repo ahí ya se define una lógica de puntuación (skills, experiencia, seniority, inglés, salario) que encaja perfecto con esta idea — así que en teoría no tendría que inventar el sistema de scoring desde cero, solo aplicarlo aquí.
+- **Qué información necesitaría:** el texto de la vacante con sus requisitos priorizados por RR.HH., el CV de cada candidato (parseado a texto, imagino que con algún tipo de extracción), y si se pudiera, el histórico de a quién acabaron contratando en procesos parecidos, para ir ajustando el peso de cada keyword con el tiempo. Y lo mismo que en la idea anterior: los datos de candidatos de un cliente de Nexova no se pueden mezclar con los de otro.
+- **Qué produciría o activaría:** un ranking por vacante con el score y qué requisitos cumple o no cada candidato, un aviso cuando aparece alguien con match muy alto para que el consultor no lo pierda de vista, y un registro de si el consultor sigue el ranking o lo cambia a mano — esa señal serviría, con el tiempo, para afinar el peso de cada keyword.
