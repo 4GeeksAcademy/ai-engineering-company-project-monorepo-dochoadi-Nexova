@@ -1,4 +1,4 @@
-# AI Engineering Company Project — Student Template
+# AI Engineering Nexova — Student Template
 
 [![4Geeks Academy](https://img.shields.io/badge/4Geeks-Academy-blue)](https://4geeksacademy.com)
 [![AI Engineering](https://img.shields.io/badge/track-AI%20Engineering-green)](https://4geeksacademy.com/es/programas-de-carrera/ingenieria-ia)
