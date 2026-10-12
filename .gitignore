@@ -1,0 +1,26 @@
+# Secretos y variables de entorno (solo se versiona la plantilla)
+.env*
+!.env.example
+
+# Dependencias y builds
+node_modules/
+.next/
+dist/
+build/
+
+# Python
+__pycache__/
+.venv/
+
+# Tests y cobertura
+coverage/
+test-results/
+playwright-report/
+
+# Sistema operativo
+.DS_Store
+
+# Archivos personales y claves
+*.rtf
+*.pem
+*.key
