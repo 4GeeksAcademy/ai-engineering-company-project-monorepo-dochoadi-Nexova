@@ -1,45 +1,57 @@
-# System Patterns — Patrones obligatorios
+# System Patterns — Mandatory patterns
 
-Tipo: técnico
+Type: technical
 
-Patrones que cualquier código del monorepo debe respetar. Cada uno incluye el motivo, ligado a la realidad de Nexova.
+Patterns that any code in the monorepo must follow. Each one includes its reason, tied to Nexova's reality.
 
-## 1. `tenant_id` en cada dato, filtrado en la capa de datos
+## 1. `tenant_id` on every record, filtered in the data layer
 
-- **Regla:** toda entidad de cliente (tickets, casos de la base de conocimiento, vacantes, candidatos, CVs) lleva `tenant_id`. Toda consulta a Postgres y al vector store filtra por `tenant_id` en la propia query. Nunca se confía en una instrucción del prompt para separar clientes.
-- **Por qué:** Nexova da soporte y selección a varias empresas de tecnología, retail y finanzas a la vez. Mezclar sus datos rompería la confianza del cliente y el RGPD, y una instrucción de prompt se puede saltar; un filtro en la query, no.
+- **Rule:** every client-company entity (tickets, knowledge base cases, vacancies, candidates, CVs) carries a `tenant_id`. Every query to Postgres and to the vector store filters by `tenant_id` in the query itself. A prompt instruction is never relied on to separate clients.
+- **Why:** Nexova provides support and selection to several technology, retail and finance companies at once. Mixing their data would break client trust and the GDPR, and a prompt instruction can be bypassed; a query filter cannot.
 
-## 2. Tickets y CVs son input no confiable
+## 2. Tickets and CVs are untrusted input
 
-- **Regla:** el contenido de tickets y CVs se pasa al LLM delimitado como datos, nunca concatenado como instrucciones. Las salidas del modelo se validan contra un esquema antes de actuar.
-- **Por qué:** cualquier cliente final o candidato puede escribir texto que intente manipular al agente (prompt injection), por ejemplo para obtener datos de otro cliente o forzar una puntuación alta.
+- **Rule:** ticket and CV content is passed to the LLM delimited as data, never concatenated as instructions. Model outputs are validated against a schema before acting on them.
+- **Why:** any end customer or candidate can write text that tries to manipulate the agent (prompt injection), for example to obtain another client's data or force a high score.
 
-## 3. Baja confianza o caso sensible → escalado a humano (L2)
+## 3. Low confidence or sensitive case → escalate to a human (Level 2)
 
-- **Regla:** si el match en la base de conocimiento no supera el umbral de confianza, o el caso es sensible, el HelpDesk Agent escala a un agente humano con el contexto ya resumido. En matching, los CVs incompletos o de baja confianza se marcan para revisión manual.
-- **Por qué:** una respuesta L1 incorrecta es peor que una más lenta (hoy la resolución media ya es de 48 h); daña al cliente de Nexova y al cliente final. El escalado por defecto protege el SLA de 24 h sin sacrificar calidad.
+- **Rule:** if the knowledge base match does not reach the confidence threshold, or the case is sensitive, the HelpDesk Agent escalates to a human agent with the context already summarised. In matching, incomplete or low-confidence CVs are flagged for manual review.
+- **Why:** a wrong Level 1 answer is worse than a slower one (average resolution is already 48 h today); it harms Nexova's client company and the end customer. Escalating by default protects the 24 h SLA without sacrificing quality.
 
-## 4. El ranking de CVs es apoyo a la decisión, nunca rechazo automático
+## 4. CV ranking is decision support, never automatic rejection
 
-- **Regla:** el CV–Vacancy Matching Agent ordena y explica; no descarta candidatos. El consultor siempre toma la decisión final y puede reordenar el ranking.
-- **Por qué:** Nexova opera en la UE y el art. 22 del RGPD limita las decisiones totalmente automatizadas con efectos significativos sobre las personas. Además, los requisitos por palabras clave pueden arrastrar sesgos.
+- **Rule:** the CV–Vacancy Matching Agent ranks and explains; it does not discard candidates. The consultant always makes the final decision and can reorder the ranking.
+- **Why:** Nexova operates in the EU, and GDPR Article 22 restricts fully automated decisions with significant effects on people. In addition, keyword-based requirements can carry bias.
 
-## 5. Cada caso resuelto por un humano vuelve a la base de conocimiento
+## 5. Every human-resolved case goes back into the knowledge base
 
-- **Regla:** cuando un agente de soporte resuelve un ticket escalado, la resolución se incorpora a la base de conocimiento de ese cliente (con su `tenant_id`).
-- **Por qué:** hoy el conocimiento vive en la memoria de los 30 agentes de Roberto Díaz y en un Word de Drive. Sin este bucle, el agente se queda congelado en el primer día y nunca llega al 40 % de resolución en L1.
+- **Rule:** when a support agent resolves an escalated ticket, the resolution is added to that client's knowledge base (with its `tenant_id`).
+- **Why:** today the knowledge lives in the memory of Roberto Díaz's 30 agents and in a Word document on Drive. Without this loop, the agent stays frozen at day one and never reaches 40 % Level 1 resolution.
 
-## 6. Toda decisión de un agente se registra en un log
+## 6. Every agent decision is logged
 
-- **Regla:** cada respuesta L1, escalado, alerta de SLA, puntuación de CV y override de consultor se registra con timestamp, `tenant_id`, entrada, decisión, confianza y fuentes usadas.
-- **Por qué:** Nexova no tiene hoy telemetría ni logging centralizado. Sin registro no se pueden medir el % de L1, la groundedness, el recall top-5 ni la tasa de override, ni auditar una decisión ante un cliente o un candidato.
+- **Rule:** every Level 1 answer, escalation, SLA alert, CV score and consultant override is logged with timestamp, `tenant_id`, input, decision, confidence and sources used.
+- **Why:** Nexova has no telemetry or centralised logging today. Without logs it is impossible to measure the Level 1 rate, groundedness, top-5 recall or override rate, or to audit a decision for a client or a candidate.
 
-## 7. API centralizada, sin microservicios prematuros
+## 7. Centralised API, no premature microservices
 
-- **Regla:** el backend completo vive en una única app FastAPI en `services/`, con un router por dominio (soporte, selección, formación…). Solo se extrae un worker cuando hay una necesidad real de ejecución separada.
-- **Por qué:** el equipo técnico de Nexova es de 6 personas y ya sufre una colección de herramientas desconectadas; añadir servicios sueltos repetiría el problema.
+- **Rule:** the whole backend lives in a single FastAPI app in `services/`, with one router per domain (support, selection, training…). A worker is only extracted when there is a real need for separate execution.
+- **Why:** Nexova's technology team is 6 people and already suffers from a collection of disconnected tools; adding standalone services would repeat the problem.
 
-## 8. Datos de empresa definidos una sola vez en `packages/shared`
+## 8. Company data defined once in `packages/shared`
 
-- **Regla:** los tipos y datos comunes de Nexova (departamentos, responsables, líneas de negocio, cifras de la empresa) se definen en `packages/shared` (`@repo/shared-types`) y se importan desde `uis/website` y `uis/backoffice`, nunca se copian.
-- **Por qué:** `CONTEXT.md` ya tiene una incoherencia (dos responsables de Ventas); duplicar los datos en cada app multiplicaría ese tipo de errores.
+- **Rule:** Nexova's common types and data (departments, managers, business lines, company figures) are defined in `packages/shared` (`@repo/shared-types`) and imported from `uis/website` and `uis/backoffice`, never copied.
+- **Why:** `CONTEXT.md` already has an inconsistency (two Sales managers); duplicating the data in each app would multiply that kind of error.
+
+## Commit naming
+
+This convention applies to all milestones, not only Milestone 1.
+
+- **Format:** `[M<milestone>-S<NN>][E<n>] <type>(<scope>): <imperative English description>`
+- **`M<milestone>-S<NN>`:** milestone number and two-digit step number; always present for milestone work (e.g. `M1-S04`, `M2-S01`).
+- **`[E<n>]`:** the evaluation criteria covered by the commit, as defined in `docs/milestone-<n>/evaluation.md`; omit when the step covers none, repeat when it covers several (e.g. `[E5][E6]`).
+- **`<type>`:** one of `feat`, `fix`, `docs`, `chore`, `refactor`, `test`.
+- **One commit per step**, on the milestone branch.
+- **Commits outside a milestone** use only `<type>(<scope>): <description>`.
+- **Example:** `[M1-S04][E3] docs(agents): add development rules with explicit scope`.

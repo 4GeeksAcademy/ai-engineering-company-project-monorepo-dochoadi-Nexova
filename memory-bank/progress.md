@@ -1,24 +1,26 @@
 # Progress
 
-Tipo: estado
+Type: status
 
-## Estado actual
+## Current state
 
-Infraestructura del monorepo en construcción (Hito 1, paso 2 de 11). Todavía no hay ninguna feature de negocio implementada: ni agentes, ni API, ni dashboards.
+Monorepo infrastructure under construction (Milestone 1, step 3 of 12). No business feature has been implemented yet: no agents, no API, no dashboards.
 
-## Hecho
+## Done
 
-- **2026-10-12 — Paso 1:** creada la rama `chore/hito-1-ai-setup` desde `main`; `.gitignore` con secretos (`.env*` salvo `.env.example`, `*.pem`, `*.key`), archivos personales (`*.rtf`), dependencias, builds y artefactos de test; matriz de evaluación del hito en `docs/hito-1/evaluacion.md` (criterios E1–E9).
-- **2026-10-12 — Paso 2:** banco de memoria completo con contexto de negocio (`projectbrief.md`, `productContext.md`), técnico (`techContext.md`, `systemPatterns.md`) y de estado (`activeContext.md`, `progress.md`); corregida la errata `projectvrief.md` → `projectbrief.md`; fila E1 de la matriz actualizada.
+- **2026-10-12 — Step 1:** created branch `chore/hito-1-ai-setup` from `main`; `.gitignore` covering secrets (`.env*` except `.env.example`, `*.pem`, `*.key`), personal files (`*.rtf`), dependencies, builds and test artifacts; milestone evaluation matrix in `docs/milestone-1/evaluation.md` (criteria E1–E9).
+- **2026-10-12 — Step 2:** complete memory bank with business context (`projectbrief.md`, `productContext.md`), technical context (`techContext.md`, `systemPatterns.md`) and status (`activeContext.md`, `progress.md`); fixed the `projectvrief.md` → `projectbrief.md` typo; E1 row of the matrix updated.
+- **2026-10-12 — Step 3:** Repository language switched to English; files from steps 1–2 translated.
 
-## Pendiente
+## Pending
 
-- Paso 3 en adelante: reglas en `.agents/`, `AGENTS.md` con flujo previo al commit, skill, workspace pnpm con `packages/shared`, `uis/website`, `uis/backoffice` y revisión final de convenciones y de la matriz de evaluación.
+- Step 4 onwards: rules in `.agents/`, `AGENTS.md` with a pre-commit workflow, skill, pnpm workspace with `packages/shared`, `uis/website`, `uis/backoffice`, and a final review of conventions and of the evaluation matrix.
 
-## Problemas conocidos
+## Known issues
 
-- **Push sin credenciales:** `git push` falla con `could not read Username for 'https://github.com'`; el entorno necesita credenciales de GitHub. Los commits del hito quedan en local hasta entonces.
-- **`packages/shared/package.json` roto:** `main` y `types` apuntan a `index.ts` en la raíz del paquete, pero el archivo real es `packages/shared/types/index.ts`.
-- **`README.md` desactualizado:** enlaza a `README.es.md`, que no existe en la raíz, y afirma que no hay `AGENTS.md` en la raíz, cuando sí existe.
-- **`CONTEXT-Nexova.en.md` no es el contexto de empresa:** es un brief de un ejercicio de forecasting de ventas (XGBoost / Random Forest sobre `data/raw/nexova_sales.csv`); el contexto de empresa es `CONTEXT.md`.
-- **`.devcontainer/post-create.sh` falla:** ejecuta `uv sync` con `set -euo pipefail`, pero no hay `pyproject.toml` en el repo.
+- **Push without credentials:** `git push` fails with `could not read Username for 'https://github.com'`; the environment needs GitHub credentials. Milestone commits stay local until then.
+- The coding agent cannot push from this environment (no GitHub credentials); the developer pushes manually after each step.
+- **Broken `packages/shared/package.json`:** `main` and `types` point to `index.ts` at the package root, but the real file is `packages/shared/types/index.ts`.
+- **Outdated `README.md`:** it links to `README.es.md`, which does not exist at the root, and states there is no root `AGENTS.md`, when there is one.
+- **`CONTEXT-Nexova.en.md` is not the company context:** it is the brief for a sales forecasting exercise (XGBoost / Random Forest on `data/raw/nexova_sales.csv`); the company context is `CONTEXT.md`.
+- **`.devcontainer/post-create.sh` fails:** it runs `uv sync` under `set -euo pipefail`, but there is no `pyproject.toml` in the repo.

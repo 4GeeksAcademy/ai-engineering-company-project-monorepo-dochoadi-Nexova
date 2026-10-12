@@ -1,80 +1,80 @@
-# Product Context — Departamentos de Nexova
+# Product Context — Nexova departments
 
-Tipo: negocio
+Type: business
 
-Fuente: `CONTEXT.md` (fichas por departamento) y `Company-choice.md`. Nexova tiene 120 empleados repartidos en las áreas siguientes.
+Source: `CONTEXT.md` (department profiles) and `Company-choice.md`. Nexova has 120 employees spread across the following areas.
 
-## Dirección Ejecutiva
+## Executive Direction
 
-- **Responsable:** Laura Mendoza, CEO y fundadora (2011).
-- **Equipo:** dirección; recibe el reporting de cada responsable de área.
-- **Cómo trabajan hoy:** cada responsable de departamento prepara a mano un informe semanal en PDF para Laura.
-- **Problema:** preparar el informe cuesta entre 4 y 8 horas por responsable cada semana, no hay una vista unificada del negocio y las decisiones estratégicas se toman con datos de hace una semana.
-- **Qué necesitan:** dashboard ejecutivo unificado con KPIs en tiempo real de todas las áreas, informe semanal generado automáticamente, alertas por umbrales estratégicos y un asistente de IA en lenguaje natural al que Laura pueda preguntar directamente.
+- **Manager:** Laura Mendoza, CEO and founder (2011).
+- **Team:** leadership; receives reporting from each area manager.
+- **How they work today:** each department head manually prepares a weekly PDF report for Laura.
+- **Problem:** preparing the report takes 4 to 8 hours per manager every week, there is no unified view of the business, and strategic decisions are made with week-old data.
+- **What they need:** a unified executive dashboard with real-time KPIs from all areas, an automatically generated weekly report, strategic threshold alerts, and a natural-language AI assistant Laura can query directly.
 
-## Operaciones de Selección de Talento (negocio principal)
+## Talent Selection Operations (core business)
 
-- **Responsable:** Javier Almeida.
-- **Equipo:** 40 consultores de selección.
-- **Cómo trabajan hoy:** llevan los procesos de reclutamiento de los clientes de principio a fin (briefing, cribado de CVs, entrevistas y colocación) de forma totalmente manual. Cada consultor lee entre 30 y 80 CVs por búsqueda y se comunica con los candidatos por emails individuales sin plantillas.
-- **Problema:** no hay seguimiento en tiempo real del estado de cada candidato (los clientes llaman para preguntar) y el matching candidato-vacante depende solo de la intuición del consultor.
-- **Qué necesitan:** pipeline de selección asistido por IA con scoring y ranking automático de CVs, sistema RAG sobre la base de candidatos ("perfiles con experiencia en ventas B2B e inglés C1"), portal del candidato con estado en tiempo real y un agente de comunicación que envíe emails de estado automáticos.
+- **Manager:** Javier Almeida.
+- **Team:** 40 selection consultants.
+- **How they work today:** they run clients' recruitment processes end to end (briefing, CV screening, interviews and placement) entirely by hand. Each consultant reads 30 to 80 CVs per search and communicates with candidates by individual email with no templates.
+- **Problem:** there is no real-time tracking of each candidate's status (clients call to ask), and candidate–vacancy matching relies entirely on the consultant's intuition.
+- **What they need:** an AI-assisted selection pipeline with automatic CV scoring and ranking, a RAG system over the candidate database ("profiles with B2B sales experience and C1 English"), a candidate portal with real-time status, and a communication agent that sends automatic status emails.
 
-## Atención al Cliente (servicio externalizado)
+## Customer Support (outsourced service)
 
-- **Responsable:** Roberto Díaz.
-- **Equipo:** 30 agentes.
-- **Cómo trabajan hoy:** atienden incidencias de los clientes de outsourcing (tecnología, retail y finanzas) por teléfono, email y chat web. Resuelven por experiencia propia y con un documento Word compartido en Drive; no hay base de conocimiento centralizada.
-- **Problema:** el tiempo medio de resolución es de **48 h** frente a un **SLA comprometido de 24 h**, y los supervisores no tienen visibilidad en tiempo real de la carga de trabajo ni del backlog.
-- **Qué necesitan:** chatbot de primera línea que resuelva el 40 % de las consultas sin intervención humana usando RAG, base de conocimiento centralizada con búsqueda semántica, dashboard de soporte en tiempo real y análisis de sentimiento de tickets para detectar clientes insatisfechos antes de que escalen.
+- **Manager:** Roberto Díaz.
+- **Team:** 30 agents.
+- **How they work today:** they handle incidents from outsourcing clients (technology, retail and finance) by phone, email and web chat. They resolve issues from their own experience and a shared Word document on Drive; there is no centralised knowledge base.
+- **Problem:** average resolution time is **48 h** against a **committed 24 h SLA**, and supervisors have no real-time visibility into workload or backlog.
+- **What they need:** a first-line support chatbot that resolves 40 % of queries without human intervention using RAG, a centralised knowledge base with semantic search, a real-time support dashboard, and ticket sentiment analysis to identify dissatisfied clients before they escalate.
 
-## Formación Corporativa
+## Corporate Training
 
-- **Responsable:** Elena Vargas.
-- **Equipo:** 12 personas.
-- **Cómo trabajan hoy:** diseñan e imparten cursos, talleres y webinars de liderazgo, comunicación y gestión de equipos. El catálogo es un PDF que se actualiza cada trimestre, las inscripciones llegan por un Google Form que se gestiona a mano en una hoja de cálculo y la asistencia se controla con listas en Excel.
-- **Problema:** el catálogo es invisible para la mayoría de compradores potenciales, no hay registro de quién completó qué formación y la personalización es nula: cada cliente recibe la misma propuesta.
-- **Qué necesitan:** catálogo buscable con inscripción online, sistema de recomendación de programas según el perfil del cliente, portal del alumno con seguimiento de progreso y un chatbot asesor que construya planes de formación personalizados.
+- **Manager:** Elena Vargas.
+- **Team:** 12 people.
+- **How they work today:** they design and deliver courses, workshops and webinars on leadership, communication and team management. The catalogue is a PDF updated quarterly, enrolments come in through a Google Form managed by hand in a spreadsheet, and attendance is tracked with Excel lists.
+- **Problem:** the catalogue is invisible to most potential buyers, there is no record of who completed which training, and personalisation is zero: every client receives the same proposal.
+- **What they need:** a searchable catalogue with online enrolment, a recommendation system that suggests programmes based on client profile, a learner portal with progress tracking, and a training advisory chatbot that builds personalised training plans.
 
-## Ventas y Desarrollo de Negocio
+## Sales and Business Development
 
-- **Responsable:** Marcos Ibáñez (ver discrepancia registrada en `activeContext.md`).
-- **Equipo:** 18 personas: 6 account managers (clientes actuales) y 12 SDRs (nuevos clientes).
-- **Cómo trabajan hoy:** los SDRs prospectan a mano en LinkedIn, exportan listas a Excel y hacen seguimiento por email sin automatización. Tienen CRM (HubSpot), pero solo el 40 % del equipo lo actualiza de forma consistente.
-- **Problema:** se pierden operaciones por falta de seguimiento y no hay visibilidad de qué prospectos tienen más probabilidad de cerrar.
-- **Qué necesitan:** dashboard del pipeline de ventas, automatización de secuencias de prospección (primer contacto → seguimiento → cierre o descarte), alertas de operaciones con conversaciones inactivas y un agente de IA que sugiera ángulos de propuesta personalizados según el perfil del prospecto.
+- **Manager:** Marcos Ibáñez (see the discrepancy recorded in `activeContext.md`).
+- **Team:** 18 people: 6 account managers (existing clients) and 12 SDRs (new clients).
+- **How they work today:** SDRs prospect manually on LinkedIn, export lists to Excel and follow up by email with no automation. They have a CRM (HubSpot), but only 40 % of the team updates it consistently.
+- **Problem:** deals are lost due to lack of follow-up, and there is no visibility into which prospects are most likely to close.
+- **What they need:** a sales pipeline dashboard, prospecting sequence automation (first contact → follow-up → close or discard), deal alerts for inactive conversations, and an AI agent that suggests personalised proposal angles based on a prospect's profile.
 
-## Marketing y Comunicación
+## Marketing and Communications
 
-- **Responsable:** Carmen Ruiz.
-- **Equipo:** equipo pequeño (`CONTEXT.md` no da la cifra).
-- **Cómo trabajan hoy:** gestionan la web corporativa, LinkedIn, la newsletter mensual y el blog, con una producción completamente manual.
-- **Problema:** la web es de 2019, lenta, poco accesible y no refleja el posicionamiento actual. Saben cuántas visitas reciben, pero no qué convierte.
-- **Qué necesitan:** rediseño completo de la web corporativa con optimización SEO/GEO y marcado schema.org, pipeline de contenidos asistido por IA y dashboard de métricas de marketing (visitas, fuentes de tráfico y tasas de conversión).
+- **Manager:** Carmen Ruiz.
+- **Team:** small team (`CONTEXT.md` does not state the number).
+- **How they work today:** they manage the corporate website, LinkedIn, the monthly newsletter and the blog, with entirely manual production.
+- **Problem:** the website dates from 2019, is slow, not accessible and does not reflect the company's current positioning. They know how many visits they get, but not what converts.
+- **What they need:** a full redesign of the corporate website with SEO/GEO optimisation and schema.org markup, an AI-assisted content pipeline, and a marketing metrics dashboard (visits, traffic sources and conversion rates).
 
-## Recursos Humanos (interno)
+## Human Resources (internal)
 
-- **Responsable:** Patricia Solís.
-- **Equipo:** 4 personas, que atienden a los 120 empleados de Nexova.
-- **Cómo trabajan hoy:** vacaciones, ausencias y consultas por email y hojas de cálculo; onboarding manual; evaluaciones de desempeño semestrales en Google Forms que nadie revisa sistemáticamente.
-- **Problema:** no hay métricas: ni rotación, ni absentismo, ni tiempo medio de cobertura de puestos internos.
-- **Qué necesitan:** portal interno de RR. HH., flujo de onboarding automatizado con checklists progresivos, dashboard de KPIs de RR. HH. y un agente interno que responda dudas sobre políticas y beneficios.
+- **Manager:** Patricia Solís.
+- **Team:** 4 people, serving Nexova's 120 employees.
+- **How they work today:** holidays, absences and queries by email and spreadsheets; manual onboarding; twice-yearly performance reviews in Google Forms that nobody reviews systematically.
+- **Problem:** there are no metrics: no turnover rate, no absenteeism data, no average time-to-fill for internal roles.
+- **What they need:** an internal HR portal, an automated onboarding flow with progressive checklists, an HR KPI dashboard, and an internal agent that answers questions about policies and benefits.
 
-## Tecnología e Infraestructura
+## Technology and Infrastructure
 
-- **Responsable:** Sergio Molina, CTO.
-- **Equipo:** 6 personas.
-- **Cómo trabajan hoy:** mantienen un conjunto de herramientas desconectadas: HubSpot, un Zendesk heredado, Google Workspace, un ATS casero de los años 2010 y múltiples hojas de cálculo. Los despliegues son manuales.
-- **Problema:** no hay telemetría ni logging centralizado; cuando algo falla, se enteran por los usuarios.
-- **Qué necesitan:** telemetría y logging centralizados, pipeline de datos que alimente los dashboards de cada área, monitorización en tiempo real con alertas automáticas y un agente interno de ingeniería que responda preguntas de arquitectura consultando la documentación técnica.
+- **Manager:** Sergio Molina, CTO.
+- **Team:** 6 people.
+- **How they work today:** they maintain a set of disconnected tools: HubSpot, a legacy Zendesk, Google Workspace, a home-built ATS from the 2010s and multiple spreadsheets. Deployments are manual.
+- **Problem:** there is no telemetry or centralised logging; when something fails, they find out through users.
+- **What they need:** centralised telemetry and logging, a data pipeline that feeds each area's dashboards, real-time monitoring with automatic alerts, and an internal engineering agent that answers architecture questions by querying technical documentation.
 
-## Usuarios de lo que construimos
+## Users of what we build
 
-| Usuario | Quién es | Qué espera de nuestros sistemas |
+| User | Who they are | What they expect from our systems |
 | --- | --- | --- |
-| Consultores de selección | Los 40 consultores del equipo de Javier Almeida | Ranking explicable de CVs que puedan aceptar o corregir, y menos horas de lectura manual |
-| Agentes de soporte | Los 30 agentes del equipo de Roberto Díaz | Tickets L2 que lleguen ya resumidos y una base de conocimiento consultable en lugar del Word de Drive |
-| Supervisores de soporte | Supervisores del equipo de Roberto Díaz | Visibilidad en tiempo real de carga, backlog y tickets con SLA en riesgo antes de que venza el plazo de 24 h |
-| Clientes de Nexova | Empresas mid-size de tecnología, retail y finanzas | Respuestas rápidas a sus incidencias, estado de sus procesos de selección y datos aislados de los de otros clientes |
-| Candidatos | Profesionales en procesos de selección gestionados por Nexova | Saber en qué punto está su candidatura sin tener que preguntar, y un trato justo (con decisión final humana) |
-| CEO | Laura Mendoza | Una vista unificada y actual del negocio, sin esperar al informe semanal en PDF |
+| Selection consultants | The 40 consultants in Javier Almeida's team | An explainable CV ranking they can accept or correct, and fewer hours of manual reading |
+| Support agents | The 30 agents in Roberto Díaz's team | Level 2 tickets that arrive already summarised, and a searchable knowledge base instead of the Word document on Drive |
+| Support supervisors | Supervisors in Roberto Díaz's team | Real-time visibility into workload, backlog and SLA-at-risk tickets before the 24 h deadline expires |
+| Nexova's client companies | Mid-sized companies in technology, retail and finance | Fast answers to their incidents, the status of their recruitment processes, and data isolated from other clients' data |
+| Candidates | Professionals in selection processes run by Nexova | Knowing where their application stands without having to ask, and fair treatment (with a final human decision) |
+| CEO | Laura Mendoza | A unified, up-to-date view of the business, without waiting for the weekly PDF report |

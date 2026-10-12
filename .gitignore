@@ -1,8 +1,8 @@
-# Secretos y variables de entorno (solo se versiona la plantilla)
+# Secrets and environment variables (only the template is versioned)
 .env*
 !.env.example
 
-# Dependencias y builds
+# Dependencies and builds
 node_modules/
 .next/
 dist/
@@ -12,15 +12,15 @@ build/
 __pycache__/
 .venv/
 
-# Tests y cobertura
+# Tests and coverage
 coverage/
 test-results/
 playwright-report/
 
-# Sistema operativo
+# Operating system
 .DS_Store
 
-# Archivos personales y claves
+# Personal files and keys
 *.rtf
 *.pem
 *.key

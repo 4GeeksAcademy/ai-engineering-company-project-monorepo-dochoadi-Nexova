@@ -1,75 +1,75 @@
-# Tech Context — Monorepo de Nexova
+# Tech Context — Nexova monorepo
 
-Tipo: técnico
+Type: technical
 
-## Stack del monorepo
+## Monorepo stack
 
-| Capa | Tecnología | Ubicación |
+| Layer | Technology | Location |
 | --- | --- | --- |
-| Frontends | Next.js (App Router) + TypeScript en modo `strict` | `uis/website`, `uis/backoffice` |
-| Gestión de paquetes JS/TS | Workspace de pnpm (activado vía Corepack en el devcontainer) | Raíz del repo |
-| Tipos y datos compartidos | Paquete `@repo/shared-types` | `packages/shared` |
-| Backend (futuro) | Python + FastAPI como **API única** de la empresa, con un router por dominio | `services/` |
+| Frontends | Next.js (App Router) + TypeScript in `strict` mode | `uis/website`, `uis/backoffice` |
+| JS/TS package management | pnpm workspace (enabled via Corepack in the devcontainer) | Repo root |
+| Shared types and data | `@repo/shared-types` package | `packages/shared` |
+| Backend (future) | Python + FastAPI as the company's **single API**, with one router per domain | `services/` |
 
-## Stack planificado de los agentes
+## Planned agent stack
 
-Según `Company-choice.md`:
+According to `Company-choice.md`:
 
-- **Servicio del agente:** Python + FastAPI (HelpDesk Support Agent).
-- **Metadatos de tickets, casos, candidatos y vacantes:** Postgres.
-- **Base de conocimiento:** vector store con búsqueda híbrida; se propone **Qdrant**.
-- **LLM:** vía API (Anthropic u OpenAI), para respuestas basadas en recuperación y para resumir tickets.
-- **Parsing de CVs:** extracción de texto + llamada al LLM para normalizar los campos al esquema esperado.
-- **Dashboard de supervisores:** Next.js, para seguir en tiempo real el riesgo de SLA y los escalados.
+- **Agent service:** Python + FastAPI (HelpDesk Support Agent).
+- **Ticket, case, candidate and vacancy metadata:** Postgres.
+- **Knowledge base:** vector store with hybrid search; **Qdrant** is proposed.
+- **LLM:** via API (Anthropic or OpenAI), for retrieval-grounded answers and ticket summarisation.
+- **CV parsing:** text extraction + an LLM call to normalise fields into the expected schema.
+- **Supervisor dashboard:** Next.js, to watch SLA risk and escalations in real time.
 
-## Estructura de carpetas
+## Folder structure
 
-| Carpeta | Qué va ahí |
+| Folder | What goes there |
 | --- | --- |
-| `CONTEXT.md` | Fuente única de verdad del dominio de Nexova |
-| `memory-bank/` | Memoria persistente del proyecto para el agente de código (este banco) |
-| `uis/` | Cualquier aplicación con pantallas: `website/` (web pública) y `backoffice/` (aplicación interna) |
-| `services/` | API centralizada de FastAPI y, solo si hace falta, workers en segundo plano |
-| `data/raw/` | Datos de origen sin transformar, con su procedencia y reglas de PII documentadas |
-| `data/pipelines/` | Jobs ETL/ELT de ingesta, limpieza y transformación |
-| `data/process/` | Salidas limpias o intermedias producidas por los pipelines |
-| `data/eval/` | Golden sets y datasets de evaluación de RAG, agentes y pipelines |
-| `agents/` | Un subdirectorio por agente de producto, partiendo de `agents/_template/`; herramientas comunes en `agents/tools/` |
-| `skills/` | Capacidades reutilizables de agentes: `SKILL.md` + scripts y recursos |
-| `mcps/` | Un servidor MCP por subcarpeta, para dar a los modelos acceso a sistemas y datos |
-| `workflows/` | Flujos de n8n y orquestación entre sistemas |
-| `packages/` | Librerías versionables compartidas (`@repo/shared-types`, SDKs, componentes) |
-| `shared/` | Recursos sueltos: esquemas JSON, plantillas, specs OpenAPI, design tokens |
-| `docs/` | Documentación transversal: arquitectura, ADRs, convenciones, evaluación de hitos |
-| `infra/` | Dockerfiles, Terraform, manifiestos de despliegue, CI/CD |
-| `scripts/` | Scripts auxiliares de un solo archivo (setup, seeds, migraciones puntuales) |
-| `internal/` | Herramientas internas con sus propias dependencias y tests (CLIs, evaluadores de prompts) |
-| `docker-compose.yml` | En la raíz: orquesta el entorno local de `services/`, bases de datos y contenedores |
+| `CONTEXT.md` | Single source of truth for the Nexova domain |
+| `memory-bank/` | Persistent project memory for the coding agent (this bank) |
+| `uis/` | Any application with screens: `website/` (public website) and `backoffice/` (internal application) |
+| `services/` | Centralised FastAPI API and, only when needed, background workers |
+| `data/raw/` | Untransformed source data, with its origin and PII rules documented |
+| `data/pipelines/` | ETL/ELT ingestion, cleaning and transformation jobs |
+| `data/process/` | Clean or intermediate outputs produced by the pipelines |
+| `data/eval/` | Golden sets and evaluation datasets for RAG, agents and pipelines |
+| `agents/` | One subfolder per product agent, starting from `agents/_template/`; common tools in `agents/tools/` |
+| `skills/` | Reusable agent capabilities: `SKILL.md` + scripts and resources |
+| `mcps/` | One MCP server per subfolder, giving models access to systems and data |
+| `workflows/` | n8n flows and cross-system orchestration |
+| `packages/` | Shared versionable libraries (`@repo/shared-types`, SDKs, components) |
+| `shared/` | Loose resources: JSON schemas, templates, OpenAPI specs, design tokens |
+| `docs/` | Cross-cutting documentation: architecture, ADRs, conventions, milestone evaluation |
+| `infra/` | Dockerfiles, Terraform, deployment manifests, CI/CD |
+| `scripts/` | Single-file helper scripts (setup, seeds, one-off migrations) |
+| `internal/` | Internal tools with their own dependencies and tests (CLIs, prompt evaluators) |
+| `docker-compose.yml` | At the root: orchestrates the local environment for `services/`, databases and containers |
 
-## Restricciones técnicas
+## Technical constraints
 
-- **Aislamiento multi-tenant obligatorio:** Nexova atiende a varios clientes de outsourcing y de selección; sus datos no se pueden mezclar nunca. El filtro por cliente se aplica en la capa de datos y en la consulta al vector store.
-- **RGPD (UE):** Nexova opera desde Valencia. Los datos de candidatos y empleados son datos personales, y una decisión de contratación no puede ser completamente automatizada (art. 22).
-- **Sin PII real en el repositorio:** en `data/` solo datos sintéticos o anonimizados; nada de CVs, tickets ni datos de empleados reales.
-- **Inputs no confiables:** el texto de tickets y CVs se trata como dato, nunca como instrucciones (riesgo de prompt injection).
-- **Secretos fuera del repo:** `.gitignore` excluye `.env*` (salvo `.env.example`), `*.pem`, `*.key` y `*.rtf`.
+- **Mandatory multi-tenant isolation:** Nexova serves several outsourcing and selection client companies; their data must never be mixed. The per-client filter is applied in the data layer and in the vector store query.
+- **GDPR (EU):** Nexova operates from Valencia. Candidate and employee data is personal data, and a hiring decision cannot be fully automated (Art. 22).
+- **No real PII in the repository:** only synthetic or anonymised data in `data/`; no real CVs, tickets or employee data.
+- **Untrusted inputs:** ticket and CV text is treated as data, never as instructions (prompt-injection risk).
+- **Secrets out of the repo:** `.gitignore` excludes `.env*` (except `.env.example`), `*.pem`, `*.key` and `*.rtf`.
 
-## Entorno
+## Environment
 
-- **Desarrollo:** GitHub Codespaces / devcontainer (`.devcontainer/devcontainer.json`, imagen `universal:2`, Docker-in-Docker vía socket). `post-create.sh` activa pnpm con Corepack e instala `uv`.
-- **Puertos:**
+- **Development:** GitHub Codespaces / devcontainer (`.devcontainer/devcontainer.json`, `universal:2` image, Docker-in-Docker via socket). `post-create.sh` enables pnpm with Corepack and installs `uv`.
+- **Ports:**
 
-| Puerto | Servicio |
+| Port | Service |
 | --- | --- |
 | 3000 | `uis/website` |
 | 3001 | `uis/backoffice` |
-| 8000 | API FastAPI (futura) en `services/` |
+| 8000 | FastAPI API (future) in `services/` |
 | 5678 | n8n (`workflows/`) |
 
-El devcontainer reenvía hoy 3000, 8000 y 5678; el 3001 hay que añadirlo cuando exista el backoffice.
+The devcontainer currently forwards 3000, 8000 and 5678; port 3001 must be added once the backoffice exists.
 
-## Decisiones abiertas
+## Open decisions
 
-- **Vector store:** Qdrant (propuesto en `Company-choice.md`, búsqueda híbrida nativa) frente a pgvector (menos piezas, al reutilizar el Postgres de metadatos).
-- **Lenguaje del scoring de CVs:** `Company-choice.md` lo plantea en TypeScript de punta a punta, alineado con la spec de scoring del Hito 2 del curso, mientras que la API y el agente de soporte van en Python + FastAPI. Hay que decidir si el scoring vive en TypeScript o en Python.
-- **Proveedor de LLM:** Anthropic frente a OpenAI, para respuestas RAG, resumen de tickets y normalización de CVs.
+- **Vector store:** Qdrant (proposed in `Company-choice.md`, native hybrid search) versus pgvector (fewer moving parts, reusing the metadata Postgres).
+- **CV scoring language:** `Company-choice.md` proposes TypeScript end to end, aligned with the course's Milestone 2 scoring spec, while the API and the support agent use Python + FastAPI. It must be decided whether scoring lives in TypeScript or in Python.
+- **LLM provider:** Anthropic versus OpenAI, for RAG answers, ticket summarisation and CV normalisation.

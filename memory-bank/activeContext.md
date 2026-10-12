@@ -1,26 +1,27 @@
 # Active Context
 
-Tipo: estado
+Type: status
 
-## Foco actual
+## Current focus
 
-**Hito 1 — Monorepo AI Setup**, en la rama `chore/hito-1-ai-setup`. Se prepara la infraestructura del monorepo para trabajar con agentes de código; todavía no hay features de negocio. La matriz de evidencias está en `docs/hito-1/evaluacion.md`.
+**Milestone 1 — Monorepo AI Setup**, on branch `chore/hito-1-ai-setup`. The monorepo infrastructure is being prepared for working with coding agents; there are no business features yet. The evidence matrix is in `docs/milestone-1/evaluation.md`.
 
-## Próximos pasos
+## Next steps
 
-1. Reglas del agente de código en `.agents/`, con alcance explícito (criterio E3).
-2. `AGENTS.md` en la raíz, con un flujo ordenado de al menos 4 pasos antes de cada commit (E2).
-3. Una skill con objetivo único, inputs documentados y criterios de aceptación verificables (E4).
-4. Workspace pnpm y datos compartidos de Nexova en `packages/shared` (E9).
-5. `uis/website`: web corporativa de Nexova en Next.js en el puerto 3000 (E5, E6).
-6. `uis/backoffice`: aplicación interna con layout propio en el puerto 3001 (E7, E8).
+1. Coding-agent rules in `.agents/`, with explicit scope (criterion E3).
+2. Root `AGENTS.md`, with an ordered workflow of at least 4 steps before each commit (E2).
+3. A skill with a single goal, documented inputs and verifiable acceptance criteria (E4).
+4. pnpm workspace and shared Nexova data in `packages/shared` (E9).
+5. `uis/website`: Nexova corporate website in Next.js on port 3000 (E5, E6).
+6. `uis/backoffice`: internal application with its own layout on port 3001 (E7, E8).
 
-## Decisiones recientes
+## Recent decisions
 
-- **Responsable de Ventas = Marcos Ibáñez.** Fuente: la ficha detallada de `CONTEXT.md` (sección "Sales and Business Development", línea 62), que coincide con el brief de forecasting `CONTEXT-Nexova.en.md`. Es el nombre que se usa en el memory-bank completo y en el código. `CONTEXT.md` no se modifica.
+- **Sales manager = Marcos Ibáñez.** Source: the detailed department profile in `CONTEXT.md` ("Sales and Business Development" section, line 62), which matches the forecasting brief `CONTEXT-Nexova.en.md`. This is the name used throughout the memory bank and the code. `CONTEXT.md` is not modified.
+- **Repository language: English** (all files, commits and PRs from step 3 on).
 
-## Preguntas abiertas
+## Open questions
 
-- **Contradicción en `CONTEXT.md` sobre Ventas:** la descripción general (línea 24) nombra a **Megan Clarke** como responsable del equipo de 18 personas, mientras que la ficha del departamento (línea 62) nombra a **Marcos Ibáñez**. Se ha decidido usar Marcos Ibáñez, pero falta confirmar con el autor del contexto si Megan Clarke es un error o tiene otro rol.
-- **Falta `data/raw/nexova_sales.csv`:** el brief de forecasting (`CONTEXT-Nexova.en.md`) da por hecho que existe, con 120 filas `consolidated` de 2016-01 a 2025-12, pero no está en el repo. Hay que conseguirlo o generarlo con `random_state=42` antes de abordar ese entregable.
-- **Decisiones técnicas abiertas** (detalle en `techContext.md`): Qdrant frente a pgvector; Python frente a TypeScript para el scoring de CVs; proveedor de LLM (Anthropic u OpenAI).
+- **Sales contradiction in `CONTEXT.md`:** the general description (line 24) names **Megan Clarke** as head of the 18-person team, while the department profile (line 62) names **Marcos Ibáñez**. The decision is to use Marcos Ibáñez, but it still needs to be confirmed with the author of the context whether Megan Clarke is an error or has another role.
+- **`data/raw/nexova_sales.csv` is missing:** the forecasting brief (`CONTEXT-Nexova.en.md`) assumes it exists, with 120 `consolidated` rows from 2016-01 to 2025-12, but it is not in the repo. It must be obtained or generated with `random_state=42` before tackling that deliverable.
+- **Open technical decisions** (details in `techContext.md`): Qdrant versus pgvector; Python versus TypeScript for CV scoring; LLM provider (Anthropic or OpenAI).
