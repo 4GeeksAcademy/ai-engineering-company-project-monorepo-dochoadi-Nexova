@@ -15,11 +15,20 @@ Type: technical
 
 ## pnpm workspace
 
-- **Layout:** `pnpm-workspace.yaml` includes `uis/*` and `packages/*`. Today the only workspace package is `packages/shared`; `uis/website` and `uis/backoffice` join in steps 10 and 11.
+- **Layout:** `pnpm-workspace.yaml` includes `uis/*` and `packages/*`. Workspace packages: `packages/shared` and `uis/website` (package name `website`); `uis/backoffice` joins in step 11.
+- **Build scripts:** pnpm 12 refuses unapproved dependency build scripts. `pnpm-workspace.yaml` lists `allowBuilds` with `sharp` and `unrs-resolver` set to `false` (both ship prebuilt binaries); any new entry needs a justification.
 - **Root scripts:** `pnpm dev` (all `uis/*` apps in parallel), `pnpm dev:website`, `pnpm dev:backoffice`, and `pnpm build` / `lint` / `typecheck` / `test`, which run each package's script when it exists (`pnpm -r --if-present`).
 - **Tests:** `node --test` with the native `node:test` and `node:assert` modules, no test dependency. Node 24 strips TypeScript types natively, so `*.test.ts` files run without `--experimental-strip-types`. Test files are excluded from `tsc` (`@types/node` is not installed), and imports between `.ts` files use explicit `.ts` extensions.
 - **Company data:** Nexova's company data (company profile, business lines, the 8 departments, support SLA, flagship agents) lives only in `packages/shared/company.ts`, taken from `CONTEXT.md` and `Company-choice.md`, with no computed values. Apps import it from `@repo/shared-types` and must list the package in Next.js `transpilePackages`, because it ships TypeScript source.
 - **TypeScript version:** 5.9.3 was chosen over 7.0.2 (`latest`, the native compiler) because Next.js type-checks through the JavaScript `typescript` API.
+
+## Website (`uis/website`)
+
+- **Stack:** Next.js 16.4.0 (App Router, Turbopack), React 19.3.0, TypeScript 5.9.3 `strict` (the app's `tsconfig.json` extends `tsconfig.base.json` and adds the DOM libs, JSX and the Next plugin), ESLint 9 with `eslint-config-next` 16.4.0, `@types/node` 24 for `node:test`. Styling is CSS Modules only: no CSS framework, UI kit or animation library. `next.config.ts` sets `transpilePackages: ["@repo/shared-types"]` and `agentRules: false`, so `next dev` does not write its own `AGENTS.md`; the scaffold defaults `cacheComponents` and `partialPrefetching` are kept, and `/` prerenders as static.
+- **Font:** Instrument Sans through `next/font/google` (variable font covering weights 400–700), exposed as `--font-instrument-sans`.
+- **Design source:** `docs/milestone-1/design/nexova-landing-v4.html`, a self-unpacking Claude Design bundle (`__bundler/manifest` with fonts and the Design runtime, `__bundler/template` with the page and a `Component` class holding the behaviour). The website ports its layout, copy, tokens and every `setup*` method and `tick()`.
+- **Structure:** `app/` (layout with metadata and JSON-LD Organization, page, `globals.css` with every design token on `:root`), `components/` (one component per section, each with a CSS Module: `Header` + `MobileNav`, `Hero` + `RoleTicker` + `CvCascade`, `Marquee`, `KeyFigures` + `CountUp`, `Services`, `Process`, `Industries`, `HumanAndAi`, `About` + `OfficePhotos` + `OfficeClock`, `ContactCta`, `Footer`; shared `Button`, `Reveal`, `PulseDot`), `content/home.ts` (typed copy), `lib/` (`cvField.ts` + test, `time.ts`, `motion.ts`, `jsonLd.ts`), `public/images/` (office photos).
+- **Conventions:** company facts come from `@repo/shared-types` and are interpolated into the copy, never retyped; components never use raw colour values; `"use client"` only on components with behaviour; every listener, timer, animation and observer is cleaned up on unmount; `prefers-reduced-motion` skips scroll and pointer effects and shows the hero's final state.
 
 ## Planned agent stack
 
@@ -80,7 +89,7 @@ According to `Company-choice.md`:
 
 | Port | Service |
 | --- | --- |
-| 3000 | `uis/website` |
+| 3000 | `uis/website` (`pnpm dev:website`) |
 | 3001 | `uis/backoffice` |
 | 8000 | FastAPI API (future) in `services/` |
 | 5678 | n8n (`workflows/`) |

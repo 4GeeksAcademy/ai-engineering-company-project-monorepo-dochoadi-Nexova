@@ -1,0 +1,95 @@
+.section {
+  background: var(--color-green);
+  color: var(--color-cream);
+  padding: clamp(88px, 10vw, 144px) 0;
+}
+
+.intro {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: 24px clamp(40px, 6vw, 96px);
+  align-items: end;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-cream);
+  max-width: 14ch;
+}
+
+.accent {
+  color: var(--color-coral-light);
+}
+
+.lead {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--color-sage);
+  max-width: 56ch;
+  text-wrap: pretty;
+}
+
+.statement {
+  margin: clamp(64px, 8vw, 120px) 0;
+  font-size: clamp(28px, 3.5vw, 52px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.16;
+  color: var(--color-cream);
+  max-width: 24em;
+  text-wrap: pretty;
+}
+
+.word {
+  transition: opacity 220ms var(--ease-out);
+}
+
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 40px clamp(24px, 3vw, 48px);
+}
+
+.pillar {
+  border-top: 1px solid var(--color-green-mid);
+  padding-top: 28px;
+}
+
+.pillarTitle {
+  margin: 0 0 22px;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--color-cream);
+}
+
+.pairs {
+  margin: 0;
+  display: grid;
+  gap: 18px;
+}
+
+.peopleRow {
+  border-top: 1px solid var(--color-green-line);
+  padding-top: 18px;
+}
+
+.ai,
+.people {
+  font-size: 15px;
+  font-weight: 600;
+}
+.ai {
+  color: var(--color-cream);
+}
+.people {
+  color: var(--color-coral-light);
+}
+
+.dd {
+  margin: 4px 0 0;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: var(--color-sage);
+}

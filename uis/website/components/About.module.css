@@ -1,0 +1,45 @@
+.section {
+  padding: clamp(88px, 10vw, 144px) 0;
+}
+
+.intro {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: 28px clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-green);
+  max-width: 15ch;
+}
+
+.paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-top: 8px;
+}
+
+.paragraph {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+  max-width: 56ch;
+  text-wrap: pretty;
+}
+
+.hours {
+  margin: clamp(32px, 4vw, 48px) 0 0;
+  font-size: clamp(26px, 2.8vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--color-green);
+}
+
+.hoursNumber {
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,103 @@
+.footer {
+  background: var(--color-green-deep);
+  color: var(--color-sage);
+  padding: clamp(64px, 7vw, 96px) 0 32px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 40px clamp(24px, 3vw, 48px);
+}
+
+.brandCol {
+  min-width: 0;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  text-decoration: none;
+  color: var(--color-cream);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+.logo:hover {
+  color: var(--color-cream);
+}
+
+.logoDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-coral);
+  margin-top: 9px;
+}
+
+.tagline {
+  margin: 10px 0 0;
+  font-size: 15.5px;
+  line-height: 1.55;
+  max-width: 26ch;
+}
+
+.heading {
+  margin: 0 0 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-cream);
+}
+
+.offices {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+  font-size: 15.5px;
+  line-height: 1.45;
+}
+
+.muted {
+  color: var(--color-sage-muted);
+}
+
+.links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  font-size: 15.5px;
+}
+
+/* 44px rather than the design's 36px, to meet the touch-target floor. */
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--color-sage);
+  text-decoration: none;
+}
+.link:hover {
+  color: var(--color-cream);
+  text-decoration: underline;
+}
+
+.button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.copyright {
+  margin: 64px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-green-line);
+  font-size: 14px;
+  color: var(--color-sage-muted);
+}

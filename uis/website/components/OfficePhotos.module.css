@@ -1,0 +1,46 @@
+.grid {
+  margin-top: clamp(48px, 6vw, 80px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: clamp(16px, 2vw, 28px);
+}
+
+.photo {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-figure);
+  overflow: hidden;
+  background: var(--color-sand);
+}
+
+.parallax {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -8%;
+  height: 116%;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.caption {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--color-cream);
+  color: var(--color-green);
+  font-size: 15px;
+  box-shadow: var(--shadow-chip);
+}
+
+.city {
+  font-weight: 600;
+}

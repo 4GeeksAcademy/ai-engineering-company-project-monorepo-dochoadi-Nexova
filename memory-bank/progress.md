@@ -4,7 +4,7 @@ Type: status
 
 ## Current state
 
-Monorepo infrastructure under construction (Milestone 1, step 9 of 13). No business feature has been implemented yet: no agents, no API, no dashboards.
+Monorepo infrastructure under construction (Milestone 1, step 10 of 13). The public corporate website (`uis/website`) is live in development; no business feature has been implemented yet: no agents, no API, no dashboards.
 
 ## Done
 
@@ -17,17 +17,18 @@ Monorepo infrastructure under construction (Milestone 1, step 9 of 13). No busin
 - **2026-10-12 — Step 7 (`M1-S07`):** vendored `frontend-design` and `webapp-testing` unchanged from `https://github.com/anthropics/skills` (commit `dbd4588f9e10`, Apache 2.0) into `.agents/skills/`, each with a `SOURCE.md`; `.agents/skills/README.md` catalogue; `.claude/skills` symlink to `../.agents/skills`; `.claude/settings.local.json` added to `.gitignore`.
 - **2026-10-12 — Step 8 (`M1-S08`):** pnpm 12.11.2 workspace on Node 24.18.1 (root `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `tsconfig.base.json`, TypeScript 5.9.3); `packages/shared` entry point fixed (`index.ts` now exists) and Nexova company data added in `company.ts` with typed exports and 4 `node:test` tests; `packages/README.md` and `packages/shared/README.md` updated; `AGENTS.md` pre-commit step 2 no longer mentions the pre-workspace fallback; E9 row of the matrix updated (part 1 of 2).
 - **2026-10-12 — Step 9 (`M1-S09`):** `.devcontainer/devcontainer.json` rewritten for `javascript-node:24` with Python 3.12, GitHub CLI and sshd, ports 3000/3001/8000/5678 labelled, remote user `node`, Docker socket removed; `post-create.sh` rewritten (pinned pnpm via Corepack, frozen-lockfile install, conditional `uv sync`, Playwright + Chromium, Claude Code CLI); `.nvmrc` = `24`; Step column of the evaluation matrix renumbered for the 13-step plan. Validated here: JSON parses and the script passes `bash -n`; the Codespace build is still to be tested by the developer.
+- **2026-10-12 — Step 10 (`M1-S10`):** `uis/website` built in Next.js 16.4.0 (App Router, Turbopack, React 19.3, TypeScript strict extending `tsconfig.base.json`, CSS Modules, `eslint-config-next`) as a faithful rebuild of the approved design `docs/milestone-1/design/nexova-landing-v4.html` (committed with the real `valencia.jpg` and `miami.jpg`, copied to `uis/website/public/images/`): 11 section components plus shared `Button` and `Reveal`, copy in `content/home.ts`, design tokens on `:root` in `app/globals.css`, company facts from `@repo/shared-types`, JSON-LD Organization in the layout, Instrument Sans via `next/font/google`. `lib/cvField.ts` ports the hero CV-cascade field exactly (0 differences against the design's code) with 4 `node:test` tests; `lib/time.ts` gives the live Valencia and Miami clocks. Root `pnpm-workspace.yaml` gained an `allowBuilds` deny-list (`sharp`, `unrs-resolver`: false) so pnpm 12 installs without running their build scripts. Screenshots at 1440px and 375px plus the hero at 9 s in `docs/milestone-1/screenshots/`; `uis/README.md` lists the app; E5 and E6 rows of the matrix updated.
 
 ## Pending
 
-- Developer: create the Codespace from `chore/hito-1-ai-setup` and confirm it builds.
-- Step 10 website, step 11 backoffice, step 12 conventions and cleanup, step 13 final report and PR.
+- Step 11 backoffice, step 12 conventions and cleanup, step 13 final report and PR.
+- Confirm the licence of the two office photos and the real public contact email (open questions in `activeContext.md`).
 
 ## Known issues
 
-- **Push without credentials:** `git push` fails with `could not read Username for 'https://github.com'`; the environment needs GitHub credentials. Milestone commits stay local until then.
-- The coding agent cannot push from this environment (no GitHub credentials); the developer pushes manually after each step.
-- **Container is not the declared devcontainer:** this environment is Alpine Linux 3.23, not the `universal:2` image in `.devcontainer/devcontainer.json`, and had no Node.js. Node 24.18.1 and npm were installed with `sudo apk add nodejs npm`, Corepack with `sudo npm i -g corepack`, and pnpm 12.11.2 through Corepack (2026-10-12, approved by the developer). A rebuilt container may need the same. Stays open until the developer confirms the new Codespace (step 9 devcontainer) works.
+- **Resolved on 2026-10-12 (step 10): Alpine container and manual push.** Work now runs in a real GitHub Codespace built from the step 9 devcontainer (Debian 13, Node 24, pnpm 12.11.2, Python 3.12, `gh`), so the Alpine workarounds are no longer needed and the coding agent can `git push` itself.
+- **Fixed in step 10: office photos never appeared.** In the original design export, `setupPhotos()` observed the `<figure>` it clipped with `clip-path: inset(100% …)`, which an `IntersectionObserver` never reports as intersecting. `uis/website/components/OfficePhotos.tsx` observes the grid wrapper and animates the figures; a Playwright check confirms both photos reveal on scroll.
+- **`next-env.d.ts` is generated, not committed:** `pnpm --filter website typecheck` on a fresh clone needs one `next dev` or `next build` first (Next.js generates the file and the CSS-module types it references).
 - **Outdated `README.md`:** it links to `README.es.md`, which does not exist at the root, and states there is no root `AGENTS.md`, when there is one.
 - **`CONTEXT-Nexova.en.md` is not the company context:** it is the brief for a sales forecasting exercise (XGBoost / Random Forest on `data/raw/nexova_sales.csv`); the company context is `CONTEXT.md`.
 - **Fixed in step 9:** `.devcontainer/post-create.sh` no longer fails on `uv sync` (it only runs when `pyproject.toml` exists), and the devcontainer now forwards port 3001.
