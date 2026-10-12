@@ -7,9 +7,19 @@ Type: technical
 | Layer | Technology | Location |
 | --- | --- | --- |
 | Frontends | Next.js (App Router) + TypeScript in `strict` mode | `uis/website`, `uis/backoffice` |
-| JS/TS package management | pnpm workspace (enabled via Corepack in the devcontainer) | Repo root |
+| Runtime | Node.js 24.18.1 (`engines: >=24 <25`) | Repo root |
+| JS/TS package management | pnpm 12.11.2 workspace (`packageManager` pinned, enabled via Corepack) | Repo root |
+| TypeScript | 5.9.3, the only root dev dependency; shared options in `tsconfig.base.json` (`strict`, `noUncheckedIndexedAccess`, `ESNext`/`Bundler`, `verbatimModuleSyntax`, `allowImportingTsExtensions`, `noEmit`) | Repo root |
 | Shared types and data | `@repo/shared-types` package | `packages/shared` |
 | Backend (future) | Python + FastAPI as the company's **single API**, with one router per domain | `services/` |
+
+## pnpm workspace
+
+- **Layout:** `pnpm-workspace.yaml` includes `uis/*` and `packages/*`. Today the only workspace package is `packages/shared`; `uis/website` and `uis/backoffice` join in steps 9 and 10.
+- **Root scripts:** `pnpm dev` (all `uis/*` apps in parallel), `pnpm dev:website`, `pnpm dev:backoffice`, and `pnpm build` / `lint` / `typecheck` / `test`, which run each package's script when it exists (`pnpm -r --if-present`).
+- **Tests:** `node --test` with the native `node:test` and `node:assert` modules, no test dependency. Node 24 strips TypeScript types natively, so `*.test.ts` files run without `--experimental-strip-types`. Test files are excluded from `tsc` (`@types/node` is not installed), and imports between `.ts` files use explicit `.ts` extensions.
+- **Company data:** Nexova's company data (company profile, business lines, the 8 departments, support SLA, flagship agents) lives only in `packages/shared/company.ts`, taken from `CONTEXT.md` and `Company-choice.md`, with no computed values. Apps import it from `@repo/shared-types` and must list the package in Next.js `transpilePackages`, because it ships TypeScript source.
+- **TypeScript version:** 5.9.3 was chosen over 7.0.2 (`latest`, the native compiler) because Next.js type-checks through the JavaScript `typescript` API.
 
 ## Planned agent stack
 

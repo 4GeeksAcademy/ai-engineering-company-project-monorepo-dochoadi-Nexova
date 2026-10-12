@@ -25,7 +25,7 @@ Read, in this order:
 Follow these steps in order. No step may be skipped.
 
 1. Work on a dedicated branch (`feat/…`, `fix/…`, `chore/…`, `docs/…`), never on `main`.
-2. Run the project checks with zero errors: `pnpm lint`, `pnpm typecheck` and `pnpm build`. Until the pnpm workspace exists (milestone 1, step 8), run the checks defined in the current task instead.
+2. Run the project checks with zero errors: `pnpm lint`, `pnpm typecheck` and `pnpm build`.
 3. Run the affected tests with `pnpm test`; all must pass.
 4. Review the full staged diff (`git diff --staged`): no secrets, no `.env` files, no real personal data, no files unrelated to the task.
 5. Update the memory bank with the `update-memory-bank` skill (`.agents/skills/update-memory-bank/`) and make sure its `check.sh` exits with code 0.

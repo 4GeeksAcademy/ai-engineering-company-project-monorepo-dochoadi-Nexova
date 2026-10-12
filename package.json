@@ -1,0 +1,20 @@
+{
+  "name": "nexova-monorepo",
+  "private": true,
+  "packageManager": "pnpm@12.11.2",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter \"./uis/*\" dev",
+    "dev:website": "pnpm --filter website dev",
+    "dev:backoffice": "pnpm --filter backoffice dev",
+    "build": "pnpm -r --if-present build",
+    "lint": "pnpm -r --if-present lint",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

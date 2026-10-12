@@ -8,14 +8,14 @@ Type: status
 
 ## Next steps
 
-1. **Step 8 (next):** pnpm workspace and shared Nexova company data in `packages/shared` (E9).
-2. `uis/website`: Nexova corporate website in Next.js on port 3000 (E5, E6).
-3. `uis/backoffice`: internal application with its own layout on port 3001 (E7, E8).
+1. **Step 9 (next):** `uis/website`, the Nexova corporate website landing page in Next.js on port 3000 (E5, E6), importing company data from `@repo/shared-types`.
+2. `uis/backoffice`: internal application with its own layout on port 3001 (E7, E8).
 
 Done in step 4: coding-agent rules in `.agents/rules/`, with explicit scope (E3).
 Done in step 5: root `AGENTS.md` with a 7-step pre-commit workflow (E2).
 Done in step 6: `update-memory-bank` skill in `.agents/skills/update-memory-bank/`, whose `check.sh` verifies its 5 acceptance criteria (E4). From now on, run it before every commit (step 5 of the `AGENTS.md` workflow).
 Done in step 7: vendored the external skills `frontend-design` (visual direction, for steps 9 and 10) and `webapp-testing` (Playwright checks and PR screenshots) from `anthropics/skills`, both Apache 2.0, unchanged. `webapp-testing` writes outputs inside the repo under `test-results/`, never to `/tmp` (see its `SOURCE.md`).
+Done in step 8: pnpm workspace (`uis/*`, `packages/*`) and Nexova company data defined once in `packages/shared/company.ts`, exported by `@repo/shared-types` (E9, part 1 of 2).
 
 ## Recent decisions
 
