@@ -8,12 +8,13 @@ Type: status
 
 ## Next steps
 
-1. Coding-agent rules in `.agents/`, with explicit scope (criterion E3).
-2. Root `AGENTS.md`, with an ordered workflow of at least 4 steps before each commit (E2).
-3. A skill with a single goal, documented inputs and verifiable acceptance criteria (E4).
-4. pnpm workspace and shared Nexova data in `packages/shared` (E9).
-5. `uis/website`: Nexova corporate website in Next.js on port 3000 (E5, E6).
-6. `uis/backoffice`: internal application with its own layout on port 3001 (E7, E8).
+1. **Step 5 (next):** root `AGENTS.md`, with an ordered workflow of at least 4 steps before each commit (E2). It is currently empty; `CLAUDE.md` already imports it.
+2. A skill with a single goal, documented inputs and verifiable acceptance criteria (E4), including `.agents/skills/update-memory-bank/` referenced by the `memory-bank` rule.
+3. pnpm workspace and shared Nexova data in `packages/shared` (E9).
+4. `uis/website`: Nexova corporate website in Next.js on port 3000 (E5, E6).
+5. `uis/backoffice`: internal application with its own layout on port 3001 (E7, E8).
+
+Done in step 4: coding-agent rules in `.agents/rules/`, with explicit scope (E3).
 
 ## Recent decisions
 

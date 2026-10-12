@@ -27,6 +27,8 @@ According to `Company-choice.md`:
 | Folder | What goes there |
 | --- | --- |
 | `CONTEXT.md` | Single source of truth for the Nexova domain |
+| `CLAUDE.md` | Loaded automatically by Claude Code in every session; imports `AGENTS.md` and `.agents/rules/git-workflow.md` with `@` lines and contains nothing else |
+| `.agents/rules/` | Coding-agent rules, one file each, with a frontmatter scope: `alwaysApply: true` (always active), `globs` (by file pattern) or neither (requested by the agent from its `description`) |
 | `memory-bank/` | Persistent project memory for the coding agent (this bank) |
 | `uis/` | Any application with screens: `website/` (public website) and `backoffice/` (internal application) |
 | `services/` | Centralised FastAPI API and, only when needed, background workers |

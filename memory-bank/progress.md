@@ -4,17 +4,18 @@ Type: status
 
 ## Current state
 
-Monorepo infrastructure under construction (Milestone 1, step 3 of 12). No business feature has been implemented yet: no agents, no API, no dashboards.
+Monorepo infrastructure under construction (Milestone 1, step 4 of 12). No business feature has been implemented yet: no agents, no API, no dashboards.
 
 ## Done
 
 - **2026-10-12 — Step 1:** created branch `chore/hito-1-ai-setup` from `main`; `.gitignore` covering secrets (`.env*` except `.env.example`, `*.pem`, `*.key`), personal files (`*.rtf`), dependencies, builds and test artifacts; milestone evaluation matrix in `docs/milestone-1/evaluation.md` (criteria E1–E9).
 - **2026-10-12 — Step 2:** complete memory bank with business context (`projectbrief.md`, `productContext.md`), technical context (`techContext.md`, `systemPatterns.md`) and status (`activeContext.md`, `progress.md`); fixed the `projectvrief.md` → `projectbrief.md` typo; E1 row of the matrix updated.
 - **2026-10-12 — Step 3:** Repository language switched to English; files from steps 1–2 translated.
+- **2026-10-12 — Step 4:** 7 coding-agent rules in `.agents/rules/` with explicit scope (4 always active: `monorepo-structure`, `git-workflow`, `security-and-data`, `memory-bank`; 2 by file pattern: `uis-nextjs` for `uis/**`, `services-backend` for `services/**`; 1 requested by the agent: `hr-domain-glossary`); root `CLAUDE.md` importing `AGENTS.md` and `git-workflow.md`; E3 row of the matrix updated.
 
 ## Pending
 
-- Step 4 onwards: rules in `.agents/`, `AGENTS.md` with a pre-commit workflow, skill, pnpm workspace with `packages/shared`, `uis/website`, `uis/backoffice`, and a final review of conventions and of the evaluation matrix.
+- Step 5 onwards: `AGENTS.md` with a pre-commit workflow, skill, pnpm workspace with `packages/shared`, `uis/website`, `uis/backoffice`, and a final review of conventions and of the evaluation matrix.
 
 ## Known issues
 
