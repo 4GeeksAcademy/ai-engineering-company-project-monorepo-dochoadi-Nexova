@@ -4,7 +4,7 @@ Type: status
 
 ## Current state
 
-Monorepo infrastructure under construction (Milestone 1, step 6 of 12). No business feature has been implemented yet: no agents, no API, no dashboards.
+Monorepo infrastructure under construction (Milestone 1, step 7 of 12). No business feature has been implemented yet: no agents, no API, no dashboards.
 
 ## Done
 
@@ -14,10 +14,11 @@ Monorepo infrastructure under construction (Milestone 1, step 6 of 12). No busin
 - **2026-10-12 — Step 4:** 7 coding-agent rules in `.agents/rules/` with explicit scope (4 always active: `monorepo-structure`, `git-workflow`, `security-and-data`, `memory-bank`; 2 by file pattern: `uis-nextjs` for `uis/**`, `services-backend` for `services/**`; 1 requested by the agent: `hr-domain-glossary`); root `CLAUDE.md` importing `AGENTS.md` and `git-workflow.md`; E3 row of the matrix updated.
 - **2026-10-12 — Step 5:** root `AGENTS.md` written as the mandatory protocol for any coding agent: session start reading order, 7-step pre-commit workflow, commit naming, protected files, stop-and-ask cases, never list and a map of where things are; loaded through `CLAUDE.md`; E2 row of the matrix updated.
 - **2026-10-12 — Step 6 (`M1-S06`):** `update-memory-bank` skill added in `.agents/skills/update-memory-bank/` (`SKILL.md` with goal, inputs, steps and 5 acceptance criteria; `check.sh` verifying them); "added in step 6" notes removed from `AGENTS.md` and `.agents/rules/memory-bank.md`; E4 row of the matrix updated.
+- **2026-10-12 — Step 7 (`M1-S07`):** vendored `frontend-design` and `webapp-testing` unchanged from `https://github.com/anthropics/skills` (commit `dbd4588f9e10`, Apache 2.0) into `.agents/skills/`, each with a `SOURCE.md`; `.agents/skills/README.md` catalogue; `.claude/skills` symlink to `../.agents/skills`; `.claude/settings.local.json` added to `.gitignore`.
 
 ## Pending
 
-- Step 7 onwards: vendoring the external skills, pnpm workspace with `packages/shared`, `uis/website`, `uis/backoffice`, and a final review of conventions and of the evaluation matrix.
+- Step 8 onwards: pnpm workspace with `packages/shared`, `uis/website`, `uis/backoffice`, and a final review of conventions and of the evaluation matrix.
 
 ## Known issues
 

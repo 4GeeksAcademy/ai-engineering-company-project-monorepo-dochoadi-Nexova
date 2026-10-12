@@ -29,7 +29,8 @@ According to `Company-choice.md`:
 | `CONTEXT.md` | Single source of truth for the Nexova domain |
 | `CLAUDE.md` | Loaded automatically by Claude Code in every session; imports `AGENTS.md` and `.agents/rules/git-workflow.md` with `@` lines and contains nothing else |
 | `.agents/rules/` | Coding-agent rules, one file each, with a frontmatter scope: `alwaysApply: true` (always active), `globs` (by file pattern) or neither (requested by the agent from its `description`) |
-| `.agents/skills/` | Coding-agent skills; `update-memory-bank/` keeps this bank in sync and its `check.sh` verifies it (run from the repo root, exit code 0 = pass) |
+| `.agents/skills/` | Coding-agent skills, catalogued in its `README.md`: `update-memory-bank/` (own; keeps this bank in sync, and its `check.sh` verifies it from the repo root, exit code 0 = pass), `frontend-design/` and `webapp-testing/` (external, vendored unchanged from `anthropics/skills`, Apache 2.0, with a `SOURCE.md` each) |
+| `.claude/skills` | Symlink to `../.agents/skills`, so Claude Code discovers the same skills without duplicating them; `.claude/settings.local.json` (personal settings) is gitignored |
 | `memory-bank/` | Persistent project memory for the coding agent (this bank) |
 | `uis/` | Any application with screens: `website/` (public website) and `backoffice/` (internal application) |
 | `services/` | Centralised FastAPI API and, only when needed, background workers |
