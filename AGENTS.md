@@ -28,7 +28,7 @@ Follow these steps in order. No step may be skipped.
 2. Run the project checks with zero errors: `pnpm lint`, `pnpm typecheck` and `pnpm build`. Until the pnpm workspace exists (milestone 1, step 8), run the checks defined in the current task instead.
 3. Run the affected tests with `pnpm test`; all must pass.
 4. Review the full staged diff (`git diff --staged`): no secrets, no `.env` files, no real personal data, no files unrelated to the task.
-5. Update the memory bank with the `update-memory-bank` skill (`.agents/skills/update-memory-bank/`, added in step 6) and make sure its `check.sh` exits with code 0.
+5. Update the memory bank with the `update-memory-bank` skill (`.agents/skills/update-memory-bank/`) and make sure its `check.sh` exits with code 0.
 6. Commit once per step, following the commit naming convention below.
 7. Deliver through a pull request with the checklist from `.agents/rules/git-workflow.md`. Never merge your own PR.
 
@@ -78,6 +78,6 @@ This convention applies to all milestones, not only Milestone 1.
 | --- | --- |
 | `memory-bank/` | Persistent project memory: business context, technical context, patterns, current focus and progress. |
 | `.agents/rules/` | Coding-agent rules, each with an explicit scope (always active, by `globs`, or requested by the agent). |
-| `.agents/skills/` | Coding-agent skills, such as `update-memory-bank` (added in step 6). |
+| `.agents/skills/` | Coding-agent skills, such as `update-memory-bank`. |
 | `docs/milestone-1/evaluation.md` | Milestone 1 evidence matrix: criteria E1–E9, files, how to verify and result. |
 | `CONTEXT.md` | Nexova company briefing: departments, managers, figures and problems. |

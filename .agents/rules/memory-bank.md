@@ -19,7 +19,7 @@ Scope: always active
    - the current focus, a decision or an open question → `activeContext.md`;
    - a known problem found or fixed → `progress.md`, "Known issues".
 4. Keep the `Type:` line (`business`, `technical` or `status`) on line 3 of each file.
-5. Use the `update-memory-bank` skill in `.agents/skills/update-memory-bank/` (added in step 6) to make these updates.
+5. Use the `update-memory-bank` skill in `.agents/skills/update-memory-bank/` to make these updates.
 
 ## Staleness
 

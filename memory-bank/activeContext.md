@@ -8,13 +8,14 @@ Type: status
 
 ## Next steps
 
-1. **Step 6 (next):** the `update-memory-bank` skill in `.agents/skills/update-memory-bank/`, with a single goal, documented inputs, verifiable acceptance criteria and a `check.sh` that exits with code 0 (E4). `AGENTS.md` step 5 of the pre-commit workflow and the `memory-bank` rule already reference it.
+1. **Step 7 (next):** vendor the external skills.
 2. pnpm workspace and shared Nexova data in `packages/shared` (E9).
 3. `uis/website`: Nexova corporate website in Next.js on port 3000 (E5, E6).
 4. `uis/backoffice`: internal application with its own layout on port 3001 (E7, E8).
 
 Done in step 4: coding-agent rules in `.agents/rules/`, with explicit scope (E3).
 Done in step 5: root `AGENTS.md` with a 7-step pre-commit workflow (E2).
+Done in step 6: `update-memory-bank` skill in `.agents/skills/update-memory-bank/`, whose `check.sh` verifies its 5 acceptance criteria (E4). From now on, run it before every commit (step 5 of the `AGENTS.md` workflow).
 
 ## Recent decisions
 
