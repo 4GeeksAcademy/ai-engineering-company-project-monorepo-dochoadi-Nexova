@@ -15,7 +15,7 @@ Type: technical
 
 ## pnpm workspace
 
-- **Layout:** `pnpm-workspace.yaml` includes `uis/*` and `packages/*`. Today the only workspace package is `packages/shared`; `uis/website` and `uis/backoffice` join in steps 9 and 10.
+- **Layout:** `pnpm-workspace.yaml` includes `uis/*` and `packages/*`. Today the only workspace package is `packages/shared`; `uis/website` and `uis/backoffice` join in steps 10 and 11.
 - **Root scripts:** `pnpm dev` (all `uis/*` apps in parallel), `pnpm dev:website`, `pnpm dev:backoffice`, and `pnpm build` / `lint` / `typecheck` / `test`, which run each package's script when it exists (`pnpm -r --if-present`).
 - **Tests:** `node --test` with the native `node:test` and `node:assert` modules, no test dependency. Node 24 strips TypeScript types natively, so `*.test.ts` files run without `--experimental-strip-types`. Test files are excluded from `tsc` (`@types/node` is not installed), and imports between `.ts` files use explicit `.ts` extensions.
 - **Company data:** Nexova's company data (company profile, business lines, the 8 departments, support SLA, flagship agents) lives only in `packages/shared/company.ts`, taken from `CONTEXT.md` and `Company-choice.md`, with no computed values. Apps import it from `@repo/shared-types` and must list the package in Next.js `transpilePackages`, because it ships TypeScript source.
@@ -70,7 +70,12 @@ According to `Company-choice.md`:
 
 ## Environment
 
-- **Development:** GitHub Codespaces / devcontainer (`.devcontainer/devcontainer.json`, `universal:2` image, Docker-in-Docker via socket). `post-create.sh` enables pnpm with Corepack and installs `uv`.
+- **Development:** GitHub Codespaces / devcontainer (`.devcontainer/devcontainer.json`):
+  - image `mcr.microsoft.com/devcontainers/javascript-node:24` (Debian, glibc), remote user `node`;
+  - features: Python 3.12 (for `webapp-testing` scripts and the future FastAPI backend), GitHub CLI (`gh`) and sshd;
+  - no Docker socket mount and no Docker-in-Docker: Docker is not needed until the infrastructure milestone;
+  - `post-create.sh`: `corepack enable` + `corepack install` (the pnpm version pinned in `packageManager`), `pnpm install --frozen-lockfile`, `uv sync` only when `pyproject.toml` exists, Playwright with Chromium for `.agents/skills/webapp-testing`, and the Claude Code CLI; it ends by printing the Node, pnpm and Python versions.
+- **Node 24 everywhere:** local development (`.nvmrc` = `24`, `engines` `>=24 <25`), the devcontainer image, and the future Docker images on the VPS, which will be based on the official Node 24 images.
 - **Ports:**
 
 | Port | Service |
@@ -80,7 +85,7 @@ According to `Company-choice.md`:
 | 8000 | FastAPI API (future) in `services/` |
 | 5678 | n8n (`workflows/`) |
 
-The devcontainer currently forwards 3000, 8000 and 5678; port 3001 must be added once the backoffice exists.
+The devcontainer forwards all four ports, labelled Website, Backoffice, API and n8n.
 
 ## Open decisions
 
