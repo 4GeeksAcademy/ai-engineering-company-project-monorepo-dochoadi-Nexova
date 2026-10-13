@@ -49,6 +49,23 @@ Patterns that any code in the monorepo must follow. Each one includes its reason
 - **Rule:** brand tokens are defined once in `packages/shared` (`packages/shared/styles/tokens.css`) and imported by every UI at the top of its `app/globals.css`; an app only adds its own app-specific variables, and components use `var(--…)`, never raw colour values.
 - **Why:** the website and the backoffice share one Nexova identity; copying the palette into each app would let the two drift apart, the same duplication risk as the company data in pattern 8.
 
+Together, patterns 8 and 9 mean that brand tokens and company data are defined once in `packages/shared` and every UI imports them.
+
+## 10. Design-source workflow for UIs
+
+- **Rule:** every UI is designed in Claude Design, exported as a self-unpacking HTML bundle into `docs/milestone-<n>/design/`, reviewed, and then ported faithfully to Next.js: same layout, copy, tokens, motion and interactions, with the design's inline data replaced by `@repo/shared-types`. Deliberate deviations are listed in the app's README.
+- **Why:** the export is the reviewed and approved source of truth; porting it, rather than redesigning in code, keeps the approved result and makes differences visible against reference screenshots.
+
+## 11. Never observe a clipped element
+
+- **Rule:** never observe with `IntersectionObserver` an element that is itself clipped away (e.g. `clip-path: inset(100%)`); observe its parent or wrapper and animate the child.
+- **Why:** a fully clipped element never reports as intersecting, so its reveal never fires. This hid the office photos in the original landing page export (fixed in step 10).
+
+## 12. Unit tests with `node:test`
+
+- **Rule:** unit tests use Node's native `node:test` and `node:assert`, run with `node --test` (Node 24 strips TypeScript types), with no test framework dependency. Pure logic lives in `lib/` so it can be tested without a browser.
+- **Why:** it keeps the dependency list short (each new dependency needs a justification) and the tests fast.
+
 ## Commit naming
 
 This convention applies to all milestones, not only Milestone 1.

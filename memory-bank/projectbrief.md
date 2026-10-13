@@ -54,6 +54,12 @@ Summary flow:
 | Top-5 recall against who was actually hired in similar processes | The right candidates appear near the top | Matching |
 | Consultant override rate | High at first (useful for calibration) and trending down over time | Matching |
 
+## Project nature and priorities
+
+- **Academic evaluation project for 4Geeks Academy** (AI Engineering career programme): Nexova is a fictional company, the repository holds no real data, and nothing is ever published to production.
+- **Priorities:** first the evaluation criteria of each milestone (`docs/milestone-<n>/evaluation.md`), then the quality of the repository (structure, conventions, tests, documentation).
+- **Production concerns are notes, not blockers:** GDPR, image and font licences, domains, real contact details and security hardening are recorded (open questions in `activeContext.md`, constraints in `techContext.md`) but do not block a milestone.
+
 ## Out of scope for this milestone
 
 Milestone 1 ("Monorepo AI Setup") **does not build business features**: no agents, no API, no dashboards. It only prepares the monorepo infrastructure (memory bank, coding-agent rules and workflow, skill, workspace, base website and backoffice) on which they will be built in later milestones.

@@ -114,8 +114,12 @@
   color: var(--color-cream);
   transform: translateY(-1px);
 }
+/* Dimmed through the fill, not opacity, so the text keeps AA contrast. The outline adds no layout. */
 .needs li.miss {
-  opacity: 0.35;
+  background: transparent;
+  color: var(--color-ink-muted);
+  outline: 1px dashed var(--color-tan);
+  outline-offset: -1px;
 }
 
 .clock {

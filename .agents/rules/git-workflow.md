@@ -37,4 +37,4 @@ Every PR description includes:
 
 - Never merge your own PR; a reviewer merges it.
 - Never rewrite published history: no `git push --force`, no `git rebase` or `git commit --amend` on pushed commits. Fix mistakes with a new commit.
-- The coding agent does not push from this environment (no GitHub credentials); the developer pushes manually after each step.
+- The coding agent may push its own milestone branch after each step's commit (it works in a GitHub Codespace with credentials). It never pushes to `main`, never force-pushes and never merges its own PR.

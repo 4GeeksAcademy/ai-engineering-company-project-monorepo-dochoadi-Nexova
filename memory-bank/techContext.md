@@ -94,7 +94,7 @@ According to `Company-choice.md`:
 - **Development:** GitHub Codespaces / devcontainer (`.devcontainer/devcontainer.json`):
   - image `mcr.microsoft.com/devcontainers/javascript-node:24` (Debian, glibc), remote user `node`;
   - features: Python 3.12 (for `webapp-testing` scripts and the future FastAPI backend), GitHub CLI (`gh`) and sshd;
-  - no Docker socket mount and no Docker-in-Docker: Docker is not needed until the infrastructure milestone;
+  - no Docker socket mount and no Docker-in-Docker yet (see "Infrastructure plan" below);
   - `post-create.sh`: `corepack enable` + `corepack install` (the pnpm version pinned in `packageManager`), `pnpm install --frozen-lockfile`, `uv sync` only when `pyproject.toml` exists, Playwright with Chromium for `.agents/skills/webapp-testing`, and the Claude Code CLI; it ends by printing the Node, pnpm and Python versions.
 - **Node 24 everywhere:** local development (`.nvmrc` = `24`, `engines` `>=24 <25`), the devcontainer image, and the future Docker images on the VPS, which will be based on the official Node 24 images.
 - **Ports:**
@@ -107,6 +107,19 @@ According to `Company-choice.md`:
 | 5678 | n8n (`workflows/`) |
 
 The devcontainer forwards all four ports, labelled Website, Backoffice, API and n8n.
+
+## Infrastructure plan
+
+- **Where development happens:** locally and in GitHub Codespaces, both from the same devcontainer.
+- **Databases and other services:** when a milestone first needs them (Postgres, a vector store…), they will run inside the Codespace through Docker: a docker-in-docker devcontainer feature plus a root `docker-compose.yml`. This is planned for the first step of that milestone, not done now.
+- **Hosting:** a VPS managed with Easypanel exists but is not used for Nexova yet.
+- **Automations:** an external n8n instance, hosted on another project's Easypanel, may be used. Nexova workflows must be kept separate there (their own folder or project) and exported as JSON into `workflows/`, so the repository stays the source of truth.
+- **No infrastructure details in the repo:** it is public, so no IP addresses, hostnames, credentials or URLs of other projects are written into any file.
+
+## Stack choice for the UIs
+
+- **Next.js for both UIs:** the website needs server rendering for SEO (and GEO), and using the same stack for the backoffice keeps one toolchain, one set of conventions and shared code.
+- **Vite was considered for the backoffice and rejected** for consistency with the website, even though the backoffice has no SEO needs.
 
 ## Open decisions
 
