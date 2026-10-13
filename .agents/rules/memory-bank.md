@@ -20,7 +20,8 @@ Scope: always active
    - a known problem found or fixed → `progress.md`, "Known issues".
 4. Keep the `Type:` line (`business`, `technical` or `status`) on line 3 of each file.
 5. Use the `update-memory-bank` skill in `.agents/skills/update-memory-bank/` to make these updates.
+6. At the end of every milestone, run the `milestone-recap` skill (`.agents/skills/milestone-recap/`) before opening the pull request.
 
 ## Staleness
 
-6. A stale memory bank counts as a bug: if a file contradicts the code or `CONTEXT.md`, fix it in the current step or record it as an open question in `activeContext.md`.
+7. A stale memory bank counts as a bug: if a file contradicts the code or `CONTEXT.md`, fix it in the current step or record it as an open question in `activeContext.md`.

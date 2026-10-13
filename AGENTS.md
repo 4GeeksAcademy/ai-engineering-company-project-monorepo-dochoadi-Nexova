@@ -32,6 +32,8 @@ Follow these steps in order. No step may be skipped.
 6. Commit once per step, following the commit naming convention below.
 7. Deliver through a pull request with the checklist from `.agents/rules/git-workflow.md`. Never merge your own PR.
 
+At the end of every milestone, run the `milestone-recap` skill (`.agents/skills/milestone-recap/`) before opening the pull request.
+
 ## Commit naming
 
 This convention applies to all milestones, not only Milestone 1.

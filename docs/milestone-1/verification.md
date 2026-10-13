@@ -95,7 +95,8 @@ Negative test: empty `memory-bank/progress.md` (`: > memory-bank/progress.md`), 
 **Delivered:** `frontend-design` and `webapp-testing` copied unchanged from Anthropic's public skills repository (Apache 2.0) into `.agents/skills/`, each with a `SOURCE.md`; a catalogue in `.agents/skills/README.md`; `.claude/skills` is a symlink to `../.agents/skills`.
 
 ```bash
-ls .agents/skills/                                 # README.md frontend-design update-memory-bank webapp-testing
+ls .agents/skills/                                 # README.md frontend-design milestone-recap update-memory-bank webapp-testing
+                                                   # (milestone-recap was added in step 13)
 ls .agents/skills/frontend-design .agents/skills/webapp-testing   # LICENSE.txt, SKILL.md, SOURCE.md in each
 readlink .claude/skills                            # ../.agents/skills
 ```
@@ -211,9 +212,12 @@ bash .agents/skills/update-memory-bank/check.sh; echo "exit=$?"   # 5× PASS, ex
 
 ## Step 13 — Milestone recap, final report and PR
 
-**Delivered (pending at the time of step 12):** a recap of the milestone, the final report, and a pull request from `chore/hito-1-ai-setup` to `main` with the checklist from `.agents/rules/git-workflow.md`, reviewed and merged by someone other than the author.
+**Delivered:** the `milestone-recap` skill (`.agents/skills/milestone-recap/`, with `check.sh <n>`), referenced from `AGENTS.md` and `.agents/rules/memory-bank.md`; the findings report [`report.md`](./report.md); the learning recap [`recap.md`](./recap.md); and the pull request from `chore/hito-1-ai-setup` to `main`, to be reviewed and merged by someone other than the author.
 
 ```bash
 grep -E "^\| E[1-9] \|" docs/milestone-1/evaluation.md | grep -c "| Met"   # 9
-git log --oneline origin/main..HEAD | grep -c "^\w* \[M1-S"   # one commit per milestone step
+git log --oneline origin/main..HEAD | grep -c " \[M1-S"   # 11: steps 3–13 (steps 1–2 predate the naming convention)
+bash .agents/skills/milestone-recap/check.sh 1; echo "exit=$?"   # 6× PASS, exit=0
+grep -c "milestone-recap" AGENTS.md .agents/rules/memory-bank.md .agents/skills/README.md   # 1 or more per file
+gh pr view --json state,baseRefName,headRefName   # OPEN, main <- chore/hito-1-ai-setup
 ```

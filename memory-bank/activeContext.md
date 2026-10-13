@@ -4,11 +4,13 @@ Type: status
 
 ## Current focus
 
-**Milestone 1 — Monorepo AI Setup**, on branch `chore/hito-1-ai-setup`. The monorepo infrastructure is being prepared for working with coding agents; there are no business features yet. The evidence matrix is in `docs/milestone-1/evaluation.md`.
+**Milestone 1 — Monorepo AI Setup is complete** (branch `chore/hito-1-ai-setup`, pull request to `main` awaiting review). There are no business features yet. Evidence: `docs/milestone-1/evaluation.md`; findings for the tech lead: `docs/milestone-1/report.md`; learning recap: `docs/milestone-1/recap.md`.
 
 ## Next steps
 
-1. **Step 13 (next):** milestone recap, final report and pull request.
+1. **Next milestone: to be defined.** Its first step should be the **development-infrastructure step**: Docker inside the Codespace (docker-in-docker devcontainer feature), a root `docker-compose.yml` with Postgres + pgvector, a `.env.example` and secrets through Codespaces secrets (details and priorities in the action plan of `docs/milestone-1/report.md`).
+2. Then: the FastAPI skeleton in `services/api/`, the L1 HelpDesk Support Agent with an evaluation set in `data/eval/`, and CI on GitHub Actions.
+3. At the end of every milestone, run the `milestone-recap` skill before opening the pull request.
 
 Done in step 4: coding-agent rules in `.agents/rules/`, with explicit scope (E3).
 Done in step 5: root `AGENTS.md` with a 7-step pre-commit workflow (E2).
@@ -19,6 +21,7 @@ Done in step 9: devcontainer pinned to Node 24 (`javascript-node:24`) with Pytho
 Done in step 10: `uis/website` corporate landing page in Next.js 16.4, rebuilt from the approved design `docs/milestone-1/design/nexova-landing-v4.html` (E5, E6). Work now runs in the GitHub Codespace, and the coding agent pushes after each step.
 Done in step 11: `uis/backoffice` internal operations overview on port 3001, rebuilt from the approved design `docs/milestone-1/design/nexova-backoffice.html` with all data from `@repo/shared-types` (E7, E8); brand tokens moved to `packages/shared/styles/tokens.css` and imported by both apps (E9 note).
 Done in step 12: conventions and cleanup (E9, part 2 of 2): `typecheck` works on a fresh clone (`next typegen`), root `README.md` describes the real state, the forecasting brief moved to `docs/briefs/sales-forecasting.md`, template leftovers documented, push policy updated, backoffice dimmed needs keep AA contrast, verification guide in `docs/milestone-1/verification.md`, and every planning decision recorded in this memory bank.
+Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/report.md`), learning recap (`docs/milestone-1/recap.md`) and the Milestone 1 pull request.
 
 ## Recent decisions
 

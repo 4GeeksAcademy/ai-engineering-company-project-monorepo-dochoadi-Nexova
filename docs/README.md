@@ -9,7 +9,7 @@ This folder holds **cross-cutting documentation** for the monorepo: architecture
 
 | Path | What it is |
 | --- | --- |
-| [`milestone-1/`](./milestone-1/README.md) | Milestone 1 "Monorepo AI Setup": [evaluation matrix](./milestone-1/evaluation.md) (criteria E1–E9), [verification guide](./milestone-1/verification.md) (how to re-check every step), approved designs and screenshots. |
+| [`milestone-1/`](./milestone-1/README.md) | Milestone 1 "Monorepo AI Setup": [evaluation matrix](./milestone-1/evaluation.md) (criteria E1–E9), [verification guide](./milestone-1/verification.md) (how to re-check every step), [findings report](./milestone-1/report.md) for the tech lead, [learning recap](./milestone-1/recap.md), approved designs and screenshots. |
 | [`briefs/sales-forecasting.md`](./briefs/sales-forecasting.md) | Sales forecasting exercise brief (later milestone). |
 
 > _Spanish version: [README.es.md](./README.es.md)._

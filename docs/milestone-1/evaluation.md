@@ -1,6 +1,6 @@
 # Milestone 1 — Evaluation "Monorepo AI Setup"
 
-Evidence matrix for Milestone 1 of the Nexova Solutions monorepo: each criterion links to the files that prove it and to how to verify it. The step-by-step [verification guide](./verification.md) explains how to re-check every step (1–13), including the manual browser checklists for the two UIs.
+Evidence matrix for Milestone 1 of the Nexova Solutions monorepo: each criterion links to the files that prove it and to how to verify it. The step-by-step [verification guide](./verification.md) explains how to re-check every step (1–13), including the manual browser checklists for the two UIs. The [findings report](./report.md) summarises the results for the tech lead, and the [recap](./recap.md) explains what was built and why.
 
 | ID | Criterion | Step | Files | How to verify | Result |
 | --- | --- | --- | --- | --- | --- |

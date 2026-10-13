@@ -4,7 +4,7 @@ Type: status
 
 ## Current state
 
-Monorepo infrastructure under construction (Milestone 1, step 12 of 13). The public corporate website (`uis/website`, port 3000) and the internal backoffice (`uis/backoffice`, port 3001, no authentication yet) run in development, both built from shared data and shared brand tokens; no business feature has been implemented yet: no agents, no API, no live data.
+**Milestone 1 ("Monorepo AI Setup") is complete**: all 13 steps done, E1–E9 met, pull request opened from `chore/hito-1-ai-setup` to `main` (not merged by the author). Findings in `docs/milestone-1/report.md`, learning recap in `docs/milestone-1/recap.md`. The public corporate website (`uis/website`, port 3000) and the internal backoffice (`uis/backoffice`, port 3001, no authentication yet) run in development, both built from shared data and shared brand tokens; no business feature has been implemented yet: no agents, no API, no live data.
 
 ## Done
 
@@ -22,10 +22,12 @@ Monorepo infrastructure under construction (Milestone 1, step 12 of 13). The pub
   - **Backoffice design history:** designed in Claude Design from the company briefing, then made more dynamic (count-up KPIs, needs-by-type filter, focusable headcount segments, live SLA clock, scroll-spy, agent flows), reviewed and approved as `docs/milestone-1/design/nexova-backoffice.html`, then ported here with all data from `@repo/shared-types`. The headcount split between the Valencia and Miami offices was left out on purpose because the briefing does not give it; it is listed as an open question on screen.
 - **2026-10-13 — Step 12 (`M1-S12`):** conventions and cleanup (E9, part 2 of 2). `typecheck` in both apps is now `next typegen && tsc --noEmit`, so it passes on a fresh clone (verified after deleting `next-env.d.ts` and `.next/`); root `README.md` "Current status" rewritten (apps, ports, shared package, agent configuration, how to run, milestone docs) and the broken `README.es.md` link and the "no root `AGENTS.md`" sentence removed; `CONTEXT-Nexova.en.md` moved with `git mv` to `docs/briefs/sales-forecasting.md` and linked from `docs/README.md`; READMEs for `docs/briefs/` and `docs/milestone-1/`; `services/README.md` records the planned `services/api/` (FastAPI, port 8000); header comments in the empty `agents/_template/agent.py` and `skills/_template/SKILL.md`; `.agents/rules/git-workflow.md` push policy updated (the agent may push its milestone branch, never `main`, never force-push, never merge its own PR); backoffice dimmed needs now use a transparent fill and a dashed outline instead of 35 % opacity, keeping AA text contrast; verification guide `docs/milestone-1/verification.md`; planning decisions consolidated into the memory bank; E9 row met.
   - **Landing page design history:** concept A (a CV sort as the hero idea) came first; the first Claude Design export was then reviewed for copy accuracy against the briefing, contrast, motion that loops endlessly and generic AI-design tells; v3 combined the two; v4 was rebuilt in Claude Design from a full brief and approved as `docs/milestone-1/design/nexova-landing-v4.html`; the photo-reveal bug (an `IntersectionObserver` on a clipped element) was found and fixed; the result was ported to Next.js in step 10.
+- **2026-10-13 — Step 13 (`M1-S13`):** new own skill `milestone-recap` in `.agents/skills/milestone-recap/` (`SKILL.md` with goal, inputs, steps, output, 6 acceptance criteria and the 9-section recap template; `check.sh <n>`, which compares against `main` or falls back to `origin/main` and skips the commit that adds the recap itself), catalogued in `.agents/skills/README.md` and referenced from `AGENTS.md` and `.agents/rules/memory-bank.md`; findings report `docs/milestone-1/report.md` for the tech lead; learning recap `docs/milestone-1/recap.md` (`check.sh 1`: 6× PASS); both linked from `docs/README.md`, `docs/milestone-1/README.md` and the evaluation matrix; verification guide step 13 completed; pull request "Milestone 1 — Monorepo AI Setup" opened. Milestone 1 complete.
 
 ## Pending
 
-- Step 13: milestone recap, final report and pull request.
+- Review and merge of the Milestone 1 pull request (by a reviewer, never by the author).
+- Define the next milestone; its first step is the development-infrastructure step (see `activeContext.md`).
 - Authentication for the backoffice (open question in `activeContext.md`).
 - Confirm the licence of the two office photos and the real public contact email (open questions in `activeContext.md`).
 
