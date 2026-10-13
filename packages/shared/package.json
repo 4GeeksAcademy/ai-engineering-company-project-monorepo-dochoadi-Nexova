@@ -2,10 +2,14 @@
   "name": "@repo/shared-types",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "description": "Shared types for AI Engineering transversal projects",
   "main": "index.ts",
   "types": "index.ts",
-  "scripts": {},
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --test"
+  },
   "keywords": [
     "types",
     "shared"

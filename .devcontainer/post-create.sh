@@ -1,12 +1,26 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Enable Corepack and make pnpm available for JS/TS workspaces.
-corepack enable || true
-corepack prepare pnpm@latest --activate || true
+cd "$(dirname "$0")/.."
 
-python -m pip install --upgrade pip uv
+# pnpm at the exact version pinned in the root package.json ("packageManager").
+export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+sudo corepack enable
+corepack install
 
-uv sync
+pnpm install --frozen-lockfile
 
-echo "Devcontainer setup complete."
+# Python dependencies, only once the repo has a pyproject.toml.
+if [ -f pyproject.toml ]; then
+  python -m pip install --user uv
+  python -m uv sync
+fi
+
+# Playwright + Chromium for .agents/skills/webapp-testing.
+python -m pip install --user playwright
+python -m playwright install --with-deps chromium
+
+# Claude Code CLI inside the Codespace.
+npm install -g @anthropic-ai/claude-code
+
+echo "Devcontainer ready: Node $(node -v), pnpm $(pnpm -v), $(python --version)"

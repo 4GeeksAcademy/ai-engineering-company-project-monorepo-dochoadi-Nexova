@@ -1,0 +1,27 @@
+# Secrets and environment variables (only the template is versioned)
+.env*
+!.env.example
+
+# Dependencies and builds
+node_modules/
+.next/
+dist/
+build/
+
+# Python
+__pycache__/
+.venv/
+
+# Tests and coverage
+coverage/
+test-results/
+playwright-report/
+
+# Operating system
+.DS_Store
+
+# Personal files and keys
+*.rtf
+*.pem
+*.key
+.claude/settings.local.json

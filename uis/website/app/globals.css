@@ -1,0 +1,105 @@
+@import "@repo/shared-types/styles/tokens.css";
+
+/*
+ * Website-only design tokens, taken from the approved design
+ * (docs/milestone-1/design/nexova-landing-v4.html). Brand tokens (palette,
+ * font, radii, shadows, easings) come from packages/shared/styles/tokens.css.
+ * Components use these variables, never raw colour values.
+ */
+:root {
+  /* Colours */
+  --color-header-bg: rgba(246, 241, 233, 0.88);
+  --color-cream-35: rgba(246, 241, 233, 0.35);
+
+  /* Gradients */
+  --gradient-spot-light: radial-gradient(closest-side, rgba(20, 61, 54, 0.08), rgba(20, 61, 54, 0));
+  --gradient-spot-dark: radial-gradient(closest-side, rgba(201, 214, 209, 0.13), rgba(201, 214, 209, 0));
+  --gradient-spot-coral: radial-gradient(closest-side, rgba(255, 240, 228, 0.28), rgba(255, 240, 228, 0));
+  --gradient-cv-beam: linear-gradient(
+    90deg,
+    rgba(246, 241, 233, 0),
+    rgba(246, 241, 233, 0.14) 62%,
+    rgba(240, 138, 102, 0.4) 94%,
+    rgba(246, 241, 233, 0)
+  );
+
+  /* Layout */
+  --page-max: 1320px;
+  --gutter: clamp(20px, 4vw, 48px);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Zero specificity, so every component class wins over these defaults. */
+:where(a) {
+  color: var(--color-green);
+}
+:where(a:hover) {
+  color: var(--color-rust);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-coral);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--color-coral-light);
+  color: var(--color-green-deep);
+}
+
+.page {
+  overflow-x: clip;
+  min-height: 100vh;
+  background: var(--color-cream);
+}
+
+.container {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* Type only: each section sets its own colour, margin and measure. */
+.section-title {
+  font-size: clamp(34px, 4.2vw, 60px);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

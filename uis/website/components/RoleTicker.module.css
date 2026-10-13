@@ -1,0 +1,11 @@
+.window {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 2px;
+}
+
+.role {
+  display: inline-block;
+  color: var(--color-rust);
+}

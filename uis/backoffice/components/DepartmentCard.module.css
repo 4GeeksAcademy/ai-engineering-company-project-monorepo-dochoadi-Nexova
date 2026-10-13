@@ -1,0 +1,149 @@
+.dept {
+  position: relative;
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-panel);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-margin-top: 24px;
+  overflow: hidden;
+  transition:
+    transform 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out),
+    border-color 0.3s;
+}
+.dept:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-dept);
+  border-color: var(--color-tan);
+}
+
+.spot {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), var(--spot-ember), transparent 60%);
+}
+.dept:hover .spot {
+  opacity: 1;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.name {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-green);
+}
+
+.who {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: var(--color-ink-muted);
+}
+
+.size {
+  flex: none;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.sizeN {
+  display: block;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--color-green);
+}
+
+.sizeNa {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+}
+
+.sizeL {
+  font-size: 12px;
+  color: var(--color-ink-muted);
+}
+
+.row {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-ink-soft);
+}
+.row b {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.needs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.needs li {
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-sand);
+  color: var(--color-ink-soft);
+  transition:
+    opacity 0.3s var(--ease-out),
+    background 0.3s,
+    color 0.3s,
+    transform 0.3s var(--ease-out);
+}
+.needs li.hit {
+  background: var(--color-green);
+  color: var(--color-cream);
+  transform: translateY(-1px);
+}
+/* Dimmed through the fill, not opacity, so the text keeps AA contrast. The outline adds no layout. */
+.needs li.miss {
+  background: transparent;
+  color: var(--color-ink-muted);
+  outline: 1px dashed var(--color-tan);
+  outline-offset: -1px;
+}
+
+.clock {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 12px;
+  border-radius: var(--radius-inner);
+  background: var(--color-sand);
+  font-size: 13px;
+  color: var(--color-ink-soft);
+}
+.clock b {
+  display: block;
+  font-size: 16px;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+.late b {
+  color: var(--color-rust);
+}
+
+.clockCap {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  color: var(--color-ink-muted);
+}

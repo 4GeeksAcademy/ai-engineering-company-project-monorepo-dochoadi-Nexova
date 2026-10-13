@@ -1,0 +1,9 @@
+packages:
+  - "uis/*"
+  - "packages/*"
+
+# Build scripts of uis/website dependencies, explicitly not run: sharp and
+# unrs-resolver ship prebuilt binaries for this platform.
+allowBuilds:
+  sharp: false
+  unrs-resolver: false

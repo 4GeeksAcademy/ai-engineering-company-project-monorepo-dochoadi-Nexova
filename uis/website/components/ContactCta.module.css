@@ -1,0 +1,48 @@
+.section {
+  padding: 0 clamp(12px, 2vw, 24px) clamp(64px, 8vw, 112px);
+}
+
+.panel {
+  max-width: 1392px;
+  margin: 0 auto;
+  background: var(--color-coral);
+  border-radius: var(--radius-cta);
+  padding: clamp(40px, 7vw, 112px) clamp(24px, 6vw, 96px);
+  box-sizing: border-box;
+}
+
+/* The default coral focus ring would vanish on the coral panel. */
+.panel :focus-visible {
+  outline-color: var(--color-green-deep);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(36px, 5vw, 76px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  color: var(--color-green-deep);
+  max-width: 17ch;
+  text-wrap: balance;
+}
+
+.accent {
+  color: var(--color-cream);
+}
+
+.body {
+  margin: 28px 0 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--color-ink);
+  max-width: 52ch;
+  text-wrap: pretty;
+}
+
+.actions {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}

@@ -1,12 +1,13 @@
 {
-  "name": "ai-engineering-monorepo",
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "name": "nexova-monorepo",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
   "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.12"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/devcontainers/features/sshd:1": {}
   },
-  "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
-  ],
   "customizations": {
     "vscode": {
       "extensions": [
@@ -27,8 +28,13 @@
       }
     }
   },
+  "forwardPorts": [3000, 3001, 8000, 5678],
+  "portsAttributes": {
+    "3000": { "label": "Website" },
+    "3001": { "label": "Backoffice" },
+    "8000": { "label": "API" },
+    "5678": { "label": "n8n" }
+  },
   "postCreateCommand": "bash .devcontainer/post-create.sh",
-  "postStartCommand": "if [ -S /var/run/docker.sock ]; then sudo chmod 666 /var/run/docker.sock; fi",
-  "forwardPorts": [3000, 8000, 5678],
-  "remoteUser": "codespace"
+  "remoteUser": "node"
 }

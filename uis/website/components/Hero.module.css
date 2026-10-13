@@ -1,0 +1,120 @@
+.hero {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 88px) var(--gutter) clamp(64px, 8vw, 112px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(40px, 5vw, 72px);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+  }
+}
+
+.copy {
+  container-type: inline-size;
+  min-width: 0;
+}
+
+.eyebrow {
+  margin: 0 0 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: var(--color-ink-soft);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(44px, 10.6cqi, 92px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  color: var(--color-green);
+}
+
+.line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+/* setupHero(): each line rises in, 110ms apart, from 100ms. */
+.rise {
+  display: block;
+  animation: rise 900ms var(--ease-out) 100ms backwards;
+}
+.line:nth-child(2) .rise {
+  animation-delay: 210ms;
+}
+.line:nth-child(3) .rise {
+  animation-delay: 320ms;
+}
+
+.accent {
+  color: var(--color-rust);
+}
+
+/* setupHero(): eyebrow at 0ms, then the next three blocks at 520, 620 and 720ms. */
+.fade {
+  animation: fade 700ms var(--ease-out) backwards;
+}
+.lede.fade {
+  animation-delay: 520ms;
+}
+.search.fade {
+  animation-delay: 620ms;
+}
+.actions.fade {
+  animation-delay: 720ms;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(108%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.lede {
+  margin: 28px 0 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+  max-width: 56ch;
+  text-wrap: pretty;
+}
+
+.search {
+  margin: 24px 0 0;
+  font-size: 20px;
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+}
+
+.actions {
+  margin-top: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}

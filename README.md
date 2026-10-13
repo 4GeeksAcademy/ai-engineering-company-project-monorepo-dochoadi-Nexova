@@ -5,8 +5,6 @@
 
 _Base template for transversal projects in the AI Engineering Career Program — 4Geeks Academy._
 
-_Estas instrucciones tambien estan disponibles en [espanol](./README.es.md)._
-
 ---
 
 ## Purpose
@@ -49,13 +47,34 @@ You are building **one company** across many milestones and projects. Each top-l
 
 ---
 
-## Current status of the template
+## Current status
 
-> 💡 This repository currently provides a **base folder structure and documentation skeleton** only. It does not include runnable apps or global scripts yet.
->
-> - `CONTEXT.md` is a placeholder and must be replaced with your assigned company context.
-> - There is no root `AGENTS.md` yet.
-> - Shared package metadata exists in `packages/shared/package.json` (`@repo/shared-types`), but no workspace runner is configured at root.
+This repository is the Nexova Solutions monorepo, built on the template below. Milestone 1 ("Monorepo AI Setup") is delivered on the branch `chore/hito-1-ai-setup`.
+
+**What exists:**
+
+| Part | Where | What it is |
+| --- | --- | --- |
+| Corporate website | [`uis/website/`](./uis/website/README.md) | Public landing page, Next.js 16, port **3000**. |
+| Backoffice | [`uis/backoffice/`](./uis/backoffice/README.md) | Internal operations overview, Next.js 16, port **3001**, no authentication yet. |
+| Shared package | [`packages/shared/`](./packages/shared/README.md) | `@repo/shared-types`: Nexova company data, types and the brand tokens (`styles/tokens.css`), defined once and imported by both UIs. |
+| Coding-agent configuration | [`AGENTS.md`](./AGENTS.md), [`.agents/`](./.agents/skills/README.md), [`memory-bank/`](./memory-bank/) | Operating protocol, rules with explicit scope, skills, and the persistent project memory. `CLAUDE.md` loads `AGENTS.md` for Claude Code. |
+
+The company context is in [`CONTEXT.md`](./CONTEXT.md). Agents, the API, data pipelines and workflows come in later milestones; their folders keep the template guidance below.
+
+**How to run it** (Node 24, pnpm via Corepack; the devcontainer sets both up):
+
+```bash
+pnpm install          # install the workspace
+pnpm dev              # website (3000) and backoffice (3001) in parallel
+pnpm dev:website      # website only, http://localhost:3000
+pnpm dev:backoffice   # backoffice only, http://localhost:3001
+pnpm test             # unit tests (node:test) of every package
+```
+
+`pnpm lint`, `pnpm typecheck` and `pnpm build` run the other checks across the workspace.
+
+**Milestone documentation:** [`docs/milestone-1/`](./docs/milestone-1/README.md): the evaluation matrix (`evaluation.md`), the verification guide (`verification.md`), the approved designs and the screenshots.
 
 ---
 
@@ -69,7 +88,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 | ---------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | [`CONTEXT.md`](./CONTEXT.md) | Single source of truth for your company (Brasaland, TrackFlow, or Nexova) | **First step:** copy your assigned company briefing here so every app, agent, and prompt uses the same domain |
 | `docker-compose.yml`         | Local dev orchestration for the whole stack                               | Keep at repo root — wires `services/`, databases, and other containers from one place                         |
-| `README.md` / `README.es.md` | This guide                                                                | Orientation — you are here                                                                                    |
+| `README.md`                  | This guide                                                                | Orientation — you are here                                                                                    |
 
 ### `uis/` — user interfaces
 
@@ -268,7 +287,7 @@ Is it a CLI tool with its own package?     → internal/
 
 ```text
 ai-engineering-company-project-monorepo/
-├── README.md / README.es.md   # This guide
+├── README.md                # This guide
 ├── CONTEXT.md                 # ← Replace with your company briefing
 ├── docker-compose.yml         # ← Local dev orchestration (repo root)
 ├── uis/                       # Frontends (website, backoffice, dashboards)

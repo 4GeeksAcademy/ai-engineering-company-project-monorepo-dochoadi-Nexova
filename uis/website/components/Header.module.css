@@ -1,0 +1,121 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-header-bg);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  transition: box-shadow 250ms var(--ease-out);
+}
+
+.inner {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  text-decoration: none;
+  color: var(--color-green);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+.logoDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-coral);
+  margin-top: 8px;
+}
+
+.nav,
+.links {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 2.6vw, 36px);
+}
+
+.link {
+  color: var(--color-ink);
+  text-decoration: none;
+  font-size: 15.5px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.link:hover {
+  color: var(--color-rust);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: var(--radius-pill);
+  background: var(--color-green);
+  color: var(--color-cream);
+  text-decoration: none;
+  font-size: 15.5px;
+  font-weight: 600;
+}
+.cta:hover {
+  background: var(--color-green-deep);
+  color: var(--color-cream);
+}
+
+.menuButton {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 18px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-green);
+  background: transparent;
+  color: var(--color-green);
+  font: inherit;
+  font-size: 15.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.menuButton:hover {
+  background: var(--color-sand);
+}
+
+@media (max-width: 859.98px) {
+  .nav {
+    display: none;
+  }
+  .menuButton {
+    display: inline-flex;
+  }
+}
+
+.progressTrack {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: var(--color-coral);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
