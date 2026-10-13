@@ -8,9 +8,8 @@ Type: status
 
 ## Next steps
 
-1. **Step 11 (next):** `uis/backoffice`, internal application with its own layout on port 3001 (E7, E8), importing company data from `@repo/shared-types` and following the same structure as `uis/website` (components with CSS Modules, copy in `content/`, tokens once in `app/globals.css`).
-2. **Step 12:** conventions and cleanup (E9, part 2 of 2).
-3. **Step 13:** final report and PR.
+1. **Step 12 (next):** conventions and cleanup (E9, part 2 of 2).
+2. **Step 13:** final report and PR.
 
 Done in step 4: coding-agent rules in `.agents/rules/`, with explicit scope (E3).
 Done in step 5: root `AGENTS.md` with a 7-step pre-commit workflow (E2).
@@ -19,6 +18,7 @@ Done in step 7: vendored the external skills `frontend-design` (visual direction
 Done in step 8: pnpm workspace (`uis/*`, `packages/*`) and Nexova company data defined once in `packages/shared/company.ts`, exported by `@repo/shared-types` (E9, part 1 of 2).
 Done in step 9: devcontainer pinned to Node 24 (`javascript-node:24`) with Python 3.12, GitHub CLI, Playwright and Claude Code; `.nvmrc`; plan extended to 13 steps.
 Done in step 10: `uis/website` corporate landing page in Next.js 16.4, rebuilt from the approved design `docs/milestone-1/design/nexova-landing-v4.html` (E5, E6). Work now runs in the GitHub Codespace, and the coding agent pushes after each step.
+Done in step 11: `uis/backoffice` internal operations overview on port 3001, rebuilt from the approved design `docs/milestone-1/design/nexova-backoffice.html` with all data from `@repo/shared-types` (E7, E8); brand tokens moved to `packages/shared/styles/tokens.css` and imported by both apps (E9 note).
 
 ## Recent decisions
 
@@ -31,6 +31,7 @@ Done in step 10: `uis/website` corporate landing page in Next.js 16.4, rebuilt f
 
 ## Open questions
 
+- **Backoffice authentication:** `uis/backoffice` has no sign-in yet ("Internal tool. Sign-in comes later."). Who may access it, and with which identity provider (e.g. Google Workspace, which Nexova already uses), is still to be decided; it must not be exposed publicly until then.
 - **Sales contradiction in `CONTEXT.md`:** the general description (line 24) names **Megan Clarke** as head of the 18-person team, while the department profile (line 62) names **Marcos Ibáñez**. The decision is to use Marcos Ibáñez, but it still needs to be confirmed with the author of the context whether Megan Clarke is an error or has another role.
 - **`data/raw/nexova_sales.csv` is missing:** the forecasting brief (`CONTEXT-Nexova.en.md`) assumes it exists, with 120 `consolidated` rows from 2016-01 to 2025-12, but it is not in the repo. It must be obtained or generated with `random_state=42` before tackling that deliverable.
 - **Office photo licences:** the licence of `valencia.jpg` and `miami.jpg` (in `docs/milestone-1/design/` and `uis/website/public/images/`) is not confirmed. The Miami photo shows identifiable people, so its use also needs their consent or a licence that covers it, or a replacement image.

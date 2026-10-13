@@ -44,6 +44,11 @@ Patterns that any code in the monorepo must follow. Each one includes its reason
 - **Rule:** Nexova's common types and data (departments, managers, business lines, company figures) are defined in `packages/shared` (`@repo/shared-types`) and imported from `uis/website` and `uis/backoffice`, never copied.
 - **Why:** `CONTEXT.md` already has an inconsistency (two Sales managers); duplicating the data in each app would multiply that kind of error.
 
+## 9. Brand tokens defined once in `packages/shared`
+
+- **Rule:** brand tokens are defined once in `packages/shared` (`packages/shared/styles/tokens.css`) and imported by every UI at the top of its `app/globals.css`; an app only adds its own app-specific variables, and components use `var(--…)`, never raw colour values.
+- **Why:** the website and the backoffice share one Nexova identity; copying the palette into each app would let the two drift apart, the same duplication risk as the company data in pattern 8.
+
 ## Commit naming
 
 This convention applies to all milestones, not only Milestone 1.

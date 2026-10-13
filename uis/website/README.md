@@ -26,7 +26,7 @@ uis/website/
 ├── app/
 │   ├── layout.tsx       # <html>, Instrument Sans (next/font/google), metadata, JSON-LD Organization
 │   ├── page.tsx         # Composes the sections in order
-│   └── globals.css      # Design tokens (CSS variables on :root) and base styles
+│   └── globals.css      # Imports the shared brand tokens; website-only tokens and base styles
 ├── components/          # One component per section, each with a CSS Module
 │   ├── Header.tsx (+ MobileNav)      Hero.tsx (+ RoleTicker, CvCascade)
 │   ├── Marquee.tsx  KeyFigures.tsx (+ CountUp)  Services.tsx  Process.tsx
@@ -48,7 +48,8 @@ uis/website/
 | --- | --- | --- |
 | Company facts (founding year, cities, headcount, business lines, industries) | `@repo/shared-types` (`packages/shared/company.ts`) | Imported, never retyped. |
 | Website copy | `content/home.ts` | Word for word from the design; lists render with `.map()`. `CONTACT_EMAIL` is a placeholder until Nexova confirms the real address. |
-| Design tokens (colours, gradients, radii, shadows, easings, layout) | `app/globals.css`, `:root` | Defined once; components use `var(--…)`, never raw colour values. |
+| Brand tokens (palette, font, radii, shadows, easings) | `packages/shared/styles/tokens.css`, imported at the top of `app/globals.css` | Defined once for every UI; components use `var(--…)`, never raw colour values. |
+| Website-only tokens (header colours, gradients, layout) | `app/globals.css`, `:root` | Defined once. |
 | Office photos | `public/images/` | Copied from `docs/milestone-1/design/`; licence not confirmed yet (see `memory-bank/progress.md`). |
 
 ## Behaviour

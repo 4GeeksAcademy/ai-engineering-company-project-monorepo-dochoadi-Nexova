@@ -1,0 +1,168 @@
+.kpi {
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-panel);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition:
+    transform 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out);
+}
+.kpi:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+}
+
+.kpiHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--color-ink-muted);
+}
+
+.kpiVal {
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--color-green);
+  font-variant-numeric: tabular-nums;
+}
+
+.lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+  color: var(--color-ink-soft);
+}
+
+.kpiAlert {
+  border-color: var(--color-coral);
+  box-shadow: inset 0 3px 0 var(--color-coral);
+}
+.kpiAlert:hover {
+  box-shadow:
+    inset 0 3px 0 var(--color-coral),
+    var(--shadow-lift-ember);
+}
+
+.kpiSub {
+  font-size: 14px;
+  color: var(--color-ink-soft);
+}
+
+.of {
+  font-size: 18px;
+  color: var(--color-ink-muted);
+}
+
+.chipBad {
+  background: var(--color-coral);
+  color: var(--color-ink);
+}
+
+.chipDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: ping 1.6s ease-out 1.4s 3;
+}
+
+@keyframes ping {
+  0% {
+    box-shadow: 0 0 0 0 var(--ping-from);
+  }
+  100% {
+    box-shadow: 0 0 0 7px var(--ping-to);
+  }
+}
+
+/* SLA bar: forest up to the committed hours, ember beyond, with a marker at the SLA. */
+.slaTrack {
+  position: relative;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-sand);
+}
+
+.slaFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: var(--radius-pill);
+  background-image: linear-gradient(
+    90deg,
+    var(--color-green) 0 var(--sla-split),
+    var(--color-coral) var(--sla-split) 100%
+  );
+}
+
+.slaMark {
+  position: absolute;
+  left: var(--sla-split);
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--color-ink);
+}
+
+.slaLegend {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--color-ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Headcount bar: one segment per team with a stated size; the hatched rest is unaccounted for. */
+.hcBar {
+  display: flex;
+  gap: 2px;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  background: repeating-linear-gradient(135deg, var(--color-sand) 0 4px, var(--color-line) 4px 8px);
+}
+
+.hcSeg {
+  position: relative;
+  height: 100%;
+  flex: none;
+  background: var(--color-green);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+.hcSeg:nth-child(even) {
+  background: var(--color-green-line);
+}
+.hcSeg:first-child {
+  border-radius: var(--radius-pill) 0 0 var(--radius-pill);
+}
+/* A taller hit area than the 12px bar. */
+.hcSeg::after {
+  content: "";
+  position: absolute;
+  inset: -16px 0;
+}
+.hcSeg:hover,
+.hcSeg:focus-visible {
+  filter: brightness(1.6);
+}
+
+.hcTip {
+  min-height: 20px;
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-ink-soft);
+}

@@ -1,0 +1,96 @@
+.work {
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-panel);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation-delay: 400ms;
+}
+
+.head {
+  margin-bottom: 0;
+}
+
+.bar {
+  display: flex;
+  height: 44px;
+  border-radius: var(--radius-inner);
+  overflow: hidden;
+  gap: 3px;
+}
+
+.seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--color-cream);
+  font-weight: 600;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  transition: opacity 0.3s var(--ease-out);
+}
+
+.dim {
+  opacity: 0.25;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-line);
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font: 500 14px var(--font-sans);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+.filter:hover {
+  border-color: var(--color-green);
+}
+.filter[aria-pressed="true"] {
+  background: var(--color-green);
+  border-color: var(--color-green);
+  color: var(--color-cream);
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+/* Keep the forest swatch visible on the pressed forest button. */
+.filter[aria-pressed="true"] .swatch {
+  outline: 1.5px solid var(--color-cream);
+}
+
+.summary {
+  margin: 0;
+  min-height: 22px;
+  font-size: 14px;
+  color: var(--color-ink-soft);
+}
+
+@media (max-width: 560px) {
+  .seg {
+    font-size: 13px;
+  }
+}

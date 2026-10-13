@@ -1,29 +1,13 @@
+@import "@repo/shared-types/styles/tokens.css";
+
 /*
- * Design tokens for uis/website, defined once and taken from the approved
- * design (docs/milestone-1/design/nexova-landing-v4.html). Components use
- * these variables, never raw colour values.
+ * Website-only design tokens, taken from the approved design
+ * (docs/milestone-1/design/nexova-landing-v4.html). Brand tokens (palette,
+ * font, radii, shadows, easings) come from packages/shared/styles/tokens.css.
+ * Components use these variables, never raw colour values.
  */
 :root {
   /* Colours */
-  --color-cream: #f6f1e9;
-  --color-paper: #fbf8f3;
-  --color-sand: #efe8dc;
-  --color-line: #e4dacb;
-  --color-tan: #d9cbb6;
-  --color-tan-line: #d9cdbb;
-  --color-ink: #1c1915;
-  --color-ink-soft: #3d372f;
-  --color-ink-muted: #5e554b;
-  --color-green: #143d36;
-  --color-green-deep: #0c2722;
-  --color-green-mid: #4f7a72;
-  --color-green-line: #2c5a52;
-  --color-sage: #c9d6d1;
-  --color-sage-tone: #9db5ad;
-  --color-sage-muted: #9fb5ae;
-  --color-coral: #e2603b;
-  --color-coral-light: #f08a66;
-  --color-rust: #b3431e;
   --color-header-bg: rgba(246, 241, 233, 0.88);
   --color-cream-35: rgba(246, 241, 233, 0.35);
 
@@ -38,32 +22,6 @@
     rgba(240, 138, 102, 0.4) 94%,
     rgba(246, 241, 233, 0)
   );
-
-  /* Radii */
-  --radius-pill: 999px;
-  --radius-cta: 40px;
-  --radius-card: 36px;
-  --radius-figure: 28px;
-  --radius-field: 16px;
-  --radius-cv: 3px;
-
-  /* Shadows */
-  --shadow-header: 0 12px 32px -20px rgba(20, 61, 54, 0.35);
-  --shadow-menu: 0 30px 60px -40px rgba(20, 61, 54, 0.5);
-  --shadow-hero-card: 0 40px 80px -40px rgba(20, 61, 54, 0.6), 0 24px 48px -32px rgba(12, 39, 34, 0.55);
-  --shadow-card-light: 0 40px 80px -56px rgba(20, 61, 54, 0.5);
-  --shadow-card-dark: 0 40px 80px -40px rgba(20, 61, 54, 0.6);
-  --shadow-card-coral: 0 40px 80px -40px rgba(179, 67, 30, 0.6);
-  --shadow-chip: 0 18px 36px -20px rgba(20, 61, 54, 0.5);
-  --shadow-cv: 0 3px 8px -3px rgba(0, 0, 0, 0.45);
-  --shadow-cv-glow: 0 0 16px 2px rgba(240, 138, 102, 0.45);
-
-  /* Easings */
-  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
-  --ease-in-out: cubic-bezier(0.7, 0, 0.2, 1);
-  --ease-pop: cubic-bezier(0.3, 1.6, 0.5, 1);
-  --ease-drop: cubic-bezier(0.3, 1.35, 0.5, 1);
-  --ease-place: cubic-bezier(0.3, 1.7, 0.45, 1);
 
   /* Layout */
   --page-max: 1320px;
@@ -80,7 +38,7 @@ body {
   margin: 0;
   background: var(--color-cream);
   color: var(--color-ink);
-  font-family: var(--font-instrument-sans), system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-size: 17px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;

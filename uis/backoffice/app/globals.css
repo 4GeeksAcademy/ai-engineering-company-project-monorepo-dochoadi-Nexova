@@ -1,0 +1,141 @@
+@import "@repo/shared-types/styles/tokens.css";
+
+/*
+ * Backoffice-only design tokens, taken from the approved design
+ * (docs/milestone-1/design/nexova-backoffice.html). Brand tokens (palette,
+ * font, radii, shadows, easings) come from packages/shared/styles/tokens.css.
+ * Components use these variables, never raw colour values.
+ */
+:root {
+  /* Radii */
+  --radius-panel: 16px;
+  --radius-inner: 12px;
+  --radius-item: 10px;
+
+  /* Shadows and glows */
+  --shadow-lift: 0 18px 36px -24px rgba(20, 61, 54, 0.45);
+  --shadow-lift-ember: 0 18px 36px -24px rgba(226, 96, 59, 0.55);
+  --shadow-dept: 0 22px 40px -28px rgba(20, 61, 54, 0.5);
+  --glow-step: 0 0 0 3px rgba(240, 138, 102, 0.25);
+  --ping-from: rgba(28, 25, 21, 0.55);
+  --ping-to: rgba(28, 25, 21, 0);
+  --spot-ember: rgba(240, 138, 102, 0.12);
+
+  /* Layout */
+  --side-width: 280px;
+  --content-max: 1240px;
+  --pad-x: clamp(20px, 3vw, 40px);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Zero specificity, so every component class wins over these defaults. */
+:where(a) {
+  color: var(--color-green);
+}
+:where(a:hover) {
+  color: var(--color-rust);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-coral);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--color-coral-light);
+  color: var(--color-green-deep);
+}
+
+/* Section headings and their notes, shared by every overview section. */
+.h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-green);
+}
+
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.sec-note {
+  font-size: 14px;
+  color: var(--color-ink-muted);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.chip-plan {
+  background: var(--color-sand);
+  color: var(--color-ink-soft);
+  border: 1px solid var(--color-line);
+}
+
+/* The page-load rise-in; staggered with animation-delay where it is used. */
+.rise {
+  animation: rise 0.7s var(--ease-out) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

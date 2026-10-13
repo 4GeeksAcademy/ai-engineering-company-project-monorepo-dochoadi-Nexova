@@ -9,12 +9,23 @@ Shared TypeScript types and Nexova Solutions company data for every app in the m
 | `Id`, `BaseEntity` | types | Generic entity types (`types/index.ts`). |
 | `company` / `Company` | data / type | Name, founding year (2011), Valencia headquarters, Miami office, 120 employees, approximate annual revenue, client profile and industries. |
 | `businessLines` / `BusinessLine` | data / type | The 3 business lines: headhunting, customer support outsourcing, corporate training. |
-| `departments` / `Department` | data / type | The 8 areas with manager, team size (or `null`), `teamSizeNote` when the figure is ambiguous, how they work today, problem and needs. |
+| `departments` / `Department` | data / type | The 8 areas with manager, team size (or `null`), `teamSizeNote` when the figure is ambiguous, how they work today, problem and needs, each need a `{ text, type }` object. |
 | `supportSla` / `SupportSla` | data / type | Committed SLA (24 h), current average (48 h) and number of support agents (30). |
-| `flagshipAgents` / `FlagshipAgent` | data / type | The L1 HelpDesk Support Agent and the CV–Vacancy Matching Agent, with goal, target metrics and `status: "planned"`. |
-| `BusinessLineId`, `DepartmentId`, `FlagshipAgentId`, `TargetMetric` | types | Helper types used by the shapes above. |
+| `flagshipAgents` / `FlagshipAgent` | data / type | The L1 HelpDesk Support Agent and the CV–Vacancy Matching Agent, with goal, target metrics, a 4-step `flow` and `status: "planned"`. |
+| `NEED_TYPES` / `NeedTypeInfo` | data / type | The 4 need types (`agent`, `dashboard`, `automation`, `portal`) with label and colour token, used to group department needs. |
+| `BusinessLineId`, `DepartmentId`, `FlagshipAgentId`, `TargetMetric`, `Need`, `NeedType` | types | Helper types used by the shapes above. |
 
 All data comes from `CONTEXT.md` and `Company-choice.md`. The package holds no computed values (no headcount totals, no SLA gap); apps compute what they display.
+
+## Brand tokens: `styles/tokens.css`
+
+The Nexova brand tokens are defined once, as CSS variables on `:root`: the colour palette (`--color-*`), the font family (`--font-sans`, built on the `--font-instrument-sans` variable each app sets with `next/font`), radii (`--radius-*`), shadows (`--shadow-*`) and easings (`--ease-*`). Each app imports the file at the top of its `app/globals.css` and adds only its own app-specific variables:
+
+```css
+@import "@repo/shared-types/styles/tokens.css";
+```
+
+The import resolves through the workspace package (it has no `exports` map, so subpaths are reachable) and Next.js inlines the file into the app's CSS. `NEED_TYPES` colour tokens refer to variables in this file.
 
 ## How apps import it
 

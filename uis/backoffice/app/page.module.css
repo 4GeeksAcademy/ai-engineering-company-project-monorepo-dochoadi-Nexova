@@ -1,0 +1,58 @@
+.h1 {
+  margin: 0;
+  font-size: clamp(30px, 3.2vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--color-green);
+}
+
+.lede {
+  margin: 8px 0 0;
+  color: var(--color-ink-muted);
+  max-width: 62ch;
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Staggered rise-in of the four tiles. */
+.kpis > :nth-child(1) {
+  animation-delay: 80ms;
+}
+.kpis > :nth-child(2) {
+  animation-delay: 160ms;
+}
+.kpis > :nth-child(3) {
+  animation-delay: 240ms;
+}
+.kpis > :nth-child(4) {
+  animation-delay: 320ms;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .kpis {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

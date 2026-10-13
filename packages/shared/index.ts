@@ -9,5 +9,8 @@ export type {
   FlagshipAgent,
   FlagshipAgentId,
   TargetMetric,
+  Need,
+  NeedType,
+  NeedTypeInfo,
 } from "./company.ts";
-export { company, businessLines, departments, supportSla, flagshipAgents } from "./company.ts";
+export { company, businessLines, departments, supportSla, flagshipAgents, NEED_TYPES } from "./company.ts";

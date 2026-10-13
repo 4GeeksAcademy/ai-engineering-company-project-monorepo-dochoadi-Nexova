@@ -17,5 +17,6 @@ Organize `uis/` by **different concerns** — each subfolder covers a distinct a
 | App | Purpose | Stack | Port | Run | Docs |
 | --- | --- | --- | --- | --- | --- |
 | `website` | Nexova's public corporate landing page | Next.js 16 (App Router) + TypeScript strict, CSS Modules | 3000 | `pnpm dev:website` | [`website/README.md`](./website/README.md) |
+| `backoffice` | Internal operations overview for Nexova staff (no authentication yet) | Next.js 16 (App Router) + TypeScript strict, CSS Modules | 3001 | `pnpm dev:backoffice` | [`backoffice/README.md`](./backoffice/README.md) |
 
 > _Estas instrucciones también están disponibles en [español](./README.es.md)._

@@ -18,6 +18,21 @@ export type DepartmentId =
 
 export type FlagshipAgentId = "helpdesk-support" | "cv-vacancy-matching";
 
+/** What kind of system a department need calls for. */
+export type NeedType = "agent" | "dashboard" | "automation" | "portal";
+
+export interface Need {
+  text: string;
+  type: NeedType;
+}
+
+export interface NeedTypeInfo {
+  id: NeedType;
+  label: string;
+  /** CSS variable from packages/shared/styles/tokens.css. */
+  colorToken: string;
+}
+
 export interface Company {
   name: string;
   foundedYear: number;
@@ -45,7 +60,7 @@ export interface Department {
   teamSizeNote?: string;
   today: string;
   problem: string;
-  needs: string[];
+  needs: Need[];
 }
 
 export interface SupportSla {
@@ -65,6 +80,8 @@ export interface FlagshipAgent {
   departmentId: DepartmentId;
   goal: string;
   targetMetrics: TargetMetric[];
+  /** How the agent works, in 4 steps. */
+  flow: string[];
   status: "planned";
 }
 
@@ -101,6 +118,13 @@ export const businessLines: BusinessLine[] = [
   },
 ];
 
+export const NEED_TYPES: NeedTypeInfo[] = [
+  { id: "agent", label: "AI agents and assistants", colorToken: "--color-green" },
+  { id: "dashboard", label: "Dashboards and metrics", colorToken: "--color-green-line" },
+  { id: "automation", label: "Automations and alerts", colorToken: "--color-rust" },
+  { id: "portal", label: "Portals and knowledge bases", colorToken: "--color-ink-muted" },
+];
+
 export const departments: Department[] = [
   {
     id: "executive",
@@ -111,10 +135,10 @@ export const departments: Department[] = [
     today: "Each department head prepares a weekly PDF report for Laura by hand, taking 4 to 8 hours per manager.",
     problem: "There is no unified view of the business, and strategic decisions are made with week-old data.",
     needs: [
-      "Unified executive dashboard with real-time KPIs from all areas",
-      "Automatically generated weekly report",
-      "Strategic threshold alerts",
-      "Natural-language AI assistant she can query directly",
+      { text: "Unified executive dashboard with real-time KPIs from all areas", type: "dashboard" },
+      { text: "Automatically generated weekly report", type: "automation" },
+      { text: "Strategic threshold alerts", type: "automation" },
+      { text: "Natural-language AI assistant she can query directly", type: "agent" },
     ],
   },
   {
@@ -126,10 +150,10 @@ export const departments: Department[] = [
     problem:
       "There is no real-time view of each candidate's status, so clients call to ask, and candidate–vacancy matching relies entirely on consultant intuition.",
     needs: [
-      "AI-assisted selection pipeline with automatic CV scoring and ranking",
-      "RAG system over the candidate database",
-      "Candidate portal with real-time status",
-      "Communication agent that sends automatic status emails",
+      { text: "AI-assisted selection pipeline with automatic CV scoring and ranking", type: "agent" },
+      { text: "RAG system over the candidate database", type: "agent" },
+      { text: "Candidate portal with real-time status", type: "portal" },
+      { text: "Communication agent that sends automatic status emails", type: "automation" },
     ],
   },
   {
@@ -143,10 +167,10 @@ export const departments: Department[] = [
     problem:
       "The catalogue is invisible to most potential buyers, completions are not recorded, and every client receives the same proposal.",
     needs: [
-      "Searchable training catalogue with online enrolment",
-      "Recommendation system that suggests programmes based on client profile",
-      "Learner portal with progress tracking",
-      "Training advisory chatbot that builds personalised training plans",
+      { text: "Searchable training catalogue with online enrolment", type: "portal" },
+      { text: "Recommendation system that suggests programmes based on client profile", type: "agent" },
+      { text: "Learner portal with progress tracking", type: "portal" },
+      { text: "Training advisory chatbot that builds personalised training plans", type: "agent" },
     ],
   },
   {
@@ -159,10 +183,10 @@ export const departments: Department[] = [
     problem:
       "Average resolution time is 48 hours against a committed 24-hour SLA, and supervisors have no real-time visibility into workload or backlog.",
     needs: [
-      "First-line support chatbot that resolves 40% of queries without human intervention using RAG",
-      "Centralised knowledge base with semantic search",
-      "Real-time support dashboard",
-      "Ticket sentiment analysis that flags dissatisfied clients before they escalate",
+      { text: "First-line support chatbot that resolves 40% of queries without human intervention using RAG", type: "agent" },
+      { text: "Centralised knowledge base with semantic search", type: "portal" },
+      { text: "Real-time support dashboard", type: "dashboard" },
+      { text: "Ticket sentiment analysis that flags dissatisfied clients before they escalate", type: "agent" },
     ],
   },
   {
@@ -177,10 +201,10 @@ export const departments: Department[] = [
     problem:
       "Deals are lost for lack of follow-up, and there is no visibility into which prospects are most likely to close.",
     needs: [
-      "Sales pipeline dashboard",
-      "Prospecting sequence automation (first contact, follow-up, close or discard)",
-      "Deal alerts for inactive conversations",
-      "AI agent that suggests personalised proposal angles based on a prospect's profile",
+      { text: "Sales pipeline dashboard", type: "dashboard" },
+      { text: "Prospecting sequence automation (first contact, follow-up, close or discard)", type: "automation" },
+      { text: "Deal alerts for inactive conversations", type: "automation" },
+      { text: "AI agent that suggests personalised proposal angles based on a prospect's profile", type: "agent" },
     ],
   },
   {
@@ -193,9 +217,9 @@ export const departments: Department[] = [
     problem:
       "The 2019 website is slow, not accessible and outdated, and the team knows visit counts but not what converts.",
     needs: [
-      "Corporate website redesign with SEO/GEO optimisation and schema.org markup",
-      "AI-assisted content pipeline",
-      "Marketing metrics dashboard tracking visits, traffic sources and conversion rates",
+      { text: "Corporate website redesign with SEO/GEO optimisation and schema.org markup", type: "portal" },
+      { text: "AI-assisted content pipeline", type: "automation" },
+      { text: "Marketing metrics dashboard tracking visits, traffic sources and conversion rates", type: "dashboard" },
     ],
   },
   {
@@ -208,10 +232,10 @@ export const departments: Department[] = [
       "Holidays, absences and queries are handled by email and spreadsheets, onboarding is manual, and twice-yearly reviews run on Google Forms.",
     problem: "There are no HR metrics: no turnover rate, no absenteeism data and no average time-to-fill for internal roles.",
     needs: [
-      "Internal HR portal",
-      "Automated onboarding flow with progressive checklists",
-      "HR KPI dashboard",
-      "Internal HR agent that answers questions about policies and benefits",
+      { text: "Internal HR portal", type: "portal" },
+      { text: "Automated onboarding flow with progressive checklists", type: "automation" },
+      { text: "HR KPI dashboard", type: "dashboard" },
+      { text: "Internal HR agent that answers questions about policies and benefits", type: "agent" },
     ],
   },
   {
@@ -224,10 +248,10 @@ export const departments: Department[] = [
       "The team runs disconnected tools (HubSpot, legacy Zendesk, Google Workspace, a home-built ATS from the 2010s and spreadsheets) and deploys manually.",
     problem: "There is no telemetry or centralised logging, so failures are reported by users.",
     needs: [
-      "Centralised telemetry and logging",
-      "Data pipeline that feeds all company dashboards",
-      "Real-time monitoring with automatic alerts",
-      "Internal engineering agent that answers architecture questions from technical documentation",
+      { text: "Centralised telemetry and logging", type: "dashboard" },
+      { text: "Data pipeline that feeds all company dashboards", type: "automation" },
+      { text: "Real-time monitoring with automatic alerts", type: "automation" },
+      { text: "Internal engineering agent that answers architecture questions from technical documentation", type: "agent" },
     ],
   },
 ];
@@ -250,6 +274,12 @@ export const flagshipAgents: FlagshipAgent[] = [
       { name: "Average resolution time", target: "Under 24 hours (48 hours today)" },
       { name: "Groundedness of Level 1 answers against the knowledge base", target: "No hallucinated answers reaching the customer" },
     ],
+    flow: [
+      "Ticket arrives, tagged by client",
+      "Searches that client’s knowledge base only",
+      "Confident and not sensitive?",
+      "Answers, or escalates with a summary",
+    ],
     status: "planned",
   },
   {
@@ -263,6 +293,7 @@ export const flagshipAgents: FlagshipAgent[] = [
       { name: "Time saved per search", target: "Less than reading 30 to 80 CVs manually" },
       { name: "Consultant override rate", target: "Trending down over time as weights are calibrated" },
     ],
+    flow: ["Vacancy brief with must-haves", "CVs parsed into fields", "Scored and explained", "Consultant accepts or reorders"],
     status: "planned",
   },
 ];

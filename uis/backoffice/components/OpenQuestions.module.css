@@ -1,0 +1,20 @@
+.notes {
+  background: var(--color-paper);
+  border: 1px dashed var(--color-ink-muted);
+  border-radius: var(--radius-panel);
+  padding: 20px 22px;
+}
+
+.notes ul {
+  margin: 12px 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--color-ink-soft);
+  font-size: 14px;
+}
+
+.notes b {
+  color: var(--color-ink);
+}

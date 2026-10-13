@@ -1,0 +1,23 @@
+.shell {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  min-height: 100vh;
+  background: var(--color-cream);
+}
+
+.main {
+  flex: 999 1 560px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  padding: clamp(24px, 3vw, 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: var(--content-max);
+  width: 100%;
+}
