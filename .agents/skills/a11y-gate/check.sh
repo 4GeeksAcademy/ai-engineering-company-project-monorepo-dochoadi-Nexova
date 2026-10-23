@@ -49,7 +49,12 @@ if ! python3 -c "import axe_playwright_python, playwright" 2>/dev/null; then
   exit 1
 fi
 
-npx -y "$HTTP_SERVER" . -p "$PORT" -a 127.0.0.1 -d false --no-dotfiles -s >/dev/null 2>&1 &
+# Serve the dist/ allowlist copy, exactly like the documented site command; never the repo root (SEC-1).
+if ! build_out="$(pnpm build:site 2>&1)"; then
+  echo "FAIL [0] pnpm build:site failed: $(echo "$build_out" | tail -1)"
+  exit 1
+fi
+npx -y "$HTTP_SERVER" dist -p "$PORT" -a 127.0.0.1 -d false -s >/dev/null 2>&1 &
 server_pid=$!
 stop_server() {
   # http-server renames its process to "http-server", so stop it by the port it listens on.

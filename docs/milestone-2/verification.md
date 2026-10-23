@@ -110,15 +110,48 @@ Each URL gets its own `curl -o /dev/null`, because `-o` applies to one URL only.
 
 ### Delivered
 
-_To be filled in this step._
+- `index.html` and `es/index.html` filled from the official briefing (EN and ES), in the briefing's order:
+  - hero: the headline, the subheadline, a "Join our talent pool" green pill, and a static, `aria-hidden` shortlist illustration (the M1 hero frozen in its "placed" state);
+  - Our services: 3 `article` cards;
+  - Why Nexova: the 4 points with emphasised figures, and the Valencia and Miami photos;
+  - Contact: an `address` with `mailto:`/`tel:` links, and a second CTA.
+- `<head>`: the briefing's Organization JSON-LD, `rel="canonical"` (`https://nexova.com/`, `https://nexova.com/es/`) and Open Graph (`og:title`, `og:description`, `og:type`, `og:locale`, `og:locale:alternate`).
+- `assets/valencia.webp` (67,298 bytes) and `assets/miami.webp` (148,322 bytes): both 1200 × 800, converted from `uis/website/public/images/*.jpg` with a one-off Pillow 13.0.0 script in `/tmp` (WebP quality 78). Nothing was added to the repo.
+- `a11y-gate` builds and serves `dist/` like `security-gate`.
+- Screenshots `docs/milestone-2/screenshots/landing-{en,es}-{375,768,1280}.png`.
 
 ### Commands
 
-_To be filled in this step._
+```bash
+pnpm build:site
+for f in index.html es/index.html; do echo "== $f"; grep -c "<section" $f; grep -c "<article" $f; grep -oE "<h[1-3]" $f | sort | uniq -c; done
+python3 - <<'EOF'
+import json, re
+for f in ("index.html", "es/index.html"):
+    s = open(f).read()
+    d = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', s, re.S).group(1))
+    print(f, d["@type"], d["url"], d["description"])
+EOF
+grep -c "We build exceptional teams for growing companies" index.html
+grep -c "Construimos equipos excepcionales para empresas en crecimiento" es/index.html
+grep -oE '<img[^>]*>' index.html es/index.html | grep -vc 'alt="'
+grep -cE 'style="' index.html es/index.html
+grep -c 'aria-current="page"' index.html es/index.html
+bash .agents/skills/security-gate/check.sh 2; echo "exit=$?"
+bash .agents/skills/a11y-gate/check.sh 2; echo "exit=$?"
+```
 
 ### Expected
 
-_To be filled in this step._
+- Each page: `4` sections, `3` articles, `1 <h1`, `5 <h2` (3 sections + 2 footer headings), `3 <h3`.
+- `Organization https://nexova.com Human resources consulting and talent acquisition` and the Spanish description `Consultora de recursos humanos y adquisición de talento`.
+- `1` and `1`; `0` images without `alt`; `0` inline styles; `aria-current` on Home/Inicio (2 per page: desktop and mobile menu).
+- `security-gate` exit 0 (6 PASS, 1 SKIP); `a11y-gate` 72 PASS, exit 0.
+- In the browser (`pnpm serve:site`, port 8080):
+  - at 375 px everything is one column, the "Menu" works and nothing is cut off;
+  - at 768 px the three service cards sit side by side;
+  - at 1280 px the hero illustration sits to the right of the text;
+  - the CTAs open `application.html`, and the email and phone numbers are clickable.
 
 ## S05 — Application form markup
 

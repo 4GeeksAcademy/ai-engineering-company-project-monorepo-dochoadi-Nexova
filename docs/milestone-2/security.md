@@ -102,3 +102,35 @@ Run by the coding agent on 2026-10-23 on the branch against `main`, including th
 - `a11y-gate` still serves the repo root on `127.0.0.1` for the few seconds it runs (confidence 1/10). It is loopback-only and temporary, and those files are already public in the repo. Possible follow-up: point it at `dist/` like `security-gate`. This needs approval, because it changes a skill outside this step.
 
 Checked and clean: the four pages (no inline scripts or handlers, strict CSP meta, `rel="noopener noreferrer"` on the two external links), the two SVGs (no script or external references), the pinned Tailwind packages and `allowBuilds`.
+
+## S04 — Landing page
+
+Run on 2026-10-23 (S04), after the landing content (both languages), the office photos and the `a11y-gate` change.
+
+- **`a11y-gate` now serves `dist/` (approved by the developer after S03):** its `check.sh` runs `pnpm build:site` and starts `npx http-server@14.1.1 dist -p 8099 -a 127.0.0.1 -d false`, the documented site command on the gate's own port, exactly like `security-gate`. Neither gate serves the repo root any more, which closes the confidence-1/10 note from the S03 `/security-review`.
+- **The S03 deviations were approved as done.** Where each is recorded:
+
+  | Deviation | Recorded in |
+  | --- | --- |
+  | SEC-2 exception in `pnpm-workspace.yaml` (`auditConfig`) | this file, S03 "Accepted exceptions"; `techContext.md` |
+  | `@parcel/watcher` in `allowBuilds: false` | `techContext.md` (pnpm settings); `pnpm-workspace.yaml` comment |
+  | `security-gate` criterion 3: real `<name>.easypanel.host` addresses only, with its negative test | this file, S03 "Gate fix"; `security-gate/SKILL.md` |
+  | `test:site` glob | `techContext.md` (scripts); `tests/site/README.md` |
+  | Hidden mobile-menu panel (`hidden group-open:block`) | `accessibility.md` (S03); `techContext.md` (pages) |
+  | Symlinks skipped in `build-site.mjs` | this file, S03 `/security-review`; `techContext.md` (serving) |
+  | Path-based wordmark SVG | `techContext.md` (pages) |
+
+- **The new content adds no attack surface:**
+  - The JSON-LD block is static data (`type="application/ld+json"` is not executed, so `script-src 'self'` still holds). There are no inline scripts or event handlers, no forms, and no new external origins.
+  - The photos are local WebP files.
+  - `mailto:` / `tel:` links carry only the briefing's public contact details.
+- **Gate results:** `security-gate` exit 0 (criteria 1–5 and 7 PASS, 6 SKIP: no `validation.js` yet).
+
+## Production notes
+
+Not blockers for this academic milestone; to resolve before any real launch.
+
+| Topic | Note | When |
+| --- | --- | --- |
+| Google Fonts (Instrument Sans) | Loading the font from Google's servers sends each visitor's IP address to Google, a GDPR concern in the EU (Nexova is in Valencia). Before any real EU launch, self-host the font file in `assets/` (Instrument Sans is open source, SIL Open Font License) and drop the two Google origins from the CSP. Kept for now (developer's decision). | S07 decides whether self-hosting is also needed for the PageSpeed score. |
+| Office photo licences | `valencia.webp` and `miami.webp` come from the M1 design (`uis/website/public/images/`); their licence is not confirmed, and the Miami photo shows identifiable people (open question in `memory-bank/activeContext.md`). | Before publishing. |

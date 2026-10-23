@@ -98,6 +98,11 @@ Every tool, service, API, MCP server and library used in this project must be fr
 - **Rule:** the site files stay at the repo root, but no server ever serves the root. `pnpm build:site` copies an allowlist into the git-ignored `dist/`, and only `dist/` is served (`npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false`). A new public file must be added to the allowlist in `scripts/build-site.mjs`.
 - **Why:** `http-server --no-dotfiles` still serves dotfiles by direct URL (SEC-1). An allowlist means nothing private (`.git`, `.env`, `.mcp.json`, `docs/`, `memory-bank/`) can ever be reached, even once the Codespaces port is public.
 
+## 19. Landing section order and a static hero
+
+- **Rule:** the landing page follows the briefing's order exactly, in both languages: header → hero (`#top`) → Our services (`#services`, 3 `article`s) → Why Nexova (`#why-nexova`, 4 points + 2 office photos) → Contact (`#contact`, `address` + second CTA) → footer. Copy is the briefing's, verbatim, with only the changes in `docs/milestone-2/content-decisions.md`. The hero is **static**: the M1 "shortlist" frozen in its final "placed" state, built with Tailwind, `aria-hidden="true"`, with no animation and no JavaScript.
+- **Why:** the evaluation checks the briefing's sections and order (E26). A static hero keeps the page fast (E13) and calm: nothing moves for people who are sensitive to motion, there is nothing to pause (WCAG 2.2.2), and the visual still tells Nexova's story of finding the one right person.
+
 ## How the UIs relate
 
 - **Root static site (Milestone 2):** the official public website of the brief (`index.html`, `application.html`, `es/`): the talent pool for candidates, bilingual (English base at the root, Spanish under `es/`), plain HTML + compiled Tailwind CSS + vanilla JavaScript, port 8080.

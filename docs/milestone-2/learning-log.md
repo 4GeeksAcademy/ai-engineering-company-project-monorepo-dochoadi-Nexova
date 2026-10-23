@@ -92,3 +92,34 @@ Each section says what was done, why it matters, what was learned and how to che
 - Open (production note): the font is loaded from Google's servers, which shares each visitor's internet address with Google. Hosting the font file ourselves would avoid that if the site ever goes live in the EU.
 
 **Commit:** `[M2-S03][E7][E9][E11] chore(site): set up compiled Tailwind, npx server and bilingual semantic page skeleton`
+
+## S04 — Landing page (2026-10-23)
+
+**What was done**
+- Filled the home page in English and Spanish with the exact words of the official briefing, in its order: the big headline, "Our services" (three cards), "Why Nexova" (four strong points), and Contact. The evaluation checks that the page matches the briefing.
+- Added a still picture next to the headline: a small grid of CV cards, with one card highlighted in coral as the "chosen" candidate. It reuses the Milestone 1 animation, frozen at its last frame, so nothing moves.
+- Added the Valencia and Miami office photos, made lighter for the web (WebP, a modern image format), each with a description for people who can't see it.
+- Added hidden information for search engines and social networks: the company "ID card" from the briefing (Schema.org), the page's official address (canonical), and the title and description shown when someone shares the link (Open Graph).
+- The accessibility checker now tests the safe `dist/` copy of the site, like the security checker.
+- Checked screenshots at phone, tablet and computer sizes, and fixed what looked wrong: cramped cards at tablet size, the email address breaking in the middle, and buttons that disappeared in high-contrast mode.
+
+**What I learned**
+- **Schema.org:** a small block of data in the page that tells Google "this is a company called Nexova, founded in 2011, with offices in Valencia and Miami". People don't see it, but search engines read it.
+- **High-contrast (forced-colors) mode:** some people set their computer to show only a few strong colours. Background colours disappear, so a button drawn only with a background colour vanishes. An invisible border fixes it, because that mode redraws borders in a visible colour.
+- **Lazy loading:** photos further down the page load only when you scroll near them. The page opens faster, which helps the speed score.
+- **Mobile-first:** we design for phones first (one column), then add columns for bigger screens. On a small screen the page stays simple and nothing is cut off.
+
+**How to check it yourself**
+- Open the site (link below), read the home page in English, then click "Español" in the header.
+- Click the green "Join our talent pool" button: it opens the form page (still empty until the next step).
+- Open `docs/milestone-2/screenshots/` to see the home page at phone, tablet and computer sizes.
+
+**Decisions or open questions**
+- Decided (by the developer, after S03): the S03 deviations are approved; the accessibility checker uses `dist/`; Google Fonts stays for now, with a production note to host the font ourselves before a real launch in the EU.
+- Decided in this step:
+  - The contact block is a green rounded panel with a cream button, because coral is kept only for the highlighted CV card and the logo dot.
+  - The page's official address points to `nexova.com`, the domain in the briefing's company data.
+- Open: the step asked for the heading "Our services", while the briefing calls the section "Services". Should this be listed in `content-decisions.md`, the file of deliberate differences from the briefing?
+- Open (from Milestone 1): the licence of the two office photos is not confirmed, and the Miami photo shows people who can be recognised.
+
+**Commit:** `[M2-S04][E1][E2][E4][E5][E6][E8][E10][E12][E26][E27][E30] feat(site): build bilingual landing page from the official briefing`

@@ -57,3 +57,22 @@ Run on 2026-10-23 (S03) on the four skeleton pages (header, navigation, language
 - **Fixed during the step:** the first run failed criterion 5 at 375 px. In current Chromium, the content of a closed `<details>` is hidden with `content-visibility`, so the four mobile-menu links still had layout boxes. The gate counted them as tabbable, while the browser (correctly) skipped them. The menu panel now has `hidden group-open:block`, so it is `display: none` until the menu opens, and the gate agrees with the browser.
 - **Forced-colors review** (`docs/milestone-2/a11y/*.png`): links take the system link colour, the header and footer rules stay visible, and the logo image keeps its own contrast. The decorative coral dot in the footer wordmark disappears, which is fine because it carries no information.
 - **Baseline findings A11Y-1 to A11Y-6** (M1 apps): not fixed in this milestone's site steps. Status: **Planned: M1 hardening (separate change, needs approval)**.
+
+## S04 — Landing page
+
+Run on 2026-10-23 (S04) with the landing content in both languages. `a11y-gate` now builds and serves the `dist/` copy (like `security-gate`). Result: **72 PASS, 0 FAIL, 0 SKIP**, `exit=0`. The landing pages have 0 serious or critical axe violations at 375, 768 and 1280 px; the keyboard walk-through covers 15 elements at 375 px and 18 at 1280 px.
+
+- **Structure:** one `h1` (the headline), `h2` for Our services / Why Nexova / Contact (plus the two footer headings), `h3` for the three service cards; four labelled sections; the contact details in an `<address>`.
+- **Images:** both office photos have descriptive `alt`s in each language. The hero "shortlist" illustration is decorative and `aria-hidden="true"` (no text inside).
+- **Language:** English words inside the Spanish copy (`headhunting`, `outsourcing`, `soft skills`, `retail`) are marked `lang="en"` (rule 3).
+- **Lists:** the service bullets, the four "Why Nexova" points and the contact list carry `role="list"`, because Safari's VoiceOver drops list semantics when `list-style: none` (Tailwind's default) is set.
+- **Reading order:** the "Regional presence: Spain and United States" point keeps the briefing's word order in the HTML. `flex-col-reverse` only shows the figure above its label, matching the other three points.
+- **Forced-colors review, with a fix in this step:**
+  - The first run showed both "Join our talent pool" buttons as plain text: forced-colors mode removes background colours, so the pill shape disappeared (rule 25).
+  - Both buttons now have `border-2 border-transparent`, and the contact panel `border border-transparent`. Forced-colors mode paints these transparent borders in the system colour, so the pill and the panel edge stay visible (checked with a forced-colors screenshot of the contact panel).
+  - The decorative hero illustration disappears in forced colours, which is expected and fine.
+- **Gate screenshot limitation:** the gate's full-page forced-colors screenshot does not scroll, so the two lazy-loaded photos (`loading="lazy"`) appear empty in `docs/milestone-2/a11y/*index-forced-colors.png`. They load normally when scrolled (`images_loaded=True` in the S04 screenshots).
+- **Contrast:**
+  - Text pairs are ink / ink-soft on cream, paper and sand, green on cream and sand, cream and sage on green; all pass AA (axe: 0 violations).
+  - Coral appears only in decorative shapes (the placed card, the stage bars, the bullet dots, the logo dot), never as text.
+- **Body text:** at least 16 px everywhere. Service bullets are 17 px, reduced to 16 px only between `md:` and `lg:` so the three cards stay readable at 768 px.
