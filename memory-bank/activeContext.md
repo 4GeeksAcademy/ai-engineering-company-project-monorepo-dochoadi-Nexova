@@ -10,8 +10,8 @@ Type: status
 
 ## Next steps
 
-1. **S03 (next):** compiled Tailwind CSS v4 (`tailwindcss` + `@tailwindcss/cli` 4.3.3) and the `npx http-server` 14.1.1 command on port 8080 (E7, E9, E11). It must first decide how the site is served without exposing the repo (finding SEC-1 in `docs/milestone-2/security.md`).
-2. **S04–S06:** landing page, application form markup, `validation.js` (English + Spanish).
+1. **S04 (next): the landing page** (`index.html` and `es/index.html`): fill the hero (subheadline and the "Join our talent pool" button), Services (3 columns), Why Nexova (2 columns, with the documented market wording), Contact, and the Schema.org Organization JSON-LD, inside the S03 skeleton and with the `brand-*` utilities only (E1, E2, E4, E5, E6, E8, E10, E12, E26, E27, E30). New public files (e.g. images in `assets/`) are already on the `dist/` allowlist.
+2. **S05–S06:** application form markup (the 11 `BRIEFING.md` fields), then `validation.js` and its `node:test` tests in `tests/site/` (English + Spanish).
 3. **S07–S08:** accessibility, security and performance re-check; PageSpeed/Lighthouse evidence on the public Codespaces URL.
 4. **S09:** devcontainer: add port 8080 only; the Chromium install line for the dev MCP servers is already in `.devcontainer/post-create.sh` (added before the Codespace rebuild in M2-S02).
 5. **S10–S11:** milestone recap (`milestone-recap` skill), pull request; merge only after the instructor's approval (rule in `.agents/rules/git-workflow.md`).
@@ -33,6 +33,7 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
 
 ## Recent decisions
 
+- **M2-S03 site setup:** compiled Tailwind 4.3.3 (not the CDN, for PageSpeed); brand tokens imported from `packages/shared` and mapped to `brand-*` names; the server serves only the git-ignored `dist/` allowlist built by `pnpm build:site` (SEC-1); SEC-2 ignored through `auditConfig` in `pnpm-workspace.yaml` (pnpm 12 does not read the `package.json` field); `@parcel/watcher` added to `allowBuilds: false`; `security-gate` criterion 3 matches real Easypanel host URLs only; `test:site` uses a quoted glob because Node 24 rejects a folder argument; the dev MCP servers are approved and connected.
 - **M2-S02 gates and tools:** `security-gate` and `a11y-gate` run before every PR; three pinned dev MCP servers in `.mcp.json` (no keys); every tool, service, API, MCP server and library must be free to use. Next.js 16.4.1 approved and applied in both M1 apps as the one exception to "report only".
 - **Alpha Playwright kept on purpose:** `@playwright/mcp@0.0.83` pins `playwright@1.64.0-alpha-1790635538000` exactly, so `post-create.sh` installs Chromium with that same version (one-line comment there).
 
@@ -52,8 +53,9 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
 
 ## Open questions
 
-- **Which Milestone 1 baseline findings to fix (M2-S02, developer's decision):** security SEC-1 (high: `http-server --no-dotfiles` still serves `/.git/config`, `/.mcp.json` and any `.env`; decide the serving approach in S03), SEC-2 (`braces` advisory with no patch, development-only; documented exception?), SEC-3 to SEC-7; accessibility A11Y-1 to A11Y-7. Details and effort in `docs/milestone-2/security.md` and `docs/milestone-2/accessibility.md`. Until SEC-1 and SEC-2 are resolved, `security-gate` exits 1 (criteria 4 and 5).
-- **Dev MCP servers pending approval:** the developer approves the three project servers in Claude Code after the S02 commit; they load in a new session.
+- **Milestone 1 baseline findings (decided after S02):** SEC-1 resolved in S03 (`dist/` allowlist); SEC-2 accepted as a documented exception (review in S10); SEC-4 fixed in S09 with the other `.devcontainer/` changes; SEC-3, SEC-5–7 and A11Y-1–6 stay in the backlog as "Planned: M1 hardening (separate change, needs approval)" (`docs/milestone-2/security.md`, `accessibility.md`).
+- **`a11y-gate` serves the repo root** on `127.0.0.1` while it runs (below the `/security-review` bar, confidence 1/10). Pointing it at `dist/` like `security-gate` is a small follow-up that needs the developer's approval.
+- **Google Fonts and GDPR:** the site loads Instrument Sans from Google's servers, as the step asked, which sends each visitor's IP address to Google. For a real EU deployment, self-hosting the font file in `assets/` (it is open-source, OFL) would avoid that; a production note, not a blocker.
 
 - **Official briefing quirks (cannot be fixed, the file stays unmodified):** `BRIEFING.md` is headed "Milestone 1: Your Company's Public Website" (the course's own numbering; in this repo it is Milestone 2), and its link to the Spanish version (`./nexova-BRIEFING.es.md`) does not resolve, because the Spanish copy lives in `docs/milestone-2/BRIEFING.es.md`.
 - **Backoffice authentication:** `uis/backoffice` has no sign-in yet ("Internal tool. Sign-in comes later."). Who may access it, and with which identity provider (e.g. Google Workspace, which Nexova already uses), is still to be decided; it must not be exposed publicly until then.

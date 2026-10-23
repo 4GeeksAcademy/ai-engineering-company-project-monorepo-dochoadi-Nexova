@@ -47,3 +47,13 @@ The full `a11y_check.py` run (criteria 2–7, without `--axe-only`) passes on bo
 | A11Y-7 | Info | `uis/backoffice` (needs lists) | Known item: dimmed needs. Already fixed in M1-S12 (transparent fill and dashed outline instead of 35 % opacity); axe finds no contrast problem once the page settles. | None. | — |
 
 Not automated here and recommended before the Milestone 2 PR: a manual screen-reader pass (NVDA or VoiceOver), text resized to 200 %, and the forced-colors screenshots that the gate saves for the new site.
+
+## S03 — Page skeleton
+
+Run on 2026-10-23 (S03) on the four skeleton pages (header, navigation, language switcher, empty labelled sections, footer). `bash .agents/skills/a11y-gate/check.sh 2` → **72 PASS, 0 FAIL, 0 SKIP**, `a11y-gate passed (no FAIL)`, `exit=0`.
+
+- **Criteria 1–5** at 375, 768 and 1280 px pass on every page: 0 serious or critical axe violations; one `h1`; headings in order; the logo `img` has `alt="Nexova"`; no form controls yet. The keyboard walk-through covers 10 elements at 375 px and 13 at 768/1280 px.
+- **Criteria 6–8** pass: no horizontal scroll at 320 px, no running animation with reduced motion, forced-colors screenshots saved.
+- **Fixed during the step:** the first run failed criterion 5 at 375 px. In current Chromium, the content of a closed `<details>` is hidden with `content-visibility`, so the four mobile-menu links still had layout boxes. The gate counted them as tabbable, while the browser (correctly) skipped them. The menu panel now has `hidden group-open:block`, so it is `display: none` until the menu opens, and the gate agrees with the browser.
+- **Forced-colors review** (`docs/milestone-2/a11y/*.png`): links take the system link colour, the header and footer rules stay visible, and the logo image keeps its own contrast. The decorative coral dot in the footer wordmark disappears, which is fine because it carries no information.
+- **Baseline findings A11Y-1 to A11Y-6** (M1 apps): not fixed in this milestone's site steps. Status: **Planned: M1 hardening (separate change, needs approval)**.

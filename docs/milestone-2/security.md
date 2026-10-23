@@ -56,3 +56,49 @@ The missing backoffice authentication is already an open question in `memory-ban
 | `next` and `eslint-config-next` in `uis/website` and `uis/backoffice` | 16.4.0 → 16.4.1 (lowest patched version in the 16.4 line) | GHSA-673q-mjm6-r5xr (critical: remote code execution in `use cache` functions returning typed arrays); GHSA-2464-fhr4-w9xw (critical: remote code execution in the Image Optimization API with SVG files); GHSA-p3m5-59mp-jv5r / CVE-2026-94482 (high: denial of service in the App Router with Server Actions) |
 
 After the patch: `pnpm audit --prod` reports no known vulnerabilities, `pnpm install --frozen-lockfile` passes, and lint, typecheck, build and tests (15/15) pass; both apps start and return `200` on ports 3000 and 3001.
+
+## S03 — Site server, accepted exceptions and gate run
+
+Run on 2026-10-23 (S03), after the page skeleton, the Tailwind build and the `dist/` server were added.
+
+### Decisions applied (approved by the developer after S02)
+
+- **SEC-1 — resolved.** The site files stay at the root (the brief requires them there), but the server never serves the repo root. `pnpm build:site` compiles the CSS and `scripts/build-site.mjs` copies **only** an allowlist (`index.html`, `application.html`, `validation.js`, `styles.css`, `assets/`, `es/`, `robots.txt`, `sitemap.xml`; missing entries are skipped) into the git-ignored `dist/`, skipping dotfiles and symlinks. The documented command serves `dist/`: `pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false`. Gate criterion 5 now builds and serves `dist/` the same way (on its own port, `127.0.0.1:8099`) and also probes `/.mcp.json`. Verified: `/.env`, `/.git/config`, `/.mcp.json`, `/memory-bank/`, `/BRIEFING.md` and `/package.json` all return `404`; a symlink `es/x.html → ../.mcp.json` is not copied.
+- **SEC-2 — accepted exception** (see below).
+- **SEC-3, SEC-5, SEC-6, SEC-7:** not fixed in this milestone's site steps. Status: **Planned: M1 hardening (separate change, needs approval)**.
+- **SEC-4:** fixed in S09, together with the other `.devcontainer/` changes.
+
+### Accepted exceptions
+
+| ID | Advisory | Where | Why it is accepted | Mechanism | Review |
+| --- | --- | --- | --- | --- | --- |
+| SEC-2 | GHSA-vfj7-8cjw-p6xm, `braces` ≤ 3.0.3 (audit severity high; real risk low) | `eslint-config-next` → `@next/eslint-plugin-next` → `fast-glob` → `micromatch` → `braces`, in `uis/website` and `uis/backoffice` | Development-only ESLint tooling, not shipped to the browser (the public site has no dependency at runtime); the patterns come from our own config; no fixed version is published. | `auditConfig.ignoreGhsas` in `pnpm-workspace.yaml`. pnpm 12 ignores the old `"pnpm"` field in `package.json` (tested: `pnpm audit` still failed with it), so the setting lives where pnpm reads it. `pnpm audit --audit-level high` now prints `1 ignored: 1 high`, exit 0. | Again in S10; remove the entry as soon as a fixed `braces` (or a `micromatch`/`fast-glob` without it) is published. |
+
+### Gate fix: criterion 3 matched its own documentation
+
+Criterion 3 searched tracked files for the bare word `easypanel.host`. In S02 it passed only because the gate's files were not committed yet; once tracked, it matched its own `SKILL.md`, `check.sh` and the S02 output pasted above. The pattern is now `[A-Za-z0-9-]+\.easypanel\.host`: a real host URL always has a name before the domain, while the bare word in documentation does not. Negative test: a temporary tracked line with a made-up host URL (a name, then the Easypanel domain) is still reported.
+
+### `security-gate` output
+
+```text
+$ bash .agents/skills/security-gate/check.sh 2
+security-gate — Milestone 2
+PASS [1] no secret patterns or .env files in tracked files
+PASS [2] no secret patterns in the full git history (git log -p --all)
+PASS [3] no IPv4 addresses (except 127.0.0.1 / 0.0.0.0) or easypanel.host URLs in tracked files
+PASS [4] pnpm audit --audit-level high reports no high or critical vulnerabilities
+PASS [5] static server (pnpm build:site, then http-server dist -d false) does not serve /.env, /.git/config, /.mcp.json or /memory-bank/
+SKIP [6] validation.js has no innerHTML, outerHTML, insertAdjacentHTML, eval, document.write, localStorage, sessionStorage, fetch or XMLHttpRequest: validation.js does not exist yet
+PASS [7] every site page has a CSP meta tag and rel="noopener noreferrer" on target="_blank" links (4 pages)
+security-gate passed (no FAIL)
+exit=0
+```
+
+### `/security-review`
+
+Run by the coding agent on 2026-10-23 on the branch against `main`, including the uncommitted S03 work. Result: **no findings with confidence ≥ 8**. Below the bar:
+
+- symlinks inside `es/` or `assets/` would have been copied into `dist/` (confidence 2/10, needs commit access). Hardened anyway: `build-site.mjs` now skips symlinks.
+- `a11y-gate` still serves the repo root on `127.0.0.1` for the few seconds it runs (confidence 1/10). It is loopback-only and temporary, and those files are already public in the repo. Possible follow-up: point it at `dist/` like `security-gate`. This needs approval, because it changes a skill outside this step.
+
+Checked and clean: the four pages (no inline scripts or handlers, strict CSP meta, `rel="noopener noreferrer"` on the two external links), the two SVGs (no script or external references), the pinned Tailwind packages and `allowBuilds`.

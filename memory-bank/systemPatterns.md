@@ -88,6 +88,16 @@ Every tool, service, API, MCP server and library used in this project must be fr
 
 **Why:** academic project with no budget; the same rule is in `.agents/rules/security-and-data.md` (rule 26).
 
+## 17. The public site uses compiled Tailwind with brand tokens from `packages/shared`
+
+- **Rule:** the root public site uses compiled Tailwind CSS (`tailwind.css` → `styles.css`) with the brand tokens imported from `packages/shared/styles/tokens.css` and exposed as `brand-*` utilities (`bg-brand-green`, `rounded-brand-card`, `shadow-brand-card`, `ease-brand-out`, `font-brand`). Pages use only Tailwind utility classes: no inline styles, no custom classes, no hex values. Anything else in `tailwind.css` needs a one-line comment saying why utilities cannot do it. It looks like the M1 UIs: cream page, sand bands, paper cards, green headings and dark bands, coral only as a decorative accent (accent text in rust), pill buttons at least 54 px tall, and a 3 px coral focus ring with a 3 px offset (cream or green on dark or coral backgrounds).
+- **Why:** it is the same company as `uis/website` and `uis/backoffice`, so the brand values are defined once (patterns 8 and 9). Utility-only styling meets E9 and E11, and the compiled, minified CSS keeps PageSpeed high (E13).
+
+## 18. The static server serves only the `dist/` allowlist
+
+- **Rule:** the site files stay at the repo root, but no server ever serves the root. `pnpm build:site` copies an allowlist into the git-ignored `dist/`, and only `dist/` is served (`npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false`). A new public file must be added to the allowlist in `scripts/build-site.mjs`.
+- **Why:** `http-server --no-dotfiles` still serves dotfiles by direct URL (SEC-1). An allowlist means nothing private (`.git`, `.env`, `.mcp.json`, `docs/`, `memory-bank/`) can ever be reached, even once the Codespaces port is public.
+
 ## How the UIs relate
 
 - **Root static site (Milestone 2):** the official public website of the brief (`index.html`, `application.html`, `es/`): the talent pool for candidates, bilingual (English base at the root, Spanish under `es/`), plain HTML + compiled Tailwind CSS + vanilla JavaScript, port 8080.

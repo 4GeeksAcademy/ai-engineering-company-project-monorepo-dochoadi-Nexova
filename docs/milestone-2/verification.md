@@ -65,19 +65,46 @@ pnpm lint && pnpm typecheck && pnpm build && pnpm test
 - `"next": "16.4.1"` twice; the lockfile is up to date and `pnpm audit --prod` reports no known vulnerabilities.
 - Lint, typecheck and build pass; tests 15/15 (shared 6, website 4, backoffice 5).
 
-## S03 — Tailwind build and npx server
+## S03 — Tailwind build, npx server and page skeleton
 
 ### Delivered
 
-_To be filled in this step._
+- Compiled Tailwind CSS v4: `tailwind.css` (source: `@import "tailwindcss" source(none)`, `@source` for the site pages and `validation.js` only, the shared brand tokens imported from `packages/shared/styles/tokens.css` and mapped to `brand-*` names in `@theme inline`) → minified `styles.css` (committed). Root devDependencies `tailwindcss` and `@tailwindcss/cli` 4.3.3, pinned; `@parcel/watcher` added to the `allowBuilds` deny-list (prebuilt binary).
+- Root scripts `build:site`, `watch:site`, `serve:site`, `test:site`; `scripts/build-site.mjs` copies only the public allowlist into the git-ignored `dist/` (no dotfiles, no symlinks).
+- The documented command (E7) in the root `README.md` ("Public website"), serving `dist/` on port 8080 (SEC-1).
+- SEC-2 accepted exception in `pnpm-workspace.yaml` (`auditConfig.ignoreGhsas`); `security-gate` criterion 5 serves `dist/`; criterion 3 no longer matches its own documentation.
+- Bilingual semantic skeleton: `index.html`, `application.html`, `es/index.html`, `es/application.html` (head with CSP, `hreflang` alternates, Instrument Sans; skip link; sticky header with the wordmark `assets/nexova-logo.svg`, the main navigation, a `<details>` menu below `md:` and the language switcher; labelled empty sections; footer with `address`, copyright and social links), favicon `assets/favicon.svg`, `tests/site/README.md`.
 
 ### Commands
 
-_To be filled in this step._
+```bash
+pnpm install --frozen-lockfile
+pnpm build:site && ls -la styles.css
+grep -nE "^\s*[.#a-z].*\{" tailwind.css | grep -v "@" | head
+grep -cE "style=\"" index.html application.html es/index.html es/application.html
+ls -A dist/
+(npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false >/tmp/site.log 2>&1 &) ; sleep 3
+for u in / /application.html /es/ /es/application.html /styles.css; do curl -s -o /dev/null -w "%{http_code} " "localhost:8080$u"; done; echo
+for u in /.env /.git/config /.mcp.json /memory-bank/ /BRIEFING.md /package.json; do curl -s -o /dev/null -w "%{http_code} " "localhost:8080$u"; done; echo
+for pid in $(ss -ltnpH "sport = :8080" | grep -oE 'pid=[0-9]+' | cut -d= -f2); do kill "$pid"; done
+grep -H '<html lang' index.html application.html es/index.html es/application.html
+git check-ignore dist && echo "dist ignored"
+pnpm audit --audit-level high; echo "exit=$?"
+pnpm test:site; echo "exit=$?"
+bash .agents/skills/security-gate/check.sh 2; echo "exit=$?"
+bash .agents/skills/a11y-gate/check.sh 2; echo "exit=$?"
+```
+
+Each URL gets its own `curl -o /dev/null`, because `-o` applies to one URL only. The server is stopped by its port: `pkill -f http-server` also matches the shell running the command and stops it.
 
 ### Expected
 
-_To be filled in this step._
+- `styles.css` about 18–19 KB (minified, only the classes used); no custom selector in `tailwind.css`; `0` inline styles on all four pages.
+- `dist/` lists `application.html`, `assets`, `es`, `index.html`, `styles.css` (no dotfiles).
+- `200 200 200 200 200`, then `404 404 404 404 404 404`; `lang="en"` ×2 and `lang="es"` ×2; `dist ignored`.
+- `pnpm audit`: `1 ignored: 1 high`, `exit=0`; `pnpm test:site`: 0 tests, `exit=0` (tests arrive in S06).
+- `security-gate`: 1–5 and 7 `PASS`, 6 `SKIP`, `exit=0`. `a11y-gate`: 72 `PASS`, `exit=0`.
+- In the browser: at 375 px the header shows the wordmark, a "Menu" / "Menú" pill and the language link; at 768 px and up the four links appear inline; Tab first shows the "Skip to main content" pill.
 
 ## S04 — Landing page
 

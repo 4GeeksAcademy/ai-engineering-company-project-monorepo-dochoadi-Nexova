@@ -21,11 +21,11 @@ Criteria copied verbatim from the brief.
 | ID | Criterion | Step | Files | How to verify | Result |
 | --- | --- | --- | --- | --- | --- |
 | E6 | The site is fully responsive (mobile, tablet, desktop) | S04 | `index.html`, `application.html`, `es/*.html`, `tailwind.css` | Screenshots at 375px, 768px and 1440px; no horizontal scroll | Pending |
-| E7 | There is a documented and working command, compatible with Codespaces, to run the project locally with npx | S03 | `README.md`, `package.json` | Run the documented `npx http-server` command; `curl` port 8080 returns `200` | Pending |
+| E7 | There is a documented and working command, compatible with Codespaces, to run the project locally with npx | S03 | `README.md`, `package.json` (`build:site`, `serve:site`), `scripts/build-site.mjs` | Run the documented `npx http-server` command; `curl` port 8080 returns `200` | Met (S03): `pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false` documented in the root `README.md` ("Public website": what each flag does, port 8080, Codespaces Ports tab) and as `pnpm serve:site`; `/`, `/application.html`, `/es/`, `/es/application.html`, `/styles.css` → `200`; private paths → `404` (SEC-1) |
 | E8 | Mobile-first design is used | S04 | `index.html`, `application.html`, `es/*.html` | Base (unprefixed) classes style mobile; larger screens add `sm:`/`md:`/`lg:` overrides | Pending |
-| E9 | All styles use Tailwind utility classes | S03 | `tailwind.css`, `styles.css`, `*.html` | Styling lives in utility classes on the markup; `styles.css` is the compiled Tailwind output | Pending |
+| E9 | All styles use Tailwind utility classes | S03 | `tailwind.css`, `styles.css`, `*.html` | Styling lives in utility classes on the markup; `styles.css` is the compiled Tailwind output | Partially met (S03): the four page skeletons are styled only with Tailwind utility classes (`brand-*` names mapped from `packages/shared/styles/tokens.css`), `grep -c 'style="'` → 0 on every page; `styles.css` is the minified CLI output. Met when all pages are complete (S04–S06) |
 | E10 | Tailwind breakpoints (sm:, md:, lg:) are used appropriately | S04 | `index.html`, `application.html`, `es/*.html` | `grep -oE "(sm\|md\|lg):" *.html es/*.html \| sort \| uniq -c` | Pending |
-| E11 | There is no unnecessary custom CSS (only Tailwind) | S03 | `tailwind.css` | `tailwind.css` holds only the Tailwind import and theme tokens; no hand-written rules | Pending |
+| E11 | There is no unnecessary custom CSS (only Tailwind) | S03 | `tailwind.css` | `tailwind.css` holds only the Tailwind import and theme tokens; no hand-written rules | Partially met (S03): `tailwind.css` holds only `@import`, `@source`, `@theme inline` (token mapping, no hex values) and one commented `:root` variable (`--font-instrument-sans`, which next/font sets in the Next.js apps); no hand-written rules. Met when all pages are complete (S04–S06) |
 | E12 | The design is visually coherent and professional | S04 | `index.html`, `application.html`, `es/*.html`, `packages/shared/styles/tokens.css` | Screenshots reviewed against the Nexova identity (green primary buttons, coral accent, Instrument Sans) | Pending |
 | E13 | Performance verified with a minimum score of 80 (ideal above 90) using PageSpeed Insights on the public Codespaces URL, or Lighthouse from Chrome DevTools if PageSpeed cannot reach Codespaces | S07, S08 | `docs/milestone-2/screenshots/` | PageSpeed Insights on the public Codespaces URL, or Lighthouse; screenshot of the score | Pending |
 
@@ -69,14 +69,14 @@ From the "What to do" lists of the brief.
 
 | ID | Deliverable | Step | Status |
 | --- | --- | --- | --- |
-| L1 | `index.html` with semantic HTML5 | S04 | Pending |
-| L2 | Runs locally with an npx command compatible with Codespaces | S03 | Pending |
+| L1 | `index.html` with semantic HTML5 | S04 | Partial (S03): semantic skeleton (`header`, `nav`, `main`, labelled `section`s, `footer`, `address`); content in S04 |
+| L2 | Runs locally with an npx command compatible with Codespaces | S03 | Met (S03): `pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false` |
 | L3 | `<header>` with logo/name and navigation | S04 | Pending |
 | L4 | A hero presenting the company and its value proposition | S04 | Pending |
 | L5 | At least two additional sections | S04 | Pending |
 | L6 | `<footer>` with contact information | S04 | Pending |
 | L7 | A link/button to the application form | S04 | Pending |
-| L8 | Tailwind utility classes | S03, S04 | Pending |
+| L8 | Tailwind utility classes | S03, S04 | Partial (S03): compiled Tailwind v4.3.3 set up with the `brand-*` theme; pages filled in S04–S05 |
 | L9 | Responsive with mobile, tablet and desktop breakpoints | S04 | Pending |
 | L10 | Mobile-first | S04 | Pending |
 | L11 | Descriptive `alt` on all images | S04 | Pending |
@@ -122,8 +122,8 @@ Our own standards, agreed for this milestone.
 
 | ID | Standard | Step | Status |
 | --- | --- | --- | --- |
-| P1 | CISO security gate passed | S02, S07 | Partial (S02): gate built (`.agents/skills/security-gate/`); baseline criteria 1–3 PASS, 4–5 FAIL on existing tools (SEC-1, SEC-2 in [`security.md`](./security.md)), 6–7 SKIP; must exit 0 before the PR |
-| P2 | Accessibility gate WCAG 2.2 AA passed | S02, S07 | Partial (S02): gate built (`.agents/skills/a11y-gate/`), exits 0 with all SKIP (no pages yet); M1 baseline in [`accessibility.md`](./accessibility.md); final run in S07 |
-| P3 | Memory bank updated in every step | S01–S11 | Pending |
+| P1 | CISO security gate passed | S02, S07 | Partial (S03): SEC-1 resolved (`dist/` allowlist), SEC-2 accepted exception (`auditConfig` in `pnpm-workspace.yaml`), criterion 3 self-match fixed; `security-gate` exit 0 (6 PASS, 1 SKIP: no `validation.js` yet); `/security-review`: no findings ≥ 8 ([`security.md`](./security.md)). Final run in S07 |
+| P2 | Accessibility gate WCAG 2.2 AA passed | S02, S07 | Partial (S03): `a11y-gate` on the four skeleton pages: 72 PASS, 0 FAIL, exit 0 ([`accessibility.md`](./accessibility.md)); final run in S07 |
+| P3 | Memory bank updated in every step | S01–S11 | In progress: S01, S02, S03 updated the memory bank (`check.sh` exit 0) |
 | P4 | Milestone recap produced | S10 | Pending |
-| P5 | Bilingual site: every page and every validation message exists in English and Spanish, with a language switcher, `hreflang` links and the correct `lang` on each page | S04–S06 | Pending |
+| P5 | Bilingual site: every page and every validation message exists in English and Spanish, with a language switcher, `hreflang` links and the correct `lang` on each page | S04–S06 | Partial (S03): four pages (EN root, ES `es/`) with `lang`, `hreflang` alternates (`en`, `es`, `x-default`), a language switcher on every page and Spanish copy from `BRIEFING.es.md`; validation messages in S06 |

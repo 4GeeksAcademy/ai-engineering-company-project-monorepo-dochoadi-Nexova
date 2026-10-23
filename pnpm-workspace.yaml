@@ -2,8 +2,17 @@ packages:
   - "uis/*"
   - "packages/*"
 
-# Build scripts of uis/website dependencies, explicitly not run: sharp and
-# unrs-resolver ship prebuilt binaries for this platform.
+# Dependency build scripts, explicitly not run: each package ships prebuilt
+# binaries for this platform. sharp and unrs-resolver come from uis/website;
+# @parcel/watcher (only a build-from-source fallback) from @tailwindcss/cli.
 allowBuilds:
   sharp: false
   unrs-resolver: false
+  "@parcel/watcher": false
+
+# Accepted audit exception SEC-2 (docs/milestone-2/security.md): braces via
+# eslint-config-next, dev-only tooling, not shipped to the browser, no fix
+# published yet. Review again in M2-S10; remove when a fix exists.
+auditConfig:
+  ignoreGhsas:
+    - GHSA-vfj7-8cjw-p6xm

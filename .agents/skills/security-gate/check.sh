@@ -46,7 +46,8 @@ if [ -z "$hist" ]; then pass 2 "$desc"; else fail 2 "$desc" "$(echo "$hist" | he
 desc="no IPv4 addresses (except 127.0.0.1 / 0.0.0.0) or easypanel.host URLs in tracked files"
 ips="$(git grep -nIE -e '(^|[^0-9.])([0-9]{1,3}\.){3}[0-9]{1,3}([^0-9.]|$)' -- . ":(exclude)pnpm-lock.yaml" 2>/dev/null \
   | grep -vE '(^|[^0-9.])(127\.0\.0\.1|0\.0\.0\.0)([^0-9.]|$)' | cut -d: -f1,2)"
-hosts="$(git grep -nIE -e 'easypanel\.host' 2>/dev/null | cut -d: -f1,2)"
+# A real host URL has a label before the domain (<name>.easypanel.host); the bare word in docs is not one.
+hosts="$(git grep -nIE -e '[A-Za-z0-9-]+\.easypanel\.host' 2>/dev/null | cut -d: -f1,2)"
 if [ -z "$ips" ] && [ -z "$hosts" ]; then
   pass 3 "$desc"
 else
@@ -62,20 +63,28 @@ else
   fail 4 "$desc" "$(echo "$audit_out" | grep -E '^Severity|GHSA' | tr -s ' │' ' ' | tr '\n' ' ' | sed 's/ *$//')"
 fi
 
-# 5. The static site server never serves dotfiles, .git or directory listings.
-desc="static server (http-server -d false --no-dotfiles) does not serve /.env, /.git/config or /memory-bank/"
-npx -y "$HTTP_SERVER" . -p "$PORT" -a 127.0.0.1 -d false --no-dotfiles -s >/dev/null 2>&1 &
-server_pid=$!
+# 5. The static site server serves only the dist/ allowlist copy (SEC-1): no dotfiles, .git, docs or listings.
+desc="static server (pnpm build:site, then http-server dist -d false) does not serve /.env, /.git/config, /.mcp.json or /memory-bank/"
+if ! build_out="$(pnpm build:site 2>&1)"; then
+  build_failed=1
+else
+  build_failed=0
+  npx -y "$HTTP_SERVER" dist -p "$PORT" -a 127.0.0.1 -d false -s >/dev/null 2>&1 &
+  server_pid=$!
+fi
 up=0
 for _ in $(seq 1 60); do
+  [ "$build_failed" -eq 1 ] && break
   if curl -s -o /dev/null "http://127.0.0.1:$PORT/"; then up=1; break; fi
   sleep 0.5
 done
-if [ "$up" -eq 0 ]; then
+if [ "$build_failed" -eq 1 ]; then
+  fail 5 "$desc" "pnpm build:site failed: $(echo "$build_out" | tail -1)"
+elif [ "$up" -eq 0 ]; then
   fail 5 "$desc" "server did not start on port $PORT"
 else
   exposed=()
-  for path in /.env /.git/config /memory-bank/; do
+  for path in /.env /.git/config /.mcp.json /memory-bank/; do
     code="$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$PORT$path")"
     [ "$code" = "200" ] && exposed+=("$path=200")
   done
@@ -83,8 +92,10 @@ else
 fi
 # http-server renames its process to "http-server", so stop it by the port it listens on.
 for pid in $(ss -ltnpH "sport = :$PORT" 2>/dev/null | grep -oE 'pid=[0-9]+' | cut -d= -f2); do kill "$pid" 2>/dev/null; done
-kill "$server_pid" 2>/dev/null
-wait "$server_pid" 2>/dev/null
+if [ -n "${server_pid:-}" ]; then
+  kill "$server_pid" 2>/dev/null
+  wait "$server_pid" 2>/dev/null
+fi
 
 # 6. validation.js uses no unsafe DOM APIs, storage or network calls.
 desc="validation.js has no innerHTML, outerHTML, insertAdjacentHTML, eval, document.write, localStorage, sessionStorage, fetch or XMLHttpRequest"
