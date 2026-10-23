@@ -265,7 +265,7 @@
       cards.forEach((c) => {
         const short = c.rank < 5, w = c === win;
         add(c.el, [{ transform: tf(c.gx, c.gy, 0, w ? 1.8 : short ? 1.14 : 1), opacity: short ? 1 : 0.13, zIndex: w ? 400 : short ? 300 - c.rank : 200 - c.rank }], o);
-        add(c.bar, [{ transform: `scaleX(${c.fill})` }], o);
+        add(c.bar, [{ scale: `${c.fill} 1` }], o);
         add(c.glow, [{ opacity: short ? 1 : 0 }], o);
         add(c.em, [{ opacity: w ? 1 : 0 }], o);
       });
@@ -274,47 +274,62 @@
       setPhase(3);
     };
 
-    // The whole timeline is scheduled at once with delays, so pausing every animation pauses the story.
+    // The timeline follows a master animation's clock: each phase creates its animations when the clock reaches it
+    // (small tasks instead of one long one), and pausing every animation pauses the story.
     const play = () => {
       build();
       clear();
       winColours(false);
       setPhase(0);
-      const std = token("--ease-out"), inOut = token("--ease-in-out"), drop = token("--ease-drop");
+      cards.forEach((c) => c.bar.classList.add("scale-x-0"));
+      const std = token("--ease-out"), inOut = token("--ease-in-out");
       const t = (duration, delay, easing, fill) => ({ duration, delay, easing, fill });
       master = add(field, [{ opacity: 1 }, { opacity: 1 }], { duration: 3 * C + 1600 });
-      cards.forEach((c) => {
-        const short = c.rank < 5, w = c === win;
-        const pile = tf(c.px, c.py, c.rot, 1), grid = tf(c.gx, c.gy, 0, 1), lifted = tf(c.gx, c.gy, 0, 1.14);
-        add(c.el, [{ transform: tf(c.px, -c.drop - 1, c.rot, 1) }, { transform: pile }], t(760, c.delay, drop, "both"));
-        add(c.bar, [{ transform: "scaleX(0)" }, { transform: `scaleX(${c.fill})` }], t(450, C + ((c.px + 0.5) / W) * 1300, std, "both"));
-        const z = 200 - c.rank;
-        add(c.el, [{ transform: pile, zIndex: z }, { transform: grid, zIndex: z }], t(800, 1.5 * C + c.rank * 9, inOut, "forwards"));
-        if (short) {
-          add(c.el, [{ transform: grid, zIndex: z + 100 }, { transform: lifted, zIndex: z + 100 }], t(600, 2 * C + c.rank * 60, std, "forwards"));
-          add(c.glow, [{ opacity: 0 }, { opacity: 1 }], t(500, 2 * C, std, "both"));
-        } else {
-          add(c.el, [{ opacity: 1 }, { opacity: 0.13 }], t(600, 2 * C, std, "forwards"));
-        }
-        if (w) {
-          add(c.el, [{ transform: lifted, zIndex: 400 }, { transform: tf(c.gx, c.gy, 0, 1.8), zIndex: 400 }], t(900, 3 * C, token("--ease-place"), "forwards"));
-          add(c.em, [{ opacity: 0 }, { opacity: 1 }], t(400, 3 * C, std, "both"));
-        }
-      });
+      const drop = token("--ease-drop");
+      cards.forEach((c) => add(c.el, [{ transform: tf(c.px, -c.drop - 1, c.rot, 1) }, { transform: tf(c.px, c.py, c.rot, 1) }], t(760, c.delay, drop, "both")));
       segs.forEach((s, i) => add(s, [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }], t(i === 3 ? 700 : C, i * C, "linear", "both")));
-      add(beam, [{ transform: "translateX(-100%)", opacity: 0 }, { opacity: 1, offset: 0.12 }, { opacity: 1, offset: 0.88 }, { transform: "translateX(334%)", opacity: 0 }],
-        t(1300, C, "linear"));
-      add(ring, [{ transform: "scale(.6)", opacity: 0.95 }, { transform: "scale(5.5)", opacity: 0 }], t(1100, 3 * C, std));
-      add(pill, [{ transform: "scale(.4)", opacity: 0 }, { transform: "scale(1)", opacity: 1 }], t(550, 3 * C + 260, token("--ease-pop"), "both"));
-      // Three pulses, then still: no endless loop (M1 finding A11Y-6).
-      add(pulse, [{ transform: "scale(1)", opacity: 0.9 }, { transform: "scale(1.6)", opacity: 0, offset: 0.8 }, { transform: "scale(1.6)", opacity: 0 }],
-        { ...t(2400, 3 * C + 900, std), iterations: 3 });
-
-      // Class changes follow the master animation's clock, so they pause with it.
-      cues = [[C, () => setPhase(1)], [2 * C, () => setPhase(2)], [3 * C, () => { setPhase(3); winColours(true); }]];
+      cues = [
+        // Screening: the beam sweeps and the score bars fill as it passes.
+        [C, () => {
+          setPhase(1);
+          cards.forEach((c) => add(c.bar, [{ scale: "0 1" }, { scale: `${c.fill} 1` }], t(450, ((c.px + 0.5) / W) * 1300, std, "both")));
+          add(beam, [{ transform: "translateX(-100%)", opacity: 0 }, { opacity: 1, offset: 0.12 }, { opacity: 1, offset: 0.88 }, { transform: "translateX(334%)", opacity: 0 }], t(1300, 0, "linear"));
+        }],
+        // Sort by score, best to the centre.
+        [1.5 * C, () => cards.forEach((c) => {
+          const z = 200 - c.rank;
+          add(c.el, [{ transform: tf(c.px, c.py, c.rot, 1), zIndex: z }, { transform: tf(c.gx, c.gy, 0, 1), zIndex: z }], t(800, c.rank * 9, inOut, "forwards"));
+        })],
+        // Interviews: the top five lift and glow, the rest fade.
+        [2 * C, () => {
+          setPhase(2);
+          cards.forEach((c) => {
+            if (c.rank < 5) {
+              const z = 300 - c.rank;
+              add(c.el, [{ transform: tf(c.gx, c.gy, 0, 1), zIndex: z }, { transform: tf(c.gx, c.gy, 0, 1.14), zIndex: z }], t(600, c.rank * 60, std, "forwards"));
+              add(c.glow, [{ opacity: 0 }, { opacity: 1 }], t(500, 0, std, "both"));
+            } else {
+              add(c.el, [{ opacity: 1 }, { opacity: 0.13 }], t(600, 0, std, "forwards"));
+            }
+          });
+        }],
+        // Placement: the winner pops, a ring spreads, then the badge and three pulses (no endless loop: M1 A11Y-6).
+        [3 * C, () => {
+          setPhase(3);
+          winColours(true);
+          add(win.el, [{ transform: tf(win.gx, win.gy, 0, 1.14), zIndex: 400 }, { transform: tf(win.gx, win.gy, 0, 1.8), zIndex: 400 }], t(900, 0, token("--ease-place"), "forwards"));
+          add(win.em, [{ opacity: 0 }, { opacity: 1 }], t(400, 0, std, "both"));
+          add(ring, [{ transform: "scale(.6)", opacity: 0.95 }, { transform: "scale(5.5)", opacity: 0 }], t(1100, 0, std));
+          add(pill, [{ transform: "scale(.4)", opacity: 0 }, { transform: "scale(1)", opacity: 1 }], t(550, 260, token("--ease-pop"), "both"));
+          add(pulse, [{ transform: "scale(1)", opacity: 0.9 }, { transform: "scale(1.6)", opacity: 0, offset: 0.8 }, { transform: "scale(1.6)", opacity: 0 }], { ...t(2400, 900, std), iterations: 3 });
+        }],
+      ];
       const watch = () => {
         const now = master && master.currentTime;
-        while (cues.length && now !== null && now >= cues[0][0]) cues.shift()[1]();
+        while (cues.length && now !== null && now >= cues[0][0]) {
+          cues.shift()[1]();
+          if (paused) anims.forEach((a) => a.playState === "running" && a.pause());
+        }
         if (master && master.playState !== "finished") raf = requestAnimationFrame(watch);
       };
       raf = requestAnimationFrame(watch);
@@ -326,9 +341,11 @@
       play: () => anims.forEach((a) => a.playState === "paused" && a.play()),
     });
 
+    // Build the cards in one task and start the timeline in a later one, after load.
+    const start = () => setTimeout(() => { build(); setTimeout(play, 450); }, 0);
     if (reduced || paused) finalFrame();
-    else if (document.readyState === "complete") setTimeout(play, 450);
-    else addEventListener("load", () => setTimeout(play, 450), { once: true });
+    else if (document.readyState === "complete") start();
+    else addEventListener("load", start, { once: true });
 
     const replay = q("replay");
     if (replay && !reduced) {

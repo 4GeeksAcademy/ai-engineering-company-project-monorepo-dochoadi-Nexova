@@ -227,3 +227,31 @@ Each section says what was done, why it matters, what was learned and how to che
   - The `.agents/rules/git-workflow.md` example of a teacher-requested fix still says `[M2-S12]`, which is now the merge step. Changing a rule file needs your approval.
 
 **Commit:** `[M2-S07][E6][E8][E10][E12][E14][E15][E26][E27][E30] feat(site): bring the Milestone 1 landing experience to the public site`
+
+## S08 — Quality gates (2026-10-23)
+
+**What was done**
+- Measured the four pages with Lighthouse, Google's free quality tool. Every page now scores 100 for speed, 100 for accessibility, 100 for good practice and 92 for search engines (the only thing missing is a small `robots.txt` file).
+- Made the site faster and more private: the Instrument Sans font now comes from our own site instead of Google's servers. Pages show text sooner (1.1 s instead of 2.4 s), nothing jumps while loading, and no visitor information goes to Google, which also closes the GDPR (EU privacy law) note.
+- Made the CV animation lighter: it now prepares its work step by step instead of all at once, so the page never freezes for half a second on a slow phone.
+- Checked by hand what the automatic checkers can't prove: keyboard-only use, the order of the Tab key, colour contrast of every text, the same menu and footer on every page, five screen widths, 200 % zoom, and no English left on the Spanish pages. All passed, with one fix: the coral focus ring now appears at once, as on the Milestone 1 website, instead of fading in.
+- Compared the site side by side with the Milestone 1 website (header, button, card, footer) to confirm it looks like the same company.
+- Re-checked every row of the evaluation table: all done except the public-link items, which come in steps 9–11.
+
+**What I learned**
+- **Lighthouse scores:** four marks out of 100. Performance (how fast the page appears), Accessibility (whether everyone can use it), Best practices (safe, modern code), SEO (how well search engines understand it).
+- **Render-blocking resource:** a file the browser must download before it can draw anything. The Google font file was one; serving it from our own site, and telling the browser early ("preload"), removed the wait.
+- **Total Blocking Time:** how long the page is too busy to react to a tap. Doing a lot of work in one go (like preparing 600 animations) blocks the page; splitting it into small pieces keeps it responsive.
+- **False positive:** a check that raises an alarm about something harmless. The security check mistook browser version numbers (like a "Chrome/" version with four numbers) for internet addresses inside the Lighthouse reports.
+
+**How to check it yourself**
+- Open the Lighthouse reports in `docs/milestone-2/lighthouse/` (the `.report.html` files) in your browser: every score is 92 or higher.
+- Use the site with only the keyboard (Tab, Shift+Tab, Enter, Space): you can reach everything and always see the coral ring.
+- Compare `docs/milestone-2/screenshots/consistency-button-m1.png` and `consistency-button-m2.png`: the same green pill.
+
+**Decisions or open questions**
+- Decided (by the developer): the security check skips the Lighthouse reports (they contain version numbers that look like addresses); the rule example of a teacher-requested fix is now `[M2-S13]`; the motion script stays at about 16 KB.
+- Decided in this step: host the font ourselves (it was the main cause of the slower first view, and it removes the Google privacy issue).
+- Open: adding a `robots.txt` file (and a site map) would raise the search score from 92 to 100. It is a new file at the root, so it needs your approval.
+
+**Commit:** `[M2-S08][E13][E14][E15][E16][E17] test(site): pass security, accessibility and Lighthouse quality gates`

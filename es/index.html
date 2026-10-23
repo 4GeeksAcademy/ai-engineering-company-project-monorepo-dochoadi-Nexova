@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; form-action 'self'; base-uri 'self'; object-src 'none'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; form-action 'self'; base-uri 'self'; object-src 'none'">
     <title>Nexova — Consultoría de RR. HH. y adquisición de talento</title>
     <meta name="description" content="Nexova es una consultora de recursos humanos y adquisición de talento con sede en Valencia y Miami. Ayudamos a empresas de tecnología, retail y servicios financieros a encontrar y desarrollar el mejor talento.">
     <meta property="og:title" content="Nexova — Consultoría de RR. HH. y adquisición de talento">
@@ -16,9 +16,7 @@
     <link rel="alternate" hreflang="es" href="https://nexova.com/es/">
     <link rel="alternate" hreflang="x-default" href="https://nexova.com/">
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&amp;display=swap">
+    <link rel="preload" href="../assets/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="../styles.css">
     <script src="../motion.js" defer></script>
     <script type="application/ld+json">
@@ -70,10 +68,10 @@
         <div class="flex items-center gap-3 md:gap-8">
           <nav aria-label="Principal">
             <ul class="hidden items-center gap-8 md:flex">
-              <li><a href="index.html#top" aria-current="page" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-colors duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Inicio</a></li>
-              <li><a href="index.html#services" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-colors duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Servicios</a></li>
-              <li><a href="application.html" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-colors duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Talento</a></li>
-              <li><a href="index.html#contact" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-colors duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Contacto</a></li>
+              <li><a href="index.html#top" aria-current="page" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Inicio</a></li>
+              <li><a href="index.html#services" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Servicios</a></li>
+              <li><a href="application.html" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Talento</a></li>
+              <li><a href="index.html#contact" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Contacto</a></li>
             </ul>
             <details class="group md:hidden">
               <summary class="flex min-h-11 min-w-11 cursor-pointer list-none items-center gap-2 rounded-brand-pill border-[1.5px] border-brand-green px-4 text-[15.5px] font-semibold text-brand-green hover:bg-brand-sand [&::-webkit-details-marker]:hidden focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
@@ -99,7 +97,7 @@
           <div>
             <h1 id="hero-title" class="max-w-[16ch] text-[40px] font-medium leading-[1.05] tracking-[-0.035em] text-balance text-brand-green sm:text-6xl">Construimos equipos excepcionales para empresas en crecimiento</h1>
             <p class="mt-6 max-w-[52ch] text-lg/[1.6] text-pretty text-brand-ink-soft sm:mt-8 sm:text-xl/[1.6]">Consultora de recursos humanos y adquisición de talento con más de 10 años ayudando a empresas de tecnología, <span lang="en">retail</span> y servicios financieros a encontrar y desarrollar el mejor talento.</p>
-            <a href="application.html" class="mt-8 sm:mt-10 inline-flex min-h-[54px] items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-colors duration-200 ease-brand-out sm:px-[30px] border-2 border-transparent bg-brand-green text-brand-cream hover:bg-brand-green-deep focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Únete a nuestro banco de talento</a>
+            <a href="application.html" class="mt-8 sm:mt-10 inline-flex min-h-[54px] items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out sm:px-[30px] border-2 border-transparent bg-brand-green text-brand-cream hover:bg-brand-green-deep focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Únete a nuestro banco de talento</a>
           </div>
           <div class="min-w-0">
             <figure data-cascade class="m-0 w-full rounded-brand-figure bg-brand-green p-3.5 text-brand-cream shadow-brand-hero-card sm:p-5">
@@ -125,7 +123,7 @@
               </div>
             </figure>
             <div class="mt-4 flex justify-end">
-              <button type="button" data-motion-toggle aria-pressed="false" data-label-pause="Pausar animaciones" data-label-play="Reanudar animaciones" class="hidden inline-flex min-h-[54px] items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-colors duration-200 ease-brand-out sm:px-[30px] border-[1.5px] border-brand-green text-brand-green hover:bg-brand-sand focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Pausar animaciones</button>
+              <button type="button" data-motion-toggle aria-pressed="false" data-label-pause="Pausar animaciones" data-label-play="Reanudar animaciones" class="hidden inline-flex min-h-[54px] items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out sm:px-[30px] border-[1.5px] border-brand-green text-brand-green hover:bg-brand-sand focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Pausar animaciones</button>
             </div>
           </div>
         </div>
@@ -253,7 +251,7 @@
               <li><span class="block text-brand-sage">Miami</span><a href="tel:+13055550191" class="inline-flex min-h-11 items-center text-xl font-medium tracking-[-0.01em] text-brand-cream underline decoration-brand-sage-tone underline-offset-[6px] hover:decoration-brand-cream sm:text-2xl focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-cream">+1 305 555 0191</a></li>
             </ul>
           </address>
-          <a href="application.html" class="mt-10 sm:mt-12 inline-flex min-h-[54px] items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-colors duration-200 ease-brand-out sm:px-[30px] border-2 border-transparent bg-brand-cream text-brand-green hover:bg-brand-sand focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-cream">Únete a nuestro banco de talento</a>
+          <a href="application.html" class="mt-10 sm:mt-12 inline-flex min-h-[54px] items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out sm:px-[30px] border-2 border-transparent bg-brand-cream text-brand-green hover:bg-brand-sand focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-cream">Únete a nuestro banco de talento</a>
         </div>
       </section>
     </main>

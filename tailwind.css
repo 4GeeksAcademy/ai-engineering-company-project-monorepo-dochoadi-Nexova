@@ -11,6 +11,15 @@
 @source "./validation.js";
 @source "./motion.js";
 
+/* Instrument Sans (SIL OFL 1.1, assets/fonts/OFL.txt), self-hosted: no Google request, no render-blocking font CSS. */
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("./assets/fonts/instrument-sans-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Static pages have no next/font, which sets this variable in the Next.js apps; --font-sans in tokens.css reads it. */
 :root {
   --font-instrument-sans: "Instrument Sans";

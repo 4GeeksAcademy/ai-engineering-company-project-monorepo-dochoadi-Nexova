@@ -132,7 +132,7 @@ Not blockers for this academic milestone; to resolve before any real launch.
 
 | Topic | Note | When |
 | --- | --- | --- |
-| Google Fonts (Instrument Sans) | Loading the font from Google's servers sends each visitor's IP address to Google, a GDPR concern in the EU (Nexova is in Valencia). Before any real EU launch, self-host the font file in `assets/` (Instrument Sans is open source, SIL Open Font License) and drop the two Google origins from the CSP. Kept for now (developer's decision). | S08 decides whether self-hosting is also needed for the PageSpeed score. |
+| Google Fonts (Instrument Sans) | **Resolved in S08:** the font is self-hosted from `assets/fonts/` (SIL OFL 1.1) and the Google origins are gone from the CSP, so no visitor IP address goes to Google. | Done (S08). |
 | Office photo licences | `valencia.webp` and `miami.webp` come from the M1 design (`uis/website/public/images/`); their licence is not confirmed, and the Miami photo shows identifiable people (open question in `memory-bank/activeContext.md`). | Before publishing. |
 
 ## S05 — Form markup
@@ -170,3 +170,15 @@ Run on 2026-10-23 (S07), with `motion.js` on all four pages.
   - With `-c 3600` a browser could keep an old HTML page that pointed to an old `validation.js`, so the Spanish form ran without validation after an update. The version tags stay, now also on `motion.js`.
 - **Gate results:** `security-gate` 7 PASS, `exit=0`.
 
+## S08 — Quality gates
+
+Run on 2026-10-23 (S08) on the four finished pages. `security-gate`: 7 PASS, `exit=0`.
+
+- **Google Fonts removed (resolves the production note):**
+  - Instrument Sans is self-hosted from `assets/fonts/` (SIL OFL 1.1; the licence travels with the file in `assets/fonts/OFL.txt`).
+  - No page contacts Google any more, so visitors' IP addresses are not shared. The CSP is stricter: `style-src 'self'; font-src 'self'`, with no Google origins.
+- **Network:** the home page makes 5 same-origin requests (HTML, font, CSS, `motion.js`, logo) and no third-party request (chrome-devtools MCP). There are no console messages.
+- **Lighthouse reports and criterion 3 (developer's decision):**
+  - The generated reports in `docs/milestone-2/lighthouse/` contain browser version strings and SVG path numbers that look like IPv4 addresses, so criterion 3 now skips `docs/milestone-*/lighthouse/*`, like `pnpm-lock.yaml`.
+  - Negative test: a tracked file containing a made-up private address is still reported.
+- **Production note (optional):** a real host should compress text (gzip/brotli; the chrome-devtools trace estimates 27 kB saved on the home page). The local `http-server` does not.

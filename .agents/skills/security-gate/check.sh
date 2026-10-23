@@ -44,7 +44,8 @@ if [ -z "$hist" ]; then pass 2 "$desc"; else fail 2 "$desc" "$(echo "$hist" | he
 
 # 3. No IPv4 addresses (except 127.0.0.1 and 0.0.0.0) and no easypanel.host URLs in tracked files.
 desc="no IPv4 addresses (except 127.0.0.1 / 0.0.0.0) or easypanel.host URLs in tracked files"
-ips="$(git grep -nIE -e '(^|[^0-9.])([0-9]{1,3}\.){3}[0-9]{1,3}([^0-9.]|$)' -- . ":(exclude)pnpm-lock.yaml" 2>/dev/null \
+# Generated Lighthouse reports are skipped: browser version strings and SVG path data look like IPv4 addresses.
+ips="$(git grep -nIE -e '(^|[^0-9.])([0-9]{1,3}\.){3}[0-9]{1,3}([^0-9.]|$)' -- . ":(exclude)pnpm-lock.yaml" ":(exclude)docs/milestone-*/lighthouse/*" 2>/dev/null \
   | grep -vE '(^|[^0-9.])(127\.0\.0\.1|0\.0\.0\.0)([^0-9.]|$)' | cut -d: -f1,2)"
 # A real host URL has a label before the domain (<name>.easypanel.host); the bare word in docs is not one.
 hosts="$(git grep -nIE -e '[A-Za-z0-9-]+\.easypanel\.host' 2>/dev/null | cut -d: -f1,2)"

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; form-action 'self'; base-uri 'self'; object-src 'none'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; form-action 'self'; base-uri 'self'; object-src 'none'">
     <title>Únete a nuestro banco de talento — Nexova</title>
     <meta name="description" content="Únete al banco de talento de Nexova: comparte tus datos de contacto, experiencia, sector de interés, nivel de inglés y disponibilidad, y nuestro equipo de selección te contactará si tu perfil encaja.">
     <link rel="canonical" href="https://nexova.com/es/application.html">
@@ -11,9 +11,7 @@
     <link rel="alternate" hreflang="es" href="https://nexova.com/es/application.html">
     <link rel="alternate" hreflang="x-default" href="https://nexova.com/application.html">
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&amp;display=swap">
+    <link rel="preload" href="../assets/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="../styles.css">
     <script src="../motion.js" defer></script>
     <script src="../validation.js" defer></script>
@@ -29,10 +27,10 @@
         <div class="flex items-center gap-3 md:gap-8">
           <nav aria-label="Principal">
             <ul class="hidden items-center gap-8 md:flex">
-              <li><a href="index.html#top" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-colors duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Inicio</a></li>
-              <li><a href="index.html#services" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-colors duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Servicios</a></li>
-              <li><a href="application.html" aria-current="page" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-colors duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Talento</a></li>
-              <li><a href="index.html#contact" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-colors duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Contacto</a></li>
+              <li><a href="index.html#top" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Inicio</a></li>
+              <li><a href="index.html#services" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Servicios</a></li>
+              <li><a href="application.html" aria-current="page" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Talento</a></li>
+              <li><a href="index.html#contact" class="inline-flex min-h-11 items-center text-[15.5px] text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:text-brand-rust aria-[current=page]:font-semibold aria-[current=page]:text-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Contacto</a></li>
             </ul>
             <details class="group md:hidden">
               <summary class="flex min-h-11 min-w-11 cursor-pointer list-none items-center gap-2 rounded-brand-pill border-[1.5px] border-brand-green px-4 text-[15.5px] font-semibold text-brand-green hover:bg-brand-sand [&::-webkit-details-marker]:hidden focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
@@ -70,23 +68,23 @@
             <div class="clear-both grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
               <div class="md:col-span-2">
                 <label for="full_name" class="mb-2 block font-medium text-brand-ink">Nombre completo<span aria-hidden="true" class="text-brand-rust"> *</span></label>
-                <input id="full_name" name="full_name" type="text" autocomplete="name" required aria-describedby="full_name-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                <input id="full_name" name="full_name" type="text" autocomplete="name" required aria-describedby="full_name-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
                 <p id="full_name-error" class="mt-2 hidden font-medium text-brand-rust"></p>
               </div>
               <div>
                 <label for="email" class="mb-2 block font-medium text-brand-ink">Email<span aria-hidden="true" class="text-brand-rust"> *</span></label>
-                <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
                 <p id="email-error" class="mt-2 hidden font-medium text-brand-rust"></p>
               </div>
               <div>
                 <label for="phone" class="mb-2 block font-medium text-brand-ink">Teléfono<span aria-hidden="true" class="text-brand-rust"> *</span></label>
-                <input id="phone" name="phone" type="tel" autocomplete="tel" required aria-describedby="phone-hint phone-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                <input id="phone" name="phone" type="tel" autocomplete="tel" required aria-describedby="phone-hint phone-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
                 <p id="phone-hint" class="mt-2 text-base text-brand-ink-muted">Incluye el código de país, p. ej. +34 612 345 678</p>
                 <p id="phone-error" class="mt-2 hidden font-medium text-brand-rust"></p>
               </div>
               <div>
                 <label for="country_of_residence" class="mb-2 block font-medium text-brand-ink">País de residencia<span aria-hidden="true" class="text-brand-rust"> *</span></label>
-                <select id="country_of_residence" name="country_of_residence" required aria-describedby="country_of_residence-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                <select id="country_of_residence" name="country_of_residence" required aria-describedby="country_of_residence-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
                   <option value="">Selecciona…</option>
                   <option value="spain">España</option>
                   <option value="united_states">Estados Unidos</option>
@@ -103,13 +101,13 @@
               <div class="grid grid-cols-1 gap-x-6 gap-y-5 md:col-span-2 md:grid-cols-2 lg:grid-cols-3">
                 <div>
                   <label for="years_of_experience" class="mb-2 block font-medium text-brand-ink">Años de experiencia<span aria-hidden="true" class="text-brand-rust"> *</span></label>
-                  <input id="years_of_experience" name="years_of_experience" type="number" min="0" max="50" step="1" inputmode="numeric" required aria-describedby="years_of_experience-hint years_of_experience-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                  <input id="years_of_experience" name="years_of_experience" type="number" min="0" max="50" step="1" inputmode="numeric" required aria-describedby="years_of_experience-hint years_of_experience-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
                   <p id="years_of_experience-hint" class="mt-2 text-base text-brand-ink-muted">Un número entero de 0 a 50</p>
                   <p id="years_of_experience-error" class="mt-2 hidden font-medium text-brand-rust"></p>
                 </div>
                 <div>
                   <label for="sector_of_interest" class="mb-2 block font-medium text-brand-ink">Sector de interés<span aria-hidden="true" class="text-brand-rust"> *</span></label>
-                  <select id="sector_of_interest" name="sector_of_interest" required aria-describedby="sector_of_interest-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                  <select id="sector_of_interest" name="sector_of_interest" required aria-describedby="sector_of_interest-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
                     <option value="">Selecciona…</option>
                     <option value="technology">Tecnología</option>
                     <option value="retail" lang="en">Retail</option>
@@ -121,7 +119,7 @@
                 </div>
                 <div>
                   <label for="english_level" class="mb-2 block font-medium text-brand-ink">Nivel de inglés<span aria-hidden="true" class="text-brand-rust"> *</span></label>
-                  <select id="english_level" name="english_level" required aria-describedby="english_level-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                  <select id="english_level" name="english_level" required aria-describedby="english_level-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
                     <option value="">Selecciona…</option>
                     <option value="basic">Básico</option>
                     <option value="intermediate">Intermedio</option>
@@ -133,7 +131,7 @@
               </div>
               <div class="md:col-span-2">
                 <label for="linkedin" class="mb-2 block font-medium text-brand-ink">LinkedIn (URL del perfil)</label>
-                <input id="linkedin" name="linkedin" type="url" autocomplete="url" aria-describedby="linkedin-hint linkedin-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                <input id="linkedin" name="linkedin" type="url" autocomplete="url" aria-describedby="linkedin-hint linkedin-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
                 <p id="linkedin-hint" class="mt-2 text-base text-brand-ink-muted">Opcional — https://linkedin.com/in/…</p>
                 <p id="linkedin-error" class="mt-2 hidden font-medium text-brand-rust"></p>
               </div>
@@ -143,19 +141,19 @@
           <fieldset class="rounded-brand-card border border-brand-line bg-brand-paper p-5 shadow-brand-card sm:p-8">
             <legend class="float-left mb-6 w-full"><h2 id="availability-title" class="text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green sm:text-[28px]">Disponibilidad<span aria-hidden="true" class="text-brand-rust"> *</span></h2></legend>
             <div class="clear-both grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <label for="availability_immediate" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-colors duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
+                <label for="availability_immediate" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
                   <input id="availability_immediate" name="availability" type="radio" value="immediate" required aria-describedby="availability-error" class="size-5 shrink-0 accent-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
                   <span>Inmediata</span>
                 </label>
-                <label for="availability_1_month" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-colors duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
+                <label for="availability_1_month" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
                   <input id="availability_1_month" name="availability" type="radio" value="1_month" required aria-describedby="availability-error" class="size-5 shrink-0 accent-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
                   <span>1 mes</span>
                 </label>
-                <label for="availability_2_3_months" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-colors duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
+                <label for="availability_2_3_months" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
                   <input id="availability_2_3_months" name="availability" type="radio" value="2_3_months" required aria-describedby="availability-error" class="size-5 shrink-0 accent-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
                   <span>2-3 meses</span>
                 </label>
-                <label for="availability_just_exploring" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-colors duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
+                <label for="availability_just_exploring" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
                   <input id="availability_just_exploring" name="availability" type="radio" value="just_exploring" required aria-describedby="availability-error" class="size-5 shrink-0 accent-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
                   <span>Solo explorando</span>
                 </label>
@@ -168,7 +166,7 @@
             <div class="clear-both grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
               <div class="md:col-span-2">
                 <label for="additional_comments" class="mb-2 block font-medium text-brand-ink">Comentarios adicionales</label>
-                <textarea id="additional_comments" name="additional_comments" rows="5" aria-describedby="additional_comments-counter additional_comments-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral resize-y"></textarea>
+                <textarea id="additional_comments" name="additional_comments" rows="5" aria-describedby="additional_comments-counter additional_comments-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral resize-y"></textarea>
                 <p id="additional_comments-counter" aria-live="polite" class="mt-2 text-base text-brand-ink-muted">Quedan 500 caracteres</p>
                 <p id="additional_comments-error" class="mt-2 hidden font-medium text-brand-rust"></p>
               </div>
@@ -179,7 +177,7 @@
             <legend class="float-left mb-6 w-full"><h2 id="consent-title" class="text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green sm:text-[28px]">Consentimiento</h2></legend>
             <div class="clear-both grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
               <div class="md:col-span-2">
-                <label for="data_policy" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-colors duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
+                <label for="data_policy" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
                   <input id="data_policy" name="data_policy" type="checkbox" value="accepted" required aria-describedby="data_policy-error" class="size-5 shrink-0 accent-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
                   <span>Acepto <a href="#data-policy" class="font-semibold text-brand-green underline underline-offset-4 hover:text-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">política de datos</a><span aria-hidden="true" class="text-brand-rust"> *</span></span>
                 </label>
@@ -189,8 +187,8 @@
           </fieldset>
 
             <div class="flex flex-wrap gap-3">
-              <button type="submit" class="inline-flex min-h-[54px] w-full items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-colors duration-200 ease-brand-out sm:w-auto sm:px-[30px] focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral border-2 border-transparent bg-brand-green text-brand-cream hover:bg-brand-green-deep disabled:cursor-not-allowed disabled:opacity-60">Enviar solicitud</button>
-              <button type="reset" class="inline-flex min-h-[54px] w-full items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-colors duration-200 ease-brand-out sm:w-auto sm:px-[30px] focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral border-[1.5px] border-brand-green text-brand-green hover:bg-brand-sand">Limpiar formulario</button>
+              <button type="submit" class="inline-flex min-h-[54px] w-full items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out sm:w-auto sm:px-[30px] focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral border-2 border-transparent bg-brand-green text-brand-cream hover:bg-brand-green-deep disabled:cursor-not-allowed disabled:opacity-60">Enviar solicitud</button>
+              <button type="reset" class="inline-flex min-h-[54px] w-full items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-[color,background-color,border-color,text-decoration-color] duration-200 ease-brand-out sm:w-auto sm:px-[30px] focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral border-[1.5px] border-brand-green text-brand-green hover:bg-brand-sand">Limpiar formulario</button>
             </div>
             <div id="form-success" role="status" class="hidden"></div>
           </form>

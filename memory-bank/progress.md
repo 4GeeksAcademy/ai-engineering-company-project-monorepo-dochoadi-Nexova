@@ -4,7 +4,7 @@ Type: status
 
 ## Current state
 
-**Milestone 2 ("Your Company's Public Website") has started** on the branch `milestone-your-companys-public-website`: S01 done (official briefing, evaluation matrix, conventions); S02 done (security and accessibility gates, dev MCP servers, Milestone 1 baseline, Next.js 16.4.1 security patch); S03 done (compiled Tailwind, the `dist/` server command and the bilingual semantic skeleton of the four pages); S04 done (the bilingual landing page); S05 done (the bilingual form markup); S06 done (validation with tests); S07 done (the Milestone 1 landing experience). Quality gates come in S08.
+**Milestone 2 ("Your Company's Public Website") has started** on the branch `milestone-your-companys-public-website`: S01 done (official briefing, evaluation matrix, conventions); S02 done (security and accessibility gates, dev MCP servers, Milestone 1 baseline, Next.js 16.4.1 security patch); S03 done (compiled Tailwind, the `dist/` server command and the bilingual semantic skeleton of the four pages); S04 done (the bilingual landing page); S05 done (the bilingual form markup); S06 done (validation with tests); S07 done (the Milestone 1 landing experience); S08 done (quality gates). The public URL and PageSpeed come in S09.
 
 **Milestone 1 ("Monorepo AI Setup") is complete and merged**: all 13 steps done, E1–E9 met, merged into `main` on 2026-10-13 as PR #1 (merge commit `30f8e47`). The instructor's feedback (branch name, `BRIEFING.md`, and the PR having been merged by its author) is answered in [`docs/milestone-1/instructor-feedback.md`](../docs/milestone-1/instructor-feedback.md). The Next.js website (`uis/website`, port 3000) and backoffice (`uis/backoffice`, port 3001, no authentication yet) run in development from shared data and shared brand tokens; no agents, API or live data yet.
 
@@ -37,10 +37,26 @@ Type: status
   - **S06 review fixes:** `-c-1` in `serve:site`, the README command and both gates; the Submit button is hidden after success, and "Clear form" brings the form back (`layoutFor()` + a test, 15 site tests).
   - **Steps renumbered:** S08 quality gates, S09 public URL, S10 docs, S11 recap and PR, S12 merge.
   - **Verification:** 56/56 browser checks (JavaScript off, reduced motion, pause and reload, clocks with a fake clock, keyboard, 4 widths, no-cache headers, form success layout) + 18/18 form regression checks; `security-gate` 7 PASS, `a11y-gate` 72 PASS. E26, E27, E30 met; E6, E8, E10, E12, E14, E15 partially met (S08 re-checks).
+- **2026-10-23 — S08 (`M2-S08`):** quality gates on the four finished pages. Lighthouse 13.5.0 (local, documented server, Playwright's Chromium):
+
+  | Page | Performance | Accessibility | Best practices | SEO | FCP | LCP | TBT | CLS |
+  | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+  | `/` (`index`) | 100 | 100 | 100 | 92 | 1.1 s | 1.4 s | 20 ms | 0 |
+  | `/application.html` | 100 | 100 | 100 | 92 | 1.1 s | 1.7 s | 0 ms | 0 |
+  | `/es/` (`es-index`) | 100 | 100 | 100 | 92 | 1.1 s | 1.6 s | 50 ms | 0 |
+  | `/es/application.html` | 100 | 100 | 100 | 92 | 1.1 s | 1.7 s | 10 ms | 0 |
+
+  - **Fixes made:**
+    1. Instrument Sans self-hosted instead of Google Fonts (`assets/fonts/`, OFL licence, preload, CSP without Google origins): First Contentful Paint 2.4 s → 1.1 s, layout shift on the Spanish home page 0.148 → 0, Performance 88–95 → 98–100.
+    2. `motion.js` creates the cascade's animations phase by phase instead of ~600 at once: Total Blocking Time 480–500 ms → 0–50 ms on the landing pages.
+    3. Transitions no longer animate `outline-color`, so the focus ring is coral at once, as in M1; before, it faded in from a lighter colour for about 100 ms.
+    4. `security-gate` criterion 3 skips the generated Lighthouse reports, whose browser version strings look like IPv4 (developer's decision).
+    5. The `git-workflow.md` example fix is now `[M2-S13]`.
+  - **Results:** `security-gate` 7 PASS; `a11y-gate` 72 PASS; manual audit 54/54 (keyboard order, skip link, ARIA, contrast of every text and border, navigation, 320–1280 px and 200 % zoom, tap targets, no English left on `es/`, no console errors); `<details>` menu by Enter/Space via the Playwright MCP; chrome-devtools trace (LCP 227 ms, CLS 0, 5 same-origin requests, no console messages); M1 consistency checked side by side (`consistency-*.png`). Evaluation matrix re-checked: everything met except E13 (partially, until S09) and L15, S2, S3, P4 (pending, S09–S11).
 
 ## Pending
 
-- Milestone 2 steps S08–S12 (plan in `activeContext.md`).
+- Milestone 2 steps S09–S12 (plan in `activeContext.md`).
 - Authentication for the backoffice (open question in `activeContext.md`).
 - Confirm the real public contact email (open question in `activeContext.md`). The office photos were confirmed by the developer on 2026-10-23.
 - The development-infrastructure step (Docker, Postgres + pgvector) moves to the first milestone that needs a database.

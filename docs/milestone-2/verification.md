@@ -295,15 +295,49 @@ bash .agents/skills/a11y-gate/check.sh 2; echo "exit=$?"
 
 ### Delivered
 
-_To be filled in this step._
+- Lighthouse 13.5.0 reports (HTML + JSON) for the four pages in `docs/milestone-2/lighthouse/`:
+
+| Page | Performance | Accessibility | Best practices | SEO | FCP | LCP | TBT | CLS |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `/` (`index`) | 100 | 100 | 100 | 92 | 1.1 s | 1.4 s | 20 ms | 0 |
+| `/application.html` | 100 | 100 | 100 | 92 | 1.1 s | 1.7 s | 0 ms | 0 |
+| `/es/` (`es-index`) | 100 | 100 | 100 | 92 | 1.1 s | 1.6 s | 50 ms | 0 |
+| `/es/application.html` | 100 | 100 | 100 | 92 | 1.1 s | 1.7 s | 10 ms | 0 |
+
+- **Fixes:**
+  - Instrument Sans self-hosted (`assets/fonts/`, OFL licence, preload, no Google requests, stricter CSP);
+  - the cascade creates its animations phase by phase (no long task);
+  - the focus ring no longer fades in;
+  - `security-gate` criterion 3 skips the generated reports;
+  - `[M2-S13]` in the `git-workflow.md` example.
+- The manual checklist (keyboard, ARIA, contrast, navigation, widths, 200 % zoom, bilingual, console): results in `accessibility.md`, S08.
+- M1 consistency: `docs/milestone-2/screenshots/consistency-{header,button,card,footer}-{m1,m2}.png`, side by side at 1280 px.
+- The evaluation matrix re-checked against the files.
 
 ### Commands
 
-_To be filled in this step._
+```bash
+pnpm build:site && pnpm test; echo "exit=$?"
+bash .agents/skills/security-gate/check.sh 2; echo "exit=$?"
+bash .agents/skills/a11y-gate/check.sh 2; echo "exit=$?"
+(npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false -c-1 &) ; sleep 3
+export CHROME_PATH=~/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome
+npx lighthouse@13.5.0 http://localhost:8080/ --chrome-flags="--headless=new --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output=html --output-path=docs/milestone-2/lighthouse/index
+python3 -c "import json,glob;[print(f.split('/')[-1], {k:round(v['score']*100) for k,v in json.load(open(f))['categories'].items()}) for f in sorted(glob.glob('docs/milestone-2/lighthouse/*.json'))]"
+grep -oE "(bg|text|border)-[a-z]+-[0-9]{2,3}" index.html application.html es/*.html     # empty: brand colours only
+grep -c "googleapis\|gstatic" index.html application.html es/*.html                     # 0 on every page
+grep -cE "Pending" docs/milestone-2/evaluation.md
+```
 
 ### Expected
 
-_To be filled in this step._
+- Build and tests `exit=0` (15 + 15 tests); `security-gate` 7 PASS; `a11y-gate` 72 PASS, 0 SKIP.
+- Lighthouse: Performance ≥ 90 (100 recorded), Accessibility, Best practices ≥ 90 (100), SEO ≥ 90 (92: only `robots.txt` is missing). Scores vary by a few points between runs; Total Blocking Time stays under 100 ms.
+- No default Tailwind palette colour; no Google reference.
+- `4` Pending rows (L15, S2, S3, P4); E13 "Partially met (local Lighthouse)" until S09.
+- By hand:
+  - keyboard only: everything reachable with a visible ring, and the phone menu opens and closes with Enter/Space;
+  - the reports open in a browser from `docs/milestone-2/lighthouse/*.report.html`.
 
 ## S09 — Performance evidence and public URL
 

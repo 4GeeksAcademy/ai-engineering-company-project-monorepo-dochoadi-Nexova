@@ -136,3 +136,20 @@ The motion is designed not to repeat the Milestone 1 findings:
 - **No flashing:** nothing changes more than three times per second; the fastest effect is the 1.1 s placement ring.
 - **Forced colours:** the gate's forced-colors screenshot does not scroll, so sections revealed on scroll appear empty in `docs/milestone-2/a11y/index-forced-colors.png`. A scrolled forced-colors check shows every section, the card edges (transparent borders), both pill buttons, the contact panel border and all the text.
 
+## S08 — Quality gates and manual checklist
+
+Run on 2026-10-23 (S08) on the four finished pages. `a11y-gate`: **72 PASS, 0 FAIL, 0 SKIP**, `exit=0`. Lighthouse Accessibility: 100 on every page.
+
+Manual checklist (a Python Playwright audit of the four pages, 54/54, plus the Playwright MCP for the phone menu):
+
+| Check | Result |
+| --- | --- |
+| Keyboard | Tab follows the visual order (column by column in the footer and beside the form intro); the skip link moves into `main`; the `<details>` menu opens with Enter, closes with Space, and its links follow it; no keyboard traps (Tab wraps to the start). Every link and button is reachable. |
+| Focus | 3 px coral ring with a 3 px offset (cream on dark bands) on every stop. Fixed: `transition-colors` also animated `outline-color`, so the ring faded in from a lighter coral for about 100 ms. Transitions now cover only text, background, border and underline colours. |
+| ARIA | `aria-current`, `aria-labelledby` (sections), `aria-describedby`/`aria-invalid` (fields), `aria-live` (counter), `role="alert"`/`role="status"`, `aria-pressed` (Pause), `aria-hidden` (decorative motion), `role="list"` (styled lists, for Safari). No redundant roles. |
+| Contrast | The computed colour of every visible text against its real background is ≥ 4.5:1 (large ≥ 3:1) on all four pages, including the form's error state; field and choice borders ≥ 3:1. |
+| Navigation | The same header, nav, footer and language switcher on every page, in the same place; `aria-current` on the current page; the switcher opens the twin page. |
+| Responsive | 320, 375, 768, 1024 and 1280 px: no horizontal scroll, no clipped text, every target ≥ 44 px (inline links inside a sentence are the WCAG 2.5.8 exception). |
+| Text zoom | 200 % (640 CSS px at 2× scale): no loss of content, no horizontal scroll. |
+| Bilingual | No English left in the visible text, `alt`, `aria-label`, descriptions or button labels of the `es/` pages (brand names aside); `lang="es"`; `hreflang` en/es/x-default; the switcher points to the English twin. |
+| Console | No errors on any page. |
