@@ -49,7 +49,9 @@ You are building **one company** across many milestones and projects. Each top-l
 
 ## Current status
 
-This repository is the Nexova Solutions monorepo, built on the template below. Milestone 1 ("Monorepo AI Setup") is delivered on the branch `chore/hito-1-ai-setup`.
+This repository is the Nexova Solutions monorepo, built on the template below. Milestone 1 ("Monorepo AI Setup") is merged into `main` (PR #1); Milestone 2 ("Your Company's Public Website") is on the branch `milestone-your-companys-public-website`.
+
+**Current milestone briefing:** [`BRIEFING.md`](./BRIEFING.md) (Milestone 2, "Your Company's Public Website": the official 4Geeks file, unmodified).
 
 **What exists:**
 
@@ -57,6 +59,7 @@ This repository is the Nexova Solutions monorepo, built on the template below. M
 | --- | --- | --- |
 | Corporate website | [`uis/website/`](./uis/website/README.md) | Public landing page, Next.js 16, port **3000**. |
 | Backoffice | [`uis/backoffice/`](./uis/backoffice/README.md) | Internal operations overview, Next.js 16, port **3001**, no authentication yet. |
+| Public website (Milestone 2) | repo root (`index.html`, `application.html`, `es/`) | The official public site of the brief: landing page and talent pool form, EN + ES, port **8080** (see "Public website" below). |
 | Shared package | [`packages/shared/`](./packages/shared/README.md) | `@repo/shared-types`: Nexova company data, types and the brand tokens (`styles/tokens.css`), defined once and imported by both UIs. |
 | Coding-agent configuration | [`AGENTS.md`](./AGENTS.md), [`.agents/`](./.agents/skills/README.md), [`memory-bank/`](./memory-bank/) | Operating protocol, rules with explicit scope, skills, and the persistent project memory. `CLAUDE.md` loads `AGENTS.md` for Claude Code. |
 
@@ -75,6 +78,55 @@ pnpm test             # unit tests (node:test) of every package
 `pnpm lint`, `pnpm typecheck` and `pnpm build` run the other checks across the workspace.
 
 **Milestone documentation:** [`docs/milestone-1/`](./docs/milestone-1/README.md): the evaluation matrix (`evaluation.md`), the verification guide (`verification.md`), the approved designs and the screenshots.
+
+## Public website
+
+Milestone 2 ("Your Company's Public Website") builds Nexova's public website from [`BRIEFING.md`](./BRIEFING.md): plain HTML, compiled Tailwind CSS 4.3.3 and vanilla JavaScript at the repository root (the brief requires them there), bilingual, WCAG 2.2 AA, with the Milestone 1 look and motion.
+
+| Page | What it is |
+| --- | --- |
+| `index.html` | Landing page (English, the base language): hero with the CV cascade, services, process, why Nexova, offices, contact. |
+| `application.html` | Talent pool application form: the 11 briefing fields, validated in real time by `validation.js`; the submission is simulated (nothing is sent). |
+| `es/index.html`, `es/application.html` | The same two pages in Spanish. |
+
+Supporting files: `tailwind.css` (source) → `styles.css` (compiled), `motion.js` (animations), `validation.js` (form rules and messages), `assets/` (logo, favicon, photos, self-hosted font), `robots.txt`, `sitemap.xml`, `tests/site/`.
+
+**Run it locally** (from the repository root, after `pnpm install`):
+
+```bash
+pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false -c-1
+```
+
+Then open <http://localhost:8080/> (Spanish: <http://localhost:8080/es/>). `pnpm serve:site` runs the same command.
+
+What each part does:
+
+- **`pnpm build:site`** compiles `tailwind.css` into the minified `styles.css` (Tailwind CLI) and then runs `scripts/build-site.mjs`, which copies **only** the public files (`index.html`, `application.html`, `validation.js`, `motion.js`, `styles.css`, `assets/`, `es/`, `robots.txt`, `sitemap.xml`) into `dist/` (git-ignored).
+- **`http-server … dist`** serves that clean copy, never the repository root. That way `.git`, `.env`, `.mcp.json` and the docs can never be downloaded from the site: a CISO requirement (finding SEC-1 in [`docs/milestone-2/security.md`](./docs/milestone-2/security.md)).
+- **`-p 8080`**: port 8080, because 3000 belongs to the Next.js website (`uis/website`) and 3001 to the backoffice.
+- **`-a 0.0.0.0`**: listen on every network interface, so Codespaces can forward the port.
+- **`-d false`**: no directory listings.
+- **`-c-1`**: no browser caching, so a reload always shows the latest pages and scripts. (A one-hour cache once kept old HTML pointing to old files.) The copies in `dist/` also ask for `styles.css`, `validation.js` and `motion.js` with a `?v=<hash>` version tag.
+
+**Rebuild the CSS** after changing classes in a page: run `pnpm build:site` again, or keep `pnpm watch:site` running while you work (it rebuilds `styles.css` on every save, unminified). Run `pnpm build:site` before committing, so the committed `styles.css` is minified. Styles are Tailwind utility classes on the markup, with the Nexova brand tokens from `packages/shared/styles/tokens.css` exposed as `brand-*` names (e.g. `bg-brand-green`).
+
+**Open it in GitHub Codespaces:** start the command in the Codespace terminal, open the **Ports** tab, and click the globe icon next to port **8080** (the devcontainer forwards it with the label "Public site"). To share it, right-click the port → **Port Visibility** → **Public**. PageSpeed Insights cannot test a Codespace (it only reaches GitHub's development-port warning page), so measure the public URL with Lighthouse; set the port back to Private afterwards.
+
+**Run the tests:**
+
+```bash
+pnpm test        # package tests (shared, website, backoffice) and the site tests
+pnpm test:site   # only the site tests: tests/site/validation.test.cjs (every validation rule and message)
+```
+
+**Run the quality gates** (both must exit 0 before every pull request):
+
+```bash
+bash .agents/skills/security-gate/check.sh 2   # secrets, IPs, dependency audit, safe server, unsafe APIs, CSP
+bash .agents/skills/a11y-gate/check.sh 2       # WCAG 2.2 AA: axe, structure, labels, keyboard, reflow, reduced motion
+```
+
+**Documentation:** [`docs/milestone-2/`](./docs/milestone-2/README.md): the [evaluation matrix](./docs/milestone-2/evaluation.md), the [verification guide](./docs/milestone-2/verification.md) (with the manual checklists and a five-command re-check), [content decisions](./docs/milestone-2/content-decisions.md), [security](./docs/milestone-2/security.md), [accessibility](./docs/milestone-2/accessibility.md), [performance](./docs/milestone-2/performance.md) and the [learning log](./docs/milestone-2/learning-log.md).
 
 ---
 

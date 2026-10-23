@@ -7,9 +7,10 @@ Type: technical
 | Layer | Technology | Location |
 | --- | --- | --- |
 | Frontends | Next.js (App Router) + TypeScript in `strict` mode | `uis/website`, `uis/backoffice` |
+| Public site (Milestone 2) | Plain HTML + compiled Tailwind CSS v4 + vanilla JavaScript, served with `npx http-server` on port 8080 | Repo root (`index.html`, `application.html`, `validation.js`, `es/`) |
 | Runtime | Node.js 24.18.1 (`engines: >=24 <25`) | Repo root |
 | JS/TS package management | pnpm 12.11.2 workspace (`packageManager` pinned, enabled via Corepack) | Repo root |
-| TypeScript | 5.9.3, the only root dev dependency; shared options in `tsconfig.base.json` (`strict`, `noUncheckedIndexedAccess`, `ESNext`/`Bundler`, `verbatimModuleSyntax`, `allowImportingTsExtensions`, `noEmit`) | Repo root |
+| TypeScript | 5.9.3, a root dev dependency (with `tailwindcss` and `@tailwindcss/cli` 4.3.3 for the root site, S03); shared options in `tsconfig.base.json` (`strict`, `noUncheckedIndexedAccess`, `ESNext`/`Bundler`, `verbatimModuleSyntax`, `allowImportingTsExtensions`, `noEmit`) | Repo root |
 | Shared types and data | `@repo/shared-types` package | `packages/shared` |
 | Backend (future) | Python + FastAPI as the company's **single API**, with one router per domain | `services/` |
 
@@ -24,11 +25,43 @@ Type: technical
 
 ## Website (`uis/website`)
 
-- **Stack:** Next.js 16.4.0 (App Router, Turbopack), React 19.3.0, TypeScript 5.9.3 `strict` (the app's `tsconfig.json` extends `tsconfig.base.json` and adds the DOM libs, JSX and the Next plugin), ESLint 9 with `eslint-config-next` 16.4.0, `@types/node` 24 for `node:test`. Styling is CSS Modules only: no CSS framework, UI kit or animation library. `next.config.ts` sets `transpilePackages: ["@repo/shared-types"]` and `agentRules: false`, so `next dev` does not write its own `AGENTS.md`; the scaffold defaults `cacheComponents` and `partialPrefetching` are kept, and `/` prerenders as static.
+- **Stack:** Next.js 16.4.1 (App Router, Turbopack), React 19.3.0, TypeScript 5.9.3 `strict` (the app's `tsconfig.json` extends `tsconfig.base.json` and adds the DOM libs, JSX and the Next plugin), ESLint 9 with `eslint-config-next` 16.4.1, `@types/node` 24 for `node:test`. Patched from 16.4.0 in M2-S02 (security advisories, see `docs/milestone-2/security.md`). Styling is CSS Modules (the M1 Next.js apps keep them; Tailwind is used only by the root public site): no UI kit or animation library. `next.config.ts` sets `transpilePackages: ["@repo/shared-types"]` and `agentRules: false`, so `next dev` does not write its own `AGENTS.md`; the scaffold defaults `cacheComponents` and `partialPrefetching` are kept, and `/` prerenders as static.
 - **Font:** Instrument Sans through `next/font/google` (variable font covering weights 400–700), exposed as `--font-instrument-sans`.
 - **Design source:** `docs/milestone-1/design/nexova-landing-v4.html`, a self-unpacking Claude Design bundle (`__bundler/manifest` with fonts and the Design runtime, `__bundler/template` with the page and a `Component` class holding the behaviour). The website ports its layout, copy, tokens and every `setup*` method and `tick()`.
 - **Structure:** `app/` (layout with metadata and JSON-LD Organization, page, `globals.css` importing the shared brand tokens and adding the website-only ones on `:root`), `components/` (one component per section, each with a CSS Module: `Header` + `MobileNav`, `Hero` + `RoleTicker` + `CvCascade`, `Marquee`, `KeyFigures` + `CountUp`, `Services`, `Process`, `Industries`, `HumanAndAi`, `About` + `OfficePhotos` + `OfficeClock`, `ContactCta`, `Footer`; shared `Button`, `Reveal`, `PulseDot`), `content/home.ts` (typed copy), `lib/` (`cvField.ts` + test, `time.ts`, `motion.ts`, `jsonLd.ts`), `public/images/` (office photos).
 - **Conventions:** company facts come from `@repo/shared-types` and are interpolated into the copy, never retyped; components never use raw colour values; `"use client"` only on components with behaviour; every listener, timer, animation and observer is cleaned up on unmount; `prefers-reduced-motion` skips scroll and pointer effects and shows the hero's final state.
+
+## Public site at the root (Milestone 2)
+
+- **At a glance (M2, after S11):**
+  - **Pages:** `index.html`, `application.html`, `es/index.html`, `es/application.html`.
+  - **Scripts and styles:** `validation.js` (form) and `motion.js` (M1 motion); `tailwind.css` → `styles.css` (Tailwind 4.3.3, compiled).
+  - **Assets:** `assets/` (logo, favicon, WebP photos, self-hosted font); `robots.txt` and `sitemap.xml`.
+  - **Tests:** `tests/site/` (15 `node:test` tests, also run by `pnpm test`).
+  - **Commands:** build with `pnpm build:site`; serve with `pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false -c-1` (= `pnpm serve:site`).
+  - **Gates:** `bash .agents/skills/security-gate/check.sh 2` and `bash .agents/skills/a11y-gate/check.sh 2`.
+  - **Performance:** Lighthouse 13.5.0 locally and on the public Codespaces URL (PageSpeed Insights cannot reach a Codespace: it only gets GitHub's development-port warning page).
+- **What:** the official public website of the brief: `index.html` (landing) and `application.html` (talent pool form) with `validation.js`, Spanish pages in `es/`, assets in `assets/`, tests in `tests/site/`. At the repo root because the brief requires it (documented exception in `.agents/rules/monorepo-structure.md`).
+- **Styling:** compiled Tailwind CSS **4.3.3** (root devDependencies `tailwindcss` and `@tailwindcss/cli`, both pinned; the CLI alone cannot resolve `@import "tailwindcss"` without the core package). `tailwind.css` (input) → minified `styles.css` (committed, ~19 KB). Only the root site uses Tailwind. **Why compiled, not the browser CDN:** the CDN compiles the CSS in every visitor's browser on every visit, which hurts the PageSpeed score (E13 needs ≥ 80); the brief allows `styles.css` when the CDN is not enough.
+- **`tailwind.css`:** `@import "tailwindcss" source(none)` plus `@source` for only `index.html`, `application.html`, `es/*.html`, `validation.js` and `motion.js` (so `docs/` design bundles and `uis/` are never scanned); `@import "./packages/shared/styles/tokens.css"`; `@theme inline` maps every brand token to a `brand-` Tailwind name with no hex retyped: colours `--color-brand-<name>: var(--color-<name>)` (all 19), `--font-brand`, radii `--radius-brand-{pill,cta,card,figure,field,cv}`, shadows `--shadow-brand-{header,menu,hero-card,card,card-dark,card-coral,chip,cv,cv-glow}` (`card` = `--shadow-card-light`), easings `--ease-brand-{out,in-out,pop,drop,place}`. One commented `:root` rule defines `--font-instrument-sans: "Instrument Sans"` (next/font sets it in the Next.js apps; `tokens.css` reads it and is not edited). Instrument Sans is self-hosted since S08: `assets/fonts/instrument-sans-latin.woff2` (29,904 bytes, the Latin subset of the variable font, weights 400–700, covering every Spanish character; the same file the M1 design bundle embeds) with its licence `assets/fonts/OFL.txt` (SIL OFL 1.1), loaded by a commented `@font-face` (`font-display: swap`) in `tailwind.css` and a `<link rel="preload">` on every page. No request goes to Google.
+- **Scripts (root `package.json`):** `build:site` = `tailwindcss -i tailwind.css -o styles.css --minify && node scripts/build-site.mjs`; `watch:site` (same with `--watch`, unminified); `serve:site` = `pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false -c-1`; `test:site` = `node --test "tests/site/**/*.test.*"` (a bare folder argument fails in Node 24, so the quoted glob is expanded by Node). Since S06 the root `test` = `pnpm -r --if-present test && pnpm test:site` (15 package tests + 15 site tests).
+- **Serving (SEC-1 resolved in S03):** the documented command (E7) is `pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false -c-1` (`-c-1`: no browser caching since S07; with the default one-hour cache a reload could keep old HTML pointing to old files). `scripts/build-site.mjs` (Node standard library only) deletes `dist/` (git-ignored) and copies only the allowlist `index.html`, `application.html`, `validation.js`, `motion.js`, `styles.css`, `assets/`, `es/`, `robots.txt`, `sitemap.xml` (missing entries skipped; dotfiles and symlinks never copied), so `.git`, `.env`, `.mcp.json`, `docs/` and `memory-bank/` can never be downloaded. Port 8080 because 3000 is the Next.js website; Codespaces forwards it automatically (Ports tab), and `forwardPorts` has included 8080 since S10.
+- **Pages:** each page has its own CSP meta (`default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; form-action 'self'; base-uri 'self'; object-src 'none'`), absolute `hreflang` alternates and a canonical of their own (since S05: `https://nexova.com/`, `/es/`, `/application.html`, `/es/application.html`; `x-default` → the English URL), the favicon `assets/favicon.svg` and the wordmark `assets/nexova-logo.svg` (Instrument Sans 600 glyphs converted to SVG paths, so it renders the same inside an `<img>`, where web fonts do not load). The mobile menu is a `<details>`/`<summary>` below `md:` (its panel is `hidden group-open:block`), with no JavaScript.
+- **Landing images (S04):** `assets/valencia.webp` (67,298 bytes) and `assets/miami.webp` (148,322 bytes), both 1200 × 800 (the M1 originals were already 1200 px wide, so they were only re-encoded), converted from `uis/website/public/images/*.jpg` with Pillow 13.0.0 (`python3 -m pip install --user pillow`) and a one-off script in `/tmp` (WebP, quality 78, method 6); nothing added to the repo. Served with explicit `width`/`height`, `loading="lazy"`, `decoding="async"`.
+- **Landing SEO (S04):** the briefing's Organization JSON-LD in `<head>` (a data block, not executed, so `script-src 'self'` holds); `rel="canonical"` to `https://nexova.com/` and `https://nexova.com/es/` (the domain from the briefing's JSON-LD); Open Graph `og:title`, `og:description`, `og:type=website`, `og:locale` `en_US`/`es_ES` with `og:locale:alternate`; absolute `hreflang` links consistent with the canonical (S05).
+- **Form markup (S05):** `<form id="talent-form" action="#" method="post">` (post keeps answers out of the URL; S06 intercepts the submit), no `novalidate` in the HTML (`validation.js` sets it), no JavaScript yet. Fields: paper background, 1.5 px `green-mid` border (4.55:1, WCAG 1.4.11; the `line` token is 1.31:1), `radius-field`, min 48 px, coral focus ring, `aria-[invalid=true]:border-brand-rust`; radios and the checkbox are 48 px label tiles with `accent-brand-green` and `has-checked:` states; hints sit below the inputs. Hooks for S06: `#<id>-error` (hidden `p`), `#<id>-hint`, `#additional_comments-counter` (`aria-live`), `#form-errors` (`role="alert"`, `tabindex="-1"`), `#form-success` (`role="status"`), `#data-policy`.
+- **`validation.js` (S06):** one plain-JavaScript file at the root, no library and no build step, loaded with `defer` by both form pages (CSP `script-src 'self'`). An IIFE exports `{ MESSAGES, FIELDS, validateField, validateAll, remaining }` through `module.exports` for Node, and runs its DOM layer only when `document` exists. The language comes from `<html lang>`. Tested by `tests/site/validation.test.cjs` (`require("../../validation.js")`; the root `package.json` has no `"type"`, so `.js` loads as CommonJS). Utility classes added from JavaScript (error icon, summary, success panel, `aria-[invalid=false]:border-brand-green`, `content-start`) are compiled because `tailwind.css` scans `validation.js`.
+- **Cache busting (S06, S07):** `scripts/build-site.mjs` rewrites, in the `dist/` HTML only, `styles.css`, `validation.js` and `motion.js` to `?v=<first 8 hex of the SHA-256>`; together with `-c-1` (no caching, S07), a reload always shows the latest files.
+- **`motion.js` (S07):** plain JavaScript at the root (`defer`, no module, no dependency, ~16 KB unminified, slightly above the 15 KB target), loaded by all four pages and on the `dist/` allowlist; `tailwind.css` scans it (`@source`). It ports M1's `lib/motion.ts` (`inView`, `observeOnce`, `onScrollFrame`) and the behaviour of Reveal, CountUp, CvCascade (with the seeded `cvField`, seed 2011, 72 cards), Marquee, OfficePhotos and OfficeClock, plus the header shadow. Everything is animated with the Web Animations API (`element.animate`) or Tailwind class toggles, never `style=`: the cascade timeline is scheduled up front with delays, so one pause control pauses it, and phase labels follow a master animation's clock. Easing values come from the brand tokens (`--ease-*`). Because Tailwind v4 `translate-*`/`scale-*` classes set the separate `translate`/`scale` properties, the elements `motion.js` animates do not use them for state. Pause state: `localStorage` key `nexova-motion-paused` (inside `try`/`catch`, not personal data).
+- **Renumbered Milestone 2 steps (S07):** S07 the M1 landing experience, S08 quality gates, S09 performance evidence and public URL, S10 documentation (and the devcontainer: port 8080 and the SEC-4 pins), S11 recap and pull request, S12 merge after the instructor's approval. S13 closed the final audit's items, so the merge takes the next free step number and a teacher-requested fix is `[M2-S14]`.
+- **Lighthouse (S08):** `lighthouse@13.5.0` (the current release, pinned) through `npx`, against the documented server on port 8080, with Playwright's Chromium: `CHROME_PATH=~/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome npx lighthouse@13.5.0 <url> --chrome-flags="--headless=new --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output=html --output-path=docs/milestone-2/lighthouse/<page>`. Reports in `docs/milestone-2/lighthouse/` (skipped by `security-gate` criterion 3: browser version strings look like IPv4). S08 results: Performance 100, Accessibility 100, Best practices 100, SEO 92 on all four pages (SEO only misses `robots.txt`).
+- **`motion.js` start-up (S08):** the cards are built in one task and each cascade phase creates its animations when the master clock reaches it, so no long task blocks the page (Total Blocking Time 480–500 ms → 0–50 ms in Lighthouse). The score bars animate the `scale` property from a `scale-x-0` class.
+- **SEO files and public URL (S09):** `robots.txt` (allow all, `Sitemap: https://nexova.com/sitemap.xml`) and `sitemap.xml` (four pages, `hreflang` alternates) at the root, copied into `dist/`. The public Codespaces URL carries `x-robots-tag: noindex, nofollow` (added by GitHub's port forwarding), so Lighthouse SEO reads 61 there (PageSpeed Insights cannot test the site at all: it only reaches GitHub's development-port warning page); locally SEO is 92 because Lighthouse fetches `robots.txt` from the page and the CSP `connect-src 'none'` blocks it (search engines fetch it directly). Allowing `connect-src 'self'` would make it 100; not done (security trade-off, developer's call).
+- **pnpm settings in `pnpm-workspace.yaml`:** `allowBuilds` also lists `"@parcel/watcher": false` (a `@tailwindcss/cli` dependency whose install script is only a build-from-source fallback; the prebuilt `@parcel/watcher-linux-x64-glibc` is used). `auditConfig.ignoreGhsas: [GHSA-vfj7-8cjw-p6xm]` is the accepted SEC-2 exception (`braces` via `eslint-config-next`: dev-only, not shipped, no fix; reviewed in S11: still accepted until a fix is published). pnpm 12 ignores the old `"pnpm"` field in `package.json`, so these settings live in `pnpm-workspace.yaml`.
+- **Content:** `BRIEFING.md` (unmodified) is the source of truth; deliberate differences in `docs/milestone-2/content-decisions.md`.
+- **Approved new dev tools for Milestone 2** (each pinned, installed in its step): `tailwindcss` and `@tailwindcss/cli` 4.3.3 (installed in S03 as root devDependencies); `http-server` 14.1.1 via `npx` (S03, never installed); the dev MCP servers `@playwright/mcp`, `chrome-devtools-mcp` and `@upstash/context7-mcp` (S02).
+- **Pinned dev tools in use (M2-S02):** `http-server@14.1.1` via `npx` (both gates start it on `127.0.0.1:8099`; S03 serves the site on 8080); `axe-playwright-python==0.1.8` (MIT, bundles axe-core 4.12.1), installed with `pip install --user -r .agents/skills/a11y-gate/requirements.txt` on top of Playwright for Python from `post-create.sh`.
+- **`http-server` caveat (SEC-1):** in 14.1.1, `--no-dotfiles` only hides dotfiles from directory listings; files such as `/.git/config` and `/.mcp.json` are still served by direct URL. Serving the repo root would expose the whole repository, which is why only `dist/` is served (above). Both gates build and serve `dist/` the same way on `127.0.0.1:8099` (`security-gate` since S03, `a11y-gate` since S04); neither ever serves the repo root.
 
 ## Shared brand tokens
 
@@ -37,10 +70,34 @@ Type: technical
 
 ## Backoffice (`uis/backoffice`)
 
-- **Stack:** identical to the website (Next.js 16.4.0, React 19.3.0, TypeScript 5.9.3 `strict`, ESLint 9 with `eslint-config-next` 16.4.0, `@types/node` 24, CSS Modules, Instrument Sans via `next/font/google`); no other dependency. Port 3001 (`pnpm dev:backoffice`). No authentication yet.
+- **Stack:** identical to the website (Next.js 16.4.1, React 19.3.0, TypeScript 5.9.3 `strict`, ESLint 9 with `eslint-config-next` 16.4.1, `@types/node` 24, CSS Modules, Instrument Sans via `next/font/google`); no other dependency. Port 3001 (`pnpm dev:backoffice`). No authentication yet.
 - **Design source:** `docs/milestone-1/design/nexova-backoffice.html`, a Claude Design bundle of the same kind as the website's; its inline data was a stand-in, replaced by `@repo/shared-types`.
 - **Structure:** `app/` (own layout with sidebar, top bar and `main`; route `/` "Operations overview"; `globals.css`), `components/` (`Sidebar`, `TopBar` + `LiveClock`, `SlaKpi`, `HeadcountKpi`, `WorkByType` + `NeedsFilter` context, `DepartmentCard` + `SpotlightCard`/`NeedList`/`SupportClock`, `AgentCard`, `OpenQuestions`), `content/overview.ts` (copy, department display order and short labels), `lib/` (`metrics.ts` pure calculations with `node:test`, `departments.ts`, `format.ts`, `motion.ts`).
 - **Conventions:** same as the website; it never imports from `uis/website`. Clocks use `useSyncExternalStore` with a `null` server snapshot (no hydration mismatch) and refresh every 30 s.
+
+## MCP servers
+
+### Development (in use, `.mcp.json`, Claude Code project scope)
+
+| Server | Package (exact pin) | Used for |
+| --- | --- | --- |
+| `playwright` | `@playwright/mcp@0.0.83` (`--headless --isolated --browser chromium`) | Driving a real browser: filling and submitting the form, keyboard navigation, accessibility tree, widths (S05–S08) |
+| `chrome-devtools` | `chrome-devtools-mcp@1.12.0` (`--headless --isolated`, Chromium from the Playwright cache, `--no-sandbox`) | Performance traces, network and console, Lighthouse-style insights before PageSpeed (S08–S09) |
+| `context7` | `@upstash/context7-mcp@4.4.4` | Up-to-date docs for Tailwind v4 and Next.js 16 (S03–S06) |
+
+All three are free and need no key. If a Context7 key is ever added, it comes from a Codespaces secret through `${CONTEXT7_API_KEY}`, never written in `.mcp.json`. Chromium for both browser servers: `npx -y playwright@1.64.0-alpha-1790635538000 install chromium` (already in `.devcontainer/post-create.sh`). Claude Code asks to approve project servers once; they load in a new session.
+
+### MCP servers (planned)
+
+Not installed; each follows the MCP rules in `.agents/rules/security-and-data.md` (pinned, least privilege, secrets only from environment variables, free only).
+
+- **Postgres (read-only)**, when the database arrives.
+- **n8n**, in the automations milestone (Nexova workflows in their own folder, exported to `workflows/`).
+- **Product servers in `mcps/`:** `knowledge-base` (L1 Support Agent, tenant-filtered) and `candidates` (CV Matching Agent).
+- **HubSpot** (free CRM tier) or mock data, and **Zendesk** with mock data only, for Sales and Support.
+- **Gmail / Google Workspace** (candidate status emails; drafts only in the demo).
+- **Telemetry** with free tools only: Sentry's free developer plan, or open source (OpenTelemetry + Grafana).
+- **Optional:** GitHub MCP (`gh` already covers it) and Figma MCP (if designs move to Figma).
 
 ## Planned agent stack
 
@@ -95,7 +152,7 @@ According to `Company-choice.md`:
   - image `mcr.microsoft.com/devcontainers/javascript-node:24` (Debian, glibc), remote user `node`;
   - features: Python 3.12 (for `webapp-testing` scripts and the future FastAPI backend), GitHub CLI (`gh`) and sshd;
   - no Docker socket mount and no Docker-in-Docker yet (see "Infrastructure plan" below);
-  - `post-create.sh`: `corepack enable` + `corepack install` (the pnpm version pinned in `packageManager`), `pnpm install --frozen-lockfile`, `uv sync` only when `pyproject.toml` exists, Playwright with Chromium for `.agents/skills/webapp-testing`, and the Claude Code CLI; it ends by printing the Node, pnpm and Python versions.
+  - `post-create.sh`: `corepack enable` + `corepack install` (the pnpm version pinned in `packageManager`), `pnpm install --frozen-lockfile`, `uv sync` only when `pyproject.toml` exists, Playwright with Chromium for `.agents/skills/webapp-testing`, the Chromium build of the dev MCP servers (`npx -y playwright@1.64.0-alpha-1790635538000 install chromium`, the exact Playwright pinned by `@playwright/mcp@0.0.83`), and the Claude Code CLI; it ends by printing the Node, pnpm and Python versions.
 - **Node 24 everywhere:** local development (`.nvmrc` = `24`, `engines` `>=24 <25`), the devcontainer image, and the future Docker images on the VPS, which will be based on the official Node 24 images.
 - **Ports:**
 
@@ -103,10 +160,11 @@ According to `Company-choice.md`:
 | --- | --- |
 | 3000 | `uis/website` (`pnpm dev:website`) |
 | 3001 | `uis/backoffice` |
+| 8080 | Root public site (Milestone 2, `npx http-server`) |
 | 8000 | FastAPI API (future) in `services/` |
 | 5678 | n8n (`workflows/`) |
 
-The devcontainer forwards all four ports, labelled Website, Backoffice, API and n8n.
+The devcontainer forwards 3000, 3001, 8000 and 5678, labelled Website, Backoffice, API and n8n; port 8080 is not in the devcontainer yet (Codespaces forwards it automatically when the server starts).
 
 ## Infrastructure plan
 

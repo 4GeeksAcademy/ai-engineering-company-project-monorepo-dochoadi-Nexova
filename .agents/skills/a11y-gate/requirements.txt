@@ -1,0 +1,4 @@
+# Python dev tools for the a11y-gate skill. Install with:
+#   pip install --user -r .agents/skills/a11y-gate/requirements.txt
+# Playwright for Python and its Chromium come from .devcontainer/post-create.sh.
+axe-playwright-python==0.1.8

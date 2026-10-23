@@ -42,3 +42,7 @@ Put each change in the folder that owns it (source: each folder's `README.md`):
 2. Define Nexova company data (departments, managers, business lines, figures such as 120 employees or the 24 h SLA) once in `packages/shared` and import it; never copy it into an app.
 3. Never create a top-level folder that duplicates an existing one (e.g. no `apps/` next to `uis/`, no `api/` next to `services/`, no `lib/` next to `packages/`).
 4. Do not put application code at the repo root.
+
+## Documented exception: the Milestone 2 public site
+
+The Milestone 2 public site lives at the repository ROOT (`index.html`, `application.html`, `validation.js`, `styles.css`, `tailwind.css`, `assets/`, `tests/site/`, and the Spanish pages in `es/`) because the 4Geeks brief requires those files at the root. The Next.js apps stay in `uis/`.
