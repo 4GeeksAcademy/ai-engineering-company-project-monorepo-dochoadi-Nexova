@@ -413,7 +413,7 @@ Start the site with `pnpm serve:site` and open <http://localhost:8080/> (Codespa
 
 - [ ] Header: the Nexova wordmark, Home / Services / Talent / Contact (ES: Inicio / Servicios / Talento / Contacto), the language link; at 375 px a "Menu" / "Menú" pill opens and closes the links.
 - [ ] Hero: the briefing headline and subheadline verbatim, the green "Join our talent pool" / "Únete a nuestro banco de talento" button (opens the form); the CV cascade plays and ends with one coral card "Placed"; "Replay" plays it again; "Pause animations" stops the cascade, the marquee and the clocks and stays paused after a reload.
-- [ ] Services (3 cards), Process (4 steps), Why Nexova ("12" and "+500" count up; Spain and United States; the three sectors), Offices (the photos open; the Valencia and Miami clocks show local time), Contact (email and both phones are links), footer (© 2025 Nexova, LinkedIn and Instagram open in a new tab).
+- [ ] Services (3 cards), Process (4 steps), Why Nexova (2 columns from 768 px, 1 column on phones; "12" and "+500" count up; Spain and United States; the three sectors), Offices (the photos open; the Valencia and Miami clocks show local time), Contact (email and both phones are links), footer (© 2025 Nexova, LinkedIn and Instagram open in a new tab).
 - [ ] One column at 375 px, nothing cut off; no horizontal scroll at any width.
 - [ ] With "reduce motion" switched on in the operating system: the cascade shows its final frame, the numbers are final, nothing moves.
 
@@ -454,15 +454,36 @@ Expected:
 
 ### Delivered
 
-_To be filled in this step._
+- "Why Nexova" in 2 columns, as the briefing asks (it was 3 columns): a 2×2 grid from `md:` (768 px), 1 column on phones, in `index.html` and `es/index.html`; `styles.css` rebuilt; the six `screenshots/landing-*` retaken; a row in `content-decisions.md`.
+- Final security review: `security-gate` and `/security-review` (no findings), recorded in `security.md`.
+- Final accessibility review: `a11y-gate`, recorded in `accessibility.md`.
+- `recap.md` (the `milestone-recap` skill) and `report.md` (the deliverable report, same structure as Milestone 1).
+- `evaluation.md`: E26 re-verified, S2 done in the PR, P1–P4 updated (P4 Met).
+- Links to every report from `docs/milestone-2/README.md` and `docs/README.md`.
+- The pull request to `main` (not merged).
 
 ### Commands
 
-_To be filled in this step._
+```bash
+pnpm build:site && pnpm test; echo "exit=$?"
+bash .agents/skills/security-gate/check.sh 2; echo "security exit=$?"
+bash .agents/skills/a11y-gate/check.sh 2; echo "a11y exit=$?"
+bash .agents/skills/milestone-recap/check.sh 2; echo "recap exit=$?"
+bash .agents/skills/update-memory-bank/check.sh; echo "memory bank exit=$?"
+grep -c 'md:grid-cols-2' index.html es/index.html
+grep -n 'Pending' docs/milestone-2/evaluation.md
+ls docs/milestone-2
+gh pr view --json state,baseRefName,headRefName
+```
 
 ### Expected
 
-_To be filled in this step._
+- 15 package tests and 15 site tests pass, `exit=0`.
+- `security-gate` 7 PASS; `a11y-gate` 72 PASS, 0 FAIL, 0 SKIP; recap "All 6 criteria passed"; memory bank 5 PASS (every `exit=0`).
+- At least `1` match of `md:grid-cols-2` per landing page (the "Why Nexova" list).
+- No `Pending` rows left.
+- `docs/milestone-2` lists `recap.md` and `report.md` next to the other reports.
+- The PR is `OPEN`, base `main`, head `milestone-your-companys-public-website`.
 
 ## S12 — Merge (after the instructor's approval)
 

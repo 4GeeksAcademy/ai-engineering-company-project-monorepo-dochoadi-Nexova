@@ -10,12 +10,10 @@ Type: status
 
 ## Next steps
 
-1. **S11 (next): milestone recap and pull request.** Run the `milestone-recap` skill (`docs/milestone-2/recap.md`, `check.sh 2`), re-run both gates, and open the PR with the checklist from `.agents/rules/git-workflow.md`: the public URL (S2) and the Lighthouse screenshots (S3) in the description. Then S12: merge only after the instructor's recorded approval.
-2. **Make port 8080 private after the PR review:** the public Codespaces URL (L15) stays public only until the instructor has reviewed the pull request; then the developer sets it back to Private in the Ports tab.
-4. **S11:** milestone recap (`milestone-recap` skill) and the pull request.
-5. **S12:** merge, only after the instructor's recorded approval (rule in `.agents/rules/git-workflow.md`).
-6. Both gates (`security-gate`, `a11y-gate`) must exit 0 before the pull request (`AGENTS.md` step 7).
-7. Every step appends its section to `docs/milestone-2/learning-log.md` before committing.
+1. **PR open, waiting for the teacher's validation.** Milestone 2 is complete (S01–S11). The next action is the developer's: review the pull request and, after the instructor's recorded approval, S12 merges it into `main` with "Create a merge commit" (rule in `.agents/rules/git-workflow.md`). The coding agent never merges.
+2. **Teacher's changes, if any:** made on this same branch as extra step commits (`[M2-S13] fix(...): …`), never on `main`.
+3. **Make port 8080 private after the PR review:** the public Codespaces URL (L15) stays public only until the instructor has reviewed the pull request; then the developer sets it back to Private in the Ports tab.
+4. **Next milestone:** to be defined; it starts from an up-to-date `main` only after the M2 merge.
 
 ## Milestone 1 history
 
@@ -32,6 +30,7 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
 
 ## Recent decisions
 
+- **M2-S11 recap and PR:** "Why Nexova" changed to 2 columns (2×2 from `md:`) because the briefing asks for 2 columns (the final audit's only FAIL, E26); final `security-gate`, `/security-review` and `a11y-gate` all clean; `recap.md` and `report.md` written; PR opened, not merged.
 - **M2-S10 docs:** the public-URL scores are Lighthouse 13.5.0, not PageSpeed (PageSpeed only reached the Codespaces warning page); SEO 92 with `connect-src 'none'` is accepted (developer's decision); the verification guide, README, memory bank and a retroactive Milestone 1 learning log are complete; the devcontainer forwards 8080 and pins its installs (SEC-4 fixed).
 - **M2-S09 public URL (tool corrected in S10):** Lighthouse 13.5.0 on the public Codespaces URL (PageSpeed Insights only reached GitHub's development-port warning page): Performance 99/100 (home), 95/100 (form), Accessibility and Best practices 100 (SEO 61 because Codespaces adds `x-robots-tag: noindex`). `robots.txt` and `sitemap.xml` added (developer's approval after S08). Port 8080 stays public until the PR review.
 - **M2-S08 quality gates:** Instrument Sans self-hosted (OFL file + licence in `assets/fonts/`, preload, no Google requests, CSP without Google origins), which closes the Google Fonts GDPR production note and took Performance from 87–95 to 100; the cascade creates its animations phase by phase (no long task); transitions no longer animate the focus-ring colour (it appears at once, as in M1); `security-gate` criterion 3 skips the generated Lighthouse reports (developer's decision); the `git-workflow.md` example fix is `[M2-S13]`.
@@ -50,7 +49,7 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
 - **Root location:** the public site lives at the repo root because the brief requires it (documented exception in `.agents/rules/monorepo-structure.md`); `uis/website` stays as the M1 company-facing landing prototype.
 - **Compiled Tailwind CSS v4** for the root site only, served with `npx http-server` on port 8080; the M1 Next.js apps keep CSS Modules.
 - **Form fields:** exactly the 11 fields of `BRIEFING.md`, no extra fields.
-- **Static hero:** no CV cascade animation on the root site.
+- **Hero:** static in M2-S04; the M1 CV cascade was added in M2-S07 (developer's decision), with reduced motion and a Pause control.
 - **Sales manager = Marcos Ibáñez.** Source: the detailed department profile in `CONTEXT.md` ("Sales and Business Development" section, line 62), which matches the forecasting brief `docs/briefs/sales-forecasting.md`. This is the name used throughout the memory bank and the code. `CONTEXT.md` is not modified.
 - **Milestone 1 has 13 steps:** 9 devcontainer, 10 website, 11 backoffice, 12 conventions and cleanup, 13 final report and PR.
 - **Node 24 on a glibc image** for development, devcontainer and the future VPS Docker images, to match production.

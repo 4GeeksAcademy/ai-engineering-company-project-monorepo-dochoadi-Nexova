@@ -153,3 +153,38 @@ Manual checklist (a Python Playwright audit of the four pages, 54/54, plus the P
 | Text zoom | 200 % (640 CSS px at 2× scale): no loss of content, no horizontal scroll. |
 | Bilingual | No English left in the visible text, `alt`, `aria-label`, descriptions or button labels of the `es/` pages (brand names aside); `lang="es"`; `hreflang` en/es/x-default; the switcher points to the English twin. |
 | Console | No errors on any page. |
+
+## S11 — Final accessibility review (before the pull request)
+
+Run on 2026-10-23 (S11), including the "Why Nexova" two-column fix. `bash .agents/skills/a11y-gate/check.sh 2` → **72 PASS, 0 FAIL, 0 SKIP**, `exit=0`.
+
+| Page | 375 px | 768 px | 1280 px | Page-level checks |
+| --- | --- | --- | --- | --- |
+| `index.html` | axe 0 serious/critical; structure, images, labels PASS; keyboard 17 stops | same; keyboard 20 stops | same; keyboard 20 stops | reflow at 320 px, reduced motion, forced-colors screenshot: PASS |
+| `application.html` | axe 0; 14 labelled controls; keyboard PASS | same | same | PASS |
+| `es/index.html` | axe 0; keyboard 17 stops | same; 20 stops | same; 20 stops | PASS |
+| `es/application.html` | axe 0; 14 labelled controls; keyboard PASS | same | same | PASS |
+
+**The S08 manual checklist still holds** (54/54, re-run in the final audit):
+- keyboard order column by column, the skip link, the `<details>` menu with Enter/Space, no keyboard traps;
+- ARIA only where useful, no redundant roles;
+- computed contrast of every text and form border;
+- the same navigation on every page;
+- 320–1280 px and 200 % zoom;
+- no English left on the Spanish pages, and no console errors.
+
+The form was re-verified in the final audit in both languages (every rule and message, the summary, the live regions, success, Clear).
+
+**Milestone 1 baseline items still open** (in `uis/`, not the public site): A11Y-1 (scroll-linked dimmed text), A11Y-2 (contrast during fades), A11Y-3 (tiny headcount segments), A11Y-4 (40 px filter buttons), A11Y-5 (endless marquee without a pause), A11Y-6 (endless pulses). Status: Planned: M1 hardening (separate change, needs approval). The public site avoids all of them (see S07).
+
+### How each audience is served
+
+| Audience | How the public site serves them |
+| --- | --- |
+| Blind or low-vision people | Landmarks and labelled sections; one `h1` and ordered headings (form legends hold `h2`s); descriptive `alt`s; decorative motion hidden from screen readers; labels, `aria-describedby`, `aria-invalid`, a focused `role="alert"` summary, a `role="status"` success message and an `aria-live` counter; `lang` on pages and on English words in Spanish text. |
+| Deaf or hard of hearing | No audio or video; nothing is conveyed by sound. |
+| Limited mobility | Everything works by keyboard in a logical order; a skip link; a visible 3 px focus ring; targets of at least 44 px (whole radio and checkbox labels are clickable); the menu works with Enter/Space; no keyboard traps. |
+| Cognitive | Plain briefing language; labels always visible; hints below the fields; specific error messages that say how to fix the problem; the same header and footer everywhere; nothing changes on focus; one "Pause animations" control, remembered after a reload. |
+| Older adults | Body text of at least 16 px; generous spacing; content reflows at 320 px and at 200 % zoom with no loss. |
+| Harsh environments (bright sun, noise) | AA contrast for every text (4.5:1) and form border (3:1); errors shown with text, an icon and a border, never colour alone; forced-colors mode keeps borders, buttons and focus visible (transparent borders). |
+| Everyone | Reduced motion shows final states at once; nothing flashes; all content is visible without JavaScript; fast pages (Lighthouse Performance 95–100). |

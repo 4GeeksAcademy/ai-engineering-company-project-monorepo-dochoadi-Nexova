@@ -198,3 +198,40 @@ Run on 2026-10-23 (S08) on the four finished pages. `security-gate`: 7 PASS, `ex
 - A compromised or breaking new release can no longer enter the development environment silently. Update the pins deliberately, in their own commit.
 - `.devcontainer/devcontainer.json` forwards port 8080 with the label "Public site". The change applies at the next Codespace rebuild; the developer clicks "Not now" when the Codespace offers one during a step.
 
+
+## S11 — Final security review (before the pull request)
+
+Run on 2026-10-23 (S11), on the finished branch including the S11 layout fix.
+
+### Results
+
+- **`security-gate`:** 7 PASS, `exit=0` (no secrets in files or history; no IPv4 addresses or other projects' hosts; `pnpm audit` clean apart from the accepted SEC-2; the server only serves `dist/`; `validation.js` has no unsafe APIs; every page has a CSP and safe external links).
+- **`/security-review` (Claude Code) on the whole branch against `main`: no findings with confidence ≥ 8.**
+  - **Checked:** DOM writes in `validation.js` and `motion.js` (only `createElement`/`textContent`/`classList`, no HTML sinks); that nothing typed in the form can leave the browser (submit always cancelled, no `fetch`/XHR/storage/logging, CSP `connect-src 'none'`); the `localStorage` pause value (only compared with `"1"`); the four pages (CSP, same-origin scripts only, no inline handlers, `rel="noopener noreferrer"`); the SVGs (no script); `scripts/build-site.mjs` (an allowlist; dotfiles and symlinks skipped); the gate and devcontainer scripts (no untrusted input reaches a shell); `.mcp.json` and `pnpm-workspace.yaml`.
+  - **Considered and dropped:** no `frame-ancestors` (a CSP meta tag cannot set it; the pages change nothing), 2/10; Chromium `--no-sandbox` for the local dev MCP server, 1/10; the dev-only audit exception, 1/10.
+
+### Summary of the milestone's security work
+
+| Area | What was done |
+| --- | --- |
+| Milestone 1 baseline (S02) | Findings SEC-1 to SEC-7 recorded, with severity, fix and effort; the Next.js 16.4.1 security patch applied in both M1 apps. |
+| Site checks (S03–S10) | SEC-1 fixed (`dist/` allowlist, gates test the real command); per-page CSP, tightened in S08 when the Google font origins were removed; safe DOM APIs and no network in the form; no caching (`-c-1`); the self-hosted font (no visitor data sent to Google); SEC-4 pinned installs. |
+| Gate maintenance | Criterion 3 matches real Easypanel host URLs only (S03) and skips generated Lighthouse reports (S08, developer's decision). |
+
+### Open items
+
+| ID | Severity | Status |
+| --- | --- | --- |
+| SEC-2 | Low (advisory high, dev-only) | Accepted exception; review whenever `braces` publishes a fix. |
+| SEC-3 | Medium | Open, in the M1 Next.js apps: no security headers. Planned: M1 hardening (separate change, needs approval). |
+| SEC-5, SEC-6, SEC-7 | Low / info | Open, in M1 tooling and apps. Planned: M1 hardening (separate change, needs approval). |
+| Public Codespaces port | Info | Port 8080 is public for the review; the developer sets it back to Private afterwards. |
+
+### What was decided
+
+- SEC-1 fixed by serving only the `dist/` allowlist.
+- SEC-2 accepted as a dev-only exception.
+- SEC-4 fixed in S10.
+- Google Fonts replaced by the self-hosted font.
+- `connect-src 'none'` kept (SEO 92 accepted).
+- Lighthouse reports skipped by gate criterion 3.

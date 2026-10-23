@@ -72,7 +72,7 @@ Criteria copied verbatim from the brief.
 
 | ID | Criterion | Step | Files | How to verify | Result |
 | --- | --- | --- | --- | --- | --- |
-| E26 | The landing page faithfully reflects the company type and sector | S04, S07 | `index.html`, `es/index.html`, `BRIEFING.md` | Sections and copy match the briefing (header, hero, services, why Nexova, contact, footer) | Met (S04, S07): the briefing sections in order with their exact texts (header, hero, Services, Why Nexova, Contact, footer); the extra sections (marquee, process, offices) only use briefing facts |
+| E26 | The landing page faithfully reflects the company type and sector | S04, S07, S11 | `index.html`, `es/index.html`, `BRIEFING.md` | Sections and copy match the briefing (header, hero, services, why Nexova in 2 columns, contact, footer) | Met (S04, S07, re-verified S11): the briefing sections in order with their exact texts (header, hero, Services, Why Nexova, Contact, footer); "Why Nexova" in 2 columns as the briefing asks (fixed in S11: 2×2 grid from `md:`, 1 column on phones; `screenshots/landing-*`, `a11y-gate` 72 PASS); the extra sections (marquee, process, offices) only use briefing facts |
 | E27 | Content presents the company's experience and competitive advantages | S04, S07 | `index.html`, `es/index.html` | "Why Nexova" shows the 4 advantages (with the documented market wording) | Met (S04, S07): "Why Nexova" as M1 key figures with count-ups (12 years, +500), the regional presence, and the sector specialization as large Technology / Retail / Finance rows; the offices section adds 2011, Valencia, Miami and about 120 people |
 | E28 | Form fields exactly match those required in BRIEFING.md | S05 | `application.html`, `es/application.html`, `BRIEFING.md` | Field list, types, options and required flags compared one by one; no extra fields | Met (S05): field names, types, options (EN labels from `BRIEFING.md`, ES labels from `BRIEFING.es.md`, the same `value`s) and required flags (12 `required` attributes: 7 fields, 4 radios, the checkbox; LinkedIn and comments optional) compared one by one; ids/names in `systemPatterns.md` |
 | E29 | Any domain-specific validation rules are implemented | S06 | `validation.js`, `tests/site/` | The 6 "Specific validations" of the briefing (email domain, phone `+` code, 0–50 years, LinkedIn URL, 500-character counter, data policy) | Met (S06): the 6 specific validations: email @ + domain with a dot; phone + country code (8–15 digits); years 0–50 integer; LinkedIn http(s) URL parsed by `new URL()`; 500-character counter ("N characters over the limit"); data policy must be ticked; plus at least first and last name |
@@ -127,8 +127,8 @@ From the "What to do" lists of the brief.
 | ID | Deliverable | Step | Status |
 | --- | --- | --- | --- |
 | S1 | `index.html`, `application.html`, `validation.js` and `BRIEFING.md` (unmodified) present | S01, S06 | Met (S08): `index.html`, `application.html`, `validation.js` and the unmodified `BRIEFING.md` (SHA-256 checked) at the root |
-| S2 | The public Codespaces URL in the PR description | S11 | Pending |
-| S3 | A PageSpeed or Lighthouse screenshot (≥ 80) in the PR description | S09, S11 | Ready for the PR (S09): Lighthouse screenshots of the public URL `docs/milestone-2/screenshots/pagespeed-{home,form}-{mobile,desktop}.png` (Performance 95–100) and the PageSpeed warning-page capture; pasted into the PR description in S11 |
+| S2 | The public Codespaces URL in the PR description | S11 | Done in the pull request (S11): the public Codespaces URL is in the PR description |
+| S3 | A PageSpeed or Lighthouse screenshot (≥ 80) in the PR description | S09, S11 | Ready for the PR (S09): Lighthouse screenshots of the public URL `docs/milestone-2/screenshots/pagespeed-{home,form}-{mobile,desktop}.png` (Performance 95–100) and the PageSpeed warning-page capture; pasted into the PR description (S11) |
 | S4 | Tested at several window sizes | S07, S08 | Met (S08): 320, 375, 768, 1024 and 1280 px and 200 % zoom on all four pages |
 | S5 | All validations tested | S06, S08 | Met (S08): 15 `node:test` site tests (every rule, every EN/ES message) + the browser checks of S06–S07 (68 + 18 form checks, both languages) |
 | S6 | No console errors | S07, S08 | Met (S08): no console errors on any page (Playwright audit, chrome-devtools MCP `list_console_messages`, Lighthouse Best practices 100) |
@@ -139,8 +139,8 @@ Our own standards, agreed for this milestone.
 
 | ID | Standard | Step | Status |
 | --- | --- | --- | --- |
-| P1 | CISO security gate passed | S02, S08 | Met (S08): `security-gate` 7 PASS, `exit=0` on the finished site ([`security.md`](./security.md)); re-run before the pull request (S11) |
-| P2 | Accessibility gate WCAG 2.2 AA passed | S02, S08 | Met (S08): `a11y-gate` 72 PASS, 0 FAIL, 0 SKIP on all four pages at 375/768/1280 px, plus the manual checklist ([`accessibility.md`](./accessibility.md)); re-run before the pull request (S11) |
-| P3 | Memory bank updated in every step | S01–S12 | In progress: every step S01–S10 updated the memory bank (`check.sh` exit 0); the S11 update closes it |
-| P4 | Milestone recap produced | S11 | Pending |
+| P1 | CISO security gate passed | S02, S08 | Met (S08): `security-gate` 7 PASS, `exit=0` on the finished site ([`security.md`](./security.md)); re-run in S11: 7 PASS, `exit=0`, and `/security-review` with no findings |
+| P2 | Accessibility gate WCAG 2.2 AA passed | S02, S08 | Met (S08): `a11y-gate` 72 PASS, 0 FAIL, 0 SKIP on all four pages at 375/768/1280 px, plus the manual checklist ([`accessibility.md`](./accessibility.md)); re-run in S11: 72 PASS, `exit=0` |
+| P3 | Memory bank updated in every step | S01–S12 | Met (S11): every step S01–S11 updated the memory bank (`check.sh` exit 0) |
+| P4 | Milestone recap produced | S11 | Met (S11): [`recap.md`](./recap.md) (`milestone-recap` `check.sh 2`: all 6 criteria passed), plus the deliverable [`report.md`](./report.md) |
 | P5 | Bilingual site: every page and every validation message exists in English and Spanish, with a language switcher, `hreflang` links and the correct `lang` on each page | S04–S06 | Met (S08): all four pages and every validation message in English and Spanish; `lang`, `hreflang` (absolute, `x-default` → English) and the switcher checked on each page; no English left on the Spanish pages (audit) |

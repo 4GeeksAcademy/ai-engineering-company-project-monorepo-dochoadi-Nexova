@@ -5,6 +5,8 @@ Documentation of Milestone 2, which builds Nexova's public website at the reposi
 | Path | What it is |
 | --- | --- |
 | [`README.md`](./README.md) | This index. |
+| [`report.md`](./report.md) | The deliverable report for the instructor: what was built, E1–E30 with evidence, deliverables, standards, decisions, Milestone 1 feedback applied, open questions. |
+| [`recap.md`](./recap.md) | Learning recap (`milestone-recap` skill): steps, criteria, decisions, problems, concepts learned, glossary. |
 | [`BRIEFING.es.md`](./BRIEFING.es.md) | Official Spanish version of the briefing (4Geeks, unmodified), used for the `es/` pages. |
 | [`content-decisions.md`](./content-decisions.md) | The only places where the site deliberately differs from the briefing text (wording, extra sections, images), and why. |
 | [`evaluation.md`](./evaluation.md) | Evidence matrix: the planned steps S01–S12, criteria E1–E30, deliverables checklist (landing, form, submission) and project standards P1–P5. |

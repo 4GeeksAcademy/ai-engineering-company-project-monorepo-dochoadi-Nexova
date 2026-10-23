@@ -313,3 +313,33 @@ _Correction (2026-10-23, S10): the public-link scores above were measured with L
 - Open (carried forward): the Milestone 1 findings not fixed in this milestone, a licence record for the office photos before any real launch, and making port 8080 private after the review.
 
 **Commit:** `[M2-S10] docs: complete Milestone 2 verification guide, M1 learning log, README and memory bank`
+
+## S11 — Recap, reports and pull request (2026-10-23)
+
+**What was done**
+- Fixed the one problem the final audit found: the briefing asks for "Why Nexova" in 2 columns, and the page showed 3. It is now a 2 × 2 grid from tablet width, and one column on phones, in English and Spanish. The six landing screenshots were retaken.
+- Final security review: the security check passed all 7 points, and a separate security review of the whole branch found nothing to fix. Written up in `security.md`.
+- Final accessibility review: the accessibility check passed all 72 points on the four pages at phone, tablet and desktop widths. Written up in `accessibility.md`.
+- Wrote the milestone recap (`recap.md`): what was built step by step, the criteria, the decisions, the problems and the concepts learned, with a glossary.
+- Wrote the final report for the instructor (`report.md`), with the same structure as Milestone 1: every criterion E1–E30 with its evidence, the deliverables, the standards, the decisions, how the Milestone 1 feedback was applied, and the open questions.
+- Updated the evaluation matrix (the recap standard P4 is now met) and linked every report from the milestone's README and `docs/README.md`.
+- Opened the pull request to `main`. It is not merged: it waits for the teacher.
+
+**What I learned**
+- **Final audit:** a last read-only pass over every requirement before delivering. It caught a layout detail (2 columns, not 3) that every earlier check had missed, because no automatic check knew the briefing's column count.
+- **Recap vs. report:** the recap is for you (what you learned); the report is for the instructor (what was delivered and where the proof is).
+- **Pull request:** a request to merge a branch into `main`. It shows every commit and file, and it's where the teacher reviews, comments and approves.
+- **Why not merge yourself:** the merge is the moment the work becomes official. It waits for the teacher's recorded approval, so nothing reaches `main` unreviewed.
+
+**How to check it yourself**
+- Open the home page at tablet and desktop width: "Why Nexova" shows two columns; on a phone, one column.
+- Open the pull request on GitHub: the public link works, the screenshots show, and the document links open.
+- Read `docs/milestone-2/report.md` and `recap.md`: they should match what you remember of the milestone.
+
+**Decisions or open questions**
+- Decided: "Why Nexova" follows the briefing's 2 columns (recorded in `content-decisions.md`).
+- To do (developer): review the pull request; after the teacher approves it in the PR, S12 merges it with a merge commit. If the teacher asks for changes, they go on this same branch as extra commits (`[M2-S13] fix(...)`).
+- To do (developer): set port 8080 back to Private after the review.
+- Open (carried forward): the Milestone 1 findings not fixed in this milestone, a licence record for the office photos, the Sales manager question, and the next milestone (to be defined).
+
+**Commit:** `[M2-S11][E26] docs: add Milestone 2 report, recap, security and accessibility reports, and fix Why Nexova two-column layout`
