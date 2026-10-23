@@ -1,5 +1,7 @@
 # Milestone 1 recap — Monorepo AI Setup
 
+> Step-by-step plain-language notes: see the [Milestone 1 learning log](./learning-log.md) (written retroactively in M2-S10).
+
 A learning recap of Milestone 1, written with the `milestone-recap` skill from the real history (`git log origin/main..HEAD`), the [evaluation matrix](./evaluation.md), the [verification guide](./verification.md), the [findings report](./report.md) and the memory bank. It explains what we built and, above all, why.
 
 ## Milestone goal

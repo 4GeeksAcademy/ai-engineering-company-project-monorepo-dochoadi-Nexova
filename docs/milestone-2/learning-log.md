@@ -282,3 +282,34 @@ Each section says what was done, why it matters, what was learned and how to che
 - To do: after the instructor reviews the pull request, set port 8080 back to Private.
 
 **Commit:** `[M2-S09][E13] docs(site): record public Codespaces URL and PageSpeed results`
+
+_Correction (2026-10-23, S10): the public-link scores above were measured with Lighthouse 13.5.0 (command line), not PageSpeed Insights. PageSpeed only reached GitHub's "You are about to access a development port" warning page, so the fallback the brief allows was used (see `docs/milestone-2/performance.md`)._
+
+## S10 — Docs and memory bank (2026-10-23)
+
+**What was done**
+- Corrected the name of the speed tool. The public-link scores came from Lighthouse (run from the command line), not PageSpeed Insights: PageSpeed only reached GitHub's "You are about to access a development port" warning page. The brief allows Lighthouse in that case. A screenshot of that warning page is now the evidence, and every document says the same.
+- Recorded your decision to keep the strict security rule that stops the page making network requests. It keeps form data in the browser, at the cost of a search score of 92 instead of 100 in Lighthouse (search engines aren't affected).
+- Completed the verification guide: for each step, what was delivered, the exact commands and the expected results, plus click-by-click checklists for the home page, the form, the language switch and the public link, and a five-command re-check of the whole milestone.
+- Updated the main README ("Public website": the four pages, how to build, start, test and check the site) and the Spanish `docs/README.es.md`, and listed every file in `docs/milestone-2/`.
+- Wrote a learning log for Milestone 1 after the fact, one section per step plus the merge, using only what git history and the Milestone 1 documents record.
+- Prepared the Codespace setup for next time: port 8080 is forwarded automatically as "Public site", and the tools installed when a Codespace is created now have exact versions (security finding SEC-4 fixed).
+
+**What I learned**
+- **Verification guide:** a recipe anyone can follow to prove the work is correct: what to run, and what you should see. It lets the instructor (or you, in a month) re-check everything without asking.
+- **Retroactive documentation:** writing notes about past work afterwards. It's only trustworthy if every sentence comes from real evidence (commits, reports), and anything unknown is marked "Not recorded" instead of guessed.
+- **Pinned versions:** saying exactly which version of a tool to install (like `uv==0.13.5`) instead of "the latest". Every new Codespace then gets the same tools, and a broken or unsafe new release can't sneak in.
+- **Memory bank consolidation:** making sure every decision of the milestone is written in the project's memory files, so a future session (human or AI) starts from the truth.
+
+**How to check it yourself**
+- Follow the "Public website" section of the main `README.md` exactly: the command should start the site and the four pages should open.
+- Read `docs/milestone-1/learning-log.md` and `docs/milestone-2/learning-log.md`. They should make sense to you.
+- Open `docs/milestone-2/performance.md` to see the warning-page screenshot and the corrected tool name.
+
+**Decisions or open questions**
+- Decided (by the developer, after S09): the public-link tool is Lighthouse (PageSpeed couldn't reach the Codespace); the strict security rule stays, with a search score of 92.
+- Note: your own warning-page screenshot wasn't in the project, so the agent captured the same page with a browser that isn't signed in (what PageSpeed sees) on 2026-10-23.
+- To do: when the Codespace offers to rebuild after the devcontainer change, click "Not now". The new port and versions apply at the next rebuild.
+- Open (carried forward): the Milestone 1 findings not fixed in this milestone, a licence record for the office photos before any real launch, and making port 8080 private after the review.
+
+**Commit:** `[M2-S10] docs: complete Milestone 2 verification guide, M1 learning log, README and memory bank`

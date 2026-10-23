@@ -343,7 +343,7 @@ grep -cE "Pending" docs/milestone-2/evaluation.md
 
 ### Delivered
 
-- **Developer (Part A):** port 8080 set to Public; the private paths checked (404); PageSpeed Insights run on the home page and the form, mobile and desktop; four screenshots `docs/milestone-2/screenshots/pagespeed-{home,form}-{mobile,desktop}.png`.
+- **Developer (Part A):** port 8080 set to Public; the private paths checked (404); PageSpeed Insights only reached GitHub's development-port warning page, so Lighthouse 13.5.0 (command line) was run on the public URL for the home page and the form, mobile and desktop; four screenshots `docs/milestone-2/screenshots/pagespeed-{home,form}-{mobile,desktop}.png` (names kept) plus `pagespeed-codespaces-warning-page.png` (added in S10).
 - [`performance.md`](./performance.md): the public URL, date, tool, the scores table, the screenshots, the local Lighthouse comparison, and why SEO reads 61 on Codespaces (the `x-robots-tag: noindex` header) and 92 locally (the strict CSP blocks Lighthouse's `robots.txt` fetch).
 - `robots.txt` (allow all, `Sitemap: https://nexova.com/sitemap.xml`) and `sitemap.xml` (the four pages, absolute `https://nexova.com/…` URLs, `hreflang` en/es/x-default alternates) at the root; `build-site.mjs` copies both into `dist/`.
 - Lighthouse reports in `docs/milestone-2/lighthouse/` re-run after the change.
@@ -364,7 +364,7 @@ python3 -c "import json,glob;[print(f.split('/')[-1], {k:round(v['score']*100) f
 
 - `x-robots-tag: noindex, nofollow`; `404 404 404 404 404`.
 - `dist/` also holds `robots.txt` and `sitemap.xml`; `4` URLs in the sitemap; `200 text/plain; charset=UTF-8`.
-- PageSpeed (screenshots): Performance 99 / 100 (home), 95 / 100 (form), Accessibility and Best practices 100, SEO 61 on Codespaces.
+- Lighthouse on the public URL (screenshots): Performance 99 / 100 (home), 95 / 100 (form), Accessibility and Best practices 100, SEO 61 on Codespaces.
 - Local Lighthouse: Performance 95–100, Accessibility 100, Best practices 100, SEO 92 (the `robots-txt` audit reports a CSP violation, see `performance.md`).
 - After the PR review, the developer sets port 8080 back to Private: the URL then redirects to the GitHub sign-in again.
 
@@ -372,15 +372,83 @@ python3 -c "import json,glob;[print(f.split('/')[-1], {k:round(v['score']*100) f
 
 ### Delivered
 
-_To be filled in this step._
+- **Corrections from the S09 review:**
+  - the public-link scores were measured with Lighthouse 13.5.0, because PageSpeed Insights only reached GitHub's development-port warning page (`screenshots/pagespeed-codespaces-warning-page.png`), corrected in `performance.md`, `evaluation.md`, this guide, the S09 learning-log section (a dated correction line) and the memory bank;
+  - SEO 92 with `connect-src 'none'` is accepted (`performance.md`, `security.md`).
+- This guide completed: the manual browser checklists and the five-command re-check below.
+- Root `README.md` "Public website" section (pages, build, serve, tests, gates, docs links); `docs/README.md` and `docs/README.es.md` list Milestone 2; `docs/milestone-2/README.md` lists every file.
+- The memory bank consolidated (goal and status, users, site stack, bilingual and gate patterns, open questions).
+- `docs/milestone-1/learning-log.md`: a retroactive log of Milestone 1 (S01–S13 and the merge), linked from `docs/milestone-1/README.md` and `recap.md`.
+- `.devcontainer/devcontainer.json` forwards 8080 ("Public site"); `.devcontainer/post-create.sh` pins `uv`, `playwright` (pip) and `@anthropic-ai/claude-code` (SEC-4 fixed).
 
 ### Commands
 
-_To be filled in this step._
+```bash
+grep -cE "^## S(0[1-9]|1[01])" docs/milestone-2/verification.md
+grep -cE "^## S0[1-9]" docs/milestone-2/learning-log.md
+grep -cE "^## S[0-9]{2}" docs/milestone-1/learning-log.md
+grep -n "npx http-server" README.md
+grep -rnE "([0-9]{1,3}\.){3}[0-9]{1,3}|easypanel\.host|password" memory-bank docs README.md | grep -vE "127\.0\.0\.1|0\.0\.0\.0"
+grep -cE "Pending" docs/milestone-2/evaluation.md
+python3 -c "import json; d=json.load(open('.devcontainer/devcontainer.json')); print(d['forwardPorts'], d['portsAttributes']['8080'])"
+grep -nE "uv==|playwright==|claude-code@" .devcontainer/post-create.sh
+bash .agents/skills/update-memory-bank/check.sh; echo "exit=$?"
+```
 
 ### Expected
 
-_To be filled in this step._
+- `11` step sections here; `9` sections `S01`–`S09` in the Milestone 2 learning log (plus S10); `14` sections in the Milestone 1 learning log.
+- The documented `npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false -c-1` line in the README.
+- No output from the IP/host/password search.
+- `2` Pending rows (S2, P4).
+- `[3000, 3001, 8000, 5678, 8080]` with the label "Public site"; three pinned install lines.
+- `check.sh` 5 PASS, `exit=0`.
+- Saving `.devcontainer/` files makes the Codespace offer a rebuild: click "Not now". The changes apply at the next rebuild.
+
+## Manual browser checklists
+
+Start the site with `pnpm serve:site` and open <http://localhost:8080/> (Codespaces: the Ports tab → 8080 → globe icon).
+
+### Landing page (`/` and `/es/`) at 375, 768 and 1280 px
+
+- [ ] Header: the Nexova wordmark, Home / Services / Talent / Contact (ES: Inicio / Servicios / Talento / Contacto), the language link; at 375 px a "Menu" / "Menú" pill opens and closes the links.
+- [ ] Hero: the briefing headline and subheadline verbatim, the green "Join our talent pool" / "Únete a nuestro banco de talento" button (opens the form); the CV cascade plays and ends with one coral card "Placed"; "Replay" plays it again; "Pause animations" stops the cascade, the marquee and the clocks and stays paused after a reload.
+- [ ] Services (3 cards), Process (4 steps), Why Nexova ("12" and "+500" count up; Spain and United States; the three sectors), Offices (the photos open; the Valencia and Miami clocks show local time), Contact (email and both phones are links), footer (© 2025 Nexova, LinkedIn and Instagram open in a new tab).
+- [ ] One column at 375 px, nothing cut off; no horizontal scroll at any width.
+- [ ] With "reduce motion" switched on in the operating system: the cascade shows its final frame, the numbers are final, nothing moves.
+
+### Form (`/application.html` and `/es/application.html`)
+
+- [ ] Empty submit: a summary at the top lists 9 errors in the page language, takes focus, and each link jumps to its field.
+- [ ] Each field: type a wrong value and leave the field; the briefing's message appears with an icon. Fix it and the message disappears (name "Ana", email "ana@", phone "612345678", years "51", LinkedIn "linkedin.com/in/x", the three lists, the availability options, the data policy box).
+- [ ] Counter: typing in Comments counts down from "500 characters remaining"; over 500 it says "N characters over the limit" and the comments error appears.
+- [ ] Success: a complete, valid form shows "Sending…" (button disabled), then the thank-you message; only "Clear form" stays below it; no network request is made (DevTools → Network).
+- [ ] Clear: "Clear form" empties everything, removes every error, resets the counter to 500 and puts the cursor in Full name.
+- [ ] Keyboard only: Tab, Shift+Tab, arrows, Space and Enter fill and submit the whole form; the coral focus ring is always visible.
+- [ ] Screen-reader spot check (VoiceOver or NVDA): the group names (legends) are read with their fields; an error is announced when it appears; the summary is announced on submit; the success message is announced.
+
+### Language switcher (all four pages)
+
+- [ ] "Español" on an English page opens the same page in Spanish, and "English" on a Spanish page opens the English twin; the menu and footer stay in the same place.
+
+### Public URL (S09)
+
+- [ ] With port 8080 Public, the link opens the site (after GitHub's one-time "development port" notice); `/.env`, `/.git/config`, `/.mcp.json` and `/package.json` say "Not found".
+- [ ] After the PR review, set port 8080 back to Private: the link then asks for a GitHub sign-in.
+
+## Re-check the whole milestone in 5 commands
+
+```bash
+pnpm install --frozen-lockfile && pnpm build:site && pnpm test; echo "build+tests exit=$?"
+bash .agents/skills/security-gate/check.sh 2; echo "security exit=$?"
+bash .agents/skills/a11y-gate/check.sh 2; echo "a11y exit=$?"
+bash .agents/skills/update-memory-bank/check.sh; echo "memory bank exit=$?"
+git diff --quiet origin/main -- CONTEXT.md && echo "CONTEXT.md unchanged"; sha256sum BRIEFING.md docs/milestone-2/BRIEFING.es.md
+```
+
+Expected:
+- 15 package tests and 15 site tests pass; `security-gate` 7 PASS; `a11y-gate` 72 PASS; `check.sh` 5 PASS (every `exit=0`).
+- `CONTEXT.md unchanged`, and the two briefing hashes from S01 (`de3eef75…` and `562b1ecf…`).
 
 ## S11 — Milestone recap and pull request
 

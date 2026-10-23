@@ -78,3 +78,12 @@ Source: `CONTEXT.md` (department profiles) and `Company-choice.md`. Nexova has 1
 | Nexova's client companies | Mid-sized companies in technology, retail and finance | Fast answers to their incidents, the status of their recruitment processes, and data isolated from other clients' data |
 | Candidates | Professionals in selection processes run by Nexova | Knowing where their application stands without having to ask, and fair treatment (with a final human decision) |
 | CEO | Laura Mendoza | A unified, up-to-date view of the business, without waiting for the weekly PDF report |
+
+## Users of the public website (Milestone 2)
+
+| User | Who they are | What the site gives them |
+| --- | --- | --- |
+| Professionals joining the talent pool | People in active or passive job search, in Spain, the US or elsewhere, in English or Spanish | The landing page (who Nexova is, its services and advantages) and the application form with the 11 briefing fields, clear error messages, and a thank-you message. Nothing is sent yet: the submission is simulated until a backend exists. |
+| Companies looking for talent | Client companies that want Nexova's headhunting, support outsourcing or training services | The form is not for them. A visible notice on both form pages sends them to `contacto@nexova.com` (the briefing's "specific restriction"), and the landing page lists the contact email and both office phones. |
+| Carmen Ruiz's Marketing team | The site's owner (the brief's stakeholder) | A fast, accessible, bilingual site with Schema.org markup, and structured candidate data instead of CVs by email (once a backend exists). |
+

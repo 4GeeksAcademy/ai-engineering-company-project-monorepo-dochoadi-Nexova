@@ -10,7 +10,7 @@ Type: status
 
 ## Next steps
 
-1. **S10 (next): documentation and devcontainer:** bring the docs up to date for the reviewer, add port 8080 to `forwardPorts` and pin the tools in `post-create.sh` (SEC-4).
+1. **S11 (next): milestone recap and pull request.** Run the `milestone-recap` skill (`docs/milestone-2/recap.md`, `check.sh 2`), re-run both gates, and open the PR with the checklist from `.agents/rules/git-workflow.md`: the public URL (S2) and the Lighthouse screenshots (S3) in the description. Then S12: merge only after the instructor's recorded approval.
 2. **Make port 8080 private after the PR review:** the public Codespaces URL (L15) stays public only until the instructor has reviewed the pull request; then the developer sets it back to Private in the Ports tab.
 4. **S11:** milestone recap (`milestone-recap` skill) and the pull request.
 5. **S12:** merge, only after the instructor's recorded approval (rule in `.agents/rules/git-workflow.md`).
@@ -32,7 +32,8 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
 
 ## Recent decisions
 
-- **M2-S09 public URL:** PageSpeed Insights on the public Codespaces URL: Performance 99/100 (home), 95/100 (form), Accessibility and Best practices 100 (SEO 61 because Codespaces adds `x-robots-tag: noindex`). `robots.txt` and `sitemap.xml` added (developer's approval after S08). Port 8080 stays public until the PR review.
+- **M2-S10 docs:** the public-URL scores are Lighthouse 13.5.0, not PageSpeed (PageSpeed only reached the Codespaces warning page); SEO 92 with `connect-src 'none'` is accepted (developer's decision); the verification guide, README, memory bank and a retroactive Milestone 1 learning log are complete; the devcontainer forwards 8080 and pins its installs (SEC-4 fixed).
+- **M2-S09 public URL (tool corrected in S10):** Lighthouse 13.5.0 on the public Codespaces URL (PageSpeed Insights only reached GitHub's development-port warning page): Performance 99/100 (home), 95/100 (form), Accessibility and Best practices 100 (SEO 61 because Codespaces adds `x-robots-tag: noindex`). `robots.txt` and `sitemap.xml` added (developer's approval after S08). Port 8080 stays public until the PR review.
 - **M2-S08 quality gates:** Instrument Sans self-hosted (OFL file + licence in `assets/fonts/`, preload, no Google requests, CSP without Google origins), which closes the Google Fonts GDPR production note and took Performance from 87–95 to 100; the cascade creates its animations phase by phase (no long task); transitions no longer animate the focus-ring colour (it appears at once, as in M1); `security-gate` criterion 3 skips the generated Lighthouse reports (developer's decision); the `git-workflow.md` example fix is `[M2-S13]`.
 - **M2-S07 the Milestone 1 landing experience (developer's decision):** the public site now has M1's motion and extra sections: the CV cascade hero with Replay and one "Pause animations" control, the marquee, M1 service cards, Process, key figures with count-ups, sector words, and Offices with the photo reveal and live clocks. All of it is in `motion.js` (Web Animations API only, progressive enhancement, reduced motion, no dimmed text at rest). The "static hero" decision is replaced. Also: HTML served with `-c-1`, so a reload always shows the latest files; the Submit button is hidden after a successful submission; steps renumbered (S08 quality gates … S12 merge). "Human & AI" and the role ticker are not ported.
 - **M2-S06 validation:** `validation.js` with pure rules + a DOM layer, messages verbatim from both briefings (tested against them), `textContent` only, an error summary with focus, a simulated submission with no data leaving the browser; cache busting (`?v=<hash>`) in the `dist/` copies; the root `pnpm test` also runs the site tests. Rows E1, E5, E6, E8, E10, E12 are re-checked and marked in S08 (developer's decision).
@@ -59,8 +60,11 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
 
 ## Open questions
 
+- **Carried forward from Milestone 2:**
+  - the Milestone 1 baseline findings not fixed in this milestone (SEC-3, SEC-5, SEC-6, SEC-7 and A11Y-1 to A11Y-6 in the M1 Next.js apps, "Planned: M1 hardening (separate change, needs approval)");
+  - the office photos: the developer confirmed permission to use them (S05), but for a real public launch the licence and consent of the source photos must still be on record;
+  - make the Codespaces port 8080 private again after the PR review.
 - **Milestone 1 baseline findings (decided after S02):** SEC-1 resolved in S03 (`dist/` allowlist); SEC-2 accepted as a documented exception (review in S11); SEC-4 fixed in S10 with the other `.devcontainer/` changes; SEC-3, SEC-5–7 and A11Y-1–6 stay in the backlog as "Planned: M1 hardening (separate change, needs approval)" (`docs/milestone-2/security.md`, `accessibility.md`).
-- **SEO and the CSP:** locally Lighthouse SEO is 92 because the CSP `connect-src 'none'` blocks its in-page `robots.txt` fetch (search engines read the file directly). `connect-src 'self'` would make it 100 but weakens the "no data leaves the browser" rule; developer's decision.
 
 - **Official briefing quirks (cannot be fixed, the file stays unmodified):** `BRIEFING.md` is headed "Milestone 1: Your Company's Public Website" (the course's own numbering; in this repo it is Milestone 2), and its link to the Spanish version (`./nexova-BRIEFING.es.md`) does not resolve, because the Spanish copy lives in `docs/milestone-2/BRIEFING.es.md`.
 - **Backoffice authentication:** `uis/backoffice` has no sign-in yet ("Internal tool. Sign-in comes later."). Who may access it, and with which identity provider (e.g. Google Workspace, which Nexova already uses), is still to be decided; it must not be exposed publicly until then.

@@ -66,7 +66,7 @@ Run on 2026-10-23 (S03), after the page skeleton, the Tailwind build and the `di
 - **SEC-1 — resolved.** The site files stay at the root (the brief requires them there), but the server never serves the repo root. `pnpm build:site` compiles the CSS and `scripts/build-site.mjs` copies **only** an allowlist (`index.html`, `application.html`, `validation.js`, `styles.css`, `assets/`, `es/`, `robots.txt`, `sitemap.xml`; missing entries are skipped) into the git-ignored `dist/`, skipping dotfiles and symlinks. The documented command serves `dist/`: `pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false`. Gate criterion 5 now builds and serves `dist/` the same way (on its own port, `127.0.0.1:8099`) and also probes `/.mcp.json`. Verified: `/.env`, `/.git/config`, `/.mcp.json`, `/memory-bank/`, `/BRIEFING.md` and `/package.json` all return `404`; a symlink `es/x.html → ../.mcp.json` is not copied.
 - **SEC-2 — accepted exception** (see below).
 - **SEC-3, SEC-5, SEC-6, SEC-7:** not fixed in this milestone's site steps. Status: **Planned: M1 hardening (separate change, needs approval)**.
-- **SEC-4:** fixed in S10, together with the other `.devcontainer/` changes.
+- **SEC-4:** **Fixed in S10**, together with the other `.devcontainer/` changes (see the S10 section).
 
 ### Accepted exceptions
 
@@ -182,3 +182,19 @@ Run on 2026-10-23 (S08) on the four finished pages. `security-gate`: 7 PASS, `ex
   - The generated reports in `docs/milestone-2/lighthouse/` contain browser version strings and SVG path numbers that look like IPv4 addresses, so criterion 3 now skips `docs/milestone-*/lighthouse/*`, like `pnpm-lock.yaml`.
   - Negative test: a tracked file containing a made-up private address is still reported.
 - **Production note (optional):** a real host should compress text (gzip/brotli; the chrome-devtools trace estimates 27 kB saved on the home page). The local `http-server` does not.
+
+## S09–S10 — Robots file and the strict policy
+
+- **SEO 92 accepted (developer, after S09):** `connect-src 'none'` stays in every page's Content-Security-Policy, because it keeps form data in the browser (rule 18).
+- Lighthouse cannot read `robots.txt` from inside the page because of it, which keeps local SEO at 92. Search engines read the file directly and are not affected.
+- The public Codespaces URL adds `x-robots-tag: noindex, nofollow` and shows anonymous visitors a development-port warning page first. Both come from GitHub's port forwarding, not from the site.
+
+## S10 — Devcontainer (SEC-4 fixed)
+
+- **SEC-4 — Fixed in S10:** `.devcontainer/post-create.sh` now pins every install:
+  - `uv==0.13.5` (not installed in this Codespace, because it only installs when a `pyproject.toml` exists, so the latest PyPI release was pinned);
+  - `playwright==1.64.1` (pip; the version installed here);
+  - `@anthropic-ai/claude-code@2.1.309` (the version installed here).
+- A compromised or breaking new release can no longer enter the development environment silently. Update the pins deliberately, in their own commit.
+- `.devcontainer/devcontainer.json` forwards port 8080 with the label "Public site". The change applies at the next Codespace rebuild; the developer clicks "Not now" when the Codespace offers one during a step.
+

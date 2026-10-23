@@ -14,7 +14,7 @@ Evidence matrix for Milestone 2 of the Nexova Solutions monorepo: Nexova's publi
 | S06 | Form validation with tests |
 | S07 | The Milestone 1 landing experience (motion, extra sections) |
 | S08 | Quality gates: every criterion re-checked with all four pages finished |
-| S09 | Performance evidence (PageSpeed/Lighthouse) on the public Codespaces URL |
+| S09 | Performance evidence on the public Codespaces URL (Lighthouse, because PageSpeed only reached the Codespaces warning page) |
 | S10 | Documentation (and the devcontainer: port 8080 and the SEC-4 pins, planned for this step earlier) |
 | S11 | Milestone recap and pull request |
 | S12 | Merge, only after the instructor's recorded approval |
@@ -44,7 +44,7 @@ Criteria copied verbatim from the brief.
 | E10 | Tailwind breakpoints (sm:, md:, lg:) are used appropriately | S04, S07 | `index.html`, `application.html`, `es/*.html` | `grep -oE "(sm\|md\|lg):" *.html es/*.html \| sort \| uniq -c` | Met (S08): `sm:`, `md:` and `lg:` used on all four pages (header nav from `md:`, services and form fields from `md:`, hero, process, figures and form layout from `lg:`) |
 | E11 | There is no unnecessary custom CSS (only Tailwind) | S03 | `tailwind.css` | `tailwind.css` holds only the Tailwind import and theme tokens; no hand-written rules | Met (S08): `tailwind.css` holds only `@import`, `@source`, `@theme inline` (brand token mapping, no hex values), and two commented blocks Tailwind utilities cannot express (the static-page font variable and the self-hosted `@font-face`); `grep -nE "^\s*[.#a-z].*\{"` finds no hand-written rule |
 | E12 | The design is visually coherent and professional | S04, S07 | `index.html`, `application.html`, `es/*.html`, `packages/shared/styles/tokens.css` | Screenshots reviewed against the Nexova identity (green primary buttons, coral accent, Instrument Sans) | Met (S08): the same brand as the M1 apps, checked side by side at 1280 px (`docs/milestone-2/screenshots/consistency-*.png`): identical colours, Instrument Sans, 54 px green pill buttons (16.5 px, 600), card radius, border and fill, footer, and the 3 px coral focus ring; only `brand-*` colours (no default Tailwind palette) |
-| E13 | Performance verified with a minimum score of 80 (ideal above 90) using PageSpeed Insights on the public Codespaces URL, or Lighthouse from Chrome DevTools if PageSpeed cannot reach Codespaces | S08, S09 | `docs/milestone-2/screenshots/` | PageSpeed Insights on the public Codespaces URL, or Lighthouse; screenshot of the score | Met (S09): PageSpeed Insights on the public Codespaces URL, Performance home 99 mobile / 100 desktop, form 95 mobile / 100 desktop (Accessibility and Best practices 100); screenshots and the local Lighthouse comparison in [`performance.md`](./performance.md) |
+| E13 | Performance verified with a minimum score of 80 (ideal above 90) using PageSpeed Insights on the public Codespaces URL, or Lighthouse from Chrome DevTools if PageSpeed cannot reach Codespaces | S08, S09 | `docs/milestone-2/screenshots/` | PageSpeed Insights on the public Codespaces URL, or Lighthouse; screenshot of the score | Met (S09, corrected in S10): Lighthouse 13.5.0 on the public Codespaces URL (the brief's fallback: PageSpeed Insights only reached GitHub's development-port warning page, `screenshots/pagespeed-codespaces-warning-page.png`): Performance home 99 mobile / 100 desktop, form 95 mobile / 100 desktop; Accessibility and Best practices 100; details and local comparison in [`performance.md`](./performance.md) |
 
 ### Accessibility
 
@@ -128,7 +128,7 @@ From the "What to do" lists of the brief.
 | --- | --- | --- | --- |
 | S1 | `index.html`, `application.html`, `validation.js` and `BRIEFING.md` (unmodified) present | S01, S06 | Met (S08): `index.html`, `application.html`, `validation.js` and the unmodified `BRIEFING.md` (SHA-256 checked) at the root |
 | S2 | The public Codespaces URL in the PR description | S11 | Pending |
-| S3 | A PageSpeed or Lighthouse screenshot (≥ 80) in the PR description | S09, S11 | Ready for the PR (S09): `docs/milestone-2/screenshots/pagespeed-{home,form}-{mobile,desktop}.png` (Performance 95–100); pasted into the PR description in S11 |
+| S3 | A PageSpeed or Lighthouse screenshot (≥ 80) in the PR description | S09, S11 | Ready for the PR (S09): Lighthouse screenshots of the public URL `docs/milestone-2/screenshots/pagespeed-{home,form}-{mobile,desktop}.png` (Performance 95–100) and the PageSpeed warning-page capture; pasted into the PR description in S11 |
 | S4 | Tested at several window sizes | S07, S08 | Met (S08): 320, 375, 768, 1024 and 1280 px and 200 % zoom on all four pages |
 | S5 | All validations tested | S06, S08 | Met (S08): 15 `node:test` site tests (every rule, every EN/ES message) + the browser checks of S06–S07 (68 + 18 form checks, both languages) |
 | S6 | No console errors | S07, S08 | Met (S08): no console errors on any page (Playwright audit, chrome-devtools MCP `list_console_messages`, Lighthouse Best practices 100) |
@@ -141,6 +141,6 @@ Our own standards, agreed for this milestone.
 | --- | --- | --- | --- |
 | P1 | CISO security gate passed | S02, S08 | Met (S08): `security-gate` 7 PASS, `exit=0` on the finished site ([`security.md`](./security.md)); re-run before the pull request (S11) |
 | P2 | Accessibility gate WCAG 2.2 AA passed | S02, S08 | Met (S08): `a11y-gate` 72 PASS, 0 FAIL, 0 SKIP on all four pages at 375/768/1280 px, plus the manual checklist ([`accessibility.md`](./accessibility.md)); re-run before the pull request (S11) |
-| P3 | Memory bank updated in every step | S01–S12 | In progress: every step S01–S08 updated the memory bank (`check.sh` exit 0) |
+| P3 | Memory bank updated in every step | S01–S12 | In progress: every step S01–S10 updated the memory bank (`check.sh` exit 0); the S11 update closes it |
 | P4 | Milestone recap produced | S11 | Pending |
 | P5 | Bilingual site: every page and every validation message exists in English and Spanish, with a language switcher, `hreflang` links and the correct `lang` on each page | S04–S06 | Met (S08): all four pages and every validation message in English and Spanish; `lang`, `hreflang` (absolute, `x-default` → English) and the switcher checked on each page; no English left on the Spanish pages (audit) |

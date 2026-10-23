@@ -148,6 +148,17 @@ Every tool, service, API, MCP server and library used in this project must be fr
   - Screen-reader and keyboard users get every error and can reach each field (E18).
   - There is no backend yet, and candidates' personal data must never leave their browser (`security-and-data.md` rules 15 and 18).
 
+## 22. Bilingual public site
+
+- **Rule:**
+  - **Structure:** English is the base language at the root, and Spanish lives under `es/` as full pages, not machine-translated.
+  - **Same contract in both languages:** form field ids, names and option values are identical; only visible labels change. Briefing copy and every error, success and counter message are taken verbatim from `BRIEFING.md` (EN) and `BRIEFING.es.md` (ES), and tests compare them.
+  - **Language markup:** `lang` on each page, `lang="en"` on English words in Spanish text, absolute `hreflang` alternates (`en`, `es`, `x-default` → English), and a language switcher that opens the twin page.
+  - **Deliberate differences** from the briefing text are listed in `docs/milestone-2/content-decisions.md` and nowhere else.
+- **Why:** Nexova works between Spain and Miami. One contract for both languages keeps validation and a future backend simple, and verbatim messages are what the evaluation checks.
+
+Pattern 15 applies to every pull request of this site: `security-gate` and `a11y-gate` must exit 0 (both now run against the built `dist/` copy).
+
 ## How the UIs relate
 
 - **Root static site (Milestone 2):** the official public website of the brief (`index.html`, `application.html`, `es/`): the talent pool for candidates, bilingual (English base at the root, Spanish under `es/`), plain HTML + compiled Tailwind CSS + vanilla JavaScript, port 8080.

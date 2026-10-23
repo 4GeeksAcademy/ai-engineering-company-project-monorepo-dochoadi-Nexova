@@ -64,6 +64,12 @@ Summary flow:
 
 Milestone 2 ("Your Company's Public Website", briefing in `BRIEFING.md`) gives Nexova its first public digital touchpoint for Carmen Ruiz's Marketing team: a landing page presenting who Nexova is, what it does and why companies choose it, plus a separate application form where professionals join Nexova's talent pool. Plain HTML + Tailwind CSS + vanilla JavaScript at the repo root, bilingual (English base, Spanish under `es/`), responsive, accessible (WCAG 2.2 AA), SEO-optimised with Schema.org, with full JavaScript validation and a simulated submission (no backend).
 
+**Status (2026-10-23, after M2-S10):**
+- **Delivered:** the four pages with the Milestone 1 look and motion, and the form with real-time validation in both languages.
+- **Quality:** both gates pass; Lighthouse Performance 95–100 on the public Codespaces URL.
+- **Evidence:** in `docs/milestone-2/`; every criterion in `docs/milestone-2/evaluation.md` is met except the PR-time items (the URL in the PR, the recap).
+- **Remaining:** S11 (milestone recap and pull request) and S12 (merge after the instructor's approval).
+
 ## Out of scope for Milestone 1
 
 Milestone 1 ("Monorepo AI Setup") **does not build business features**: no agents, no API, no dashboards. It only prepares the monorepo infrastructure (memory bank, coding-agent rules and workflow, skill, workspace, base website and backoffice) on which they will be built in later milestones.
