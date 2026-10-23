@@ -123,3 +123,34 @@ Each section says what was done, why it matters, what was learned and how to che
 - Open (from Milestone 1): the licence of the two office photos is not confirmed, and the Miami photo shows people who can be recognised.
 
 **Commit:** `[M2-S04][E1][E2][E4][E5][E6][E8][E10][E12][E26][E27][E30] feat(site): build bilingual landing page from the official briefing`
+
+## S05 — Form markup (2026-10-23)
+
+**What was done**
+- Built the "Join our talent pool" form page in English and Spanish with exactly the 11 fields from the briefing, each with the right kind of box: an email box, a phone box, a number box for years, lists to choose from, round option buttons for availability, and a tick box for the data policy.
+- Grouped the fields into five boxes (personal details, professional profile, availability, additional information, consent), so the long form feels shorter and screen readers say which part you are in.
+- Added the briefing's notice for companies ("Are you a company looking for talent?") with a clickable email, plus a short "Data policy" section that says this is a demo and nothing is sent or stored.
+- Prepared the empty spaces where the next step will show error messages, the character counter and the "thank you" message.
+- Small fixes approved after your review: the services heading is "Services" again, as in the briefing, and the page addresses given to search engines are now complete web addresses.
+- Recorded your permission to use the two office photos.
+
+**What I learned**
+- **Label:** the visible name of a field, connected to it in the code. Clicking the label puts the cursor in the field, and a screen reader reads the label aloud. A placeholder (grey text inside the box) disappears when you type, so it is never used as the label.
+- **Fieldset and legend:** a fieldset is a box around related fields, and the legend is its title. Screen readers announce "Availability" before each option, so a blind user knows what "1 month" answers.
+- **Input types:** telling the browser that a box is for an email or a phone number makes phones show the right keyboard (with @ or with numbers) and lets the browser check the format.
+- **Contrast for borders:** the edge of a form box must stand out at least 3 to 1 from the background, or people with low vision can't see where to type. The light beige border was too faint (1.3 to 1), so the boxes use a darker green-grey (4.5 to 1).
+
+**How to check it yourself**
+- Open the form page on the site (link below) and in Spanish (`/es/application.html`). Click the words "Immediate" or "I accept the data policy": the option gets selected, not only when you hit the tiny circle or square.
+- Make the window narrow: the fields stack in one column.
+- Press Tab through the form: a coral ring shows where you are.
+
+**Decisions or open questions**
+- Decided (by the developer, after S04): the heading goes back to "Services"; the office photos may be used (including the people in the Miami photo); the page addresses for search engines become full addresses.
+- Decided in this step:
+  - The field borders use a darker brand colour than the brief suggested, so they are visible enough (accessibility rule).
+  - Hints sit under the boxes, so the boxes line up.
+  - The form uses the "post" method, so answers never appear in the address bar, even without JavaScript.
+- Open: with the form pages done, should the rows that said "form pages in S05" (E1, E5, E6, E8, E10, E12) now be marked "Met"? This step was told to update only E3, E19, E20, E28 and A1–A9.
+
+**Commit:** `[M2-S05][E3][E19][E20][E28] feat(form): build bilingual talent registration form markup`

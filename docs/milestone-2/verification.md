@@ -157,15 +157,47 @@ bash .agents/skills/a11y-gate/check.sh 2; echo "exit=$?"
 
 ### Delivered
 
-_To be filled in this step._
+- `application.html` and `es/application.html`:
+  - the 11 `BRIEFING.md` fields in five `fieldset`s (each `legend` holds an `h2`);
+  - ids = names in snake_case, the same on both pages; option `value`s identical in both languages;
+  - a visible label, an optional hint, an empty error container and `aria-describedby` on every field;
+  - the comments counter (`aria-live="polite"`), the error summary (`#form-errors`) and the success box (`#form-success`), all hidden;
+  - the company notice with a `mailto:` link, the data policy section (`#data-policy`), and the Submit and Clear buttons.
+- No JavaScript and no `novalidate` in the HTML (S06 sets `noValidate` when `validation.js` loads).
+- All four pages: absolute `hreflang` links (`https://nexova.com/…`, `x-default` → English) and a canonical URL of their own.
+- Landing pages: the services heading is "Services" / "Servicios", as in the briefing.
+- `content-decisions.md`: the office photos are used with the developer's confirmed permission.
+- Screenshots `docs/milestone-2/screenshots/form-{en,es}-{375,768,1280}.png`.
 
 ### Commands
 
-_To be filled in this step._
+```bash
+pnpm build:site
+for f in application.html es/application.html; do echo "== $f"
+  for id in full_name email phone country_of_residence years_of_experience sector_of_interest english_level availability linkedin additional_comments data_policy; do grep -q "name=\"$id\"" $f && echo "ok $id" || echo "MISSING $id"; done
+  grep -c "<fieldset" $f; grep -c "<legend" $f
+  grep -oE 'type="(text|email|tel|number|url|checkbox|radio)"' $f | sort | uniq -c
+  grep -oE ' required[ >]' $f | wc -l
+  grep -oE '<label for="[^"]+"' $f | wc -l
+done
+grep -c "Are you a company looking for talent" application.html
+grep -c "¿Eres una empresa buscando talento" es/application.html
+grep -cE 'style="' application.html es/application.html
+grep -h 'hreflang="x-default"\|rel="canonical"' index.html application.html es/index.html es/application.html
+bash .agents/skills/security-gate/check.sh 2; echo "exit=$?"
+bash .agents/skills/a11y-gate/check.sh 2; echo "exit=$?"
+```
 
 ### Expected
 
-_To be filled in this step._
+- `ok` ×11 per page; `5` fieldsets and `5` legends.
+- `text` 1, `email` 1, `tel` 1, `number` 1, `url` 1, `checkbox` 1, `radio` 4.
+- `12` `required` attributes per page. `grep -c " required"` gives 13 on the English page, because the note "Fields marked * are required" also matches.
+- `14` `label for` per page (10 fields + 4 radios).
+- The company notice once per page; `0` inline styles.
+- Canonical and `x-default` are absolute `https://nexova.com/…` URLs.
+- `security-gate` exit 0; `a11y-gate` 72 PASS, exit 0.
+- In the browser: fields stack in one column at 375 px and pair up from 768 px; clicking a radio or checkbox label selects it; Tab shows the coral ring on every field. Nothing validates yet (S06).
 
 ## S06 — Form validation
 

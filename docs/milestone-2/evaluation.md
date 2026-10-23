@@ -12,7 +12,7 @@ Criteria copied verbatim from the brief.
 | --- | --- | --- | --- | --- | --- |
 | E1 | HTML uses appropriate semantic tags instead of generic divs | S04 | `index.html`, `application.html`, `es/index.html`, `es/application.html` | Inspect the landmarks (`header`, `nav`, `main`, `section`, `article`, `footer`); count `div` elements against semantic tags | Partially met (S04): landing pages (`index.html`, `es/index.html`) use `header`, `nav`, `main`, 4 labelled `section`s, 3 `article`s, `address`, `ul`/`li`, `footer`; the generic `div`s left are layout wrappers and the `aria-hidden` illustration. Form pages in S05 |
 | E2 | All images have descriptive alt attributes | S04 | `index.html`, `application.html`, `es/*.html`, `assets/` | Every `img` has a non-empty, descriptive `alt` (decorative images `alt=""`); automated a11y check | Met (S04): every `img` has a descriptive `alt` in its language (logo `Nexova`; office photos, e.g. "Valencia, City of Arts and Sciences — Nexova headquarters"); the decorative hero illustration is `aria-hidden`; `a11y-gate` criterion 3 PASS on all four pages |
-| E3 | Forms use label correctly associated with inputs | S05 | `application.html`, `es/application.html` | Every control has a `<label for>` matching its `id` (radio group inside `fieldset`/`legend`) | Pending |
+| E3 | Forms use label correctly associated with inputs | S05 | `application.html`, `es/application.html` | Every control has a `<label for>` matching its `id` (radio group inside `fieldset`/`legend`) | Met (S05): both form pages (`application.html`, `es/application.html`): every control has a visible `<label for>` matching its `id` (14 per page: 10 fields + 4 radios); the radios sit in a `fieldset`/`legend`; `a11y-gate` criterion 4 PASS (14 controls) |
 | E4 | Schema.org markup is present and correctly implemented | S04 | `index.html`, `es/index.html`, `docs/milestone-2/content-decisions.md` | Extract the `application/ld+json` block and parse it as JSON; compare with the briefing's Organization markup | Met (S04): the briefing's Organization JSON-LD on both landing pages (Spanish page: the Spanish briefing's `description`), angle brackets removed as in `content-decisions.md`; parsed and compared field by field: `schema OK` ×2 |
 | E5 | Document structure is logical and hierarchical | S04 | `index.html`, `application.html`, `es/*.html` | One `h1` per page, headings in order with no skipped levels | Partially met (S04): landing pages (`index.html`, `es/index.html`): one `h1`, then `h2` (sections and footer) and `h3` (service cards), no skipped level (`a11y-gate` criterion 2 PASS). Form pages completed in S05 |
 
@@ -43,8 +43,8 @@ Criteria copied verbatim from the brief.
 
 | ID | Criterion | Step | Files | How to verify | Result |
 | --- | --- | --- | --- | --- | --- |
-| E19 | All fields specified in BRIEFING.md are present | S05 | `application.html`, `es/application.html` | The 11 fields of the briefing table are present | Pending |
-| E20 | Input types are appropriate for each field | S05 | `application.html`, `es/application.html` | `text`, `email`, `tel`, `select`, `number`, `radio`, `url`, `textarea`, `checkbox` as in the briefing | Pending |
+| E19 | All fields specified in BRIEFING.md are present | S05 | `application.html`, `es/application.html` | The 11 fields of the briefing table are present | Met (S05): the 11 `BRIEFING.md` fields on both pages (`ok` ×11 per page); no extra field |
+| E20 | Input types are appropriate for each field | S05 | `application.html`, `es/application.html` | `text`, `email`, `tel`, `select`, `number`, `radio`, `url`, `textarea`, `checkbox` as in the briefing | Met (S05): `text`, `email`, `tel`, `number` (`min=0 max=50 step=1`), 3 `select`s, 4 `radio`s, `url`, `textarea`, `checkbox`, exactly as the briefing's Type column; `autocomplete` on name, email, phone and URL |
 | E21 | JavaScript validation works correctly for all fields | S06 | `validation.js`, `tests/site/` | Automated tests of every rule with valid and invalid values | Pending |
 | E22 | Error messages are specific and helpful (not just "invalid field") | S06 | `validation.js` | Messages match the briefing's "Expected error messages" exactly (English and Spanish) | Pending |
 | E23 | Validation prevents submission of incorrect data | S06 | `validation.js`, `tests/site/` | Submit with invalid data: no success message, focus moves to the first error | Pending |
@@ -57,7 +57,7 @@ Criteria copied verbatim from the brief.
 | --- | --- | --- | --- | --- | --- |
 | E26 | The landing page faithfully reflects the company type and sector | S04 | `index.html`, `es/index.html`, `BRIEFING.md` | Sections and copy match the briefing (header, hero, services, why Nexova, contact, footer) | Met (S04): header, hero, services (3), why Nexova (4), contact and footer in the briefing's order and words (EN and ES), with only the documented content decisions |
 | E27 | Content presents the company's experience and competitive advantages | S04 | `index.html`, `es/index.html` | "Why Nexova" shows the 4 advantages (with the documented market wording) | Met (S04): "Why Nexova" shows the four advantages, each figure emphasised (12 years, Spain and United States, +500, Sector specialization), with the documented "Spanish and US markets" wording; office photos of Valencia and Miami |
-| E28 | Form fields exactly match those required in BRIEFING.md | S05 | `application.html`, `es/application.html`, `BRIEFING.md` | Field list, types, options and required flags compared one by one; no extra fields | Pending |
+| E28 | Form fields exactly match those required in BRIEFING.md | S05 | `application.html`, `es/application.html`, `BRIEFING.md` | Field list, types, options and required flags compared one by one; no extra fields | Met (S05): field names, types, options (EN labels from `BRIEFING.md`, ES labels from `BRIEFING.es.md`, the same `value`s) and required flags (12 `required` attributes: 7 fields, 4 radios, the checkbox; LinkedIn and comments optional) compared one by one; ids/names in `systemPatterns.md` |
 | E29 | Any domain-specific validation rules are implemented | S06 | `validation.js`, `tests/site/` | The 6 "Specific validations" of the briefing (email domain, phone `+` code, 0–50 years, LinkedIn URL, 500-character counter, data policy) | Pending |
 | E30 | Tone and content are consistent with an established company going digital | S04 | `index.html`, `es/index.html` | Copy review against the briefing and `CONTEXT.md` | Met (S04): the briefing copy, verbatim, in a restrained layout (no invented figures, clients or testimonials); the same brand as Nexova's other apps |
 
@@ -89,15 +89,15 @@ From the "What to do" lists of the brief.
 
 | ID | Deliverable | Step | Status |
 | --- | --- | --- | --- |
-| A1 | `application.html` with a structured form | S05 | Pending |
-| A2 | The fields from `BRIEFING.md` | S05 | Pending |
-| A3 | Appropriate input types | S05 | Pending |
-| A4 | `<label for>` | S05 | Pending |
-| A5 | `<fieldset>`/`<legend>` | S05 | Pending |
-| A6 | `required` | S05 | Pending |
-| A7 | Responsive form | S05 | Pending |
-| A8 | Tailwind styles (spacing, sizes, focus states) | S05 | Pending |
-| A9 | A submit button and a clear button | S05 | Pending |
+| A1 | `application.html` with a structured form | S05 | Met (S05): `application.html` (and `es/application.html`) with `<form id="talent-form">`, named by its `h1` |
+| A2 | The fields from `BRIEFING.md` | S05 | Met (S05): the 11 briefing fields |
+| A3 | Appropriate input types | S05 | Met (S05): input types as in the briefing table |
+| A4 | `<label for>` | S05 | Met (S05): `<label for>` on every control |
+| A5 | `<fieldset>`/`<legend>` | S05 | Met (S05): 5 `fieldset`s with `legend` (Personal details, Professional profile, Availability, Additional information, Consent) |
+| A6 | `required` | S05 | Met (S05): `required` on the 9 required fields (12 attributes, counting the 4 radios); `*` marker plus the note at the top |
+| A7 | Responsive form | S05 | Met (S05): one column on phones, two from `md:`, the three profile fields in three from `lg:`; screenshots `form-*-{375,768,1280}.png` |
+| A8 | Tailwind styles (spacing, sizes, focus states) | S05 | Met (S05): Tailwind utilities only: `brand-*` spacing, 48 px fields with `radius-field`, M1 focus ring, `aria-[invalid=true]:` error borders, `disabled:` submit state, 0 inline styles |
+| A9 | A submit button and a clear button | S05 | Met (S05): "Submit application" (green pill) and "Clear form" (green outline); behaviour in S06 |
 | A10 | `validation.js` validates all fields | S06 | Pending |
 | A11 | Real-time validation (`input`/`blur`) | S06 | Pending |
 | A12 | A specific message per validation type | S06 | Pending |

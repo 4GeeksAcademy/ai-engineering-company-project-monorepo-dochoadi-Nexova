@@ -134,3 +134,13 @@ Not blockers for this academic milestone; to resolve before any real launch.
 | --- | --- | --- |
 | Google Fonts (Instrument Sans) | Loading the font from Google's servers sends each visitor's IP address to Google, a GDPR concern in the EU (Nexova is in Valencia). Before any real EU launch, self-host the font file in `assets/` (Instrument Sans is open source, SIL Open Font License) and drop the two Google origins from the CSP. Kept for now (developer's decision). | S07 decides whether self-hosting is also needed for the PageSpeed score. |
 | Office photo licences | `valencia.webp` and `miami.webp` come from the M1 design (`uis/website/public/images/`); their licence is not confirmed, and the Miami photo shows identifiable people (open question in `memory-bank/activeContext.md`). | Before publishing. |
+
+## S05 — Form markup
+
+Run on 2026-10-23 (S05) with the form markup on both form pages and absolute `hreflang`/canonical links on all four pages.
+
+- **The form sends nothing to a third party:** `<form id="talent-form" action="#" method="post">`, with no `fetch`, no third-party form service and no JavaScript yet (S06 intercepts the submit and simulates it). `method="post"` keeps the answers out of the URL (rule 15): with `get`, a native submit would put the name, email and phone in the address bar and the server log.
+- **Without JavaScript,** the browser validates natively (`required`, `type`, `min`/`max`) and then posts to the page itself (CSP `form-action 'self'`). The static server stores nothing and only serves files. This is acceptable for a demo with no backend; a real backend validates every field again (rule 17).
+- **No `novalidate` in the HTML:** `validation.js` sets it when it loads (S06), so native validation still protects users who have JavaScript off.
+- **Gate results:** `security-gate` exit 0 (criteria 1–5 and 7 PASS, 6 SKIP: no `validation.js` yet).
+- **Production note update:** the office photo licence question is closed. The developer confirmed on 2026-10-23 that the project may use both photos, including the people visible in the Miami photo (`content-decisions.md`).

@@ -76,3 +76,23 @@ Run on 2026-10-23 (S04) with the landing content in both languages. `a11y-gate` 
   - Text pairs are ink / ink-soft on cream, paper and sand, green on cream and sand, cream and sage on green; all pass AA (axe: 0 violations).
   - Coral appears only in decorative shapes (the placed card, the stage bars, the bullet dots, the logo dot), never as text.
 - **Body text:** at least 16 px everywhere. Service bullets are 17 px, reduced to 16 px only between `md:` and `lg:` so the three cards stay readable at 768 px.
+
+## S05 — Form markup
+
+Run on 2026-10-23 (S05) on the form pages. Result: **72 PASS, 0 FAIL**, `exit=0`. The form pages have 0 serious or critical axe violations at 375, 768 and 1280 px and 14 labelled controls per page. The keyboard walk-through covers 25 elements at 375 px and 28 at 1280 px, with the radio group as one stop.
+
+- **Labels and groups:**
+  - Every control has a visible `<label for>` (each radio and the checkbox are wrapped in theirs, so the whole tile is clickable and at least 48 px tall).
+  - There are five `fieldset`s (Personal details, Professional profile, Availability, Additional information, Consent).
+  - Each `legend` holds an `h2`, so screen-reader users hear the group name with every field and can also jump between groups by heading.
+- **Descriptions:**
+  - Every field has `aria-describedby` pointing to its hint (phone, years, LinkedIn), the comments counter where present, and an empty error container filled in S06.
+  - The counter is `aria-live="polite"`.
+  - The error summary (`#form-errors`, `role="alert"`, `tabindex="-1"`) and the success box (`#form-success`, `role="status"`) are present and hidden.
+- **Required fields:** they have the `required` attribute (announced by screen readers) and a visual `*` (`aria-hidden`), explained by the note at the top of the form.
+- **Field borders: a deliberate deviation from the step brief.**
+  - The brief asked for a "line" border, but `line` on paper is 1.31:1, below WCAG 1.4.11 (control boundaries need 3:1) and rule 23.
+  - Fields and choice tiles use `green-mid` instead (4.55:1 on paper, 4.28:1 on cream), still a brand token. Error borders and error text use `rust` (5.30:1 on paper).
+  - The form cards are paper, not sand, because the coral focus ring is only 2.89:1 on sand (3.13–3.3:1 on cream and paper).
+- **Hints below the inputs:** a hint above the input wrapped to a different number of lines in neighbouring columns, which pushed the inputs out of line. Below the input, the inputs line up and the hint is still announced with the field.
+- **Forced-colors review** (`docs/milestone-2/a11y/*application-forced-colors.png`): every field border, the radio and checkbox tiles, the fieldset boxes, both buttons and the company notice stay visible.

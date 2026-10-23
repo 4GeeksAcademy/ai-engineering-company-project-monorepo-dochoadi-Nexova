@@ -100,8 +100,29 @@ Every tool, service, API, MCP server and library used in this project must be fr
 
 ## 19. Landing section order and a static hero
 
-- **Rule:** the landing page follows the briefing's order exactly, in both languages: header → hero (`#top`) → Our services (`#services`, 3 `article`s) → Why Nexova (`#why-nexova`, 4 points + 2 office photos) → Contact (`#contact`, `address` + second CTA) → footer. Copy is the briefing's, verbatim, with only the changes in `docs/milestone-2/content-decisions.md`. The hero is **static**: the M1 "shortlist" frozen in its final "placed" state, built with Tailwind, `aria-hidden="true"`, with no animation and no JavaScript.
+- **Rule:** the landing page follows the briefing's order exactly, in both languages: header → hero (`#top`) → Services (`#services`, 3 `article`s; heading "Services" / "Servicios" as in the briefing since S05) → Why Nexova (`#why-nexova`, 4 points + 2 office photos) → Contact (`#contact`, `address` + second CTA) → footer. Copy is the briefing's, verbatim, with only the changes in `docs/milestone-2/content-decisions.md`. The hero is **static**: the M1 "shortlist" frozen in its final "placed" state, built with Tailwind, `aria-hidden="true"`, with no animation and no JavaScript.
 - **Why:** the evaluation checks the briefing's sections and order (E26). A static hero keeps the page fast (E13) and calm: nothing moves for people who are sensitive to motion, there is nothing to pause (WCAG 2.2.2), and the visual still tells Nexova's story of finding the one right person.
+
+## 20. Talent form field contract: ids, values and grouping
+
+- **Rule:** every field's `id` equals its `name`, in snake_case from the briefing's field name, and is the same on the English and Spanish pages. Option `value`s are identical in both languages; only the visible labels change. No field outside this table (only the 11 `BRIEFING.md` fields).
+
+  | Briefing field | `id` / `name` | Element | Values | Required |
+  | --- | --- | --- | --- | --- |
+  | Full name | `full_name` | `input type="text"` (`autocomplete="name"`) | — | yes |
+  | Email | `email` | `input type="email"` | — | yes |
+  | Phone | `phone` | `input type="tel"` (hint with the country-code example) | — | yes |
+  | Country of residence | `country_of_residence` | `select` | `spain`, `united_states`, `other` | yes |
+  | Years of experience | `years_of_experience` | `input type="number" min="0" max="50" step="1"` | — | yes |
+  | Sector of interest | `sector_of_interest` | `select` | `technology`, `retail`, `financial_services`, `consulting`, `other` | yes |
+  | English level | `english_level` | `select` | `basic`, `intermediate`, `advanced`, `native` | yes |
+  | Availability | `availability` (radio ids `availability_<value>`) | 4 radios | `immediate`, `1_month`, `2_3_months`, `just_exploring` | yes (on each radio) |
+  | LinkedIn (profile URL) | `linkedin` | `input type="url"` | — | no |
+  | Additional comments | `additional_comments` | `textarea rows="5"`, no `maxlength` (500 checked with a visible counter) | — | no |
+  | I accept the data policy | `data_policy` | `input type="checkbox" value="accepted"` | — | yes |
+
+- **Grouping:** five `fieldset`s, each `legend` holding an `h2`: Personal details (full name, email, phone, country) · Professional profile (years, sector, English level, LinkedIn) · Availability (the radio group) · Additional information (comments + counter) · Consent (the checkbox). Each field has `#<id>-hint` where useful, an empty `#<id>-error`, and `aria-describedby` listing them.
+- **Why:** one stable contract for `validation.js` (S06), its tests, and a future backend and "Candidates" view in the backoffice; the groups let screen-reader users hear which part of the form they are in.
 
 ## How the UIs relate
 

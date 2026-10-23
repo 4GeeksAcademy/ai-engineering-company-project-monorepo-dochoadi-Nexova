@@ -6,9 +6,10 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; form-action 'self'; base-uri 'self'; object-src 'none'">
     <title>Join our talent pool — Nexova</title>
     <meta name="description" content="Join Nexova's talent pool: share your contact details, experience, sector of interest, English level and availability, and our selection team will contact you if your profile matches.">
-    <link rel="alternate" hreflang="en" href="application.html">
-    <link rel="alternate" hreflang="es" href="es/application.html">
-    <link rel="alternate" hreflang="x-default" href="application.html">
+    <link rel="canonical" href="https://nexova.com/application.html">
+    <link rel="alternate" hreflang="en" href="https://nexova.com/application.html">
+    <link rel="alternate" hreflang="es" href="https://nexova.com/es/application.html">
+    <link rel="alternate" hreflang="x-default" href="https://nexova.com/application.html">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,10 +51,156 @@
     </header>
 
     <main id="main">
-      <!-- Talent registration form (the 11 BRIEFING.md fields): S05; validation.js: S06. -->
-      <section aria-labelledby="form-title" class="py-16 sm:py-20 lg:py-28">
+      <section aria-labelledby="form-title" class="py-14 sm:py-20 lg:py-24">
+        <div class="mx-auto max-w-[1320px] px-4 sm:px-8 lg:px-12 grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)] lg:gap-16">
+          <div class="lg:sticky lg:top-28 lg:self-start">
+            <h1 id="form-title" class="max-w-[14ch] text-[40px] font-medium leading-[1.05] tracking-[-0.035em] text-balance text-brand-green sm:text-6xl">Join our talent pool</h1>
+            <p class="mt-6 max-w-[44ch] text-lg/[1.6] text-pretty text-brand-ink-soft sm:text-xl/[1.6]">This form is for professionals in active or passive job search.</p>
+            <p class="mt-8 rounded-brand-field border-[1.5px] border-brand-green bg-brand-sand px-5 py-4 text-brand-ink">Are you a company looking for talent? Write to us at <a href="mailto:contacto@nexova.com" class="font-semibold text-brand-green underline underline-offset-4 hover:text-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">contacto@nexova.com</a></p>
+          </div>
+
+          <form id="talent-form" action="#" method="post" class="grid gap-6" aria-labelledby="form-title">
+            <div id="form-errors" role="alert" tabindex="-1" class="hidden rounded-brand-field border-[1.5px] border-brand-rust bg-brand-paper p-5 text-brand-ink focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral"></div>
+            <p class="text-brand-ink-soft">Fields marked <span aria-hidden="true" class="text-brand-rust">*</span> are required</p>
+
+          <fieldset class="rounded-brand-card border border-brand-line bg-brand-paper p-5 shadow-brand-card sm:p-8">
+            <legend class="float-left mb-6 w-full"><h2 id="personal-title" class="text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green sm:text-[28px]">Personal details</h2></legend>
+            <div class="clear-both grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
+              <div class="md:col-span-2">
+                <label for="full_name" class="mb-2 block font-medium text-brand-ink">Full name<span aria-hidden="true" class="text-brand-rust"> *</span></label>
+                <input id="full_name" name="full_name" type="text" autocomplete="name" required aria-describedby="full_name-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                <p id="full_name-error" class="mt-2 hidden font-medium text-brand-rust"></p>
+              </div>
+              <div>
+                <label for="email" class="mb-2 block font-medium text-brand-ink">Email<span aria-hidden="true" class="text-brand-rust"> *</span></label>
+                <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                <p id="email-error" class="mt-2 hidden font-medium text-brand-rust"></p>
+              </div>
+              <div>
+                <label for="phone" class="mb-2 block font-medium text-brand-ink">Phone<span aria-hidden="true" class="text-brand-rust"> *</span></label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" required aria-describedby="phone-hint phone-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                <p id="phone-hint" class="mt-2 text-base text-brand-ink-muted">Include country code, e.g. +34 612 345 678</p>
+                <p id="phone-error" class="mt-2 hidden font-medium text-brand-rust"></p>
+              </div>
+              <div>
+                <label for="country_of_residence" class="mb-2 block font-medium text-brand-ink">Country of residence<span aria-hidden="true" class="text-brand-rust"> *</span></label>
+                <select id="country_of_residence" name="country_of_residence" required aria-describedby="country_of_residence-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                  <option value="">Select…</option>
+                  <option value="spain">Spain</option>
+                  <option value="united_states">United States</option>
+                  <option value="other">Other</option>
+                </select>
+                <p id="country_of_residence-error" class="mt-2 hidden font-medium text-brand-rust"></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="rounded-brand-card border border-brand-line bg-brand-paper p-5 shadow-brand-card sm:p-8">
+            <legend class="float-left mb-6 w-full"><h2 id="profile-title" class="text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green sm:text-[28px]">Professional profile</h2></legend>
+            <div class="clear-both grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
+              <div class="grid grid-cols-1 gap-x-6 gap-y-5 md:col-span-2 md:grid-cols-2 lg:grid-cols-3">
+                <div>
+                  <label for="years_of_experience" class="mb-2 block font-medium text-brand-ink">Years of experience<span aria-hidden="true" class="text-brand-rust"> *</span></label>
+                  <input id="years_of_experience" name="years_of_experience" type="number" min="0" max="50" step="1" inputmode="numeric" required aria-describedby="years_of_experience-hint years_of_experience-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                  <p id="years_of_experience-hint" class="mt-2 text-base text-brand-ink-muted">A whole number from 0 to 50</p>
+                  <p id="years_of_experience-error" class="mt-2 hidden font-medium text-brand-rust"></p>
+                </div>
+                <div>
+                  <label for="sector_of_interest" class="mb-2 block font-medium text-brand-ink">Sector of interest<span aria-hidden="true" class="text-brand-rust"> *</span></label>
+                  <select id="sector_of_interest" name="sector_of_interest" required aria-describedby="sector_of_interest-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                    <option value="">Select…</option>
+                    <option value="technology">Technology</option>
+                    <option value="retail">Retail</option>
+                    <option value="financial_services">Financial Services</option>
+                    <option value="consulting">Consulting</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <p id="sector_of_interest-error" class="mt-2 hidden font-medium text-brand-rust"></p>
+                </div>
+                <div>
+                  <label for="english_level" class="mb-2 block font-medium text-brand-ink">English level<span aria-hidden="true" class="text-brand-rust"> *</span></label>
+                  <select id="english_level" name="english_level" required aria-describedby="english_level-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                    <option value="">Select…</option>
+                    <option value="basic">Basic</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                    <option value="native">Native</option>
+                  </select>
+                  <p id="english_level-error" class="mt-2 hidden font-medium text-brand-rust"></p>
+                </div>
+              </div>
+              <div class="md:col-span-2">
+                <label for="linkedin" class="mb-2 block font-medium text-brand-ink">LinkedIn (profile URL)</label>
+                <input id="linkedin" name="linkedin" type="url" autocomplete="url" aria-describedby="linkedin-hint linkedin-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                <p id="linkedin-hint" class="mt-2 text-base text-brand-ink-muted">Optional — https://linkedin.com/in/…</p>
+                <p id="linkedin-error" class="mt-2 hidden font-medium text-brand-rust"></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="rounded-brand-card border border-brand-line bg-brand-paper p-5 shadow-brand-card sm:p-8">
+            <legend class="float-left mb-6 w-full"><h2 id="availability-title" class="text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green sm:text-[28px]">Availability<span aria-hidden="true" class="text-brand-rust"> *</span></h2></legend>
+            <div class="clear-both grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <label for="availability_immediate" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-colors duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
+                  <input id="availability_immediate" name="availability" type="radio" value="immediate" required aria-describedby="availability-error" class="size-5 shrink-0 accent-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                  <span>Immediate</span>
+                </label>
+                <label for="availability_1_month" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-colors duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
+                  <input id="availability_1_month" name="availability" type="radio" value="1_month" required aria-describedby="availability-error" class="size-5 shrink-0 accent-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                  <span>1 month</span>
+                </label>
+                <label for="availability_2_3_months" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-colors duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
+                  <input id="availability_2_3_months" name="availability" type="radio" value="2_3_months" required aria-describedby="availability-error" class="size-5 shrink-0 accent-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                  <span>2-3 months</span>
+                </label>
+                <label for="availability_just_exploring" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-colors duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
+                  <input id="availability_just_exploring" name="availability" type="radio" value="just_exploring" required aria-describedby="availability-error" class="size-5 shrink-0 accent-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                  <span>Just exploring</span>
+                </label>
+            </div>
+            <p id="availability-error" class="mt-2 hidden font-medium text-brand-rust"></p>
+          </fieldset>
+
+          <fieldset class="rounded-brand-card border border-brand-line bg-brand-paper p-5 shadow-brand-card sm:p-8">
+            <legend class="float-left mb-6 w-full"><h2 id="additional-title" class="text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green sm:text-[28px]">Additional information</h2></legend>
+            <div class="clear-both grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
+              <div class="md:col-span-2">
+                <label for="additional_comments" class="mb-2 block font-medium text-brand-ink">Additional comments</label>
+                <textarea id="additional_comments" name="additional_comments" rows="5" aria-describedby="additional_comments-counter additional_comments-error" class="block min-h-12 w-full rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 text-brand-ink transition-colors duration-200 ease-brand-out hover:border-brand-green aria-[invalid=true]:border-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral resize-y"></textarea>
+                <p id="additional_comments-counter" aria-live="polite" class="mt-2 text-base text-brand-ink-muted">500 characters remaining</p>
+                <p id="additional_comments-error" class="mt-2 hidden font-medium text-brand-rust"></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="rounded-brand-card border border-brand-line bg-brand-paper p-5 shadow-brand-card sm:p-8">
+            <legend class="float-left mb-6 w-full"><h2 id="consent-title" class="text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green sm:text-[28px]">Consent</h2></legend>
+            <div class="clear-both grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
+              <div class="md:col-span-2">
+                <label for="data_policy" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-brand-field border-[1.5px] border-brand-green-mid bg-brand-paper px-4 py-2.5 transition-colors duration-200 ease-brand-out hover:border-brand-green has-checked:border-brand-green has-checked:bg-brand-sand has-[[aria-invalid=true]]:border-brand-rust">
+                  <input id="data_policy" name="data_policy" type="checkbox" value="accepted" required aria-describedby="data_policy-error" class="size-5 shrink-0 accent-brand-green focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
+                  <span>I accept the <a href="#data-policy" class="font-semibold text-brand-green underline underline-offset-4 hover:text-brand-rust focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">data policy</a><span aria-hidden="true" class="text-brand-rust"> *</span></span>
+                </label>
+                <p id="data_policy-error" class="mt-2 hidden font-medium text-brand-rust"></p>
+              </div>
+            </div>
+          </fieldset>
+
+            <div class="flex flex-wrap gap-3">
+              <button type="submit" class="inline-flex min-h-[54px] w-full items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-colors duration-200 ease-brand-out sm:w-auto sm:px-[30px] focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral border-2 border-transparent bg-brand-green text-brand-cream hover:bg-brand-green-deep disabled:cursor-not-allowed disabled:opacity-60">Submit application</button>
+              <button type="reset" class="inline-flex min-h-[54px] w-full items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-colors duration-200 ease-brand-out sm:w-auto sm:px-[30px] focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral border-[1.5px] border-brand-green text-brand-green hover:bg-brand-sand">Clear form</button>
+            </div>
+            <div id="form-success" role="status" class="hidden"></div>
+          </form>
+        </div>
+      </section>
+
+      <section id="data-policy" aria-labelledby="data-policy-title" class="scroll-mt-28 bg-brand-sand py-14 sm:py-16">
         <div class="mx-auto max-w-[1320px] px-4 sm:px-8 lg:px-12">
-          <h1 id="form-title" class="max-w-[18ch] text-4xl font-medium leading-[1.05] tracking-[-0.035em] text-balance text-brand-green sm:text-5xl lg:text-7xl">Join our talent pool</h1>
+          <h2 id="data-policy-title" class="text-3xl font-medium leading-[1.05] tracking-[-0.035em] text-brand-green sm:text-4xl">Data policy</h2>
+          <p class="mt-4 max-w-[68ch] text-brand-ink-soft">When you submit this form, Nexova collects the details you enter: your name, contact details, years of experience, sector of interest, English level, availability and, if you add them, your LinkedIn profile and comments.</p>
+          <p class="mt-4 max-w-[68ch] text-brand-ink-soft">Our selection team uses them only to assess your profile for current and future opportunities.</p>
+          <p class="mt-4 max-w-[68ch] text-brand-ink-soft">This website is a demo: nothing you type is sent or stored, and your answers never leave your browser.</p>
         </div>
       </section>
     </main>
