@@ -127,8 +127,8 @@ From the "What to do" lists of the brief.
 | ID | Deliverable | Step | Status |
 | --- | --- | --- | --- |
 | S1 | `index.html`, `application.html`, `validation.js` and `BRIEFING.md` (unmodified) present | S01, S06 | Met (S08): `index.html`, `application.html`, `validation.js` and the unmodified `BRIEFING.md` (SHA-256 checked) at the root |
-| S2 | The public Codespaces URL in the PR description | S11 | Done in the pull request (S11): the public Codespaces URL is in the PR description |
-| S3 | A PageSpeed or Lighthouse screenshot (≥ 80) in the PR description | S09, S11 | Ready for the PR (S09): Lighthouse screenshots of the public URL `docs/milestone-2/screenshots/pagespeed-{home,form}-{mobile,desktop}.png` (Performance 95–100) and the PageSpeed warning-page capture; pasted into the PR description (S11) |
+| S2 | The public Codespaces URL in the PR description | S11 | Met (S11): public URL in PR #2 |
+| S3 | A PageSpeed or Lighthouse screenshot (≥ 80) in the PR description | S09, S11 | Met (S11): Lighthouse screenshots in PR #2 |
 | S4 | Tested at several window sizes | S07, S08 | Met (S08): 320, 375, 768, 1024 and 1280 px and 200 % zoom on all four pages |
 | S5 | All validations tested | S06, S08 | Met (S08): 15 `node:test` site tests (every rule, every EN/ES message) + the browser checks of S06–S07 (68 + 18 form checks, both languages) |
 | S6 | No console errors | S07, S08 | Met (S08): no console errors on any page (Playwright audit, chrome-devtools MCP `list_console_messages`, Lighthouse Best practices 100) |

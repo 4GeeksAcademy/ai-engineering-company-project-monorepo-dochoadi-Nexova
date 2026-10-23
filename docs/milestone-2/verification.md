@@ -485,6 +485,34 @@ gh pr view --json state,baseRefName,headRefName
 - `docs/milestone-2` lists `recap.md` and `report.md` next to the other reports.
 - The PR is `OPEN`, base `main`, head `milestone-your-companys-public-website`.
 
+## S13 — Fix from the final audit
+
+### Delivered
+
+- The final audit (Run 2) found one FAIL (E3): the memory bank still described the state after S10. `memory-bank/projectbrief.md` and `techContext.md` now describe the state after S11 (`tailwind.css` also scans `motion.js`; 15 site tests; SEC-2 reviewed in S11), and `activeContext.md`, `progress.md` and `systemPatterns.md` say the merge takes the next free step number.
+- `evaluation.md`: S2 and S3 set to "Met (S11)" (both are in PR #2).
+- `content-decisions.md`: a row for the LinkedIn field placed before Availability (the briefing does not fix the order on screen).
+- The teacher-fix example is now `[M2-S14] fix(…): …` in `.agents/rules/git-workflow.md`, the memory bank and the PR #2 description.
+- A comment on PR #2 listing the fixed items.
+- No site file changed.
+
+### Commands
+
+```bash
+bash .agents/skills/update-memory-bank/check.sh; echo "exit=$?"
+grep -rnE "S1[12].*(pending|remaining|to do|next)" memory-bank/ | grep -viE "merge|teacher|approval" || echo "no stale step lines"
+grep -n "motion.js" memory-bank/techContext.md | head -3
+grep -nE "^\| S[23] " docs/milestone-2/evaluation.md
+grep -c "M2-S14" .agents/rules/git-workflow.md
+gh pr view 2 --json body --jq .body | grep -c "M2-S14"
+```
+
+### Expected
+
+- `check.sh` 5 PASS, `exit=0`; `no stale step lines`; `motion.js` listed in `techContext.md`.
+- The S2 and S3 rows say "Met (S11)".
+- `1` match of `M2-S14` in `git-workflow.md` and `1` in the PR description.
+
 ## S12 — Merge (after the instructor's approval)
 
 ### Delivered

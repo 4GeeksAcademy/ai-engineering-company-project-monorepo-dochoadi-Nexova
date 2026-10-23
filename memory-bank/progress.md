@@ -4,7 +4,7 @@ Type: status
 
 ## Current state
 
-**Milestone 2 ("Your Company's Public Website") is complete** on the branch `milestone-your-companys-public-website`: S01 done (official briefing, evaluation matrix, conventions); S02 done (security and accessibility gates, dev MCP servers, Milestone 1 baseline, Next.js 16.4.1 security patch); S03 done (compiled Tailwind, the `dist/` server command and the bilingual semantic skeleton of the four pages); S04 done (the bilingual landing page); S05 done (the bilingual form markup); S06 done (validation with tests); S07 done (the Milestone 1 landing experience); S08 done (quality gates); S09 done (public URL and performance evidence); S10 done (documentation, memory bank, devcontainer); S11 done ("Why Nexova" two-column fix, final security and accessibility reviews, recap, report and the pull request). PR open, waiting for the teacher's validation; S12 (merge) only after the instructor's recorded approval.
+**Milestone 2 ("Your Company's Public Website") is complete** on the branch `milestone-your-companys-public-website`: S01 done (official briefing, evaluation matrix, conventions); S02 done (security and accessibility gates, dev MCP servers, Milestone 1 baseline, Next.js 16.4.1 security patch); S03 done (compiled Tailwind, the `dist/` server command and the bilingual semantic skeleton of the four pages); S04 done (the bilingual landing page); S05 done (the bilingual form markup); S06 done (validation with tests); S07 done (the Milestone 1 landing experience); S08 done (quality gates); S09 done (public URL and performance evidence); S10 done (documentation, memory bank, devcontainer); S11 done ("Why Nexova" two-column fix, final security and accessibility reviews, recap, report and the pull request). S13 done (final audit items closed). PR #2 open, waiting for the teacher's validation; the merge (S12 in the plan; it takes the next free step number) only after the instructor's recorded approval.
 
 **Milestone 1 ("Monorepo AI Setup") is complete and merged**: all 13 steps done, E1–E9 met, merged into `main` on 2026-10-13 as PR #1 (merge commit `30f8e47`). The instructor's feedback (branch name, `BRIEFING.md`, and the PR having been merged by its author) is answered in [`docs/milestone-1/instructor-feedback.md`](../docs/milestone-1/instructor-feedback.md). The Next.js website (`uis/website`, port 3000) and backoffice (`uis/backoffice`, port 3001, no authentication yet) run in development from shared data and shared brand tokens; no agents, API or live data yet.
 
@@ -66,10 +66,11 @@ Type: status
   - **Final reviews:** `security-gate` 7 PASS and `/security-review` with no findings (`security.md`); `a11y-gate` 72 PASS (`accessibility.md`).
   - **Docs:** `docs/milestone-2/recap.md` (`milestone-recap` check: all 6 criteria passed) and `report.md`; `evaluation.md` with P3 and P4 met and E26 re-verified; every report linked from `docs/milestone-2/README.md` and `docs/README.md`.
   - **Pull request** to `main` opened, not merged.
+- **2026-10-23 — S13 (`M2-S13`):** fix from the final audit (Run 2). Its only FAIL (E3) was the memory bank: `projectbrief.md` and `techContext.md` still described the state after S10; both updated, plus the stale SEC-2 "review in S11" notes. `evaluation.md` S2 and S3 set to Met (PR #2); `content-decisions.md` records the LinkedIn field placement; the teacher-fix example is now `[M2-S14]` (`git-workflow.md`, memory bank, PR #2 description).
 
 ## Pending
 
-- Milestone 2 S12: merge the PR with a merge commit, only after the instructor's recorded approval; then set port 8080 back to Private.
+- Milestone 2 merge (S12 in the plan; it takes the next free step number): merge PR #2 with a merge commit, only after the instructor's recorded approval; then set port 8080 back to Private.
 - The next milestone: to be defined.
 - Authentication for the backoffice (open question in `activeContext.md`).
 - Confirm the real public contact email (open question in `activeContext.md`). The office photos were confirmed by the developer on 2026-10-23.

@@ -10,8 +10,8 @@ Type: status
 
 ## Next steps
 
-1. **PR open, waiting for the teacher's validation.** Milestone 2 is complete (S01–S11). The next action is the developer's: review the pull request and, after the instructor's recorded approval, S12 merges it into `main` with "Create a merge commit" (rule in `.agents/rules/git-workflow.md`). The coding agent never merges.
-2. **Teacher's changes, if any:** made on this same branch as extra step commits (`[M2-S13] fix(...): …`), never on `main`.
+1. **PR open, waiting for the teacher's validation.** Milestone 2 is complete (S01–S11; S13 closed the final audit's items). The next action is the developer's: review PR #2 and, after the instructor's recorded approval, merge it into `main` (S12 in the plan; it takes the next free step number) with "Create a merge commit" (rule in `.agents/rules/git-workflow.md`). The coding agent never merges.
+2. **Teacher's changes, if any:** made on this same branch as extra step commits (`[M2-S14] fix(...): …`; S13 was the final-audit fix), never on `main`.
 3. **Make port 8080 private after the PR review:** the public Codespaces URL (L15) stays public only until the instructor has reviewed the pull request; then the developer sets it back to Private in the Ports tab.
 4. **Next milestone:** to be defined; it starts from an up-to-date `main` only after the M2 merge.
 
@@ -30,6 +30,7 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
 
 ## Recent decisions
 
+- **M2-S13 final audit (Run 2) fix:** memory bank brought up to date (the audit's only FAIL, E3), S2/S3 rows set to Met, the LinkedIn field placement recorded in `content-decisions.md`; the next free step number for a teacher-requested fix is `[M2-S14]`.
 - **M2-S11 recap and PR:** "Why Nexova" changed to 2 columns (2×2 from `md:`) because the briefing asks for 2 columns (the final audit's only FAIL, E26); final `security-gate`, `/security-review` and `a11y-gate` all clean; `recap.md` and `report.md` written; PR opened, not merged.
 - **M2-S10 docs:** the public-URL scores are Lighthouse 13.5.0, not PageSpeed (PageSpeed only reached the Codespaces warning page); SEO 92 with `connect-src 'none'` is accepted (developer's decision); the verification guide, README, memory bank and a retroactive Milestone 1 learning log are complete; the devcontainer forwards 8080 and pins its installs (SEC-4 fixed).
 - **M2-S09 public URL (tool corrected in S10):** Lighthouse 13.5.0 on the public Codespaces URL (PageSpeed Insights only reached GitHub's development-port warning page): Performance 99/100 (home), 95/100 (form), Accessibility and Best practices 100 (SEO 61 because Codespaces adds `x-robots-tag: noindex`). `robots.txt` and `sitemap.xml` added (developer's approval after S08). Port 8080 stays public until the PR review.
@@ -63,7 +64,7 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
   - the Milestone 1 baseline findings not fixed in this milestone (SEC-3, SEC-5, SEC-6, SEC-7 and A11Y-1 to A11Y-6 in the M1 Next.js apps, "Planned: M1 hardening (separate change, needs approval)");
   - the office photos: the developer confirmed permission to use them (S05), but for a real public launch the licence and consent of the source photos must still be on record;
   - make the Codespaces port 8080 private again after the PR review.
-- **Milestone 1 baseline findings (decided after S02):** SEC-1 resolved in S03 (`dist/` allowlist); SEC-2 accepted as a documented exception (review in S11); SEC-4 fixed in S10 with the other `.devcontainer/` changes; SEC-3, SEC-5–7 and A11Y-1–6 stay in the backlog as "Planned: M1 hardening (separate change, needs approval)" (`docs/milestone-2/security.md`, `accessibility.md`).
+- **Milestone 1 baseline findings (decided after S02):** SEC-1 resolved in S03 (`dist/` allowlist); SEC-2 accepted as a documented exception (reviewed in S11: still accepted until a fix is published); SEC-4 fixed in S10 with the other `.devcontainer/` changes; SEC-3, SEC-5–7 and A11Y-1–6 stay in the backlog as "Planned: M1 hardening (separate change, needs approval)" (`docs/milestone-2/security.md`, `accessibility.md`).
 
 - **Official briefing quirks (cannot be fixed, the file stays unmodified):** `BRIEFING.md` is headed "Milestone 1: Your Company's Public Website" (the course's own numbering; in this repo it is Milestone 2), and its link to the Spanish version (`./nexova-BRIEFING.es.md`) does not resolve, because the Spanish copy lives in `docs/milestone-2/BRIEFING.es.md`.
 - **Backoffice authentication:** `uis/backoffice` has no sign-in yet ("Internal tool. Sign-in comes later."). Who may access it, and with which identity provider (e.g. Google Workspace, which Nexova already uses), is still to be decided; it must not be exposed publicly until then.

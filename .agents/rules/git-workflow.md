@@ -15,7 +15,7 @@ Scope: always active
 
 1. **Start:** `git switch main && git pull`, then create the milestone branch from the up-to-date `main`. Use the branch name the brief asks for; only if the brief names none, use the milestone title from the brief in lowercase with hyphens (M1 was `chore/hito-1-ai-setup`; M2 is `milestone-your-companys-public-website`, from "Milestone — Your Company's Public Website"). Put the milestone briefing in `BRIEFING.md` at the root, unmodified.
 2. **Work:** one commit per step on that branch, then a PR to `main`.
-3. **Review:** the PR stays open until the teacher has reviewed and validated it. Any fix the teacher requests goes on the same branch as an extra step commit (e.g. `[M2-S13] fix(form): …`), never directly on `main`.
+3. **Review:** the PR stays open until the teacher has reviewed and validated it. Any fix the teacher requests goes on the same branch as an extra step commit (e.g. `[M2-S14] fix(form): …`), never directly on `main`.
 4. **Merge only after validation:** the coding agent never merges a PR. The PR is merged only after the instructor has reviewed and approved it: by the instructor, or by the developer once that approval is recorded in the PR (an approving review or a comment).
 5. **Next milestone:** only then does the next milestone start again from step 1.
 

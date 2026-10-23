@@ -343,3 +343,24 @@ _Correction (2026-10-23, S10): the public-link scores above were measured with L
 - Open (carried forward): the Milestone 1 findings not fixed in this milestone, a licence record for the office photos, the Sales manager question, and the next milestone (to be defined).
 
 **Commit:** `[M2-S11][E26] docs: add Milestone 2 report, recap, security and accessibility reports, and fix Why Nexova two-column layout`
+
+## S13 — Fix from the final audit (2026-10-23)
+
+**What was done**
+- The second final check found one problem: the project's memory notes still said steps 11 and 12 were left to do. They now say Milestone 2 is finished and the pull request is waiting for the teacher.
+- Fixed small leftovers in the same notes: the style file also reads `motion.js`, there are 15 site tests (not 14), and the security exception was reviewed in S11.
+- Marked the two pull-request items (the public link and the speed screenshots) as "Met" in the evaluation table, and wrote down why the LinkedIn field sits before Availability on the form.
+- Because this fix used step number 13, a fix the teacher asks for would now be numbered 14. The rules, the notes and the pull-request description say so.
+
+**What I learned**
+- **The memory must match reality, not just pass its check:** the memory check only tests the format (files present, a dated entry, working links). It can't tell whether a sentence like "remaining: S11" is still true. Only a person (or an audit) reading it can.
+- **Fixes after a pull request:** the pull request updates itself when new commits are pushed to its branch. Nothing is rewritten; the fix is simply one more step in the history.
+
+**How to check it yourself**
+- Open `memory-bank/projectbrief.md` and find "Status": it should say Milestone 2 is complete and PR #2 is waiting for the teacher.
+- Open PR #2 on GitHub: the new commit appears in its list, and the comment lists the fixed items.
+
+**Decisions or open questions**
+- None new. Still open: the teacher's review, the merge after approval, and setting port 8080 back to Private.
+
+**Commit:** `[M2-S13] docs(memory-bank): record Milestone 2 completion and close final audit items`
