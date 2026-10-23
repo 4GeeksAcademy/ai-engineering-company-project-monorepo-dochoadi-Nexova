@@ -44,7 +44,7 @@ Criteria copied verbatim from the brief.
 | E10 | Tailwind breakpoints (sm:, md:, lg:) are used appropriately | S04, S07 | `index.html`, `application.html`, `es/*.html` | `grep -oE "(sm\|md\|lg):" *.html es/*.html \| sort \| uniq -c` | Met (S08): `sm:`, `md:` and `lg:` used on all four pages (header nav from `md:`, services and form fields from `md:`, hero, process, figures and form layout from `lg:`) |
 | E11 | There is no unnecessary custom CSS (only Tailwind) | S03 | `tailwind.css` | `tailwind.css` holds only the Tailwind import and theme tokens; no hand-written rules | Met (S08): `tailwind.css` holds only `@import`, `@source`, `@theme inline` (brand token mapping, no hex values), and two commented blocks Tailwind utilities cannot express (the static-page font variable and the self-hosted `@font-face`); `grep -nE "^\s*[.#a-z].*\{"` finds no hand-written rule |
 | E12 | The design is visually coherent and professional | S04, S07 | `index.html`, `application.html`, `es/*.html`, `packages/shared/styles/tokens.css` | Screenshots reviewed against the Nexova identity (green primary buttons, coral accent, Instrument Sans) | Met (S08): the same brand as the M1 apps, checked side by side at 1280 px (`docs/milestone-2/screenshots/consistency-*.png`): identical colours, Instrument Sans, 54 px green pill buttons (16.5 px, 600), card radius, border and fill, footer, and the 3 px coral focus ring; only `brand-*` colours (no default Tailwind palette) |
-| E13 | Performance verified with a minimum score of 80 (ideal above 90) using PageSpeed Insights on the public Codespaces URL, or Lighthouse from Chrome DevTools if PageSpeed cannot reach Codespaces | S08, S09 | `docs/milestone-2/screenshots/` | PageSpeed Insights on the public Codespaces URL, or Lighthouse; screenshot of the score | Partially met (local Lighthouse, S08): Lighthouse 13.5.0 on all four pages: Performance 100 / Accessibility 100 / Best practices 100 / SEO 92 (`docs/milestone-2/lighthouse/`). The public PageSpeed run is S09 |
+| E13 | Performance verified with a minimum score of 80 (ideal above 90) using PageSpeed Insights on the public Codespaces URL, or Lighthouse from Chrome DevTools if PageSpeed cannot reach Codespaces | S08, S09 | `docs/milestone-2/screenshots/` | PageSpeed Insights on the public Codespaces URL, or Lighthouse; screenshot of the score | Met (S09): PageSpeed Insights on the public Codespaces URL, Performance home 99 mobile / 100 desktop, form 95 mobile / 100 desktop (Accessibility and Best practices 100); screenshots and the local Lighthouse comparison in [`performance.md`](./performance.md) |
 
 ### Accessibility
 
@@ -100,7 +100,7 @@ From the "What to do" lists of the brief.
 | L12 | Semantic tags (`section`, `article`, `nav`…) | S04 | Met (S04): `section`, `article`, `nav`, `address`, `header`, `footer` on the landing pages |
 | L13 | ARIA where appropriate | S04, S07, S08 | Met (S08): ARIA on all four pages reviewed (see E15); no redundant roles |
 | L14 | Schema.org Organization | S04 | Met (S04): Schema.org Organization JSON-LD on both landing pages |
-| L15 | Exposed on a public Codespaces URL | S09 | Pending |
+| L15 | Exposed on a public Codespaces URL | S09 | Met (S09): https://fantastic-space-doodle-q76p5vgw97r6cqrp-8080.app.github.dev/ (Codespaces port 8080 set to Public; private paths return 404; set back to Private after the PR review) |
 
 ### Application form
 
@@ -128,7 +128,7 @@ From the "What to do" lists of the brief.
 | --- | --- | --- | --- |
 | S1 | `index.html`, `application.html`, `validation.js` and `BRIEFING.md` (unmodified) present | S01, S06 | Met (S08): `index.html`, `application.html`, `validation.js` and the unmodified `BRIEFING.md` (SHA-256 checked) at the root |
 | S2 | The public Codespaces URL in the PR description | S11 | Pending |
-| S3 | A PageSpeed or Lighthouse screenshot (≥ 80) in the PR description | S09, S11 | Pending |
+| S3 | A PageSpeed or Lighthouse screenshot (≥ 80) in the PR description | S09, S11 | Ready for the PR (S09): `docs/milestone-2/screenshots/pagespeed-{home,form}-{mobile,desktop}.png` (Performance 95–100); pasted into the PR description in S11 |
 | S4 | Tested at several window sizes | S07, S08 | Met (S08): 320, 375, 768, 1024 and 1280 px and 200 % zoom on all four pages |
 | S5 | All validations tested | S06, S08 | Met (S08): 15 `node:test` site tests (every rule, every EN/ES message) + the browser checks of S06–S07 (68 + 18 form checks, both languages) |
 | S6 | No console errors | S07, S08 | Met (S08): no console errors on any page (Playwright audit, chrome-devtools MCP `list_console_messages`, Lighthouse Best practices 100) |

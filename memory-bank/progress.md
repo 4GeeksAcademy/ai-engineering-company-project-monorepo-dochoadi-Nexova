@@ -4,7 +4,7 @@ Type: status
 
 ## Current state
 
-**Milestone 2 ("Your Company's Public Website") has started** on the branch `milestone-your-companys-public-website`: S01 done (official briefing, evaluation matrix, conventions); S02 done (security and accessibility gates, dev MCP servers, Milestone 1 baseline, Next.js 16.4.1 security patch); S03 done (compiled Tailwind, the `dist/` server command and the bilingual semantic skeleton of the four pages); S04 done (the bilingual landing page); S05 done (the bilingual form markup); S06 done (validation with tests); S07 done (the Milestone 1 landing experience); S08 done (quality gates). The public URL and PageSpeed come in S09.
+**Milestone 2 ("Your Company's Public Website") has started** on the branch `milestone-your-companys-public-website`: S01 done (official briefing, evaluation matrix, conventions); S02 done (security and accessibility gates, dev MCP servers, Milestone 1 baseline, Next.js 16.4.1 security patch); S03 done (compiled Tailwind, the `dist/` server command and the bilingual semantic skeleton of the four pages); S04 done (the bilingual landing page); S05 done (the bilingual form markup); S06 done (validation with tests); S07 done (the Milestone 1 landing experience); S08 done (quality gates); S09 done (public URL and PageSpeed). Documentation and the devcontainer come in S10.
 
 **Milestone 1 ("Monorepo AI Setup") is complete and merged**: all 13 steps done, E1–E9 met, merged into `main` on 2026-10-13 as PR #1 (merge commit `30f8e47`). The instructor's feedback (branch name, `BRIEFING.md`, and the PR having been merged by its author) is answered in [`docs/milestone-1/instructor-feedback.md`](../docs/milestone-1/instructor-feedback.md). The Next.js website (`uis/website`, port 3000) and backoffice (`uis/backoffice`, port 3001, no authentication yet) run in development from shared data and shared brand tokens; no agents, API or live data yet.
 
@@ -53,10 +53,11 @@ Type: status
     4. `security-gate` criterion 3 skips the generated Lighthouse reports, whose browser version strings look like IPv4 (developer's decision).
     5. The `git-workflow.md` example fix is now `[M2-S13]`.
   - **Results:** `security-gate` 7 PASS; `a11y-gate` 72 PASS; manual audit 54/54 (keyboard order, skip link, ARIA, contrast of every text and border, navigation, 320–1280 px and 200 % zoom, tap targets, no English left on `es/`, no console errors); `<details>` menu by Enter/Space via the Playwright MCP; chrome-devtools trace (LCP 227 ms, CLS 0, 5 same-origin requests, no console messages); M1 consistency checked side by side (`consistency-*.png`). Evaluation matrix re-checked: everything met except E13 (partially, until S09) and L15, S2, S3, P4 (pending, S09–S11).
+- **2026-10-23 — S09 (`M2-S09`):** public Codespaces URL and PageSpeed Insights (run by the developer, port 8080 set to Public; private paths 404). Scores: home mobile 99 / 100 / 100 / 61, home desktop 100 / 100 / 100 / 61, form mobile 95 / 100 / 100 / 61, form desktop 100 / 100 / 100 / 61 (Performance / Accessibility / Best practices / SEO; SEO 61 because Codespaces adds `x-robots-tag: noindex`). `docs/milestone-2/performance.md` with the screenshots and the local comparison; `robots.txt` and `sitemap.xml` added; local Lighthouse after the change: Performance 95–100, Accessibility 100, Best practices 100, SEO 92 (the CSP blocks Lighthouse's in-page `robots.txt` fetch). E13 and L15 met, S3 ready for the PR.
 
 ## Pending
 
-- Milestone 2 steps S09–S12 (plan in `activeContext.md`).
+- Milestone 2 steps S10–S12 (plan in `activeContext.md`).
 - Authentication for the backoffice (open question in `activeContext.md`).
 - Confirm the real public contact email (open question in `activeContext.md`). The office photos were confirmed by the developer on 2026-10-23.
 - The development-infrastructure step (Docker, Postgres + pgvector) moves to the first milestone that needs a database.

@@ -343,15 +343,30 @@ grep -cE "Pending" docs/milestone-2/evaluation.md
 
 ### Delivered
 
-_To be filled in this step._
+- **Developer (Part A):** port 8080 set to Public; the private paths checked (404); PageSpeed Insights run on the home page and the form, mobile and desktop; four screenshots `docs/milestone-2/screenshots/pagespeed-{home,form}-{mobile,desktop}.png`.
+- [`performance.md`](./performance.md): the public URL, date, tool, the scores table, the screenshots, the local Lighthouse comparison, and why SEO reads 61 on Codespaces (the `x-robots-tag: noindex` header) and 92 locally (the strict CSP blocks Lighthouse's `robots.txt` fetch).
+- `robots.txt` (allow all, `Sitemap: https://nexova.com/sitemap.xml`) and `sitemap.xml` (the four pages, absolute `https://nexova.com/…` URLs, `hreflang` en/es/x-default alternates) at the root; `build-site.mjs` copies both into `dist/`.
+- Lighthouse reports in `docs/milestone-2/lighthouse/` re-run after the change.
 
 ### Commands
 
-_To be filled in this step._
+```bash
+U=https://fantastic-space-doodle-q76p5vgw97r6cqrp-8080.app.github.dev
+curl -sI "$U/" | grep -i x-robots-tag                                   # noindex, nofollow (added by Codespaces)
+for p in /.env /.git/config /.mcp.json /package.json /memory-bank/; do curl -s -o /dev/null -w "%{http_code} " "$U$p"; done; echo
+pnpm build:site && ls dist/
+python3 -c "import xml.dom.minidom as m; print(len(m.parse('sitemap.xml').getElementsByTagName('url')))"
+curl -s -o /dev/null -w "%{http_code} %{content_type}\n" localhost:8080/robots.txt   # with pnpm serve:site running
+python3 -c "import json,glob;[print(f.split('/')[-1], {k:round(v['score']*100) for k,v in json.load(open(f))['categories'].items()}) for f in sorted(glob.glob('docs/milestone-2/lighthouse/*.json'))]"
+```
 
 ### Expected
 
-_To be filled in this step._
+- `x-robots-tag: noindex, nofollow`; `404 404 404 404 404`.
+- `dist/` also holds `robots.txt` and `sitemap.xml`; `4` URLs in the sitemap; `200 text/plain; charset=UTF-8`.
+- PageSpeed (screenshots): Performance 99 / 100 (home), 95 / 100 (form), Accessibility and Best practices 100, SEO 61 on Codespaces.
+- Local Lighthouse: Performance 95–100, Accessibility 100, Best practices 100, SEO 92 (the `robots-txt` audit reports a CSP violation, see `performance.md`).
+- After the PR review, the developer sets port 8080 back to Private: the URL then redirects to the GitHub sign-in again.
 
 ## S10 — Documentation and devcontainer
 

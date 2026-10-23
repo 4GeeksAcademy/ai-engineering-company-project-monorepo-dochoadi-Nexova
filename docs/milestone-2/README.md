@@ -9,5 +9,6 @@ Documentation of Milestone 2, which builds Nexova's public website at the reposi
 | [`content-decisions.md`](./content-decisions.md) | The only places where the site deliberately differs from the briefing text, and why. |
 | [`evaluation.md`](./evaluation.md) | Evidence matrix: criteria E1–E30, deliverables checklist (landing, form, submission) and project standards P1–P5. |
 | [`learning-log.md`](./learning-log.md) | Plain-language log: one section appended per step (S01…S12), with what was done, why and what was learned. |
+| [`performance.md`](./performance.md) | PageSpeed Insights results on the public Codespaces URL (with screenshots) and the local Lighthouse comparison. |
 | [`security.md`](./security.md) | CISO security gate results, `/security-review`, the Milestone 1 baseline findings and the Next.js patch. |
 | [`verification.md`](./verification.md) | Step-by-step guide (S01–S12) to re-check the milestone: what was delivered, commands and expected output. |

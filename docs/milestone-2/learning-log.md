@@ -255,3 +255,30 @@ Each section says what was done, why it matters, what was learned and how to che
 - Open: adding a `robots.txt` file (and a site map) would raise the search score from 92 to 100. It is a new file at the root, so it needs your approval.
 
 **Commit:** `[M2-S08][E13][E14][E15][E16][E17] test(site): pass security, accessibility and Lighthouse quality gates`
+
+## S09 — Public URL and PageSpeed (2026-10-23)
+
+**What was done**
+- You made the site public for a while (port 8080 in the Codespaces Ports tab) and checked that private project files are still hidden: every one answers "Not found".
+- You ran Google's PageSpeed Insights on the public link. Speed scores: home page 99 on phones and 100 on computers, form 95 on phones and 100 on computers; accessibility and good practice 100 everywhere. This proves criterion E13 (at least 80) on the real public address.
+- Wrote `docs/milestone-2/performance.md` with the link, the date, the scores, your four screenshots and the local scores for comparison.
+- Added two small files for search engines: `robots.txt` ("you may read the whole site") and `sitemap.xml` (a list of the four pages and their English/Spanish twins).
+- Explained the lower search score (SEO): on the Codespaces link, GitHub adds a hidden "do not index" label to every page, so Google's tool scores it 61. On a real website that label isn't there.
+
+**What I learned**
+- **Public URL:** a web address anyone can open. A Codespace port is private by default (only you, after signing in); making it public lets tools like PageSpeed visit it. It's temporary, so it goes back to private after the review.
+- **PageSpeed Insights:** Google's free online version of Lighthouse. It tests the page from Google's own computers, so the score reflects a real visit over the internet.
+- **robots.txt and sitemap:** two small text files for search engines. The first says what they may read; the second lists the pages, so they find all of them (and know which Spanish page matches which English one).
+- **Response header:** a hidden label a server sends with each page. Codespaces adds one saying "do not index", which is why the public SEO score is lower than the local one.
+
+**How to check it yourself**
+- Open `docs/milestone-2/performance.md`: the table and your four screenshots.
+- Open `https://fantastic-space-doodle-q76p5vgw97r6cqrp-8080.app.github.dev/robots.txt` and `/sitemap.xml` while the site is running.
+- Open `/.env` on the public link: it says "Not found".
+
+**Decisions or open questions**
+- Decided (by the developer, after S08): add `robots.txt` and `sitemap.xml`. Your speed screenshots were taken before these files existed.
+- Open: locally, the search score stays at 92 even with `robots.txt`. Lighthouse reads that file from inside the page, and our strict security rule (no network requests from the page, so form data can't leave the browser) blocks it. Search engines read the file directly, so they're not affected. Relaxing the rule would give 100 but weaken that protection; I recommend keeping it.
+- To do: after the instructor reviews the pull request, set port 8080 back to Private.
+
+**Commit:** `[M2-S09][E13] docs(site): record public Codespaces URL and PageSpeed results`
