@@ -51,6 +51,8 @@ You are building **one company** across many milestones and projects. Each top-l
 
 This repository is the Nexova Solutions monorepo, built on the template below. Milestone 1 ("Monorepo AI Setup") is delivered on the branch `chore/hito-1-ai-setup`.
 
+**Current milestone briefing:** [`BRIEFING.md`](./BRIEFING.md) (Milestone 2, "Your Company's Public Website": the official 4Geeks file, unmodified).
+
 **What exists:**
 
 | Part | Where | What it is |

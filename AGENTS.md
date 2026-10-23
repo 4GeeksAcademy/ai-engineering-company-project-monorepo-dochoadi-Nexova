@@ -24,15 +24,19 @@ Read, in this order:
 
 Follow these steps in order. No step may be skipped.
 
-1. Work on a dedicated branch (`feat/…`, `fix/…`, `chore/…`, `docs/…`), never on `main`.
+1. Work on a dedicated branch (`feat/…`, `fix/…`, `chore/…`, `docs/…`), never on `main`. Milestone branches are the exception: they use the name the brief asks for, or the milestone title in lowercase with hyphens.
 2. Run the project checks with zero errors: `pnpm lint`, `pnpm typecheck` and `pnpm build`.
 3. Run the affected tests with `pnpm test`; all must pass.
 4. Review the full staged diff (`git diff --staged`): no secrets, no `.env` files, no real personal data, no files unrelated to the task.
 5. Update the memory bank with the `update-memory-bank` skill (`.agents/skills/update-memory-bank/`) and make sure its `check.sh` exits with code 0.
 6. Commit once per step, following the commit naming convention below.
-7. Deliver through a pull request with the checklist from `.agents/rules/git-workflow.md`. Never merge your own PR.
+7. Deliver through a pull request with the checklist from `.agents/rules/git-workflow.md`. The coding agent never merges a PR: it is merged only after the instructor has reviewed and approved it, by the instructor or by the developer once that approval is recorded in the PR (an approving review or a comment).
 
 At the end of every milestone, run the `milestone-recap` skill (`.agents/skills/milestone-recap/`) before opening the pull request.
+
+Every step report ends with a "Summary in plain words" for the developer: what was done and why, what to check yourself, decisions needed, and what's next, in simple non-technical language.
+
+Every milestone keeps `docs/milestone-<n>/learning-log.md`; each step appends its plain-language section before committing.
 
 ## Commit naming
 

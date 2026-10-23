@@ -66,6 +66,24 @@ Together, patterns 8 and 9 mean that brand tokens and company data are defined o
 - **Rule:** unit tests use Node's native `node:test` and `node:assert`, run with `node --test` (Node 24 strips TypeScript types), with no test framework dependency. Pure logic lives in `lib/` so it can be tested without a browser.
 - **Why:** it keeps the dependency list short (each new dependency needs a justification) and the tests fast.
 
+## 13. Plain-language step reports
+
+- **Rule:** every step report ends with a "Summary in plain words" for the developer: what was done and why, what to check yourself, decisions needed, and what's next, in simple non-technical language.
+- **Why:** the developer is learning; a short plain summary makes each step reviewable without reading every diff.
+
+## 14. Learning log per milestone
+
+- **Rule:** every milestone keeps `docs/milestone-<n>/learning-log.md`; each step appends its plain-language section before committing (never rewriting earlier sections), and the chat summary matches the log entry.
+- **Why:** the chat disappears; the log keeps what was done, why and what was learned next to the milestone's evidence.
+
+## How the UIs relate
+
+- **Root static site (Milestone 2):** the official public website of the brief (`index.html`, `application.html`, `es/`): the talent pool for candidates, bilingual (English base at the root, Spanish under `es/`), plain HTML + compiled Tailwind CSS + vanilla JavaScript, port 8080.
+- **`uis/website` (Milestone 1):** stays as the company-facing landing prototype in Next.js (port 3000); not retired and not touched in Milestone 2.
+- **`uis/backoffice`:** internal application (port 3001).
+- **One identity:** all three share the brand tokens in `packages/shared/styles/tokens.css` and the same visual identity: green primary pill buttons, coral as a decorative accent only, Instrument Sans.
+- **Future contract:** the talent registration field list of the Milestone 2 form (field `id`s and option `value`s, identical in both languages) is the future contract for a backend and a "Candidates" view in the backoffice. Not built in this milestone.
+
 ## Commit naming
 
 This convention applies to all milestones, not only Milestone 1.
@@ -77,3 +95,18 @@ This convention applies to all milestones, not only Milestone 1.
 - **One commit per step**, on the milestone branch.
 - **Commits outside a milestone** use only `<type>(<scope>): <description>`.
 - **Example:** `[M1-S04][E3] docs(agents): add development rules with explicit scope`.
+
+## Milestone lifecycle
+
+1. **Start:** `git switch main && git pull`, then create the milestone branch from the up-to-date `main`: the branch name the brief asks for; only if the brief names none, the milestone title from the brief in lowercase with hyphens (M1 was `chore/hito-1-ai-setup`; M2 is `milestone-your-companys-public-website`, from "Milestone — Your Company's Public Website"). Put the milestone briefing in `BRIEFING.md` at the root, unmodified.
+2. **Work:** one commit per step on that branch, then a PR to `main`.
+3. **Review:** the PR stays open until the teacher has reviewed and validated it. Any fix the teacher requests goes on the same branch as an extra step commit (e.g. `[M2-S12] fix(form): …`), never directly on `main`.
+4. **Merge only after validation:** the coding agent never merges a PR. The PR is merged only after the instructor has reviewed and approved it: by the instructor, or by the developer once that approval is recorded in the PR (an approving review or a comment).
+5. **Next milestone:** only then does the next milestone start again from step 1.
+
+## Milestone merge
+
+- The last step of every milestone is merging the PR into `main` with "Create a merge commit" (never squash), titled `[M<n>-S<last>][E1]…[E<all>] chore(release): merge Milestone <n> <name> into main (#<PR>)`.
+- Its description lists the criteria groups, the evidence path `docs/milestone-<n>/`, and the line "Academic project for 4Geeks Academy: fictional company, no real data."
+- M1 was merged with an earlier title format (`[M1] chore: merge …`); history is not rewritten.
+- **Why:** a merge commit keeps every step commit visible in `main`, so the evaluation codes in the history stay traceable; the instructor's validation comes before the merge, as the M1 feedback asked.

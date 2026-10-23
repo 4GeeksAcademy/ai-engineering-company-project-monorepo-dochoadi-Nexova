@@ -60,6 +60,10 @@ Summary flow:
 - **Priorities:** first the evaluation criteria of each milestone (`docs/milestone-<n>/evaluation.md`), then the quality of the repository (structure, conventions, tests, documentation).
 - **Production concerns are notes, not blockers:** GDPR, image and font licences, domains, real contact details and security hardening are recorded (open questions in `activeContext.md`, constraints in `techContext.md`) but do not block a milestone.
 
-## Out of scope for this milestone
+## Milestone 2 goal
+
+Milestone 2 ("Your Company's Public Website", briefing in `BRIEFING.md`) gives Nexova its first public digital touchpoint for Carmen Ruiz's Marketing team: a landing page presenting who Nexova is, what it does and why companies choose it, plus a separate application form where professionals join Nexova's talent pool. Plain HTML + Tailwind CSS + vanilla JavaScript at the repo root, bilingual (English base, Spanish under `es/`), responsive, accessible (WCAG 2.2 AA), SEO-optimised with Schema.org, with full JavaScript validation and a simulated submission (no backend).
+
+## Out of scope for Milestone 1
 
 Milestone 1 ("Monorepo AI Setup") **does not build business features**: no agents, no API, no dashboards. It only prepares the monorepo infrastructure (memory bank, coding-agent rules and workflow, skill, workspace, base website and backoffice) on which they will be built in later milestones.

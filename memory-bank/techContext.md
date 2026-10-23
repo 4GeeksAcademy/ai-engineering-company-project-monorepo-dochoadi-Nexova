@@ -7,6 +7,7 @@ Type: technical
 | Layer | Technology | Location |
 | --- | --- | --- |
 | Frontends | Next.js (App Router) + TypeScript in `strict` mode | `uis/website`, `uis/backoffice` |
+| Public site (Milestone 2) | Plain HTML + compiled Tailwind CSS v4 + vanilla JavaScript, served with `npx http-server` on port 8080 | Repo root (`index.html`, `application.html`, `validation.js`, `es/`) |
 | Runtime | Node.js 24.18.1 (`engines: >=24 <25`) | Repo root |
 | JS/TS package management | pnpm 12.11.2 workspace (`packageManager` pinned, enabled via Corepack) | Repo root |
 | TypeScript | 5.9.3, the only root dev dependency; shared options in `tsconfig.base.json` (`strict`, `noUncheckedIndexedAccess`, `ESNext`/`Bundler`, `verbatimModuleSyntax`, `allowImportingTsExtensions`, `noEmit`) | Repo root |
@@ -24,11 +25,19 @@ Type: technical
 
 ## Website (`uis/website`)
 
-- **Stack:** Next.js 16.4.0 (App Router, Turbopack), React 19.3.0, TypeScript 5.9.3 `strict` (the app's `tsconfig.json` extends `tsconfig.base.json` and adds the DOM libs, JSX and the Next plugin), ESLint 9 with `eslint-config-next` 16.4.0, `@types/node` 24 for `node:test`. Styling is CSS Modules only: no CSS framework, UI kit or animation library. `next.config.ts` sets `transpilePackages: ["@repo/shared-types"]` and `agentRules: false`, so `next dev` does not write its own `AGENTS.md`; the scaffold defaults `cacheComponents` and `partialPrefetching` are kept, and `/` prerenders as static.
+- **Stack:** Next.js 16.4.0 (App Router, Turbopack), React 19.3.0, TypeScript 5.9.3 `strict` (the app's `tsconfig.json` extends `tsconfig.base.json` and adds the DOM libs, JSX and the Next plugin), ESLint 9 with `eslint-config-next` 16.4.0, `@types/node` 24 for `node:test`. Styling is CSS Modules (the M1 Next.js apps keep them; Tailwind is used only by the root public site): no UI kit or animation library. `next.config.ts` sets `transpilePackages: ["@repo/shared-types"]` and `agentRules: false`, so `next dev` does not write its own `AGENTS.md`; the scaffold defaults `cacheComponents` and `partialPrefetching` are kept, and `/` prerenders as static.
 - **Font:** Instrument Sans through `next/font/google` (variable font covering weights 400–700), exposed as `--font-instrument-sans`.
 - **Design source:** `docs/milestone-1/design/nexova-landing-v4.html`, a self-unpacking Claude Design bundle (`__bundler/manifest` with fonts and the Design runtime, `__bundler/template` with the page and a `Component` class holding the behaviour). The website ports its layout, copy, tokens and every `setup*` method and `tick()`.
 - **Structure:** `app/` (layout with metadata and JSON-LD Organization, page, `globals.css` importing the shared brand tokens and adding the website-only ones on `:root`), `components/` (one component per section, each with a CSS Module: `Header` + `MobileNav`, `Hero` + `RoleTicker` + `CvCascade`, `Marquee`, `KeyFigures` + `CountUp`, `Services`, `Process`, `Industries`, `HumanAndAi`, `About` + `OfficePhotos` + `OfficeClock`, `ContactCta`, `Footer`; shared `Button`, `Reveal`, `PulseDot`), `content/home.ts` (typed copy), `lib/` (`cvField.ts` + test, `time.ts`, `motion.ts`, `jsonLd.ts`), `public/images/` (office photos).
 - **Conventions:** company facts come from `@repo/shared-types` and are interpolated into the copy, never retyped; components never use raw colour values; `"use client"` only on components with behaviour; every listener, timer, animation and observer is cleaned up on unmount; `prefers-reduced-motion` skips scroll and pointer effects and shows the hero's final state.
+
+## Public site at the root (Milestone 2)
+
+- **What:** the official public website of the brief: `index.html` (landing) and `application.html` (talent pool form) with `validation.js`, Spanish pages in `es/`, assets in `assets/`, tests in `tests/site/`. At the repo root because the brief requires it (documented exception in `.agents/rules/monorepo-structure.md`).
+- **Styling:** compiled Tailwind CSS v4: `tailwind.css` (input) compiled to `styles.css` with the Tailwind CLI; only the root site uses Tailwind.
+- **Serving:** `npx http-server` on port 8080, compatible with Codespaces (public forwarded URL for PageSpeed/Lighthouse).
+- **Content:** `BRIEFING.md` (unmodified) is the source of truth; deliberate differences in `docs/milestone-2/content-decisions.md`.
+- **Approved new dev tools for Milestone 2** (each pinned, installed in its step): `tailwindcss` and `@tailwindcss/cli` 4.3.3 (S03); `http-server` 14.1.1 via `npx` (S03); the dev MCP servers `@playwright/mcp`, `chrome-devtools-mcp` and `@upstash/context7-mcp` (S02).
 
 ## Shared brand tokens
 
@@ -103,10 +112,11 @@ According to `Company-choice.md`:
 | --- | --- |
 | 3000 | `uis/website` (`pnpm dev:website`) |
 | 3001 | `uis/backoffice` |
+| 8080 | Root public site (Milestone 2, `npx http-server`) |
 | 8000 | FastAPI API (future) in `services/` |
 | 5678 | n8n (`workflows/`) |
 
-The devcontainer forwards all four ports, labelled Website, Backoffice, API and n8n.
+The devcontainer forwards 3000, 3001, 8000 and 5678, labelled Website, Backoffice, API and n8n; port 8080 is not in the devcontainer yet (Codespaces forwards it automatically when the server starts).
 
 ## Infrastructure plan
 
