@@ -10,11 +10,11 @@ Type: status
 
 ## Next steps
 
-1. **S07 (next): quality gates.** Re-check every criterion with all four pages finished and mark E1, E5, E6, E8, E10, E12 (and E9, E11) then; final `security-gate` and `a11y-gate` runs; keyboard and screen-reader pass; contrast, reflow and console checks (E13–E17, S4–S6).
-2. **S08:** performance evidence: PageSpeed Insights (or Lighthouse) on the public Codespaces URL, score ≥ 80 (E13, L15, S3); decide whether Instrument Sans must be self-hosted for the score.
-3. **S07–S08:** accessibility, security and performance re-check; PageSpeed/Lighthouse evidence on the public Codespaces URL.
-4. **S09:** devcontainer: add port 8080 only; the Chromium install line for the dev MCP servers is already in `.devcontainer/post-create.sh` (added before the Codespace rebuild in M2-S02).
-5. **S10–S11:** milestone recap (`milestone-recap` skill), pull request; merge only after the instructor's approval (rule in `.agents/rules/git-workflow.md`).
+1. **S08 (next): quality gates.** Re-check every criterion with all four pages finished, and mark E1, E5, E6, E8, E10, E12 (and E9, E11, E14, E15) then. Final `security-gate` and `a11y-gate` runs; a keyboard and screen-reader pass; contrast, reflow and console checks (E13–E17, S4–S6). Decide whether Instrument Sans must be self-hosted.
+2. **S09:** performance evidence: PageSpeed Insights (or Lighthouse) on the public Codespaces URL, score ≥ 80 (E13, L15, S3).
+3. **S10:** documentation, and the devcontainer (add port 8080 to `forwardPorts`, pin the tools in `post-create.sh`: SEC-4).
+4. **S11:** milestone recap (`milestone-recap` skill) and the pull request.
+5. **S12:** merge, only after the instructor's recorded approval (rule in `.agents/rules/git-workflow.md`).
 6. Both gates (`security-gate`, `a11y-gate`) must exit 0 before the pull request (`AGENTS.md` step 7).
 7. Every step appends its section to `docs/milestone-2/learning-log.md` before committing.
 
@@ -33,7 +33,8 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
 
 ## Recent decisions
 
-- **M2-S06 validation:** `validation.js` with pure rules + a DOM layer, messages verbatim from both briefings (tested against them), `textContent` only, an error summary with focus, a simulated submission with no data leaving the browser; cache busting (`?v=<hash>`) in the `dist/` copies; the root `pnpm test` also runs the site tests. Rows E1, E5, E6, E8, E10, E12 are re-checked and marked in S07 (developer's decision).
+- **M2-S07 the Milestone 1 landing experience (developer's decision):** the public site now has M1's motion and extra sections: the CV cascade hero with Replay and one "Pause animations" control, the marquee, M1 service cards, Process, key figures with count-ups, sector words, and Offices with the photo reveal and live clocks. All of it is in `motion.js` (Web Animations API only, progressive enhancement, reduced motion, no dimmed text at rest). The "static hero" decision is replaced. Also: HTML served with `-c-1`, so a reload always shows the latest files; the Submit button is hidden after a successful submission; steps renumbered (S08 quality gates … S12 merge). "Human & AI" and the role ticker are not ported.
+- **M2-S06 validation:** `validation.js` with pure rules + a DOM layer, messages verbatim from both briefings (tested against them), `textContent` only, an error summary with focus, a simulated submission with no data leaving the browser; cache busting (`?v=<hash>`) in the `dist/` copies; the root `pnpm test` also runs the site tests. Rows E1, E5, E6, E8, E10, E12 are re-checked and marked in S08 (developer's decision).
 - **M2-S05 form markup:** the 11 briefing fields with the id/name contract in `systemPatterns.md` (pattern 20); five fieldsets with `h2` legends; field borders in `green-mid` instead of `line` (WCAG 1.4.11, 3:1 for control boundaries); hints below the inputs; `method="post"` so a no-JavaScript submit never puts answers in the URL; services heading back to the briefing's "Services" / "Servicios"; absolute `hreflang` and canonical on all four pages.
 - **Office photos (developer, 2026-10-23):** the project may use both office photos (Valencia and Miami), including the people visible in the Miami photo; recorded in `docs/milestone-2/content-decisions.md`.
 - **M2-S04 landing page:** the briefing copy verbatim in both languages; static hero (the M1 shortlist frozen in the "placed" state, `aria-hidden`); "Why Nexova" figures emphasised in KeyFigures style; contact as a green `radius-cta` panel (coral is reserved for the hero card and the logo dot) with a cream pill CTA; transparent borders on buttons and the panel so they stay visible in forced-colors mode; office photos as 1200 px WebP; canonical to `nexova.com`; `a11y-gate` serves `dist/` like `security-gate`; the S03 deviations were approved by the developer.
@@ -57,8 +58,8 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
 
 ## Open questions
 
-- **Milestone 1 baseline findings (decided after S02):** SEC-1 resolved in S03 (`dist/` allowlist); SEC-2 accepted as a documented exception (review in S10); SEC-4 fixed in S09 with the other `.devcontainer/` changes; SEC-3, SEC-5–7 and A11Y-1–6 stay in the backlog as "Planned: M1 hardening (separate change, needs approval)" (`docs/milestone-2/security.md`, `accessibility.md`).
-- **Google Fonts and GDPR:** kept for now (developer's decision after S03); recorded under "Production notes" in `docs/milestone-2/security.md`: self-host Instrument Sans (OFL) before any real EU launch. S07 decides whether self-hosting is needed for PageSpeed.
+- **Milestone 1 baseline findings (decided after S02):** SEC-1 resolved in S03 (`dist/` allowlist); SEC-2 accepted as a documented exception (review in S11); SEC-4 fixed in S10 with the other `.devcontainer/` changes; SEC-3, SEC-5–7 and A11Y-1–6 stay in the backlog as "Planned: M1 hardening (separate change, needs approval)" (`docs/milestone-2/security.md`, `accessibility.md`).
+- **Google Fonts and GDPR:** kept for now (developer's decision after S03); recorded under "Production notes" in `docs/milestone-2/security.md`: self-host Instrument Sans (OFL) before any real EU launch. S08 decides whether self-hosting is needed for PageSpeed.
 
 - **Official briefing quirks (cannot be fixed, the file stays unmodified):** `BRIEFING.md` is headed "Milestone 1: Your Company's Public Website" (the course's own numbering; in this repo it is Milestone 2), and its link to the Spanish version (`./nexova-BRIEFING.es.md`) does not resolve, because the Spanish copy lives in `docs/milestone-2/BRIEFING.es.md`.
 - **Backoffice authentication:** `uis/backoffice` has no sign-in yet ("Internal tool. Sign-in comes later."). Who may access it, and with which identity provider (e.g. Google Workspace, which Nexova already uses), is still to be decided; it must not be exposed publicly until then.

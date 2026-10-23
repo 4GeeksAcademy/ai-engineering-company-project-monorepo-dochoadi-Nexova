@@ -98,10 +98,18 @@ Every tool, service, API, MCP server and library used in this project must be fr
 - **Rule:** the site files stay at the repo root, but no server ever serves the root. `pnpm build:site` copies an allowlist into the git-ignored `dist/`, and only `dist/` is served (`npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false`). A new public file must be added to the allowlist in `scripts/build-site.mjs`.
 - **Why:** `http-server --no-dotfiles` still serves dotfiles by direct URL (SEC-1). An allowlist means nothing private (`.git`, `.env`, `.mcp.json`, `docs/`, `memory-bank/`) can ever be reached, even once the Codespaces port is public.
 
-## 19. Landing section order and a static hero
+## 19. Landing section order and the Milestone 1 motion
 
-- **Rule:** the landing page follows the briefing's order exactly, in both languages: header → hero (`#top`) → Services (`#services`, 3 `article`s; heading "Services" / "Servicios" as in the briefing since S05) → Why Nexova (`#why-nexova`, 4 points + 2 office photos) → Contact (`#contact`, `address` + second CTA) → footer. Copy is the briefing's, verbatim, with only the changes in `docs/milestone-2/content-decisions.md`. The hero is **static**: the M1 "shortlist" frozen in its final "placed" state, built with Tailwind, `aria-hidden="true"`, with no animation and no JavaScript.
-- **Why:** the evaluation checks the briefing's sections and order (E26). A static hero keeps the page fast (E13) and calm: nothing moves for people who are sensitive to motion, there is nothing to pause (WCAG 2.2.2), and the visual still tells Nexova's story of finding the one right person.
+- **Rule (order):** the briefing sections keep their order and exact texts in both languages: header → hero (`#top`) → Services → Why Nexova → Contact → footer. The extra M1 sections sit between them: marquee after the hero, Process (`#process`) after Services, Offices (`#offices`) after Why Nexova. Their texts use briefing facts only (`docs/milestone-2/content-decisions.md`).
+- **Rule (motion, S07; replaces the earlier "static hero"):**
+  - `motion.js` ports M1's motion (the CV cascade, reveals, count-ups, marquee, office photo reveal, office clocks, header shadow), with the Web Animations API or Tailwind class toggles only, never `style=` or `innerHTML`.
+  - **Progressive enhancement:** the HTML already shows every final state; without JavaScript everything is visible (the hero shows a static shortlist). Reveals only hide content below the fold when the script runs.
+  - **Reduced motion:** every final state is shown at once (the cascade's placed frame, the final numbers, a still marquee, no reveals).
+  - **One pause control** ("Pause animations", `aria-pressed`, remembered) for anything that moves for more than 5 seconds or updates by itself: the cascade, the marquee, the clocks (WCAG 2.2.2). The marquee also pauses on hover and focus.
+  - **No dimmed text at rest:** a reveal lasts at most 700 ms and ends at full opacity; no endless pulses; nothing flashes.
+  - **Decorative motion is hidden from screen readers:** the cascade field, the stage bars and the marquee are `aria-hidden`, the phase label is not announced, and the figure has a visually hidden description.
+  - **Performance:** only `transform`/`opacity` move (plus the one-off photo clip-path reveal and the stacking order); the cascade starts after load; photos lazy-load.
+- **Why:** the developer wants the public site to feel like the Milestone 1 landing, while meeting WCAG 2.2 AA, the briefing's order and texts, and performance ≥ 80. These rules keep the "wow" without repeating the M1 accessibility findings A11Y-1, A11Y-2, A11Y-5 and A11Y-6 (dimmed scroll-linked text, endless loops without a pause).
 
 ## 20. Talent form field contract: ids, values and grouping
 
@@ -164,7 +172,7 @@ This convention applies to all milestones, not only Milestone 1.
 
 1. **Start:** `git switch main && git pull`, then create the milestone branch from the up-to-date `main`: the branch name the brief asks for; only if the brief names none, the milestone title from the brief in lowercase with hyphens (M1 was `chore/hito-1-ai-setup`; M2 is `milestone-your-companys-public-website`, from "Milestone — Your Company's Public Website"). Put the milestone briefing in `BRIEFING.md` at the root, unmodified.
 2. **Work:** one commit per step on that branch, then a PR to `main`.
-3. **Review:** the PR stays open until the teacher has reviewed and validated it. Any fix the teacher requests goes on the same branch as an extra step commit (e.g. `[M2-S12] fix(form): …`), never directly on `main`.
+3. **Review:** the PR stays open until the teacher has reviewed and validated it. Any fix the teacher requests goes on the same branch as an extra step commit (e.g. `[M2-S13] fix(form): …`), never directly on `main`.
 4. **Merge only after validation:** the coding agent never merges a PR. The PR is merged only after the instructor has reviewed and approved it: by the instructor, or by the developer once that approval is recorded in the PR (an approving review or a comment).
 5. **Next milestone:** only then does the next milestone start again from step 1.
 

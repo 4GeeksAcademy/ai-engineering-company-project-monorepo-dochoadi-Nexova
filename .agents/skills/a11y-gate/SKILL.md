@@ -24,7 +24,7 @@ Prove, with a command, that every public site page meets the project's accessibi
 ## Steps
 
 1. If needed, install the Python tool: `pip install --user -r .agents/skills/a11y-gate/requirements.txt`.
-2. Run `bash .agents/skills/a11y-gate/check.sh <n>` from the repo root. It runs `pnpm build:site`, serves the `dist/` copy on port 8099 (`npx http-server@14.1.1 dist -p 8099 -a 127.0.0.1 -d false`, the documented site command on the gate's own port, like `security-gate`), runs `a11y_check.py` on each existing page at 375, 768 and 1280 px, and stops the server.
+2. Run `bash .agents/skills/a11y-gate/check.sh <n>` from the repo root. It runs `pnpm build:site`, serves the `dist/` copy on port 8099 (`npx http-server@14.1.1 dist -p 8099 -a 127.0.0.1 -d false -c-1`, the documented site command on the gate's own port, like `security-gate`), runs `a11y_check.py` on each existing page at 375, 768 and 1280 px, and stops the server.
 3. For every `FAIL`, fix it if it belongs to the current step; otherwise record it as a finding (severity, file, description, proposed fix, effort) and ask the developer.
 4. Open the forced-colors screenshots in `docs/milestone-<n>/a11y/` and check that focus rings, borders, buttons and error states stay visible.
 5. Write or update `docs/milestone-<n>/accessibility.md`: date, the `check.sh` output, the manual review of the screenshots and the findings table.

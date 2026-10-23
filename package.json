@@ -15,7 +15,7 @@
     "test": "pnpm -r --if-present test && pnpm test:site",
     "build:site": "tailwindcss -i tailwind.css -o styles.css --minify && node scripts/build-site.mjs",
     "watch:site": "tailwindcss -i tailwind.css -o styles.css --watch",
-    "serve:site": "pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false -c 3600",
+    "serve:site": "pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false -c-1",
     "test:site": "node --test \"tests/site/**/*.test.*\""
   },
   "devDependencies": {

@@ -5,7 +5,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { MESSAGES, FIELDS, validateField, validateAll, remaining } = require("../../validation.js");
+const { MESSAGES, FIELDS, validateField, validateAll, remaining, layoutFor } = require("../../validation.js");
 
 const ROOT = path.join(__dirname, "..", "..");
 const MESSAGE_KEYS = FIELDS.map(([, key]) => key);
@@ -114,4 +114,10 @@ test("validateAll: a complete, valid application has no errors", () => {
     linkedin: "https://linkedin.com/in/ana", additional_comments: "Open to remote roles.", data_policy: true,
   };
   assert.deepEqual(validateAll(values, "en"), {});
+});
+
+test("after a successful submission only the thank-you message and Clear form stay visible", () => {
+  assert.deepEqual(layoutFor("success"), { fields: false, submit: false, reset: true, success: true });
+  // "Clear form" brings the empty form back, submit button included.
+  assert.deepEqual(layoutFor("form"), { fields: true, submit: true, reset: true, success: false });
 });

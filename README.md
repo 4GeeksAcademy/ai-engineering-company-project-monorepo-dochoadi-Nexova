@@ -85,18 +85,19 @@ Milestone 2 builds Nexova's public website from [`BRIEFING.md`](./BRIEFING.md): 
 **Run it locally** (from the repository root, after `pnpm install`):
 
 ```bash
-pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false
+pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false -c-1
 ```
 
-Then open <http://localhost:8080/> (Spanish: <http://localhost:8080/es/>). `pnpm serve:site` runs the same command with a one-hour browser cache (`-c 3600`).
+Then open <http://localhost:8080/> (Spanish: <http://localhost:8080/es/>). `pnpm serve:site` runs the same command.
 
 What each part does:
 
-- **`pnpm build:site`** compiles `tailwind.css` into the minified `styles.css` (Tailwind CLI) and then runs `scripts/build-site.mjs`, which copies **only** the public files (`index.html`, `application.html`, `validation.js`, `styles.css`, `assets/`, `es/`, `robots.txt`, `sitemap.xml`) into `dist/` (git-ignored).
+- **`pnpm build:site`** compiles `tailwind.css` into the minified `styles.css` (Tailwind CLI) and then runs `scripts/build-site.mjs`, which copies **only** the public files (`index.html`, `application.html`, `validation.js`, `motion.js`, `styles.css`, `assets/`, `es/`, `robots.txt`, `sitemap.xml`) into `dist/` (git-ignored).
 - **`http-server … dist`** serves that clean copy, never the repository root. That way `.git`, `.env`, `.mcp.json` and the docs can never be downloaded from the site: a CISO requirement (finding SEC-1 in [`docs/milestone-2/security.md`](./docs/milestone-2/security.md)).
 - **`-p 8080`**: port 8080, because 3000 belongs to the Next.js website (`uis/website`) and 3001 to the backoffice.
 - **`-a 0.0.0.0`**: listen on every network interface, so Codespaces can forward the port.
 - **`-d false`**: no directory listings.
+- **`-c-1`**: no browser caching, so a reload always shows the latest pages and scripts. (A one-hour cache once kept old HTML pointing to old files.) The copies in `dist/` also ask for `styles.css`, `validation.js` and `motion.js` with a `?v=<hash>` version tag.
 
 **Rebuild the CSS** after changing classes in a page: run `pnpm build:site` again, or keep `pnpm watch:site` running while you work (it rebuilds `styles.css` on every save, unminified). Run `pnpm build:site` before committing, so the committed `styles.css` is minified. Styles are Tailwind utility classes on the markup, with the Nexova brand tokens from `packages/shared/styles/tokens.css` exposed as `brand-*` names (e.g. `bg-brand-green`).
 

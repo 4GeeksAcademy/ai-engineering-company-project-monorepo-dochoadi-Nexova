@@ -185,3 +185,45 @@ Each section says what was done, why it matters, what was learned and how to che
 - Open: none.
 
 **Commit:** `[M2-S06][E18][E21][E22][E23][E24][E25][E29] feat(form): add bilingual real-time validation with tests`
+
+## S07 — The Milestone 1 landing experience (2026-10-23)
+
+**What was done**
+- The home page now looks and moves like the Milestone 1 landing page. In the top section, 72 small CV cards fall into a pile, get "scored", sort themselves, and one coral card is chosen and "Placed". A "Replay" button plays it again.
+- Added the Milestone 1 extras between the briefing's sections (the briefing's sections, order and words are unchanged):
+  - a band of scrolling words;
+  - a four-step "Process";
+  - big numbers that count up ("12 years", "+500");
+  - the three sectors in large letters;
+  - an "Offices" section where the Valencia and Miami photos open as you scroll, with the live local time in each city.
+- Added one "Pause animations" button that stops everything that moves or changes by itself. The page remembers your choice next time. This is an accessibility rule: anything moving for more than 5 seconds needs a way to stop it.
+- People who ask their device for less motion see the finished picture straight away, and people without JavaScript still see every text, number and photo.
+- Fixed the two problems from your review:
+  - pages are no longer kept in the browser's memory (cache), so a normal reload always shows the latest version;
+  - after a successful application, the grey Submit button is hidden and "Clear form" brings the empty form back.
+- Renumbered the remaining steps: quality checks S08, public link S09, documentation S10, recap and pull request S11, merge S12.
+
+**What I learned**
+- **Progressive enhancement:** build the page so it works fully without the extra effects, then add the effects on top. If the script fails or is switched off, nobody loses content.
+- **Reduced motion:** a setting in phones and computers for people who get dizzy or distracted by movement. The page reads it and shows the end result without animating.
+- **Web Animations API:** the browser's built-in way to animate from JavaScript. Every animation can be paused and resumed, which is how one button can pause the whole CV story at the exact frame where it is.
+- **Cache:** browsers keep copies of pages to load them faster. During development that can show an old page, so the site now tells browsers not to keep copies.
+
+**How to check it yourself**
+- Open the home page (link below) and watch the CV cards fall and sort until one coral card is "Placed". Press "Replay".
+- Press "Pause animations": the cards, the scrolling words and the clocks stop. Reload the page: it stays paused. Press the button again to resume.
+- On the form page, send a correct application: only the thank-you message and "Clear form" remain. "Clear form" brings the form back.
+
+**Decisions or open questions**
+- Decided (by the developer): bring the Milestone 1 look and motion to the public site, replacing the "static hero"; do not port "Human & AI" or the changing role words in the hero. The S06 review fixes (no cache, hidden Submit button) are included.
+- Decided in this step:
+  - The process step "Screening" no longer mentions AI, because the briefing doesn't.
+  - The three sectors are shown as big words only, without Milestone 1's extra descriptions.
+  - On phones the small stage names under the CV picture are hidden, because the stage name at the top already says it.
+  - The "Why Nexova" figures stack until large screens.
+- Open:
+  - The motion script is 16 KB, a little above the 15 KB target; it is still small and loads after the page.
+  - Step S10 is called "documentation". It also carries the devcontainer changes (port 8080 and the tool pins) that were planned for the old S09. Is that right?
+  - The `.agents/rules/git-workflow.md` example of a teacher-requested fix still says `[M2-S12]`, which is now the merge step. Changing a rule file needs your approval.
+
+**Commit:** `[M2-S07][E6][E8][E10][E12][E14][E15][E26][E27][E30] feat(site): bring the Milestone 1 landing experience to the public site`

@@ -9,6 +9,7 @@
 @source "./application.html";
 @source "./es/*.html";
 @source "./validation.js";
+@source "./motion.js";
 
 /* Static pages have no next/font, which sets this variable in the Next.js apps; --font-sans in tokens.css reads it. */
 :root {

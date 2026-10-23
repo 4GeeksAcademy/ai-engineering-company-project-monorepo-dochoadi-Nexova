@@ -69,7 +69,7 @@ if ! build_out="$(pnpm build:site 2>&1)"; then
   build_failed=1
 else
   build_failed=0
-  npx -y "$HTTP_SERVER" dist -p "$PORT" -a 127.0.0.1 -d false -s >/dev/null 2>&1 &
+  npx -y "$HTTP_SERVER" dist -p "$PORT" -a 127.0.0.1 -d false -c-1 -s >/dev/null 2>&1 &
   server_pid=$!
 fi
 up=0

@@ -4,7 +4,7 @@ Results of the `a11y-gate` skill (`.agents/skills/a11y-gate/`) for Milestone 2. 
 
 ## Gate on the public site
 
-Run on 2026-10-23 (S02): `bash .agents/skills/a11y-gate/check.sh 2` prints `SKIP` for the 8 criteria of each of the 4 pages (`index.html`, `application.html`, `es/index.html`, `es/application.html`: none exists yet) and `a11y-gate passed (no FAIL; no site pages yet)`, `exit=0`. The pages are built from S04 on; the gate is re-run in S07.
+Run on 2026-10-23 (S02): `bash .agents/skills/a11y-gate/check.sh 2` prints `SKIP` for the 8 criteria of each of the 4 pages (`index.html`, `application.html`, `es/index.html`, `es/application.html`: none exists yet) and `a11y-gate passed (no FAIL; no site pages yet)`, `exit=0`. The pages are built from S04 on; the gate is re-run in S08.
 
 ## Baseline: Milestone 1
 
@@ -108,3 +108,31 @@ Run on 2026-10-23 (S06). `a11y-gate`: **72 PASS, 0 FAIL, 0 SKIP**, `exit=0`. axe
 - **Real time without noise:** a field is first checked when you leave it, then on every change, so an error disappears as soon as it is fixed. Moving between radios does not count as leaving the group. The comments counter (`aria-live="polite"`) updates on every keystroke and turns rust when over the limit.
 - **Success:** a green panel with cream text, `radius-card` corners; it takes focus (`role="status"`, `tabindex="-1"`). The submit button is disabled (`disabled` + `aria-disabled`) while "Sending…" and after success, until "Clear form".
 - **Keyboard only:** the whole flow was verified in both languages: Enter submits, a summary link focuses its field, the selects use the arrow keys, the radios and the checkbox use Space, the success message takes focus, Tab reaches "Clear form", and the reset puts focus on the first field.
+
+## S07 — The Milestone 1 landing experience
+
+Run on 2026-10-23 (S07). `a11y-gate`: **72 PASS, 0 FAIL, 0 SKIP**, `exit=0`. The landing pages have 0 serious or critical axe violations at 375/768/1280 px; the keyboard walk covers 17 elements at 375 px and 20 at 1280 px, including Replay and Pause.
+
+The motion is designed not to repeat the Milestone 1 findings:
+
+| M1 finding | How the public site avoids it |
+| --- | --- |
+| A11Y-1 (dimmed scroll-linked text) | No dimmed text at rest. A reveal lasts 700 ms and ends at full opacity, and only content below the fold at load is hidden until it scrolls in. Process steps are revealed, not dimmed until the line passes. |
+| A11Y-2 (contrast during fades) | Fades are short and end at full opacity. axe reports 0 serious or critical issues. |
+| A11Y-5 (endless marquee without a pause) | One visible "Pause animations" / "Pausar animaciones" button (`aria-pressed`, keyboard operable, remembered after a reload) stops the cascade, the marquee and the clocks. The marquee also pauses on hover and focus (WCAG 2.2.2). |
+| A11Y-6 (endless pulses) | The placed card pulses three times, then stays still. |
+
+- **Reduced motion:** the cascade shows its final placed frame, the figures show "12" and "+500", the marquee is still, there are no reveals, and Replay is hidden. Verified: 0 running animations.
+- **JavaScript off:**
+  - Every heading, paragraph, list item, figure value and both photos are visible at full opacity.
+  - The hero shows the static shortlist.
+  - The clocks stay hidden, because there is no time to show without JavaScript.
+- **Screen readers:**
+  - The cascade field, the stage bars and the marquee are `aria-hidden`.
+  - The figure has a visually hidden description.
+  - Replay reads "Replay the shortlist animation".
+  - The phase label is not announced on every change.
+  - The clocks update once a minute without a live region.
+- **No flashing:** nothing changes more than three times per second; the fastest effect is the 1.1 s placement ring.
+- **Forced colours:** the gate's forced-colors screenshot does not scroll, so sections revealed on scroll appear empty in `docs/milestone-2/a11y/index-forced-colors.png`. A scrolled forced-colors check shows every section, the card edges (transparent borders), both pill buttons, the contact panel border and all the text.
+

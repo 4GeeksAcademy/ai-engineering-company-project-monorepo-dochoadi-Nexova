@@ -1,6 +1,23 @@
 # Milestone 2 — Evaluation "Your Company's Public Website"
 
-Evidence matrix for Milestone 2 of the Nexova Solutions monorepo: Nexova's public website (landing page + talent pool application form) built with plain HTML, compiled Tailwind CSS and vanilla JavaScript at the repository root, from the official [`BRIEFING.md`](../../BRIEFING.md). Each row links to the files that prove it and to how to verify it; the step-by-step [verification guide](./verification.md) explains how to re-check every step (S01–S11). Results are filled in as each step is done.
+Evidence matrix for Milestone 2 of the Nexova Solutions monorepo: Nexova's public website (landing page + talent pool application form) built with plain HTML, compiled Tailwind CSS and vanilla JavaScript at the repository root, from the official [`BRIEFING.md`](../../BRIEFING.md). Each row links to the files that prove it and to how to verify it; the step-by-step [verification guide](./verification.md) explains how to re-check every step (S01–S12). Results are filled in as each step is done.
+
+## Planned steps
+
+| Step | What it delivers |
+| --- | --- |
+| S01 | Branch, official briefing, this matrix, conventions |
+| S02 | CISO security gate, accessibility gate, dev MCP servers, Milestone 1 baseline |
+| S03 | Compiled Tailwind, the `dist/` server command, bilingual page skeleton |
+| S04 | Landing page from the briefing |
+| S05 | Application form markup |
+| S06 | Form validation with tests |
+| S07 | The Milestone 1 landing experience (motion, extra sections) |
+| S08 | Quality gates: every criterion re-checked with all four pages finished |
+| S09 | Performance evidence (PageSpeed/Lighthouse) on the public Codespaces URL |
+| S10 | Documentation (and the devcontainer: port 8080 and the SEC-4 pins, planned for this step earlier) |
+| S11 | Milestone recap and pull request |
+| S12 | Merge, only after the instructor's recorded approval |
 
 ## A — Evaluation criteria (E1–E30)
 
@@ -20,23 +37,23 @@ Criteria copied verbatim from the brief.
 
 | ID | Criterion | Step | Files | How to verify | Result |
 | --- | --- | --- | --- | --- | --- |
-| E6 | The site is fully responsive (mobile, tablet, desktop) | S04 | `index.html`, `application.html`, `es/*.html`, `tailwind.css` | Screenshots at 375px, 768px and 1440px; no horizontal scroll | Partially met (S04): landing pages (`index.html`, `es/index.html`) at 375/768/1280 px with no horizontal scroll (and 320 px): `docs/milestone-2/screenshots/landing-*.png`. Form pages in S05 |
+| E6 | The site is fully responsive (mobile, tablet, desktop) | S04, S07 | `index.html`, `application.html`, `es/*.html`, `tailwind.css` | Screenshots at 375px, 768px and 1440px; no horizontal scroll | Partially met (S07): both landing pages with the richer M1 layout at 320/375/768/1280 px, no horizontal scroll (`docs/milestone-2/screenshots/landing-*.png`); form pages since S05. S08 re-checks every page and marks it |
 | E7 | There is a documented and working command, compatible with Codespaces, to run the project locally with npx | S03 | `README.md`, `package.json` (`build:site`, `serve:site`), `scripts/build-site.mjs` | Run the documented `npx http-server` command; `curl` port 8080 returns `200` | Met (S03): `pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false` documented in the root `README.md` ("Public website": what each flag does, port 8080, Codespaces Ports tab) and as `pnpm serve:site`; `/`, `/application.html`, `/es/`, `/es/application.html`, `/styles.css` → `200`; private paths → `404` (SEC-1) |
-| E8 | Mobile-first design is used | S04 | `index.html`, `application.html`, `es/*.html` | Base (unprefixed) classes style mobile; larger screens add `sm:`/`md:`/`lg:` overrides | Partially met (S04): landing pages (`index.html`, `es/index.html`) are styled for phones first (one column), and `sm:`/`md:`/`lg:` add columns and spacing. Form pages in S05 |
+| E8 | Mobile-first design is used | S04, S07 | `index.html`, `application.html`, `es/*.html` | Base (unprefixed) classes style mobile; larger screens add `sm:`/`md:`/`lg:` overrides | Partially met (S07): both landing pages stay phone-first (one column, figures stacked until `lg:`, stage labels from `sm:`); S08 re-checks all four pages |
 | E9 | All styles use Tailwind utility classes | S03 | `tailwind.css`, `styles.css`, `*.html` | Styling lives in utility classes on the markup; `styles.css` is the compiled Tailwind output | Partially met (S03): the four page skeletons are styled only with Tailwind utility classes (`brand-*` names mapped from `packages/shared/styles/tokens.css`), `grep -c 'style="'` → 0 on every page; `styles.css` is the minified CLI output. Met when all pages are complete (S04–S06) |
-| E10 | Tailwind breakpoints (sm:, md:, lg:) are used appropriately | S04 | `index.html`, `application.html`, `es/*.html` | `grep -oE "(sm\|md\|lg):" *.html es/*.html \| sort \| uniq -c` | Partially met (S04): landing pages (`index.html`, `es/index.html`) use `sm:` (spacing, type), `md:` (inline nav, 3 service columns, 2 "Why" columns, card padding) and `lg:` (hero 2 columns, type, contact 3 columns). Form pages in S05 |
+| E10 | Tailwind breakpoints (sm:, md:, lg:) are used appropriately | S04, S07 | `index.html`, `application.html`, `es/*.html` | `grep -oE "(sm\|md\|lg):" *.html es/*.html \| sort \| uniq -c` | Partially met (S07): `sm:` (stage labels, spacing), `md:` (services 3 columns, photos 2 columns), `lg:` (hero 2 columns, process 4 steps and line, key figures 3 columns); S08 re-checks all four pages |
 | E11 | There is no unnecessary custom CSS (only Tailwind) | S03 | `tailwind.css` | `tailwind.css` holds only the Tailwind import and theme tokens; no hand-written rules | Partially met (S03): `tailwind.css` holds only `@import`, `@source`, `@theme inline` (token mapping, no hex values) and one commented `:root` variable (`--font-instrument-sans`, which next/font sets in the Next.js apps); no hand-written rules. Met when all pages are complete (S04–S06) |
-| E12 | The design is visually coherent and professional | S04 | `index.html`, `application.html`, `es/*.html`, `packages/shared/styles/tokens.css` | Screenshots reviewed against the Nexova identity (green primary buttons, coral accent, Instrument Sans) | Partially met (S04): landing pages (`index.html`, `es/index.html`) reuse the M1 identity (cream/sand/paper, green headings, green pill buttons, coral only as decoration, Instrument Sans, M1 radii and shadows); screenshots reviewed. Form pages in S05 |
-| E13 | Performance verified with a minimum score of 80 (ideal above 90) using PageSpeed Insights on the public Codespaces URL, or Lighthouse from Chrome DevTools if PageSpeed cannot reach Codespaces | S07, S08 | `docs/milestone-2/screenshots/` | PageSpeed Insights on the public Codespaces URL, or Lighthouse; screenshot of the score | Pending |
+| E12 | The design is visually coherent and professional | S04, S07 | `index.html`, `application.html`, `es/*.html`, `packages/shared/styles/tokens.css` | Screenshots reviewed against the Nexova identity (green primary buttons, coral accent, Instrument Sans) | Partially met (S07): the M1 landing experience with the same tokens: CV cascade hero, marquee, light/dark/coral service cards, process, key figures with count-ups, sector words, office photos with live clocks, the green contact band; S08 re-checks all four pages |
+| E13 | Performance verified with a minimum score of 80 (ideal above 90) using PageSpeed Insights on the public Codespaces URL, or Lighthouse from Chrome DevTools if PageSpeed cannot reach Codespaces | S08, S09 | `docs/milestone-2/screenshots/` | PageSpeed Insights on the public Codespaces URL, or Lighthouse; screenshot of the score | Pending |
 
 ### Accessibility
 
 | ID | Criterion | Step | Files | How to verify | Result |
 | --- | --- | --- | --- | --- | --- |
-| E14 | All interactive elements are keyboard accessible | S07 | `*.html`, `es/*.html`, `validation.js` | Tab through each page: every link, button and control is reachable with a visible focus ring | Pending |
-| E15 | ARIA attributes are used where they improve accessibility | S07 | `*.html`, `es/*.html`, `validation.js` | Review `aria-*` usage (`aria-invalid`, `aria-describedby`, live regions, nav labels); no redundant ARIA | Pending |
-| E16 | Color contrast meets minimum standards | S07 | `tailwind.css`, `*.html` | Automated contrast check (WCAG 2.2 AA: 4.5:1 text, 3:1 large text and UI) | Pending |
-| E17 | Navigation is logical and predictable | S07 | `*.html`, `es/*.html` | Same header navigation on every page; skip link; focus order follows reading order | Pending |
+| E14 | All interactive elements are keyboard accessible | S07, S08 | `*.html`, `es/*.html`, `validation.js` | Tab through each page: every link, button and control is reachable with a visible focus ring | Partially met (S07): the new Replay and Pause controls are native buttons, reached by Tab in reading order (CTA → Replay → Pause) with the 3 px focus ring; Pause works with Enter/Space; `a11y-gate` keyboard walk 17/20 stops. S08 runs the full keyboard pass |
+| E15 | ARIA attributes are used where they improve accessibility | S07, S08 | `*.html`, `es/*.html`, `validation.js` | Review `aria-*` usage (`aria-invalid`, `aria-describedby`, live regions, nav labels); no redundant ARIA | Partially met (S07): Pause is a toggle with `aria-pressed`; the cascade field, stage bars and marquee are `aria-hidden`, the phase label is not announced, the figure has a visually hidden description, Replay has a hidden "the shortlist animation" suffix. S08 reviews all ARIA |
+| E16 | Color contrast meets minimum standards | S08 | `tailwind.css`, `*.html` | Automated contrast check (WCAG 2.2 AA: 4.5:1 text, 3:1 large text and UI) | Pending |
+| E17 | Navigation is logical and predictable | S08 | `*.html`, `es/*.html` | Same header navigation on every page; skip link; focus order follows reading order | Pending |
 | E18 | Error messages are announced appropriately | S06 | `validation.js`, `application.html`, `es/application.html` | Error text linked with `aria-describedby`, `aria-invalid` set, error summary in a live region | Met (S06): field errors in `#<id>-error` (linked by `aria-describedby`), `aria-invalid="true"` on the control; on submit, a `role="alert"` summary with links to each field takes focus; counter `aria-live`; success `role="status"` takes focus. Verified in the browser (EN and ES) |
 
 ### Form and Validation
@@ -55,11 +72,11 @@ Criteria copied verbatim from the brief.
 
 | ID | Criterion | Step | Files | How to verify | Result |
 | --- | --- | --- | --- | --- | --- |
-| E26 | The landing page faithfully reflects the company type and sector | S04 | `index.html`, `es/index.html`, `BRIEFING.md` | Sections and copy match the briefing (header, hero, services, why Nexova, contact, footer) | Met (S04): header, hero, services (3), why Nexova (4), contact and footer in the briefing's order and words (EN and ES), with only the documented content decisions |
-| E27 | Content presents the company's experience and competitive advantages | S04 | `index.html`, `es/index.html` | "Why Nexova" shows the 4 advantages (with the documented market wording) | Met (S04): "Why Nexova" shows the four advantages, each figure emphasised (12 years, Spain and United States, +500, Sector specialization), with the documented "Spanish and US markets" wording; office photos of Valencia and Miami |
+| E26 | The landing page faithfully reflects the company type and sector | S04, S07 | `index.html`, `es/index.html`, `BRIEFING.md` | Sections and copy match the briefing (header, hero, services, why Nexova, contact, footer) | Met (S04, S07): the briefing sections in order with their exact texts (header, hero, Services, Why Nexova, Contact, footer); the extra sections (marquee, process, offices) only use briefing facts |
+| E27 | Content presents the company's experience and competitive advantages | S04, S07 | `index.html`, `es/index.html` | "Why Nexova" shows the 4 advantages (with the documented market wording) | Met (S04, S07): "Why Nexova" as M1 key figures with count-ups (12 years, +500), the regional presence, and the sector specialization as large Technology / Retail / Finance rows; the offices section adds 2011, Valencia, Miami and about 120 people |
 | E28 | Form fields exactly match those required in BRIEFING.md | S05 | `application.html`, `es/application.html`, `BRIEFING.md` | Field list, types, options and required flags compared one by one; no extra fields | Met (S05): field names, types, options (EN labels from `BRIEFING.md`, ES labels from `BRIEFING.es.md`, the same `value`s) and required flags (12 `required` attributes: 7 fields, 4 radios, the checkbox; LinkedIn and comments optional) compared one by one; ids/names in `systemPatterns.md` |
 | E29 | Any domain-specific validation rules are implemented | S06 | `validation.js`, `tests/site/` | The 6 "Specific validations" of the briefing (email domain, phone `+` code, 0–50 years, LinkedIn URL, 500-character counter, data policy) | Met (S06): the 6 specific validations: email @ + domain with a dot; phone + country code (8–15 digits); years 0–50 integer; LinkedIn http(s) URL parsed by `new URL()`; 500-character counter ("N characters over the limit"); data policy must be ticked; plus at least first and last name |
-| E30 | Tone and content are consistent with an established company going digital | S04 | `index.html`, `es/index.html` | Copy review against the briefing and `CONTEXT.md` | Met (S04): the briefing copy, verbatim, in a restrained layout (no invented figures, clients or testimonials); the same brand as Nexova's other apps |
+| E30 | Tone and content are consistent with an established company going digital | S04, S07 | `index.html`, `es/index.html` | Copy review against the briefing and `CONTEXT.md` | Met (S04, S07): the briefing copy plus M1's tone (process, offices), with no invented figures, clients or testimonials, in the look of Nexova's own apps |
 
 ## B — Deliverables checklist
 
@@ -81,9 +98,9 @@ From the "What to do" lists of the brief.
 | L10 | Mobile-first | S04 | Met (S04): mobile-first classes on the landing pages |
 | L11 | Descriptive `alt` on all images | S04 | Met (S04): descriptive `alt` on the landing images |
 | L12 | Semantic tags (`section`, `article`, `nav`…) | S04 | Met (S04): `section`, `article`, `nav`, `address`, `header`, `footer` on the landing pages |
-| L13 | ARIA where appropriate | S04, S07 | Met for the landing pages (S04): labelled sections, `aria-current`, `aria-hidden` illustration, new-tab hints; re-checked in S07 |
+| L13 | ARIA where appropriate | S04, S07, S08 | Met for the landing pages (S04): labelled sections, `aria-current`, `aria-hidden` illustration, new-tab hints; re-checked in S08 |
 | L14 | Schema.org Organization | S04 | Met (S04): Schema.org Organization JSON-LD on both landing pages |
-| L15 | Exposed on a public Codespaces URL | S08 | Pending |
+| L15 | Exposed on a public Codespaces URL | S09 | Pending |
 
 ### Application form
 
@@ -111,10 +128,10 @@ From the "What to do" lists of the brief.
 | --- | --- | --- | --- |
 | S1 | `index.html`, `application.html`, `validation.js` and `BRIEFING.md` (unmodified) present | S01, S06 | Pending |
 | S2 | The public Codespaces URL in the PR description | S11 | Pending |
-| S3 | A PageSpeed or Lighthouse screenshot (≥ 80) in the PR description | S08, S11 | Pending |
-| S4 | Tested at several window sizes | S07 | Pending |
-| S5 | All validations tested | S06, S07 | Pending |
-| S6 | No console errors | S07 | Pending |
+| S3 | A PageSpeed or Lighthouse screenshot (≥ 80) in the PR description | S09, S11 | Pending |
+| S4 | Tested at several window sizes | S07, S08 | Pending |
+| S5 | All validations tested | S06, S08 | Pending |
+| S6 | No console errors | S07, S08 | Pending |
 
 ## C — Project standards
 
@@ -122,8 +139,8 @@ Our own standards, agreed for this milestone.
 
 | ID | Standard | Step | Status |
 | --- | --- | --- | --- |
-| P1 | CISO security gate passed | S02, S07 | Partial (S03): SEC-1 resolved (`dist/` allowlist), SEC-2 accepted exception (`auditConfig` in `pnpm-workspace.yaml`), criterion 3 self-match fixed; `security-gate` exit 0 (6 PASS, 1 SKIP: no `validation.js` yet); `/security-review`: no findings ≥ 8 ([`security.md`](./security.md)). Final run in S07 |
-| P2 | Accessibility gate WCAG 2.2 AA passed | S02, S07 | Partial (S03): `a11y-gate` on the four skeleton pages: 72 PASS, 0 FAIL, exit 0 ([`accessibility.md`](./accessibility.md)); final run in S07 |
-| P3 | Memory bank updated in every step | S01–S11 | In progress: S01, S02, S03 updated the memory bank (`check.sh` exit 0) |
-| P4 | Milestone recap produced | S10 | Pending |
+| P1 | CISO security gate passed | S02, S08 | Partial (S03): SEC-1 resolved (`dist/` allowlist), SEC-2 accepted exception (`auditConfig` in `pnpm-workspace.yaml`), criterion 3 self-match fixed; `security-gate` exit 0 (6 PASS, 1 SKIP: no `validation.js` yet); `/security-review`: no findings ≥ 8 ([`security.md`](./security.md)). Final run in S08 |
+| P2 | Accessibility gate WCAG 2.2 AA passed | S02, S08 | Partial (S03): `a11y-gate` on the four skeleton pages: 72 PASS, 0 FAIL, exit 0 ([`accessibility.md`](./accessibility.md)); final run in S08 |
+| P3 | Memory bank updated in every step | S01–S12 | In progress: S01, S02, S03 updated the memory bank (`check.sh` exit 0) |
+| P4 | Milestone recap produced | S11 | Pending |
 | P5 | Bilingual site: every page and every validation message exists in English and Spanish, with a language switcher, `hreflang` links and the correct `lang` on each page | S04–S06 | Partial (S04): both landing pages complete in English and Spanish (official Spanish copy, `lang="en"` on English words, `og:locale` + alternate, canonical, `hreflang`); form pages and validation messages in S05–S06 |

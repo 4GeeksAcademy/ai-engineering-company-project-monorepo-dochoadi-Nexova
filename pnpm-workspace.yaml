@@ -12,7 +12,7 @@ allowBuilds:
 
 # Accepted audit exception SEC-2 (docs/milestone-2/security.md): braces via
 # eslint-config-next, dev-only tooling, not shipped to the browser, no fix
-# published yet. Review again in M2-S10; remove when a fix exists.
+# published yet. Review again in M2-S11; remove when a fix exists.
 auditConfig:
   ignoreGhsas:
     - GHSA-vfj7-8cjw-p6xm

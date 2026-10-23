@@ -39,7 +39,7 @@ Run by the coding agent on 2026-10-23 on the branch's pending changes against `m
 
 | ID | Severity | File | Description | Proposed fix | Effort |
 | --- | --- | --- | --- | --- | --- |
-| SEC-1 | High | `.agents/rules/security-and-data.md` (rule 16), planned S03 server command | `http-server@14.1.1 --no-dotfiles` only hides dotfiles from directory listings; it still serves them by direct URL. Verified: `/.git/config` and `/.mcp.json` return `200`; any `.env` would too (`/.env` returned `404` only because none exists). Served from the repo root, every file of the repo (including untracked ones such as `test-results/`) is reachable, and in S08 the port becomes a public URL. | Serve only the site: a small copy step puts `index.html`, `application.html`, `validation.js`, `styles.css`, `assets/` and `es/` into a git-ignored folder (e.g. `dist/site/`), and `http-server` serves that folder; then update rule 16 and gate criterion 5 to test the real command. Decide in S03. | S (1–2 h) |
+| SEC-1 | High | `.agents/rules/security-and-data.md` (rule 16), planned S03 server command | `http-server@14.1.1 --no-dotfiles` only hides dotfiles from directory listings; it still serves them by direct URL. Verified: `/.git/config` and `/.mcp.json` return `200`; any `.env` would too (`/.env` returned `404` only because none exists). Served from the repo root, every file of the repo (including untracked ones such as `test-results/`) is reachable, and in S09 the port becomes a public URL. | Serve only the site: a small copy step puts `index.html`, `application.html`, `validation.js`, `styles.css`, `assets/` and `es/` into a git-ignored folder (e.g. `dist/site/`), and `http-server` serves that folder; then update rule 16 and gate criterion 5 to test the real command. Decide in S03. | S (1–2 h) |
 | SEC-2 | Low (advisory: high) | `pnpm-lock.yaml` via `eslint-config-next` → `@next/eslint-plugin-next` → `fast-glob` → `micromatch` → `braces` | `braces` ≤ 3.0.3, GHSA-vfj7-8cjw-p6xm (stack-exhaustion denial of service with deeply nested patterns). No patched version exists. Development-only (ESLint), patterns come from our own config, so the real risk is low; it still blocks gate criterion 4. | Accept as a documented exception: add the advisory to `pnpm.auditConfig.ignoreGhsas` in the root `package.json` (needs approval: protected file), and remove it when a patch ships. | XS (15 min) |
 | SEC-3 | Medium | `uis/website/next.config.ts`, `uis/backoffice/next.config.ts` | The M1 apps send no Content-Security-Policy or other security headers (`X-Content-Type-Options`, `Referrer-Policy`, `frame-ancestors`), against rule 12. | Add `headers()` in both `next.config.ts` with a CSP (nonce for Next.js inline scripts and the JSON-LD block) and the basic headers. Before any public deployment. | M (2–4 h) |
 | SEC-4 | Medium | `.devcontainer/post-create.sh:15,20,26` | Unpinned installs on every Codespace build: `pip install --user uv`, `pip install --user playwright`, `npm install -g @anthropic-ai/claude-code`. A compromised or breaking release would enter the dev environment silently. | Pin exact versions (as with pnpm and the MCP servers). Edit `.devcontainer/` in its own commit, outside a running step. | XS (15 min) |
@@ -66,13 +66,13 @@ Run on 2026-10-23 (S03), after the page skeleton, the Tailwind build and the `di
 - **SEC-1 — resolved.** The site files stay at the root (the brief requires them there), but the server never serves the repo root. `pnpm build:site` compiles the CSS and `scripts/build-site.mjs` copies **only** an allowlist (`index.html`, `application.html`, `validation.js`, `styles.css`, `assets/`, `es/`, `robots.txt`, `sitemap.xml`; missing entries are skipped) into the git-ignored `dist/`, skipping dotfiles and symlinks. The documented command serves `dist/`: `pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false`. Gate criterion 5 now builds and serves `dist/` the same way (on its own port, `127.0.0.1:8099`) and also probes `/.mcp.json`. Verified: `/.env`, `/.git/config`, `/.mcp.json`, `/memory-bank/`, `/BRIEFING.md` and `/package.json` all return `404`; a symlink `es/x.html → ../.mcp.json` is not copied.
 - **SEC-2 — accepted exception** (see below).
 - **SEC-3, SEC-5, SEC-6, SEC-7:** not fixed in this milestone's site steps. Status: **Planned: M1 hardening (separate change, needs approval)**.
-- **SEC-4:** fixed in S09, together with the other `.devcontainer/` changes.
+- **SEC-4:** fixed in S10, together with the other `.devcontainer/` changes.
 
 ### Accepted exceptions
 
 | ID | Advisory | Where | Why it is accepted | Mechanism | Review |
 | --- | --- | --- | --- | --- | --- |
-| SEC-2 | GHSA-vfj7-8cjw-p6xm, `braces` ≤ 3.0.3 (audit severity high; real risk low) | `eslint-config-next` → `@next/eslint-plugin-next` → `fast-glob` → `micromatch` → `braces`, in `uis/website` and `uis/backoffice` | Development-only ESLint tooling, not shipped to the browser (the public site has no dependency at runtime); the patterns come from our own config; no fixed version is published. | `auditConfig.ignoreGhsas` in `pnpm-workspace.yaml`. pnpm 12 ignores the old `"pnpm"` field in `package.json` (tested: `pnpm audit` still failed with it), so the setting lives where pnpm reads it. `pnpm audit --audit-level high` now prints `1 ignored: 1 high`, exit 0. | Again in S10; remove the entry as soon as a fixed `braces` (or a `micromatch`/`fast-glob` without it) is published. |
+| SEC-2 | GHSA-vfj7-8cjw-p6xm, `braces` ≤ 3.0.3 (audit severity high; real risk low) | `eslint-config-next` → `@next/eslint-plugin-next` → `fast-glob` → `micromatch` → `braces`, in `uis/website` and `uis/backoffice` | Development-only ESLint tooling, not shipped to the browser (the public site has no dependency at runtime); the patterns come from our own config; no fixed version is published. | `auditConfig.ignoreGhsas` in `pnpm-workspace.yaml`. pnpm 12 ignores the old `"pnpm"` field in `package.json` (tested: `pnpm audit` still failed with it), so the setting lives where pnpm reads it. `pnpm audit --audit-level high` now prints `1 ignored: 1 high`, exit 0. | Again in S11; remove the entry as soon as a fixed `braces` (or a `micromatch`/`fast-glob` without it) is published. |
 
 ### Gate fix: criterion 3 matched its own documentation
 
@@ -132,7 +132,7 @@ Not blockers for this academic milestone; to resolve before any real launch.
 
 | Topic | Note | When |
 | --- | --- | --- |
-| Google Fonts (Instrument Sans) | Loading the font from Google's servers sends each visitor's IP address to Google, a GDPR concern in the EU (Nexova is in Valencia). Before any real EU launch, self-host the font file in `assets/` (Instrument Sans is open source, SIL Open Font License) and drop the two Google origins from the CSP. Kept for now (developer's decision). | S07 decides whether self-hosting is also needed for the PageSpeed score. |
+| Google Fonts (Instrument Sans) | Loading the font from Google's servers sends each visitor's IP address to Google, a GDPR concern in the EU (Nexova is in Valencia). Before any real EU launch, self-host the font file in `assets/` (Instrument Sans is open source, SIL Open Font License) and drop the two Google origins from the CSP. Kept for now (developer's decision). | S08 decides whether self-hosting is also needed for the PageSpeed score. |
 | Office photo licences | `valencia.webp` and `miami.webp` come from the M1 design (`uis/website/public/images/`); their licence is not confirmed, and the Miami photo shows identifiable people (open question in `memory-bank/activeContext.md`). | Before publishing. |
 
 ## S05 — Form markup
@@ -156,3 +156,17 @@ Run on 2026-10-23 (S06), with `validation.js` loaded by both form pages.
   - The browser verification recorded **0 network requests** during a valid submission, in both languages.
 - **Script loading:** `validation.js` is a same-origin `defer` script (CSP `script-src 'self'`), with no third-party code and no dependency.
 - **Cache busting (S05 review fix):** `scripts/build-site.mjs` rewrites, in the `dist/` copies only, `styles.css` → `styles.css?v=<8 hex of its SHA-256>` and `validation.js` → `validation.js?v=<hash>`. A browser that kept an old file under the one-hour cache (`-c 3600`) asks for the new URL as soon as the file changes. The root HTML stays unchanged.
+
+## S07 — The Milestone 1 landing experience
+
+Run on 2026-10-23 (S07), with `motion.js` on all four pages.
+
+- **`motion.js` adds no new attack surface:**
+  - It is a same-origin `defer` script (CSP `script-src 'self'` unchanged), with no dependency and no network request.
+  - It builds the cascade cards with `createElement` and `className`, and writes text only with `textContent` (phase labels, counters, clocks). There is no `innerHTML`, `eval` or `document.write`.
+  - The only stored value is the pause preference (`localStorage` key `nexova-motion-paused`, `"1"`/`"0"`, inside `try`/`catch`). It is not personal data (rule 15).
+- **Caching (S06 review fix):**
+  - The site server, the documented command and both gates now use `-c-1` (`cache-control: no-cache, no-store, must-revalidate`, checked on `/`, `/application.html`, `/es/application.html` and `/motion.js`).
+  - With `-c 3600` a browser could keep an old HTML page that pointed to an old `validation.js`, so the Spanish form ran without validation after an update. The version tags stay, now also on `motion.js`.
+- **Gate results:** `security-gate` 7 PASS, `exit=0`.
+

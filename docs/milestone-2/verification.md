@@ -1,6 +1,6 @@
 # Milestone 2 — Verification guide
 
-How to re-check every step of Milestone 2 (S01–S11). Each section is filled in when its step is done: what was delivered, the commands to run from the repo root, and the expected output. Criteria IDs refer to the [evaluation matrix](./evaluation.md).
+How to re-check every step of Milestone 2 (S01–S12). Each section is filled in when its step is done: what was delivered, the commands to run from the repo root, and the expected output. Criteria IDs refer to the [evaluation matrix](./evaluation.md).
 
 ## S01 — Setup: branch, briefing and evaluation matrix
 
@@ -238,7 +238,60 @@ bash .agents/skills/a11y-gate/check.sh 2; echo "exit=$?"
   - "Clear form" restores the initial state and focuses Full name;
   - all of it works with the keyboard only, and the console shows no errors.
 
-## S07 — Accessibility, security and performance re-check
+## S07 — The Milestone 1 landing experience
+
+### Delivered
+
+- `index.html` and `es/index.html` with the M1 landing experience. The briefing sections keep their order and exact texts; the extra sections (marquee, process, offices) sit between them.
+  - **Hero:** the CV cascade (72 CVs fall, are scored by a beam, sort, five are shortlisted and one is placed), with the phase label, the stage bars, "Replay" and the "Pause animations" control (`aria-pressed`, remembered in `localStorage`).
+  - **Marquee:** briefing words only.
+  - **Services:** M1's light, dark and coral cards with a hover lift.
+  - **Process:** 4 steps, with a line that draws itself.
+  - **Why Nexova:** key figures with count-ups ("12", "+500"), then the sector specialization as large Technology / Retail / Finance rows.
+  - **Offices:** briefing facts only, with the clip-path photo reveal and live clocks for Valencia and Miami, updated each minute.
+  - **Contact:** the green rounded band.
+- `motion.js` (root, plain JavaScript, `defer`, no dependency, ~16 KB): a port of M1's `lib/motion.ts` and the behaviour of Reveal, CountUp, CvCascade, Marquee, OfficePhotos, OfficeClock and the header shadow. It uses only the Web Animations API and Tailwind class toggles, never `style=` or `innerHTML`. All four pages load it (the form pages for the header shadow).
+- Progressive enhancement: without JavaScript every text, figure and photo is visible, and the hero shows the static shortlist. Reduced motion shows every final state at once.
+- S06 review fixes:
+  - `-c-1` on `serve:site`, the documented command and both gates, so HTML is never cached;
+  - `motion.js` added to the version tags and the `dist/` allowlist;
+  - after a successful submission the Submit button is hidden, and "Clear form" brings the form back (`layoutFor()` plus a test, 15 site tests).
+- Steps renumbered: quality gates S08, public URL S09, docs S10, recap and PR S11, merge S12.
+- Screenshots `docs/milestone-2/screenshots/landing-{en,es}-{375,768,1280}.png` retaken.
+
+### Commands
+
+```bash
+pnpm build:site && ls dist/ && grep -o 'motion.js?v=[0-9a-f]*' dist/index.html dist/es/index.html
+python3 - <<'EOF'
+import re
+for f in ["index.html", "es/index.html"]:
+    ids = re.findall(r'<section[^>]*id="([^"]+)"', open(f).read())
+    print(f, ids, [i for i in ids if i in ("top", "services", "why-nexova", "contact")] == ["top", "services", "why-nexova", "contact"])
+EOF
+grep -cE 'style="' index.html es/index.html application.html es/application.html
+grep -nE "innerHTML|outerHTML|insertAdjacentHTML|document\.write|eval\(" motion.js validation.js || echo "no unsafe DOM APIs"
+wc -c motion.js
+pnpm test
+curl -sI localhost:8080/ | grep -i cache-control     # with pnpm serve:site running
+bash .agents/skills/security-gate/check.sh 2; echo "exit=$?"
+bash .agents/skills/a11y-gate/check.sh 2; echo "exit=$?"
+```
+
+### Expected
+
+- `dist/` holds `application.html`, `assets`, `es`, `index.html`, `motion.js`, `styles.css`, `validation.js`; both landing pages load `motion.js?v=<8 hex>`.
+- `['top', 'services', 'process', 'why-nexova', 'offices', 'contact'] True` for both pages; `0` inline styles on all four pages; no unsafe DOM APIs; `motion.js` about 16 KB.
+- `pnpm test`: 15 package tests + 15 site tests pass; `cache-control: no-cache, no-store, must-revalidate`.
+- `security-gate` 7 PASS, `exit=0`; `a11y-gate` 72 PASS, 0 SKIP, `exit=0`.
+- In the browser:
+  - **cascade and pause:** the cascade plays and ends with one coral card placed; "Replay" plays it again; "Pause animations" stops the cascade, the marquee and the clocks, and stays paused after a reload;
+  - **scrolling:** sections slide in once, "12" and "+500" count up, the photos open, and the clocks show local time;
+  - **reduced motion:** the final frame and final numbers at once, nothing moves;
+  - **JavaScript off:** every text, figure and photo is visible;
+  - **form pages:** after "Submit application", only the thank-you message and "Clear form" remain.
+
+## S08 — Quality gates: accessibility, security and performance re-check
 
 ### Delivered
 
@@ -252,7 +305,7 @@ _To be filled in this step._
 
 _To be filled in this step._
 
-## S08 — Performance evidence and public URL
+## S09 — Performance evidence and public URL
 
 ### Delivered
 
@@ -266,7 +319,7 @@ _To be filled in this step._
 
 _To be filled in this step._
 
-## S09 — To be defined
+## S10 — Documentation and devcontainer
 
 ### Delivered
 
@@ -280,7 +333,7 @@ _To be filled in this step._
 
 _To be filled in this step._
 
-## S10 — Milestone recap
+## S11 — Milestone recap and pull request
 
 ### Delivered
 
@@ -294,7 +347,7 @@ _To be filled in this step._
 
 _To be filled in this step._
 
-## S11 — Pull request and merge
+## S12 — Merge (after the instructor's approval)
 
 ### Delivered
 

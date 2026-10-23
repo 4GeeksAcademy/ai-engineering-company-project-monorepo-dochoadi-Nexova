@@ -20,6 +20,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&amp;display=swap">
     <link rel="stylesheet" href="../styles.css">
+    <script src="../motion.js" defer></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -61,7 +62,7 @@
   <body class="min-h-screen bg-brand-cream font-brand text-[17px]/[1.6] text-brand-ink antialiased">
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:inline-flex focus:min-h-11 focus:items-center focus:rounded-brand-pill focus:bg-brand-green focus:px-5 focus:font-semibold focus:text-brand-cream focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Saltar al contenido principal</a>
 
-    <header class="sticky top-0 z-50 border-b border-brand-line bg-brand-cream/88 backdrop-blur-[14px] backdrop-saturate-[1.2]">
+    <header class="sticky top-0 z-50 border-b border-brand-line bg-brand-cream/88 backdrop-blur-[14px] backdrop-saturate-[1.2] transition-shadow duration-300 ease-brand-out">
       <div class="mx-auto max-w-[1320px] px-4 sm:px-8 lg:px-12 flex h-18 items-center justify-between gap-3">
         <a href="index.html" class="inline-flex min-h-11 items-center rounded-sm focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">
           <img src="../assets/nexova-logo.svg" alt="Nexova" width="99" height="20" class="h-5 w-auto">
@@ -93,87 +94,157 @@
     </header>
 
     <main id="main">
-      <section id="top" aria-labelledby="hero-title" class="py-14 sm:py-20 lg:py-28">
-        <div class="mx-auto max-w-[1320px] px-4 sm:px-8 lg:px-12 grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+      <section id="top" aria-labelledby="hero-title" class="py-12 sm:py-16 lg:py-24">
+        <div class="mx-auto max-w-[1320px] px-4 sm:px-8 lg:px-12 grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-14">
           <div>
-            <h1 id="hero-title" class="max-w-[16ch] text-[40px] font-medium leading-[1.05] tracking-[-0.035em] text-balance text-brand-green sm:text-6xl lg:text-7xl">Construimos equipos excepcionales para empresas en crecimiento</h1>
+            <h1 id="hero-title" class="max-w-[16ch] text-[40px] font-medium leading-[1.05] tracking-[-0.035em] text-balance text-brand-green sm:text-6xl">Construimos equipos excepcionales para empresas en crecimiento</h1>
             <p class="mt-6 max-w-[52ch] text-lg/[1.6] text-pretty text-brand-ink-soft sm:mt-8 sm:text-xl/[1.6]">Consultora de recursos humanos y adquisición de talento con más de 10 años ayudando a empresas de tecnología, <span lang="en">retail</span> y servicios financieros a encontrar y desarrollar el mejor talento.</p>
-            <a href="application.html" class="mt-8 sm:mt-10 inline-flex min-h-[54px] items-center justify-center rounded-full border-2 border-transparent bg-brand-green px-6 py-3 text-center sm:px-[30px] text-[16.5px] font-semibold text-brand-cream transition-colors duration-200 ease-brand-out hover:bg-brand-green-deep focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Únete a nuestro banco de talento</a>
+            <a href="application.html" class="mt-8 sm:mt-10 inline-flex min-h-[54px] items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-colors duration-200 ease-brand-out sm:px-[30px] border-2 border-transparent bg-brand-green text-brand-cream hover:bg-brand-green-deep focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Únete a nuestro banco de talento</a>
           </div>
-          <div aria-hidden="true" class="mx-auto w-full max-w-[560px] rounded-brand-figure bg-brand-green p-3 shadow-brand-hero-card sm:p-5">
-            <div class="rounded-brand-field bg-brand-green-deep p-4 sm:p-6">
-              <div class="grid grid-cols-5 gap-2 sm:gap-3">
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-cream shadow-brand-cv"><div class="aspect-square w-1/3 rounded-full bg-brand-sage-tone"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-tan"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-tan"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-cream shadow-brand-cv"><div class="aspect-square w-1/3 rounded-full bg-brand-sage-tone"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-tan"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-tan"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] relative z-10 scale-110 bg-brand-coral shadow-brand-cv-glow ring-2 ring-brand-coral-light ring-offset-2 ring-offset-brand-green-deep"><div class="aspect-square w-1/3 rounded-full bg-brand-cream"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-cream"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-cream"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-cream shadow-brand-cv"><div class="aspect-square w-1/3 rounded-full bg-brand-sage-tone"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-tan"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-tan"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-cream shadow-brand-cv"><div class="aspect-square w-1/3 rounded-full bg-brand-sage-tone"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-tan"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-tan"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div>
-                  <div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div>
+          <div class="min-w-0">
+            <figure data-cascade class="m-0 w-full rounded-brand-figure bg-brand-green p-3.5 text-brand-cream shadow-brand-hero-card sm:p-5">
+              <figcaption class="flex min-h-11 flex-wrap items-center justify-between gap-x-3 gap-y-1">
+                <span class="flex items-center gap-3">
+                  <span class="whitespace-nowrap font-semibold tracking-[-0.01em]">La lista final<span class="sr-only">. Ilustración: un montón de 72 CV se revisa y se ordena, cinco pasan a la lista final y se incorpora a una persona.</span></span>
+                  <button type="button" data-cascade-replay class="hidden min-h-11 rounded-full border border-brand-green-mid px-4 text-[15px] text-brand-cream hover:bg-brand-green-deep focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-cream">Repetir<span class="sr-only"> la animación de la lista final</span></button>
+                </span>
+                <span data-cascade-phase aria-hidden="true" class="text-[15px] text-brand-coral-light">Incorporación</span>
+              </figcaption>
+              <div data-cascade-field aria-hidden="true" class="relative mb-4 mt-3.5 aspect-[1398/890] overflow-hidden rounded-brand-field bg-brand-green-deep">
+                <div data-cascade-fallback class="absolute inset-0 grid place-items-center"><div class="grid w-[58%] grid-cols-5 gap-[3%]"><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-cream shadow-brand-cv"><div class="aspect-square w-1/3 rounded-full bg-brand-sage-tone"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-tan"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-tan"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-cream shadow-brand-cv"><div class="aspect-square w-1/3 rounded-full bg-brand-sage-tone"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-tan"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-tan"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] relative z-10 scale-110 bg-brand-coral shadow-brand-cv-glow ring-2 ring-brand-coral-light ring-offset-2 ring-offset-brand-green-deep"><div class="aspect-square w-1/3 rounded-full bg-brand-cream"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-cream"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-cream"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-cream shadow-brand-cv"><div class="aspect-square w-1/3 rounded-full bg-brand-sage-tone"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-tan"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-tan"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-cream shadow-brand-cv"><div class="aspect-square w-1/3 rounded-full bg-brand-sage-tone"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-tan"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-tan"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div><div class="aspect-[3/4] rounded-brand-cv p-[14%] bg-brand-green-mid/25"><div class="aspect-square w-1/3 rounded-full bg-brand-green-mid/60"></div><div class="mt-[22%] h-[7%] w-4/5 rounded-full bg-brand-green-mid/50"></div><div class="mt-[9%] h-[7%] w-1/2 rounded-full bg-brand-green-mid/50"></div></div></div></div>
+                <div data-cascade-beam class="pointer-events-none absolute inset-y-0 left-0 z-[500] w-[30%] bg-linear-to-r from-transparent via-brand-coral-light/40 to-transparent opacity-0"></div>
+                <div data-cascade-ring class="pointer-events-none absolute left-[54.22%] top-[41.5%] z-[450] aspect-square w-[12.9%] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-brand-coral-light opacity-0"></div>
+                <div data-cascade-pulse class="pointer-events-none absolute left-[54.22%] top-[41.5%] z-[390] aspect-[3/4] w-[12.9%] -translate-x-1/2 -translate-y-1/2 rounded-md border-2 border-brand-coral opacity-0"></div>
+                <div data-cascade-pill class="pointer-events-none absolute left-[54.22%] top-[28.01%] z-[600] flex origin-bottom -translate-x-1/2 -translate-y-[120%] items-center gap-1.5 whitespace-nowrap rounded-full bg-brand-cream px-2.5 py-1 text-xs font-semibold text-brand-green opacity-0"><span class="size-1.5 rounded-full bg-brand-coral"></span>Incorporada</div>
               </div>
-            </div>
-            <div class="mt-3 grid grid-cols-4 gap-2 px-1 sm:mt-5 sm:gap-3">
-              <div class="h-[3px] rounded-full bg-brand-coral"></div><div class="h-[3px] rounded-full bg-brand-coral"></div><div class="h-[3px] rounded-full bg-brand-coral"></div><div class="h-[3px] rounded-full bg-brand-coral"></div>
+              <div aria-hidden="true" class="grid grid-cols-4 gap-2">
+              <div><div class="h-[3px] overflow-hidden rounded-[2px] bg-brand-green-line"><div data-cascade-seg class="h-full origin-left bg-brand-coral"></div></div><div data-cascade-seg-label class="mt-2 hidden text-[13px] leading-[1.3] sm:block text-brand-sage">Briefing</div></div>
+              <div><div class="h-[3px] overflow-hidden rounded-[2px] bg-brand-green-line"><div data-cascade-seg class="h-full origin-left bg-brand-coral"></div></div><div data-cascade-seg-label class="mt-2 hidden text-[13px] leading-[1.3] sm:block text-brand-sage">Cribado</div></div>
+              <div><div class="h-[3px] overflow-hidden rounded-[2px] bg-brand-green-line"><div data-cascade-seg class="h-full origin-left bg-brand-coral"></div></div><div data-cascade-seg-label class="mt-2 hidden text-[13px] leading-[1.3] sm:block text-brand-sage">Entrevistas</div></div>
+              <div><div class="h-[3px] overflow-hidden rounded-[2px] bg-brand-green-line"><div data-cascade-seg class="h-full origin-left bg-brand-coral"></div></div><div data-cascade-seg-label class="mt-2 hidden text-[13px] leading-[1.3] sm:block text-brand-cream">Incorporación</div></div>
+              </div>
+            </figure>
+            <div class="mt-4 flex justify-end">
+              <button type="button" data-motion-toggle aria-pressed="false" data-label-pause="Pausar animaciones" data-label-play="Reanudar animaciones" class="hidden inline-flex min-h-[54px] items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-colors duration-200 ease-brand-out sm:px-[30px] border-[1.5px] border-brand-green text-brand-green hover:bg-brand-sand focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-coral">Pausar animaciones</button>
             </div>
           </div>
         </div>
       </section>
 
+      <div data-marquee aria-hidden="true" class="overflow-hidden bg-brand-green py-5 text-brand-cream">
+        <div class="flex w-max whitespace-nowrap text-xl font-medium tracking-[-0.02em] sm:text-2xl">
+          <ul class="flex"><li class="flex items-center gap-8 pr-8">Headhunting ejecutivo<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Outsourcing de atención al cliente<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Formación corporativa<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Tecnología<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Retail<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Servicios financieros<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Valencia<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Miami<span class="size-[7px] rounded-full bg-brand-coral"></span></li></ul><ul class="flex"><li class="flex items-center gap-8 pr-8">Headhunting ejecutivo<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Outsourcing de atención al cliente<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Formación corporativa<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Tecnología<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Retail<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Servicios financieros<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Valencia<span class="size-[7px] rounded-full bg-brand-coral"></span></li><li class="flex items-center gap-8 pr-8">Miami<span class="size-[7px] rounded-full bg-brand-coral"></span></li></ul>
+        </div>
+      </div>
+
       <section id="services" aria-labelledby="services-title" class="py-16 sm:py-20 lg:py-28">
         <div class="mx-auto max-w-[1320px] px-4 sm:px-8 lg:px-12">
-          <h2 id="services-title" class="text-3xl font-medium leading-[1.05] tracking-[-0.035em] text-balance sm:text-4xl lg:text-5xl text-brand-green">Servicios</h2>
+          <h2 id="services-title" data-reveal="0" class="text-3xl font-medium leading-[1.05] tracking-[-0.035em] text-balance sm:text-4xl lg:text-5xl text-brand-green">Servicios</h2>
           <div class="mt-10 grid gap-5 sm:mt-12 md:grid-cols-3 lg:gap-6">
-          <article class="rounded-brand-card border border-brand-line bg-brand-paper p-7 shadow-brand-card sm:p-9 md:p-6 lg:p-9">
-            <h3 class="text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green sm:text-[28px] md:text-xl lg:text-[28px]"><span lang="en">Headhunting</span> Ejecutivo</h3>
-            <ul role="list" class="mt-6 grid gap-3 text-brand-ink-soft md:text-base lg:text-[17px]">
+          <article data-reveal="0" class="flex flex-col gap-8 rounded-brand-card p-7 transition-transform duration-300 ease-brand-out hover:-translate-y-1.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:p-9 md:p-6 lg:p-10 border border-brand-line bg-brand-paper text-brand-ink shadow-brand-card">
+            <h3 class="text-[28px] font-medium leading-[1.05] tracking-[-0.04em] text-balance sm:text-[34px] md:text-2xl lg:text-[38px] text-brand-green"><span lang="en">Headhunting</span> Ejecutivo</h3>
+            <ul role="list" class="mt-auto grid gap-3 md:text-base lg:text-[17px] text-brand-ink-soft">
               <li class="flex gap-3"><span aria-hidden="true" class="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-brand-coral"></span><span>Búsqueda y selección de perfiles ejecutivos y mandos medios</span></li>
               <li class="flex gap-3"><span aria-hidden="true" class="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-brand-coral"></span><span>Proceso personalizado con garantía de reemplazo</span></li>
             </ul>
           </article>
-          <article class="rounded-brand-card border border-brand-line bg-brand-paper p-7 shadow-brand-card sm:p-9 md:p-6 lg:p-9">
-            <h3 class="text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green sm:text-[28px] md:text-xl lg:text-[28px]"><span lang="en">Outsourcing</span> de Atención al Cliente</h3>
-            <ul role="list" class="mt-6 grid gap-3 text-brand-ink-soft md:text-base lg:text-[17px]">
-              <li class="flex gap-3"><span aria-hidden="true" class="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-brand-coral"></span><span>Equipos especializados para empresas tecnológicas</span></li>
-              <li class="flex gap-3"><span aria-hidden="true" class="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-brand-coral"></span><span>Formación continua y supervisión dedicada</span></li>
+          <article data-reveal="1" class="flex flex-col gap-8 rounded-brand-card p-7 transition-transform duration-300 ease-brand-out hover:-translate-y-1.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:p-9 md:p-6 lg:p-10 border border-transparent bg-brand-green text-brand-cream shadow-brand-card-dark">
+            <h3 class="text-[28px] font-medium leading-[1.05] tracking-[-0.04em] text-balance sm:text-[34px] md:text-2xl lg:text-[38px] text-brand-cream"><span lang="en">Outsourcing</span> de Atención al Cliente</h3>
+            <ul role="list" class="mt-auto grid gap-3 md:text-base lg:text-[17px] text-brand-sage">
+              <li class="flex gap-3"><span aria-hidden="true" class="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-brand-coral-light"></span><span>Equipos especializados para empresas tecnológicas</span></li>
+              <li class="flex gap-3"><span aria-hidden="true" class="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-brand-coral-light"></span><span>Formación continua y supervisión dedicada</span></li>
             </ul>
           </article>
-          <article class="rounded-brand-card border border-brand-line bg-brand-paper p-7 shadow-brand-card sm:p-9 md:p-6 lg:p-9">
-            <h3 class="text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green sm:text-[28px] md:text-xl lg:text-[28px]">Formación Corporativa</h3>
-            <ul role="list" class="mt-6 grid gap-3 text-brand-ink-soft md:text-base lg:text-[17px]">
-              <li class="flex gap-3"><span aria-hidden="true" class="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-brand-coral"></span><span>Programas de <span lang="en">soft skills</span> y liderazgo</span></li>
-              <li class="flex gap-3"><span aria-hidden="true" class="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-brand-coral"></span><span>Cursos presenciales y en línea adaptados a cada organización</span></li>
+          <article data-reveal="2" class="flex flex-col gap-8 rounded-brand-card p-7 transition-transform duration-300 ease-brand-out hover:-translate-y-1.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:p-9 md:p-6 lg:p-10 border border-transparent bg-brand-coral text-brand-ink shadow-brand-card-coral">
+            <h3 class="text-[28px] font-medium leading-[1.05] tracking-[-0.04em] text-balance sm:text-[34px] md:text-2xl lg:text-[38px] text-brand-green-deep">Formación Corporativa</h3>
+            <ul role="list" class="mt-auto grid gap-3 md:text-base lg:text-[17px] text-brand-ink">
+              <li class="flex gap-3"><span aria-hidden="true" class="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-brand-green-deep"></span><span>Programas de <span lang="en">soft skills</span> y liderazgo</span></li>
+              <li class="flex gap-3"><span aria-hidden="true" class="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-brand-green-deep"></span><span>Cursos presenciales y en línea adaptados a cada organización</span></li>
             </ul>
           </article>
           </div>
         </div>
       </section>
 
-      <section id="why-nexova" aria-labelledby="why-nexova-title" class="bg-brand-sand py-16 sm:py-20 lg:py-28">
+      <section id="process" aria-labelledby="process-title" class="bg-brand-sand py-16 sm:py-20 lg:py-28">
         <div class="mx-auto max-w-[1320px] px-4 sm:px-8 lg:px-12">
-          <h2 id="why-nexova-title" class="text-3xl font-medium leading-[1.05] tracking-[-0.035em] text-balance sm:text-4xl lg:text-5xl text-brand-green">Por qué Nexova</h2>
-          <ul role="list" class="mt-10 grid gap-x-12 gap-y-8 sm:mt-12 md:grid-cols-2">
-          <li class="flex flex-col gap-2 border-t border-brand-tan-line pt-6"><strong class="block text-[34px] font-medium leading-[1.05] tracking-[-0.04em] text-brand-green sm:text-[40px] lg:text-5xl">12 años</strong><span class="text-brand-ink-soft">de experiencia en los mercados español y estadounidense</span></li>
-          <li class="flex flex-col-reverse gap-2 border-t border-brand-tan-line pt-6"><span class="text-brand-ink-soft">Presencia regional:</span><strong class="block text-[34px] font-medium leading-[1.05] tracking-[-0.04em] text-brand-green sm:text-[40px] lg:text-5xl">España y Estados Unidos</strong></li>
-          <li class="flex flex-col gap-2 border-t border-brand-tan-line pt-6"><strong class="block text-[34px] font-medium leading-[1.05] tracking-[-0.04em] text-brand-green sm:text-[40px] lg:text-5xl">+500</strong><span class="text-brand-ink-soft">procesos exitosos de selección completados</span></li>
-          <li class="flex flex-col gap-2 border-t border-brand-tan-line pt-6"><strong class="block text-[34px] font-medium leading-[1.05] tracking-[-0.04em] text-brand-green sm:text-[40px] lg:text-5xl">Especialización sectorial</strong><span class="text-brand-ink-soft">en tecnología, <span lang="en">retail</span> y finanzas</span></li>
-          </ul>
-          <div class="mt-12 grid gap-5 sm:mt-16 md:grid-cols-2 lg:gap-6">
-          <img src="../assets/valencia.webp" alt="Valencia, Ciudad de las Artes y las Ciencias — sede de Nexova" width="1200" height="800" loading="lazy" decoding="async" class="aspect-[3/2] w-full rounded-brand-figure object-cover">
-          <img src="../assets/miami.webp" alt="Miami, Brickell — oficina de expansión de Nexova" width="1200" height="800" loading="lazy" decoding="async" class="aspect-[3/2] w-full rounded-brand-figure object-cover">
+          <h2 id="process-title" data-reveal="0" class="max-w-[17ch] text-3xl font-medium leading-[1.05] tracking-[-0.035em] text-balance sm:text-4xl lg:text-5xl text-brand-green">De un campo amplio a la persona adecuada, en cuatro pasos.</h2>
+          <div class="relative mt-12 lg:mt-16">
+            <div aria-hidden="true" class="absolute inset-x-0 top-0 hidden h-[2px] overflow-hidden bg-brand-line lg:block"><div data-process-line class="h-full origin-left bg-brand-coral"></div></div>
+            <ol class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 lg:pt-12">
+            <li data-reveal="0">
+              <div aria-hidden="true" class="flex min-h-7 max-w-[96px] flex-wrap items-end gap-1"><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span></div>
+              <p class="mt-5 text-[15px] text-brand-ink-muted">Paso 1</p>
+              <h3 class="mt-1 text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green"><span lang="en">Briefing</span></h3>
+              <p class="mt-3 text-brand-ink-soft">Nos sentamos con tu dirección para definir el puesto, el equipo al que se incorpora y cómo se mide el éxito.</p>
+            </li>
+            <li data-reveal="1">
+              <div aria-hidden="true" class="flex min-h-7 max-w-[96px] flex-wrap items-end gap-1"><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span></div>
+              <p class="mt-5 text-[15px] text-brand-ink-muted">Paso 2</p>
+              <h3 class="mt-1 text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green">Cribado</h3>
+              <p class="mt-3 text-brand-ink-soft">Revisamos con rapidez un campo amplio de perfiles. Nuestros consultores evalúan cada perfil que llega a la lista final.</p>
+            </li>
+            <li data-reveal="2">
+              <div aria-hidden="true" class="flex min-h-7 max-w-[96px] flex-wrap items-end gap-1"><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span><span class="size-2 rounded-full bg-brand-green-mid"></span></div>
+              <p class="mt-5 text-[15px] text-brand-ink-muted">Paso 3</p>
+              <h3 class="mt-1 text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green">Entrevistas</h3>
+              <p class="mt-3 text-brand-ink-soft">Entrevistas estructuradas con nuestros consultores y después contigo, con comentarios claros y por escrito en cada etapa.</p>
+            </li>
+            <li data-reveal="3">
+              <div aria-hidden="true" class="flex min-h-7 max-w-[96px] flex-wrap items-end gap-1"><span class="size-2.5 rounded-full bg-brand-coral"></span></div>
+              <p class="mt-5 text-[15px] text-brand-ink-muted">Paso 4</p>
+              <h3 class="mt-1 text-2xl font-medium leading-[1.1] tracking-[-0.035em] text-brand-green">Incorporación</h3>
+              <p class="mt-3 text-brand-ink-soft">Te ayudamos a cerrar la oferta y te acompañamos durante la incorporación, para que la contratación funcione para ambas partes.</p>
+            </li>
+            </ol>
           </div>
         </div>
       </section>
 
-      <section id="contact" aria-labelledby="contact-title" class="px-3 pb-16 sm:px-6 sm:pb-20 lg:pb-28">
-        <div class="mx-auto max-w-[1392px] rounded-brand-cta border border-transparent bg-brand-green px-6 py-12 text-brand-cream sm:px-12 sm:py-16 lg:px-24 lg:py-24">
+      <section id="why-nexova" aria-labelledby="why-nexova-title" class="py-16 sm:py-20 lg:py-28">
+        <div class="mx-auto max-w-[1320px] px-4 sm:px-8 lg:px-12">
+          <h2 id="why-nexova-title" data-reveal="0" class="text-3xl font-medium leading-[1.05] tracking-[-0.035em] text-balance sm:text-4xl lg:text-5xl text-brand-green">Por qué Nexova</h2>
+          <ul role="list" class="mt-10 grid divide-y divide-brand-line border-y border-brand-line sm:mt-12 lg:grid-cols-3 lg:divide-x lg:divide-y-0">
+            <li data-reveal="0" class="flex flex-col gap-3 py-8 lg:pr-8"><strong class="block text-6xl font-medium leading-none tracking-[-0.045em] text-brand-green tabular-nums lg:text-7xl"><span data-count="12">12</span> años</strong><span class="text-brand-ink-soft">de experiencia en los mercados español y estadounidense</span></li>
+            <li data-reveal="1" class="flex flex-col gap-3 py-8 lg:px-8"><span class="text-brand-ink-soft">Presencia regional:</span><strong class="block text-4xl font-medium leading-[1.05] tracking-[-0.04em] text-brand-green lg:text-5xl">España y Estados Unidos</strong></li>
+            <li data-reveal="2" class="flex flex-col gap-3 py-8 lg:pl-8"><strong class="block text-6xl font-medium leading-none tracking-[-0.045em] text-brand-green tabular-nums lg:text-7xl">+<span data-count="500">500</span></strong><span class="text-brand-ink-soft">procesos exitosos de selección completados</span></li>
+            <li class="py-8 lg:col-span-3 lg:border-t lg:border-brand-line">
+              <p data-reveal="0" class="text-2xl font-medium tracking-[-0.03em] text-brand-green sm:text-3xl"><strong class="font-medium">Especialización sectorial</strong><span class="text-brand-ink-soft"> en tecnología, <span lang="en">retail</span> y finanzas</span></p>
+              <div aria-hidden="true" class="mt-8 border-b border-brand-line">
+              <div data-reveal="0" class="group border-t border-brand-line py-5 sm:py-7"><span class="relative inline-block text-5xl font-medium leading-none tracking-[-0.045em] text-brand-green transition-transform duration-300 ease-brand-out group-hover:translate-x-4 motion-reduce:transition-none sm:text-7xl lg:text-8xl">Tecnología<span class="absolute inset-0 text-brand-rust transition-[clip-path] duration-700 ease-brand-in-out [clip-path:inset(0_100%_0_0)] group-hover:[clip-path:inset(0_0_0_0)] motion-reduce:transition-none">Tecnología</span></span></div>
+              <div data-reveal="1" class="group border-t border-brand-line py-5 sm:py-7"><span class="relative inline-block text-5xl font-medium leading-none tracking-[-0.045em] text-brand-green transition-transform duration-300 ease-brand-out group-hover:translate-x-4 motion-reduce:transition-none sm:text-7xl lg:text-8xl">Retail<span class="absolute inset-0 text-brand-rust transition-[clip-path] duration-700 ease-brand-in-out [clip-path:inset(0_100%_0_0)] group-hover:[clip-path:inset(0_0_0_0)] motion-reduce:transition-none">Retail</span></span></div>
+              <div data-reveal="2" class="group border-t border-brand-line py-5 sm:py-7"><span class="relative inline-block text-5xl font-medium leading-none tracking-[-0.045em] text-brand-green transition-transform duration-300 ease-brand-out group-hover:translate-x-4 motion-reduce:transition-none sm:text-7xl lg:text-8xl">Finanzas<span class="absolute inset-0 text-brand-rust transition-[clip-path] duration-700 ease-brand-in-out [clip-path:inset(0_100%_0_0)] group-hover:[clip-path:inset(0_0_0_0)] motion-reduce:transition-none">Finanzas</span></span></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="offices" aria-labelledby="offices-title" class="bg-brand-sand py-16 sm:py-20 lg:py-28">
+        <div class="mx-auto max-w-[1320px] px-4 sm:px-8 lg:px-12">
+          <div class="grid gap-6 lg:grid-cols-2 lg:gap-16">
+            <h2 id="offices-title" data-reveal="0" class="max-w-[15ch] text-3xl font-medium leading-[1.05] tracking-[-0.035em] text-balance sm:text-4xl lg:text-5xl text-brand-green">Nacimos en Valencia en 2011. Hoy, a ambos lados del Atlántico.</h2>
+            <div class="grid gap-4 lg:pt-2">
+            <p data-reveal="1" class="max-w-[56ch] text-brand-ink-soft">Nexova nació en Valencia en 2011 como consultora de recursos humanos y adquisición de talento. Desde hace más de doce años ayudamos a empresas medianas de tecnología, <span lang="en">retail</span> y servicios financieros a encontrar a sus líderes, formar sus equipos de atención al cliente y desarrollar a su gente.</p>
+            <p data-reveal="2" class="max-w-[56ch] text-brand-ink-soft">Hoy somos unas 120 personas y trabajamos desde nuestra sede en Valencia y nuestra oficina de expansión en Miami, Florida.</p>
+            </div>
+          </div>
+          <div data-photos class="mt-12 grid gap-5 md:grid-cols-2 lg:mt-16 lg:gap-7">
+            <figure class="relative m-0 aspect-[4/5] overflow-hidden rounded-brand-figure bg-brand-tan">
+              <img src="../assets/valencia.webp" alt="Valencia, Ciudad de las Artes y las Ciencias — sede de Nexova" width="1200" height="800" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover">
+              <figcaption class="absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full bg-brand-cream px-4 py-2.5 text-[15px] text-brand-green shadow-brand-chip"><span aria-hidden="true" class="size-2 rounded-full bg-brand-coral"></span><span class="font-semibold">Valencia</span><time data-clock="Europe/Madrid" class="hidden tabular-nums"></time></figcaption>
+            </figure>
+            <figure class="relative m-0 aspect-[4/5] overflow-hidden rounded-brand-figure bg-brand-tan">
+              <img src="../assets/miami.webp" alt="Miami, Brickell — oficina de expansión de Nexova" width="1200" height="800" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover">
+              <figcaption class="absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full bg-brand-cream px-4 py-2.5 text-[15px] text-brand-green shadow-brand-chip"><span aria-hidden="true" class="size-2 rounded-full bg-brand-coral"></span><span class="font-semibold">Miami</span><time data-clock="America/New_York" class="hidden tabular-nums"></time></figcaption>
+            </figure>
+          </div>
+          <p data-reveal="0" class="mt-10 text-[28px] font-medium leading-[1.15] tracking-[-0.03em] text-brand-green sm:text-4xl"><span data-hours-apart="Europe/Madrid America/New_York" class="tabular-nums">6</span> horas de diferencia. Un solo equipo.</p>
+        </div>
+      </section>
+
+      <section id="contact" aria-labelledby="contact-title" class="px-3 py-16 sm:px-6 sm:py-20 lg:py-28">
+        <div data-reveal="0" class="mx-auto max-w-[1392px] rounded-brand-cta border border-transparent bg-brand-green px-6 py-12 text-brand-cream sm:px-12 sm:py-16 lg:px-24 lg:py-24">
           <h2 id="contact-title" class="text-3xl font-medium leading-[1.05] tracking-[-0.035em] text-balance sm:text-4xl lg:text-5xl text-brand-cream">Contacto</h2>
           <address class="mt-10 not-italic">
             <ul role="list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -182,7 +253,7 @@
               <li><span class="block text-brand-sage">Miami</span><a href="tel:+13055550191" class="inline-flex min-h-11 items-center text-xl font-medium tracking-[-0.01em] text-brand-cream underline decoration-brand-sage-tone underline-offset-[6px] hover:decoration-brand-cream sm:text-2xl focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-cream">+1 305 555 0191</a></li>
             </ul>
           </address>
-          <a href="application.html" class="mt-10 sm:mt-12 inline-flex min-h-[54px] items-center justify-center rounded-full border-2 border-transparent bg-brand-cream px-6 py-3 text-center sm:px-[30px] text-[16.5px] font-semibold text-brand-green transition-colors duration-200 ease-brand-out hover:bg-brand-sand focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-cream">Únete a nuestro banco de talento</a>
+          <a href="application.html" class="mt-10 sm:mt-12 inline-flex min-h-[54px] items-center justify-center rounded-full px-6 py-3 text-center text-[16.5px] font-semibold transition-colors duration-200 ease-brand-out sm:px-[30px] border-2 border-transparent bg-brand-cream text-brand-green hover:bg-brand-sand focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-brand-cream">Únete a nuestro banco de talento</a>
         </div>
       </section>
     </main>

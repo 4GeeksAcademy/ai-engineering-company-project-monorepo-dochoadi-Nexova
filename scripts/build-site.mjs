@@ -3,7 +3,7 @@
 import { createHash } from "node:crypto";
 import { cpSync, existsSync, lstatSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 
-const ALLOWLIST = ["index.html", "application.html", "validation.js", "styles.css", "assets", "es", "robots.txt", "sitemap.xml"];
+const ALLOWLIST = ["index.html", "application.html", "validation.js", "motion.js", "styles.css", "assets", "es", "robots.txt", "sitemap.xml"];
 const OUT = "dist";
 
 rmSync(OUT, { recursive: true, force: true });
@@ -14,13 +14,13 @@ for (const entry of ALLOWLIST) {
   cpSync(entry, `${OUT}/${entry}`, { recursive: true, filter });
 }
 
-// Cache busting: the server lets browsers keep files for an hour (-c 3600), so the copied pages ask for
-// styles.css?v=<hash> and validation.js?v=<hash>. A changed file gets a new URL; the root HTML is untouched.
+// Cache busting: browsers may keep a stale copy of a file (any cache, any server), so the copied pages ask for
+// styles.css, validation.js and motion.js with ?v=<hash>. A changed file gets a new URL; the root HTML is untouched.
 const hash = (file) => createHash("sha256").update(readFileSync(file)).digest("hex").slice(0, 8);
-const versions = Object.fromEntries(["styles.css", "validation.js"].filter((f) => existsSync(f)).map((f) => [f, hash(f)]));
+const versions = Object.fromEntries(["styles.css", "validation.js", "motion.js"].filter((f) => existsSync(f)).map((f) => [f, hash(f)]));
 const pages = [OUT, `${OUT}/es`].filter((d) => existsSync(d)).flatMap((d) => readdirSync(d).filter((f) => f.endsWith(".html")).map((f) => `${d}/${f}`));
 for (const page of pages) {
-  const html = readFileSync(page, "utf8").replace(/(href|src)="((?:\.\.\/)?)(styles\.css|validation\.js)"/g,
+  const html = readFileSync(page, "utf8").replace(/(href|src)="((?:\.\.\/)?)(styles\.css|validation\.js|motion\.js)"/g,
     (match, attr, up, file) => (versions[file] ? `${attr}="${up}${file}?v=${versions[file]}"` : match));
   writeFileSync(page, html);
 }

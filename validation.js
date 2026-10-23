@@ -152,7 +152,16 @@
     return errors;
   }
 
-  var api = { MESSAGES: MESSAGES, FIELDS: FIELDS, validateField: validateField, validateAll: validateAll, remaining: remaining };
+  /**
+   * What the form shows in each state. After a successful (simulated) submission only the thank-you message and
+   * "Clear form" stay visible; "Clear form" brings the empty form back.
+   */
+  function layoutFor(state) {
+    var done = state === "success";
+    return { fields: !done, submit: !done, reset: true, success: done };
+  }
+
+  var api = { MESSAGES: MESSAGES, FIELDS: FIELDS, validateField: validateField, validateAll: validateAll, remaining: remaining, layoutFor: layoutFor };
   if (typeof module === "object" && module.exports) module.exports = api;
   if (typeof document === "undefined") return;
 
@@ -297,8 +306,16 @@
     });
   }
 
+  function applyLayout(state) {
+    var show = layoutFor(state);
+    fieldBlocks().forEach(function (node) { node.classList.toggle("hidden", !show.fields); });
+    // The hidden attribute, not the class: the button's inline-flex class would override a "hidden" class.
+    if (submit) submit.hidden = !show.submit;
+    if (success) success.classList.toggle("hidden", !show.success);
+  }
+
   function showSuccess() {
-    fieldBlocks().forEach(function (node) { node.classList.add("hidden"); });
+    applyLayout("success");
     hideSummary();
     if (!success) return;
     clear(success);
@@ -306,10 +323,9 @@
     t.successBody.forEach(function (p) { success.appendChild(el("p", "mt-4 max-w-[60ch] text-brand-sage", p)); });
     SUCCESS_CLASSES.forEach(function (c) { success.classList.add(c); });
     success.setAttribute("tabindex", "-1");
-    // Show the thank-you message above the buttons.
+    // Show the thank-you message above the buttons ("Clear form" stays below it).
     var buttons = submit ? submit.parentElement : null;
     if (buttons && buttons.parentElement === form) form.insertBefore(success, buttons);
-    success.classList.remove("hidden");
     success.focus();
   }
 
@@ -362,7 +378,7 @@
     setSending(true);
     sendingTimer = setTimeout(function () {
       sendingTimer = null;
-      submit.textContent = submitLabel; // Stays disabled until "Clear form".
+      setSending(false); // Hidden with the fields until "Clear form".
       showSuccess();
     }, 800);
   });
@@ -379,11 +395,10 @@
       hideSummary();
       if (success) {
         clear(success);
-        success.classList.add("hidden");
         SUCCESS_CLASSES.forEach(function (c) { success.classList.remove(c); });
         success.removeAttribute("tabindex");
       }
-      fieldBlocks().forEach(function (node) { node.classList.remove("hidden"); });
+      applyLayout("form");
       setSending(false);
       updateCounter();
       var first = firstControl("full_name");
