@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "playwright": { "command": "npx", "args": ["-y", "@playwright/mcp@0.0.83", "--headless", "--isolated", "--browser", "chromium", "--output-dir", "test-results/playwright-mcp"] },
+    "chrome-devtools": { "command": "npx", "args": ["-y", "chrome-devtools-mcp@1.12.0", "--headless", "--isolated", "--executablePath", "${HOME}/.cache/ms-playwright/chromium-1247/chrome-linux64/chrome", "--chrome-arg=--no-sandbox"] },
+    "context7": { "command": "npx", "args": ["-y", "@upstash/context7-mcp@4.4.4"] }
+  }
+}

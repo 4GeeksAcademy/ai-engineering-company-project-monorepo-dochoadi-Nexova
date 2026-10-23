@@ -4,23 +4,24 @@ Type: status
 
 ## Current focus
 
-**Milestone 2 — Your Company's Public Website** (branch `milestone-your-companys-public-website`, from `main`). Goal: Nexova's first public digital touchpoint, built from the official [`BRIEFING.md`](../BRIEFING.md) at the repo root: a landing page plus a separate talent pool application form, in plain HTML + compiled Tailwind CSS + vanilla JavaScript, responsive, WCAG 2.2 AA, SEO with Schema.org, full JavaScript form validation and a simulated submission (no backend). Evidence matrix: `docs/milestone-2/evaluation.md` (E1–E30, deliverables L/A/S, standards P1–P5). The M1 Next.js apps in `uis/` are not touched.
+**Milestone 2 — Your Company's Public Website** (branch `milestone-your-companys-public-website`, from `main`). Goal: Nexova's first public digital touchpoint, built from the official [`BRIEFING.md`](../BRIEFING.md) at the repo root: a landing page plus a separate talent pool application form, in plain HTML + compiled Tailwind CSS + vanilla JavaScript, responsive, WCAG 2.2 AA, SEO with Schema.org, full JavaScript form validation and a simulated submission (no backend). Evidence matrix: `docs/milestone-2/evaluation.md` (E1–E30, deliverables L/A/S, standards P1–P5). The M1 Next.js apps in `uis/` are not touched, except the approved Next.js 16.4.1 security patch (M2-S02).
 
 **Milestone 1 — Monorepo AI Setup is complete and merged** into `main` on 2026-10-13 as PR #1 (merge commit `30f8e47`). Evidence: `docs/milestone-1/evaluation.md`; report: `docs/milestone-1/report.md`; recap: `docs/milestone-1/recap.md`; instructor feedback and the actions taken: [`docs/milestone-1/instructor-feedback.md`](../docs/milestone-1/instructor-feedback.md).
 
 ## Next steps
 
-1. **S02:** CISO security gate and accessibility gate (WCAG 2.2 AA), plus the pinned dev MCP servers (`@playwright/mcp`, `chrome-devtools-mcp`, `@upstash/context7-mcp`).
-2. **S03:** compiled Tailwind CSS v4 (`tailwindcss` + `@tailwindcss/cli` 4.3.3) and the `npx http-server` 14.1.1 command on port 8080 (E7, E9, E11).
-3. **S04–S06:** landing page, application form markup, `validation.js` (English + Spanish).
-4. **S07–S08:** accessibility, security and performance re-check; PageSpeed/Lighthouse evidence on the public Codespaces URL.
+1. **S03 (next):** compiled Tailwind CSS v4 (`tailwindcss` + `@tailwindcss/cli` 4.3.3) and the `npx http-server` 14.1.1 command on port 8080 (E7, E9, E11). It must first decide how the site is served without exposing the repo (finding SEC-1 in `docs/milestone-2/security.md`).
+2. **S04–S06:** landing page, application form markup, `validation.js` (English + Spanish).
+3. **S07–S08:** accessibility, security and performance re-check; PageSpeed/Lighthouse evidence on the public Codespaces URL.
+4. **S09:** devcontainer: add port 8080 only; the Chromium install line for the dev MCP servers is already in `.devcontainer/post-create.sh` (added before the Codespace rebuild in M2-S02).
 5. **S10–S11:** milestone recap (`milestone-recap` skill), pull request; merge only after the instructor's approval (rule in `.agents/rules/git-workflow.md`).
-6. Every step appends its section to `docs/milestone-2/learning-log.md` before committing.
+6. Both gates (`security-gate`, `a11y-gate`) must exit 0 before the pull request (`AGENTS.md` step 7).
+7. Every step appends its section to `docs/milestone-2/learning-log.md` before committing.
 
 ## Milestone 1 history
 
 Done in step 4: coding-agent rules in `.agents/rules/`, with explicit scope (E3).
-Done in step 5: root `AGENTS.md` with a 7-step pre-commit workflow (E2).
+Done in step 5: root `AGENTS.md` with the pre-commit workflow (E2), now 8 steps (step 7, `security-gate` and `a11y-gate`, added in M2-S02).
 Done in step 6: `update-memory-bank` skill in `.agents/skills/update-memory-bank/`, whose `check.sh` verifies its 5 acceptance criteria (E4). From now on, run it before every commit (step 5 of the `AGENTS.md` workflow).
 Done in step 7: vendored the external skills `frontend-design` (visual direction, for steps 10 and 11) and `webapp-testing` (Playwright checks and PR screenshots) from `anthropics/skills`, both Apache 2.0, unchanged. `webapp-testing` writes outputs inside the repo under `test-results/`, never to `/tmp` (see its `SOURCE.md`).
 Done in step 8: pnpm workspace (`uis/*`, `packages/*`) and Nexova company data defined once in `packages/shared/company.ts`, exported by `@repo/shared-types` (E9, part 1 of 2).
@@ -31,6 +32,9 @@ Done in step 12: conventions and cleanup (E9, part 2 of 2): `typecheck` works on
 Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/report.md`), learning recap (`docs/milestone-1/recap.md`) and the Milestone 1 pull request.
 
 ## Recent decisions
+
+- **M2-S02 gates and tools:** `security-gate` and `a11y-gate` run before every PR; three pinned dev MCP servers in `.mcp.json` (no keys); every tool, service, API, MCP server and library must be free to use. Next.js 16.4.1 approved and applied in both M1 apps as the one exception to "report only".
+- **Alpha Playwright kept on purpose:** `@playwright/mcp@0.0.83` pins `playwright@1.64.0-alpha-1790635538000` exactly, so `post-create.sh` installs Chromium with that same version (one-line comment there).
 
 - **Milestone 2 briefing:** the official 4Geeks `BRIEFING.md` (repo `4GeeksAcademy/ai-engineering-syllabus`, commit `ae89516`, SHA-256 checked) at the root, never edited, with the official Spanish copy in `docs/milestone-2/BRIEFING.es.md`. The only deliberate differences from its text are listed in `docs/milestone-2/content-decisions.md` (e.g. "Spanish and US markets" instead of "Latin American market"; plain URLs in the JSON-LD).
 - **Branch-name and merge rules (from the M1 instructor feedback):** the milestone branch uses the name the brief asks for, or the milestone title in lowercase with hyphens; the coding agent never merges a PR, which is merged only after the instructor's recorded approval, with "Create a merge commit" and a `[M<n>-S<last>][E1]…[E<all>] chore(release): …` title.
@@ -47,6 +51,9 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
 - **`webapp-testing` vendored unchanged** despite hardcoded output paths outside the repo in its examples and `SKILL.md`; approved by the developer on 2026-10-12, with usage notes in `.agents/skills/webapp-testing/SOURCE.md`.
 
 ## Open questions
+
+- **Which Milestone 1 baseline findings to fix (M2-S02, developer's decision):** security SEC-1 (high: `http-server --no-dotfiles` still serves `/.git/config`, `/.mcp.json` and any `.env`; decide the serving approach in S03), SEC-2 (`braces` advisory with no patch, development-only; documented exception?), SEC-3 to SEC-7; accessibility A11Y-1 to A11Y-7. Details and effort in `docs/milestone-2/security.md` and `docs/milestone-2/accessibility.md`. Until SEC-1 and SEC-2 are resolved, `security-gate` exits 1 (criteria 4 and 5).
+- **Dev MCP servers pending approval:** the developer approves the three project servers in Claude Code after the S02 commit; they load in a new session.
 
 - **Official briefing quirks (cannot be fixed, the file stays unmodified):** `BRIEFING.md` is headed "Milestone 1: Your Company's Public Website" (the course's own numbering; in this repo it is Milestone 2), and its link to the Spanish version (`./nexova-BRIEFING.es.md`) does not resolve, because the Spanish copy lives in `docs/milestone-2/BRIEFING.es.md`.
 - **Backoffice authentication:** `uis/backoffice` has no sign-in yet ("Internal tool. Sign-in comes later."). Who may access it, and with which identity provider (e.g. Google Workspace, which Nexova already uses), is still to be decided; it must not be exposed publicly until then.

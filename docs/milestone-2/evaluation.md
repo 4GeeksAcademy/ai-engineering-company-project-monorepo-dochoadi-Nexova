@@ -122,8 +122,8 @@ Our own standards, agreed for this milestone.
 
 | ID | Standard | Step | Status |
 | --- | --- | --- | --- |
-| P1 | CISO security gate passed | S02, S07 | Pending |
-| P2 | Accessibility gate WCAG 2.2 AA passed | S02, S07 | Pending |
+| P1 | CISO security gate passed | S02, S07 | Partial (S02): gate built (`.agents/skills/security-gate/`); baseline criteria 1–3 PASS, 4–5 FAIL on existing tools (SEC-1, SEC-2 in [`security.md`](./security.md)), 6–7 SKIP; must exit 0 before the PR |
+| P2 | Accessibility gate WCAG 2.2 AA passed | S02, S07 | Partial (S02): gate built (`.agents/skills/a11y-gate/`), exits 0 with all SKIP (no pages yet); M1 baseline in [`accessibility.md`](./accessibility.md); final run in S07 |
 | P3 | Memory bank updated in every step | S01–S11 | Pending |
 | P4 | Milestone recap produced | S10 | Pending |
 | P5 | Bilingual site: every page and every validation message exists in English and Spanish, with a language switcher, `hreflang` links and the correct `lang` on each page | S04–S06 | Pending |

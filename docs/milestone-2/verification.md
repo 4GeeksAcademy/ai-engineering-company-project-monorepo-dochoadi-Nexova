@@ -34,15 +34,36 @@ bash .agents/skills/update-memory-bank/check.sh; echo "exit=$?"
 
 ### Delivered
 
-_To be filled in this step._
+- Security policy extended in `.agents/rules/security-and-data.md` (Web, Forms, LLM and agents, Public repo, Free tools only, MCP servers, Verification) and new rule `.agents/rules/accessibility.md` (WCAG 2.2 AA, by audience).
+- Own skills `security-gate` (7 criteria) and `a11y-gate` (8 criteria, `a11y_check.py` with `axe-playwright-python==0.1.8`), listed in `.agents/skills/README.md`; `AGENTS.md` workflow step 7 runs both before every PR.
+- `.mcp.json` with three pinned dev MCP servers: `@playwright/mcp@0.0.83`, `chrome-devtools-mcp@1.12.0`, `@upstash/context7-mcp@4.4.4`; the matching Chromium install line in `.devcontainer/post-create.sh`.
+- Milestone 1 baseline in `docs/milestone-2/security.md` and `docs/milestone-2/accessibility.md` (report only).
+- Next.js 16.4.0 → 16.4.1 in `uis/website` and `uis/backoffice` (GHSA-673q-mjm6-r5xr, GHSA-2464-fhr4-w9xw, GHSA-p3m5-59mp-jv5r).
 
 ### Commands
 
-_To be filled in this step._
+```bash
+python3 -c "import json;d=json.load(open('.mcp.json'));print(sorted(d['mcpServers']));print(all('@latest' not in ' '.join(v['args']) for v in d['mcpServers'].values()))"
+grep -nE "api[_-]?key|token|secret" .mcp.json || echo "no keys"
+claude mcp list 2>&1 | grep -E "playwright|chrome-devtools|context7"
+bash .agents/skills/security-gate/check.sh 2; echo "exit=$?"
+pip install --user -r .agents/skills/a11y-gate/requirements.txt
+bash .agents/skills/a11y-gate/check.sh 2; echo "exit=$?"
+awk '/^## Mandatory workflow before every commit/{f=1;next}/^## /{f=0}f' AGENTS.md | grep -cE "^[0-9]+\. "
+grep -c "Baseline: Milestone 1" docs/milestone-2/security.md docs/milestone-2/accessibility.md
+grep -h '"next"' uis/website/package.json uis/backoffice/package.json
+pnpm install --frozen-lockfile && pnpm audit --prod
+pnpm lint && pnpm typecheck && pnpm build && pnpm test
+```
 
 ### Expected
 
-_To be filled in this step._
+- `['chrome-devtools', 'context7', 'playwright']`, `True`, `no keys`; the three servers listed (approval may be pending; they load in a new session).
+- `security-gate`: criteria 1–3 `PASS`, 4 and 5 `FAIL` (known findings SEC-2 and SEC-1 in `security.md`, waiting for the developer's decision), 6–7 `SKIP`, `exit=1`. Once SEC-1 and SEC-2 are resolved: 1–5 `PASS`, `exit=0`.
+- `a11y-gate`: 32 `SKIP` lines (4 pages × 8 criteria, no pages yet), `exit=0`.
+- `8` numbered workflow steps; `1` "Baseline: Milestone 1" per file.
+- `"next": "16.4.1"` twice; the lockfile is up to date and `pnpm audit --prod` reports no known vulnerabilities.
+- Lint, typecheck and build pass; tests 15/15 (shared 6, website 4, backoffice 5).
 
 ## S03 — Tailwind build and npx server
 

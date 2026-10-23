@@ -19,6 +19,8 @@ fi
 # Playwright + Chromium for .agents/skills/webapp-testing.
 python -m pip install --user playwright
 python -m playwright install --with-deps chromium
+# Alpha on purpose: @playwright/mcp@0.0.83 pins exactly this Playwright, and its Chromium build must match.
+npx -y playwright@1.64.0-alpha-1790635538000 install chromium  # Chromium for the playwright and chrome-devtools MCP servers (.mcp.json)
 
 # Claude Code CLI inside the Codespace.
 npm install -g @anthropic-ai/claude-code

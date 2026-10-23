@@ -76,6 +76,18 @@ Together, patterns 8 and 9 mean that brand tokens and company data are defined o
 - **Rule:** every milestone keeps `docs/milestone-<n>/learning-log.md`; each step appends its plain-language section before committing (never rewriting earlier sections), and the chat summary matches the log entry.
 - **Why:** the chat disappears; the log keeps what was done, why and what was learned next to the milestone's evidence.
 
+## 15. `security-gate` and `a11y-gate` run before every PR
+
+Both own skills (`.agents/skills/security-gate/`, `.agents/skills/a11y-gate/`) run before every pull request and at the end of every milestone, and both must exit 0 (`AGENTS.md` workflow step 7). Results go to `docs/milestone-<n>/security.md` and `docs/milestone-<n>/accessibility.md`. Findings outside the current step are reported with severity, file, fix and effort, and fixed only after the developer approves them.
+
+**Why:** every page is born secure and accessible (WCAG 2.2 AA) instead of being patched at the end.
+
+## 16. Free tools only
+
+Every tool, service, API, MCP server and library used in this project must be free to use (open source, or a free tier with no payment). If something is usually paid, use a free alternative or a mock and record the decision.
+
+**Why:** academic project with no budget; the same rule is in `.agents/rules/security-and-data.md` (rule 26).
+
 ## How the UIs relate
 
 - **Root static site (Milestone 2):** the official public website of the brief (`index.html`, `application.html`, `es/`): the talent pool for candidates, bilingual (English base at the root, Spanish under `es/`), plain HTML + compiled Tailwind CSS + vanilla JavaScript, port 8080.

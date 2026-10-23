@@ -30,7 +30,8 @@ Follow these steps in order. No step may be skipped.
 4. Review the full staged diff (`git diff --staged`): no secrets, no `.env` files, no real personal data, no files unrelated to the task.
 5. Update the memory bank with the `update-memory-bank` skill (`.agents/skills/update-memory-bank/`) and make sure its `check.sh` exits with code 0.
 6. Commit once per step, following the commit naming convention below.
-7. Deliver through a pull request with the checklist from `.agents/rules/git-workflow.md`. The coding agent never merges a PR: it is merged only after the instructor has reviewed and approved it, by the instructor or by the developer once that approval is recorded in the PR (an approving review or a comment).
+7. Before delivering, run `security-gate` and `a11y-gate` (`.agents/skills/security-gate/`, `.agents/skills/a11y-gate/`); both must exit 0.
+8. Deliver through a pull request with the checklist from `.agents/rules/git-workflow.md`. The coding agent never merges a PR: it is merged only after the instructor has reviewed and approved it, by the instructor or by the developer once that approval is recorded in the PR (an approving review or a comment).
 
 At the end of every milestone, run the `milestone-recap` skill (`.agents/skills/milestone-recap/`) before opening the pull request.
 

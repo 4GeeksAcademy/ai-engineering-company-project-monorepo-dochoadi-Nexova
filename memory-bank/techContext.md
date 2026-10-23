@@ -25,7 +25,7 @@ Type: technical
 
 ## Website (`uis/website`)
 
-- **Stack:** Next.js 16.4.0 (App Router, Turbopack), React 19.3.0, TypeScript 5.9.3 `strict` (the app's `tsconfig.json` extends `tsconfig.base.json` and adds the DOM libs, JSX and the Next plugin), ESLint 9 with `eslint-config-next` 16.4.0, `@types/node` 24 for `node:test`. Styling is CSS Modules (the M1 Next.js apps keep them; Tailwind is used only by the root public site): no UI kit or animation library. `next.config.ts` sets `transpilePackages: ["@repo/shared-types"]` and `agentRules: false`, so `next dev` does not write its own `AGENTS.md`; the scaffold defaults `cacheComponents` and `partialPrefetching` are kept, and `/` prerenders as static.
+- **Stack:** Next.js 16.4.1 (App Router, Turbopack), React 19.3.0, TypeScript 5.9.3 `strict` (the app's `tsconfig.json` extends `tsconfig.base.json` and adds the DOM libs, JSX and the Next plugin), ESLint 9 with `eslint-config-next` 16.4.1, `@types/node` 24 for `node:test`. Patched from 16.4.0 in M2-S02 (security advisories, see `docs/milestone-2/security.md`). Styling is CSS Modules (the M1 Next.js apps keep them; Tailwind is used only by the root public site): no UI kit or animation library. `next.config.ts` sets `transpilePackages: ["@repo/shared-types"]` and `agentRules: false`, so `next dev` does not write its own `AGENTS.md`; the scaffold defaults `cacheComponents` and `partialPrefetching` are kept, and `/` prerenders as static.
 - **Font:** Instrument Sans through `next/font/google` (variable font covering weights 400–700), exposed as `--font-instrument-sans`.
 - **Design source:** `docs/milestone-1/design/nexova-landing-v4.html`, a self-unpacking Claude Design bundle (`__bundler/manifest` with fonts and the Design runtime, `__bundler/template` with the page and a `Component` class holding the behaviour). The website ports its layout, copy, tokens and every `setup*` method and `tick()`.
 - **Structure:** `app/` (layout with metadata and JSON-LD Organization, page, `globals.css` importing the shared brand tokens and adding the website-only ones on `:root`), `components/` (one component per section, each with a CSS Module: `Header` + `MobileNav`, `Hero` + `RoleTicker` + `CvCascade`, `Marquee`, `KeyFigures` + `CountUp`, `Services`, `Process`, `Industries`, `HumanAndAi`, `About` + `OfficePhotos` + `OfficeClock`, `ContactCta`, `Footer`; shared `Button`, `Reveal`, `PulseDot`), `content/home.ts` (typed copy), `lib/` (`cvField.ts` + test, `time.ts`, `motion.ts`, `jsonLd.ts`), `public/images/` (office photos).
@@ -38,6 +38,8 @@ Type: technical
 - **Serving:** `npx http-server` on port 8080, compatible with Codespaces (public forwarded URL for PageSpeed/Lighthouse).
 - **Content:** `BRIEFING.md` (unmodified) is the source of truth; deliberate differences in `docs/milestone-2/content-decisions.md`.
 - **Approved new dev tools for Milestone 2** (each pinned, installed in its step): `tailwindcss` and `@tailwindcss/cli` 4.3.3 (S03); `http-server` 14.1.1 via `npx` (S03); the dev MCP servers `@playwright/mcp`, `chrome-devtools-mcp` and `@upstash/context7-mcp` (S02).
+- **Pinned dev tools in use (M2-S02):** `http-server@14.1.1` via `npx` (both gates start it on `127.0.0.1:8099`; S03 serves the site on 8080); `axe-playwright-python==0.1.8` (MIT, bundles axe-core 4.12.1), installed with `pip install --user -r .agents/skills/a11y-gate/requirements.txt` on top of Playwright for Python from `post-create.sh`.
+- **`http-server` caveat (SEC-1):** in 14.1.1, `--no-dotfiles` only hides dotfiles from directory listings; files such as `/.git/config` and `/.mcp.json` are still served by direct URL. Serving the repo root therefore exposes the whole repository.
 
 ## Shared brand tokens
 
@@ -46,10 +48,34 @@ Type: technical
 
 ## Backoffice (`uis/backoffice`)
 
-- **Stack:** identical to the website (Next.js 16.4.0, React 19.3.0, TypeScript 5.9.3 `strict`, ESLint 9 with `eslint-config-next` 16.4.0, `@types/node` 24, CSS Modules, Instrument Sans via `next/font/google`); no other dependency. Port 3001 (`pnpm dev:backoffice`). No authentication yet.
+- **Stack:** identical to the website (Next.js 16.4.1, React 19.3.0, TypeScript 5.9.3 `strict`, ESLint 9 with `eslint-config-next` 16.4.1, `@types/node` 24, CSS Modules, Instrument Sans via `next/font/google`); no other dependency. Port 3001 (`pnpm dev:backoffice`). No authentication yet.
 - **Design source:** `docs/milestone-1/design/nexova-backoffice.html`, a Claude Design bundle of the same kind as the website's; its inline data was a stand-in, replaced by `@repo/shared-types`.
 - **Structure:** `app/` (own layout with sidebar, top bar and `main`; route `/` "Operations overview"; `globals.css`), `components/` (`Sidebar`, `TopBar` + `LiveClock`, `SlaKpi`, `HeadcountKpi`, `WorkByType` + `NeedsFilter` context, `DepartmentCard` + `SpotlightCard`/`NeedList`/`SupportClock`, `AgentCard`, `OpenQuestions`), `content/overview.ts` (copy, department display order and short labels), `lib/` (`metrics.ts` pure calculations with `node:test`, `departments.ts`, `format.ts`, `motion.ts`).
 - **Conventions:** same as the website; it never imports from `uis/website`. Clocks use `useSyncExternalStore` with a `null` server snapshot (no hydration mismatch) and refresh every 30 s.
+
+## MCP servers
+
+### Development (in use, `.mcp.json`, Claude Code project scope)
+
+| Server | Package (exact pin) | Used for |
+| --- | --- | --- |
+| `playwright` | `@playwright/mcp@0.0.83` (`--headless --isolated --browser chromium`) | Driving a real browser: filling and submitting the form, keyboard navigation, accessibility tree, widths (S05–S07) |
+| `chrome-devtools` | `chrome-devtools-mcp@1.12.0` (`--headless --isolated`, Chromium from the Playwright cache, `--no-sandbox`) | Performance traces, network and console, Lighthouse-style insights before PageSpeed (S07–S08) |
+| `context7` | `@upstash/context7-mcp@4.4.4` | Up-to-date docs for Tailwind v4 and Next.js 16 (S03–S06) |
+
+All three are free and need no key. If a Context7 key is ever added, it comes from a Codespaces secret through `${CONTEXT7_API_KEY}`, never written in `.mcp.json`. Chromium for both browser servers: `npx -y playwright@1.64.0-alpha-1790635538000 install chromium` (already in `.devcontainer/post-create.sh`). Claude Code asks to approve project servers once; they load in a new session.
+
+### MCP servers (planned)
+
+Not installed; each follows the MCP rules in `.agents/rules/security-and-data.md` (pinned, least privilege, secrets only from environment variables, free only).
+
+- **Postgres (read-only)**, when the database arrives.
+- **n8n**, in the automations milestone (Nexova workflows in their own folder, exported to `workflows/`).
+- **Product servers in `mcps/`:** `knowledge-base` (L1 Support Agent, tenant-filtered) and `candidates` (CV Matching Agent).
+- **HubSpot** (free CRM tier) or mock data, and **Zendesk** with mock data only, for Sales and Support.
+- **Gmail / Google Workspace** (candidate status emails; drafts only in the demo).
+- **Telemetry** with free tools only: Sentry's free developer plan, or open source (OpenTelemetry + Grafana).
+- **Optional:** GitHub MCP (`gh` already covers it) and Figma MCP (if designs move to Figma).
 
 ## Planned agent stack
 
@@ -104,7 +130,7 @@ According to `Company-choice.md`:
   - image `mcr.microsoft.com/devcontainers/javascript-node:24` (Debian, glibc), remote user `node`;
   - features: Python 3.12 (for `webapp-testing` scripts and the future FastAPI backend), GitHub CLI (`gh`) and sshd;
   - no Docker socket mount and no Docker-in-Docker yet (see "Infrastructure plan" below);
-  - `post-create.sh`: `corepack enable` + `corepack install` (the pnpm version pinned in `packageManager`), `pnpm install --frozen-lockfile`, `uv sync` only when `pyproject.toml` exists, Playwright with Chromium for `.agents/skills/webapp-testing`, and the Claude Code CLI; it ends by printing the Node, pnpm and Python versions.
+  - `post-create.sh`: `corepack enable` + `corepack install` (the pnpm version pinned in `packageManager`), `pnpm install --frozen-lockfile`, `uv sync` only when `pyproject.toml` exists, Playwright with Chromium for `.agents/skills/webapp-testing`, the Chromium build of the dev MCP servers (`npx -y playwright@1.64.0-alpha-1790635538000 install chromium`, the exact Playwright pinned by `@playwright/mcp@0.0.83`), and the Claude Code CLI; it ends by printing the Node, pnpm and Python versions.
 - **Node 24 everywhere:** local development (`.nvmrc` = `24`, `engines` `>=24 <25`), the devcontainer image, and the future Docker images on the VPS, which will be based on the official Node 24 images.
 - **Ports:**
 
