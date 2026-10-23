@@ -124,6 +124,22 @@ Every tool, service, API, MCP server and library used in this project must be fr
 - **Grouping:** five `fieldset`s, each `legend` holding an `h2`: Personal details (full name, email, phone, country) · Professional profile (years, sector, English level, LinkedIn) · Availability (the radio group) · Additional information (comments + counter) · Consent (the checkbox). Each field has `#<id>-hint` where useful, an empty `#<id>-error`, and `aria-describedby` listing them.
 - **Why:** one stable contract for `validation.js` (S06), its tests, and a future backend and "Candidates" view in the backoffice; the groups let screen-reader users hear which part of the form they are in.
 
+## 21. Form validation: pure rules, verbatim messages, no data leaves the browser
+
+- **Rule:**
+  - `validation.js` keeps pure functions (`validateField`, `validateAll`, `remaining`) and a `MESSAGES` table with every error, success and counter text copied verbatim from `BRIEFING.md` (EN) and `BRIEFING.es.md` (ES); tests parse both briefings and compare them.
+  - A thin DOM layer:
+    - sets `noValidate` (native validation remains the fallback without JavaScript);
+    - validates on blur, then on every change once a field is touched;
+    - writes messages only with `textContent`/`createElement` (never `innerHTML`), with an `aria-hidden` icon and a hidden "Error:" prefix;
+    - sets `aria-invalid`;
+    - on submit, shows a `role="alert"` summary of links and moves focus to it.
+  - The submission is simulated: `preventDefault()` always, a disabled "Sending…" button, then the success message, focused. Nothing is sent, stored or logged: no `fetch`, no storage, no `console`.
+- **Why:**
+  - The rules can be tested in Node without a browser (E21), and the messages can't drift from the briefing (E22).
+  - Screen-reader and keyboard users get every error and can reach each field (E18).
+  - There is no backend yet, and candidates' personal data must never leave their browser (`security-and-data.md` rules 15 and 18).
+
 ## How the UIs relate
 
 - **Root static site (Milestone 2):** the official public website of the brief (`index.html`, `application.html`, `es/`): the talent pool for candidates, bilingual (English base at the root, Spanish under `es/`), plain HTML + compiled Tailwind CSS + vanilla JavaScript, port 8080.

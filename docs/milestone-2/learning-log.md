@@ -154,3 +154,34 @@ Each section says what was done, why it matters, what was learned and how to che
 - Open: with the form pages done, should the rows that said "form pages in S05" (E1, E5, E6, E8, E10, E12) now be marked "Met"? This step was told to update only E3, E19, E20, E28 and A1–A9.
 
 **Commit:** `[M2-S05][E3][E19][E20][E28] feat(form): build bilingual talent registration form markup`
+
+## S06 — Form validation (2026-10-23)
+
+**What was done**
+- The form now checks every answer, in English and Spanish, using the exact error messages from the briefing. For example, a phone number without "+" shows "Phone must include country code (example: +34 612 345 678)".
+- Errors appear when you leave a field and disappear as soon as you fix it. Each one has a small "!" icon, so it isn't shown by colour alone.
+- Pressing "Submit" with mistakes shows a list of problems at the top. Each item is a link that jumps to the field to fix. Screen readers read the list aloud.
+- A correct form shows "Sending…" for a moment, then the briefing's thank-you message. Nothing is actually sent or saved anywhere: we checked that the browser makes no network request. "Clear form" puts everything back to the start.
+- 14 automatic tests check every rule and compare every message, word for word, with the two briefing files.
+- Fixed the problem you found in review: after an update, a browser could keep showing the old design for up to an hour. The style and script files now get a "version tag" (`?v=…`) that changes whenever the file changes, so browsers fetch the new one.
+
+**What I learned**
+- **Validation:** checking that an answer has the right shape (an email with @ and a domain, a phone starting with +, years between 0 and 50) before accepting it. Checking in the browser is for user comfort; a real backend (server) must check again.
+- **Pure function:** a small piece of code that only takes a value and returns an answer, without touching the page. Pure functions can be tested in a second, without opening a browser.
+- **Live region (`role="alert"`):** a part of the page that screen readers announce as soon as it changes. That's how a blind user hears that there are errors.
+- **Browser cache:** browsers keep copies of files so pages open faster. A changing "version tag" in the file's address is the usual way to say "this is a new file, download it again".
+
+**How to check it yourself**
+- Open the form page (link below) and press "Submit application" with everything empty: a list of 9 problems appears at the top.
+- Type a phone number without "+" and press Tab: the message appears. Add "+34 " at the start: it disappears.
+- Fill everything correctly and submit: you see "Sending…" and then the thank-you message. Try the Spanish page too.
+
+**Decisions or open questions**
+- Decided (by the developer, after S05): the cache-busting fix goes into this step; rows E1, E5, E6, E8, E10 and E12 are marked in S07, when every criterion is checked again with all four pages finished.
+- Decided in this step:
+  - After a successful submission, the Submit button stays disabled until "Clear form", so the same application can't be sent twice.
+  - The counter also uses the singular ("1 character remaining" / "Queda 1 carácter").
+  - The `tests/site/README.md` note "Coming in S06" was updated to describe the new tests.
+- Open: none.
+
+**Commit:** `[M2-S06][E18][E21][E22][E23][E24][E25][E29] feat(form): add bilingual real-time validation with tests`

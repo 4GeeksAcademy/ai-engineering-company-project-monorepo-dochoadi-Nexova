@@ -144,3 +144,15 @@ Run on 2026-10-23 (S05) with the form markup on both form pages and absolute `hr
 - **No `novalidate` in the HTML:** `validation.js` sets it when it loads (S06), so native validation still protects users who have JavaScript off.
 - **Gate results:** `security-gate` exit 0 (criteria 1–5 and 7 PASS, 6 SKIP: no `validation.js` yet).
 - **Production note update:** the office photo licence question is closed. The developer confirmed on 2026-10-23 that the project may use both photos, including the people visible in the Miami photo (`content-decisions.md`).
+
+## S06 — Form validation
+
+Run on 2026-10-23 (S06), with `validation.js` loaded by both form pages.
+
+- **`security-gate` now applies every criterion to the site:** 7 PASS, `exit=0`. Criterion 6 checks `validation.js` (no `innerHTML`, `outerHTML`, `insertAdjacentHTML`, `eval`, `document.write`, `localStorage`, `sessionStorage`, `fetch` or `XMLHttpRequest`).
+- **No data leaves the browser** (rules 15 and 18):
+  - The submit handler always calls `preventDefault()` and simulates the submission; nothing is sent, stored or logged (no `console` calls).
+  - Every message and the success text are built with `createElement` + `textContent`, so typed text is never parsed as HTML.
+  - The browser verification recorded **0 network requests** during a valid submission, in both languages.
+- **Script loading:** `validation.js` is a same-origin `defer` script (CSP `script-src 'self'`), with no third-party code and no dependency.
+- **Cache busting (S05 review fix):** `scripts/build-site.mjs` rewrites, in the `dist/` copies only, `styles.css` → `styles.css?v=<8 hex of its SHA-256>` and `validation.js` → `validation.js?v=<hash>`. A browser that kept an old file under the one-hour cache (`-c 3600`) asks for the new URL as soon as the file changes. The root HTML stays unchanged.

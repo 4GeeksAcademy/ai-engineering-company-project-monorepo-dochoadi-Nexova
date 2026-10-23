@@ -96,3 +96,15 @@ Run on 2026-10-23 (S05) on the form pages. Result: **72 PASS, 0 FAIL**, `exit=0`
   - The form cards are paper, not sand, because the coral focus ring is only 2.89:1 on sand (3.13–3.3:1 on cream and paper).
 - **Hints below the inputs:** a hint above the input wrapped to a different number of lines in neighbouring columns, which pushed the inputs out of line. Below the input, the inputs line up and the hint is still announced with the field.
 - **Forced-colors review** (`docs/milestone-2/a11y/*application-forced-colors.png`): every field border, the radio and checkbox tiles, the fieldset boxes, both buttons and the company notice stay visible.
+
+## S06 — Form validation
+
+Run on 2026-10-23 (S06). `a11y-gate`: **72 PASS, 0 FAIL, 0 SKIP**, `exit=0`. axe was also run on the states that `validation.js` creates, which the gate does not reach: 0 serious or critical violations in the error state and the success state, in English and Spanish.
+
+- **Errors are announced and linked** (rules 8, 28–30):
+  - Each field's error goes into its `#<id>-error`, already referenced by `aria-describedby`, and the control gets `aria-invalid="true"` (all four radios for the availability group).
+  - On submit, the summary (`role="alert"`) lists every error as a link to its field and receives focus. The links move focus to the field (verified by mouse and keyboard).
+- **Not colour alone** (rule 24): each error has a rust "!" icon (`aria-hidden`), a visually hidden "Error: " prefix for screen readers, and a rust border on the field. Rust text is 5.30:1 on paper.
+- **Real time without noise:** a field is first checked when you leave it, then on every change, so an error disappears as soon as it is fixed. Moving between radios does not count as leaving the group. The comments counter (`aria-live="polite"`) updates on every keystroke and turns rust when over the limit.
+- **Success:** a green panel with cream text, `radius-card` corners; it takes focus (`role="status"`, `tabindex="-1"`). The submit button is disabled (`disabled` + `aria-disabled`) while "Sending…" and after success, until "Clear form".
+- **Keyboard only:** the whole flow was verified in both languages: Enter submits, a summary link focuses its field, the selects use the arrow keys, the radios and the checkbox use Space, the success message takes focus, Tab reaches "Clear form", and the reset puts focus on the first field.

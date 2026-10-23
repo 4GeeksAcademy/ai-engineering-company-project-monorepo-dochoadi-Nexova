@@ -12,7 +12,7 @@
     "build": "pnpm -r --if-present build",
     "lint": "pnpm -r --if-present lint",
     "typecheck": "pnpm -r --if-present typecheck",
-    "test": "pnpm -r --if-present test",
+    "test": "pnpm -r --if-present test && pnpm test:site",
     "build:site": "tailwindcss -i tailwind.css -o styles.css --minify && node scripts/build-site.mjs",
     "watch:site": "tailwindcss -i tailwind.css -o styles.css --watch",
     "serve:site": "pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false -c 3600",

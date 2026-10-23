@@ -37,7 +37,7 @@ Criteria copied verbatim from the brief.
 | E15 | ARIA attributes are used where they improve accessibility | S07 | `*.html`, `es/*.html`, `validation.js` | Review `aria-*` usage (`aria-invalid`, `aria-describedby`, live regions, nav labels); no redundant ARIA | Pending |
 | E16 | Color contrast meets minimum standards | S07 | `tailwind.css`, `*.html` | Automated contrast check (WCAG 2.2 AA: 4.5:1 text, 3:1 large text and UI) | Pending |
 | E17 | Navigation is logical and predictable | S07 | `*.html`, `es/*.html` | Same header navigation on every page; skip link; focus order follows reading order | Pending |
-| E18 | Error messages are announced appropriately | S06 | `validation.js`, `application.html`, `es/application.html` | Error text linked with `aria-describedby`, `aria-invalid` set, error summary in a live region | Pending |
+| E18 | Error messages are announced appropriately | S06 | `validation.js`, `application.html`, `es/application.html` | Error text linked with `aria-describedby`, `aria-invalid` set, error summary in a live region | Met (S06): field errors in `#<id>-error` (linked by `aria-describedby`), `aria-invalid="true"` on the control; on submit, a `role="alert"` summary with links to each field takes focus; counter `aria-live`; success `role="status"` takes focus. Verified in the browser (EN and ES) |
 
 ### Form and Validation
 
@@ -45,11 +45,11 @@ Criteria copied verbatim from the brief.
 | --- | --- | --- | --- | --- | --- |
 | E19 | All fields specified in BRIEFING.md are present | S05 | `application.html`, `es/application.html` | The 11 fields of the briefing table are present | Met (S05): the 11 `BRIEFING.md` fields on both pages (`ok` ×11 per page); no extra field |
 | E20 | Input types are appropriate for each field | S05 | `application.html`, `es/application.html` | `text`, `email`, `tel`, `select`, `number`, `radio`, `url`, `textarea`, `checkbox` as in the briefing | Met (S05): `text`, `email`, `tel`, `number` (`min=0 max=50 step=1`), 3 `select`s, 4 `radio`s, `url`, `textarea`, `checkbox`, exactly as the briefing's Type column; `autocomplete` on name, email, phone and URL |
-| E21 | JavaScript validation works correctly for all fields | S06 | `validation.js`, `tests/site/` | Automated tests of every rule with valid and invalid values | Pending |
-| E22 | Error messages are specific and helpful (not just "invalid field") | S06 | `validation.js` | Messages match the briefing's "Expected error messages" exactly (English and Spanish) | Pending |
-| E23 | Validation prevents submission of incorrect data | S06 | `validation.js`, `tests/site/` | Submit with invalid data: no success message, focus moves to the first error | Pending |
-| E24 | Form visual states are clear (focus, error, success) | S06 | `application.html`, `validation.js` | Screenshots of focus, error and success states | Pending |
-| E25 | The clear form button works correctly | S06 | `application.html`, `validation.js` | Clear resets every field, error, counter and the success message | Pending |
+| E21 | JavaScript validation works correctly for all fields | S06 | `validation.js`, `tests/site/` | Automated tests of every rule with valid and invalid values | Met (S06): `validation.js` validates all 11 fields; 14 `node:test` tests (`tests/site/validation.test.cjs`) with valid and invalid values per rule; 68/68 browser checks (EN and ES) |
+| E22 | Error messages are specific and helpful (not just "invalid field") | S06 | `validation.js` | Messages match the briefing's "Expected error messages" exactly (English and Spanish) | Met (S06): every message equals the briefing's "Expected error messages" (EN) and "Mensajes de error esperados" (ES), checked by tests that parse both briefings; comments show X = characters left |
+| E23 | Validation prevents submission of incorrect data | S06 | `validation.js`, `tests/site/` | Submit with invalid data: no success message, focus moves to the first error | Met (S06): the submit handler always calls `preventDefault()`; with errors, nothing is shown as sent: summary + focus on it; verified with an empty submission (9 errors) in both languages |
+| E24 | Form visual states are clear (focus, error, success) | S06 | `application.html`, `validation.js` | Screenshots of focus, error and success states | Met (S06): focus (M1 coral ring), error (rust border, rust text with an icon), valid (green border), sending (disabled "Sending…"), success (green panel); screenshots `form-{en,es}-{errors,success}.png` |
+| E25 | The clear form button works correctly | S06 | `application.html`, `validation.js` | Clear resets every field, error, counter and the success message | Met (S06): "Clear form" empties every field and restores errors, `aria-invalid`, summary, success box, counter (500), the submit button and the hidden fields, then focuses the first field; verified by mouse and keyboard (EN and ES) |
 
 ### Context Adherence
 
@@ -58,7 +58,7 @@ Criteria copied verbatim from the brief.
 | E26 | The landing page faithfully reflects the company type and sector | S04 | `index.html`, `es/index.html`, `BRIEFING.md` | Sections and copy match the briefing (header, hero, services, why Nexova, contact, footer) | Met (S04): header, hero, services (3), why Nexova (4), contact and footer in the briefing's order and words (EN and ES), with only the documented content decisions |
 | E27 | Content presents the company's experience and competitive advantages | S04 | `index.html`, `es/index.html` | "Why Nexova" shows the 4 advantages (with the documented market wording) | Met (S04): "Why Nexova" shows the four advantages, each figure emphasised (12 years, Spain and United States, +500, Sector specialization), with the documented "Spanish and US markets" wording; office photos of Valencia and Miami |
 | E28 | Form fields exactly match those required in BRIEFING.md | S05 | `application.html`, `es/application.html`, `BRIEFING.md` | Field list, types, options and required flags compared one by one; no extra fields | Met (S05): field names, types, options (EN labels from `BRIEFING.md`, ES labels from `BRIEFING.es.md`, the same `value`s) and required flags (12 `required` attributes: 7 fields, 4 radios, the checkbox; LinkedIn and comments optional) compared one by one; ids/names in `systemPatterns.md` |
-| E29 | Any domain-specific validation rules are implemented | S06 | `validation.js`, `tests/site/` | The 6 "Specific validations" of the briefing (email domain, phone `+` code, 0–50 years, LinkedIn URL, 500-character counter, data policy) | Pending |
+| E29 | Any domain-specific validation rules are implemented | S06 | `validation.js`, `tests/site/` | The 6 "Specific validations" of the briefing (email domain, phone `+` code, 0–50 years, LinkedIn URL, 500-character counter, data policy) | Met (S06): the 6 specific validations: email @ + domain with a dot; phone + country code (8–15 digits); years 0–50 integer; LinkedIn http(s) URL parsed by `new URL()`; 500-character counter ("N characters over the limit"); data policy must be ticked; plus at least first and last name |
 | E30 | Tone and content are consistent with an established company going digital | S04 | `index.html`, `es/index.html` | Copy review against the briefing and `CONTEXT.md` | Met (S04): the briefing copy, verbatim, in a restrained layout (no invented figures, clients or testimonials); the same brand as Nexova's other apps |
 
 ## B — Deliverables checklist
@@ -98,12 +98,12 @@ From the "What to do" lists of the brief.
 | A7 | Responsive form | S05 | Met (S05): one column on phones, two from `md:`, the three profile fields in three from `lg:`; screenshots `form-*-{375,768,1280}.png` |
 | A8 | Tailwind styles (spacing, sizes, focus states) | S05 | Met (S05): Tailwind utilities only: `brand-*` spacing, 48 px fields with `radius-field`, M1 focus ring, `aria-[invalid=true]:` error borders, `disabled:` submit state, 0 inline styles |
 | A9 | A submit button and a clear button | S05 | Met (S05): "Submit application" (green pill) and "Clear form" (green outline); behaviour in S06 |
-| A10 | `validation.js` validates all fields | S06 | Pending |
-| A11 | Real-time validation (`input`/`blur`) | S06 | Pending |
-| A12 | A specific message per validation type | S06 | Pending |
-| A13 | Errors styled clearly | S06 | Pending |
-| A14 | Submission prevented when there are errors | S06 | Pending |
-| A15 | A success message (simulated submission) | S06 | Pending |
+| A10 | `validation.js` validates all fields | S06 | Met (S06): `validation.js` validates every field (pure rules + DOM layer) |
+| A11 | Real-time validation (`input`/`blur`) | S06 | Met (S06): on `blur`, then on `input`/`change` once touched; the counter on every `input` |
+| A12 | A specific message per validation type | S06 | Met (S06): one briefing message per rule, EN and ES |
+| A13 | Errors styled clearly | S06 | Met (S06): rust text with an icon and a hidden "Error:" prefix, rust border, `aria-invalid` |
+| A14 | Submission prevented when there are errors | S06 | Met (S06): `preventDefault()` always; errors block the simulated submission |
+| A15 | A success message (simulated submission) | S06 | Met (S06): "Sending…" for ~800 ms, then the briefing's success message in the page language, focused; 0 network requests |
 
 ### Submission
 

@@ -203,15 +203,40 @@ bash .agents/skills/a11y-gate/check.sh 2; echo "exit=$?"
 
 ### Delivered
 
-_To be filled in this step._
+- `validation.js` (root, plain JavaScript, no dependency):
+  - pure rules and both languages' messages, verbatim from the briefings, exported for Node;
+  - a DOM layer that only runs in the browser: `noValidate`, real-time validation (blur, then input/change), field errors with an icon and `aria-invalid`, the 500-character counter, an error summary with links and focus, a simulated submission ("Sending…" ~800 ms, then the success message), and the reset.
+- Loaded with `<script src="validation.js" defer>` (ES: `../validation.js`) on both form pages.
+- `tests/site/validation.test.cjs`: 14 `node:test` tests. The root `pnpm test` now also runs `pnpm test:site`.
+- `scripts/build-site.mjs`: cache busting (`styles.css?v=<hash>`, `validation.js?v=<hash>` in `dist/` only).
+- Screenshots `docs/milestone-2/screenshots/form-{en,es}-{errors,success}.png`.
 
 ### Commands
 
-_To be filled in this step._
+```bash
+pnpm test:site; echo "exit=$?"
+pnpm test; echo "exit=$?"
+grep -nE "innerHTML|outerHTML|insertAdjacentHTML|eval\(|document\.write|localStorage|sessionStorage|fetch\(|XMLHttpRequest" validation.js
+grep -c 'src="validation.js" defer' application.html; grep -c 'src="../validation.js" defer' es/application.html
+pnpm build:site && grep -o 'styles.css?v=[0-9a-f]*' dist/index.html dist/es/application.html
+grep -c "?v=" index.html application.html
+bash .agents/skills/security-gate/check.sh 2; echo "exit=$?"
+bash .agents/skills/a11y-gate/check.sh 2; echo "exit=$?"
+```
 
 ### Expected
 
-_To be filled in this step._
+- `test:site`: 14 tests, 14 pass, `exit=0`. `pnpm test`: 6 + 4 + 5 package tests, then the 14 site tests, `exit=0`.
+- No unsafe API in `validation.js` (no output); `1` and `1`.
+- `styles.css?v=<8 hex>` in both `dist/` pages; `0` and `0` at the root (the source HTML is unchanged).
+- `security-gate` 7 PASS, `exit=0`; `a11y-gate` 72 PASS, 0 SKIP, `exit=0`.
+- In the browser (`pnpm serve:site`), on `/application.html` and `/es/application.html`:
+  - an empty submit shows a summary with 9 errors, focused, with `aria-invalid="true"` on the 9 required fields;
+  - each field shows its own message when you leave it and loses it as soon as it is fixed;
+  - 520 characters show "20 characters over the limit" / "20 caracteres por encima del límite" and the comments error;
+  - a valid submission shows "Sending…" / "Enviando…" (button disabled), then the thank-you message, focused, with no network request;
+  - "Clear form" restores the initial state and focuses Full name;
+  - all of it works with the keyboard only, and the console shows no errors.
 
 ## S07 — Accessibility, security and performance re-check
 

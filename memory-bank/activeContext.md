@@ -10,8 +10,8 @@ Type: status
 
 ## Next steps
 
-1. **S06 (next): `validation.js`** (loaded by both form pages): sets `noValidate`; validates every field on `blur`/`input` and on submit with the briefing's exact messages (EN and ES); fills `#<id>-error` with a text prefix or icon, sets `aria-invalid`, fills `#form-errors` and moves focus to the first invalid field; updates the 500-character counter; simulates the submission (disabled submit, success message in `#form-success`); "Clear form" resets errors, counter and success; `node:test` tests in `tests/site/` (E18, E21–E25, E29; A10–A15).
-2. **S07–S08:** accessibility, security and performance re-check; PageSpeed/Lighthouse evidence on the public Codespaces URL.
+1. **S07 (next): quality gates.** Re-check every criterion with all four pages finished and mark E1, E5, E6, E8, E10, E12 (and E9, E11) then; final `security-gate` and `a11y-gate` runs; keyboard and screen-reader pass; contrast, reflow and console checks (E13–E17, S4–S6).
+2. **S08:** performance evidence: PageSpeed Insights (or Lighthouse) on the public Codespaces URL, score ≥ 80 (E13, L15, S3); decide whether Instrument Sans must be self-hosted for the score.
 3. **S07–S08:** accessibility, security and performance re-check; PageSpeed/Lighthouse evidence on the public Codespaces URL.
 4. **S09:** devcontainer: add port 8080 only; the Chromium install line for the dev MCP servers is already in `.devcontainer/post-create.sh` (added before the Codespace rebuild in M2-S02).
 5. **S10–S11:** milestone recap (`milestone-recap` skill), pull request; merge only after the instructor's approval (rule in `.agents/rules/git-workflow.md`).
@@ -33,6 +33,7 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
 
 ## Recent decisions
 
+- **M2-S06 validation:** `validation.js` with pure rules + a DOM layer, messages verbatim from both briefings (tested against them), `textContent` only, an error summary with focus, a simulated submission with no data leaving the browser; cache busting (`?v=<hash>`) in the `dist/` copies; the root `pnpm test` also runs the site tests. Rows E1, E5, E6, E8, E10, E12 are re-checked and marked in S07 (developer's decision).
 - **M2-S05 form markup:** the 11 briefing fields with the id/name contract in `systemPatterns.md` (pattern 20); five fieldsets with `h2` legends; field borders in `green-mid` instead of `line` (WCAG 1.4.11, 3:1 for control boundaries); hints below the inputs; `method="post"` so a no-JavaScript submit never puts answers in the URL; services heading back to the briefing's "Services" / "Servicios"; absolute `hreflang` and canonical on all four pages.
 - **Office photos (developer, 2026-10-23):** the project may use both office photos (Valencia and Miami), including the people visible in the Miami photo; recorded in `docs/milestone-2/content-decisions.md`.
 - **M2-S04 landing page:** the briefing copy verbatim in both languages; static hero (the M1 shortlist frozen in the "placed" state, `aria-hidden`); "Why Nexova" figures emphasised in KeyFigures style; contact as a green `radius-cta` panel (coral is reserved for the hero card and the logo dot) with a cream pill CTA; transparent borders on buttons and the panel so they stay visible in forced-colors mode; office photos as 1200 px WebP; canonical to `nexova.com`; `a11y-gate` serves `dist/` like `security-gate`; the S03 deviations were approved by the developer.
