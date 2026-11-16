@@ -28,12 +28,13 @@
       }
     }
   },
-  "forwardPorts": [3000, 3001, 8000, 5678],
+  "forwardPorts": [3000, 3001, 8000, 5678, 8080],
   "portsAttributes": {
     "3000": { "label": "Website" },
     "3001": { "label": "Backoffice" },
     "8000": { "label": "API" },
-    "5678": { "label": "n8n" }
+    "5678": { "label": "n8n" },
+    "8080": { "label": "Public site" }
   },
   "postCreateCommand": "bash .devcontainer/post-create.sh",
   "remoteUser": "node"

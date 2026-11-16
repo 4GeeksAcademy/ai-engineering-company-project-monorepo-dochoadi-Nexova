@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://nexova.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nexova.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://nexova.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexova.com/"/>
+  </url>
+  <url>
+    <loc>https://nexova.com/es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nexova.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://nexova.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexova.com/"/>
+  </url>
+  <url>
+    <loc>https://nexova.com/application.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nexova.com/application.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://nexova.com/es/application.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexova.com/application.html"/>
+  </url>
+  <url>
+    <loc>https://nexova.com/es/application.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nexova.com/application.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://nexova.com/es/application.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexova.com/application.html"/>
+  </url>
+</urlset>

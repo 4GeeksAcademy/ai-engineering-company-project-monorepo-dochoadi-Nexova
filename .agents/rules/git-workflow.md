@@ -7,9 +7,24 @@ Scope: always active
 
 ## Branches and commits
 
-1. Work on a branch, never on `main`. Milestone work goes on the milestone branch (Milestone 1: `chore/hito-1-ai-setup`).
+1. Work on a branch, never on `main`. Milestone work goes on the milestone branch (Milestone 1: `chore/hito-1-ai-setup`; Milestone 2: `milestone-your-companys-public-website`).
 2. Make one commit per step. Never mix changes from two steps in one commit.
 3. Run `git status --short` before committing and stage only the files of the current step.
+
+## Milestone lifecycle
+
+1. **Start:** `git switch main && git pull`, then create the milestone branch from the up-to-date `main`. Use the branch name the brief asks for; only if the brief names none, use the milestone title from the brief in lowercase with hyphens (M1 was `chore/hito-1-ai-setup`; M2 is `milestone-your-companys-public-website`, from "Milestone — Your Company's Public Website"). Put the milestone briefing in `BRIEFING.md` at the root, unmodified.
+2. **Work:** one commit per step on that branch, then a PR to `main`.
+3. **Review:** the PR stays open until the teacher has reviewed and validated it. Any fix the teacher requests goes on the same branch as an extra step commit (e.g. `[M2-S14] fix(form): …`), never directly on `main`.
+4. **Merge only after validation:** the coding agent never merges a PR. The PR is merged only after the instructor has reviewed and approved it: by the instructor, or by the developer once that approval is recorded in the PR (an approving review or a comment).
+5. **Next milestone:** only then does the next milestone start again from step 1.
+
+## Milestone merge
+
+- The last step of every milestone is merging the PR into `main` with **"Create a merge commit"** (never squash).
+- **Title:** `[M<n>-S<last>][E1]…[E<all>] chore(release): merge Milestone <n> <name> into main (#<PR>)`.
+- **Description:** the criteria groups, the evidence path `docs/milestone-<n>/`, and the line "Academic project for 4Geeks Academy: fictional company, no real data."
+- M1 was merged with an earlier title format (`[M1] chore: merge …`); history is not rewritten.
 
 ## Commit naming
 
@@ -35,6 +50,6 @@ Every PR description includes:
 
 ## History
 
-- Never merge your own PR; a reviewer merges it.
+- The coding agent never merges a PR. A PR is merged only after the instructor has reviewed and approved it: by the instructor, or by the developer once that approval is recorded in the PR (an approving review or a comment).
 - Never rewrite published history: no `git push --force`, no `git rebase` or `git commit --amend` on pushed commits. Fix mistakes with a new commit.
-- The coding agent may push its own milestone branch after each step's commit (it works in a GitHub Codespace with credentials). It never pushes to `main`, never force-pushes and never merges its own PR.
+- The coding agent may push its own milestone branch after each step's commit (it works in a GitHub Codespace with credentials). It never pushes to `main`, never force-pushes and never merges a PR.

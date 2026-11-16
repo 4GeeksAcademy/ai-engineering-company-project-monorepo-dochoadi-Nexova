@@ -1,0 +1,74 @@
+/*
+ * Tailwind CSS v4 source for the Milestone 2 public site (compiled to styles.css with `pnpm build:site`).
+ * Only the site pages are scanned; brand values come from packages/shared and are never retyped here.
+ */
+@import "tailwindcss" source(none);
+@import "./packages/shared/styles/tokens.css";
+
+@source "./index.html";
+@source "./application.html";
+@source "./es/*.html";
+@source "./validation.js";
+@source "./motion.js";
+
+/* Instrument Sans (SIL OFL 1.1, assets/fonts/OFL.txt), self-hosted: no Google request, no render-blocking font CSS. */
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("./assets/fonts/instrument-sans-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Static pages have no next/font, which sets this variable in the Next.js apps; --font-sans in tokens.css reads it. */
+:root {
+  --font-instrument-sans: "Instrument Sans";
+}
+
+/* Brand tokens exposed as Tailwind utilities with a brand- prefix (e.g. bg-brand-green, rounded-brand-card). */
+@theme inline {
+  --color-brand-cream: var(--color-cream);
+  --color-brand-paper: var(--color-paper);
+  --color-brand-sand: var(--color-sand);
+  --color-brand-line: var(--color-line);
+  --color-brand-tan: var(--color-tan);
+  --color-brand-tan-line: var(--color-tan-line);
+  --color-brand-ink: var(--color-ink);
+  --color-brand-ink-soft: var(--color-ink-soft);
+  --color-brand-ink-muted: var(--color-ink-muted);
+  --color-brand-green: var(--color-green);
+  --color-brand-green-deep: var(--color-green-deep);
+  --color-brand-green-mid: var(--color-green-mid);
+  --color-brand-green-line: var(--color-green-line);
+  --color-brand-sage: var(--color-sage);
+  --color-brand-sage-tone: var(--color-sage-tone);
+  --color-brand-sage-muted: var(--color-sage-muted);
+  --color-brand-coral: var(--color-coral);
+  --color-brand-coral-light: var(--color-coral-light);
+  --color-brand-rust: var(--color-rust);
+
+  --font-brand: var(--font-sans);
+
+  --radius-brand-pill: var(--radius-pill);
+  --radius-brand-cta: var(--radius-cta);
+  --radius-brand-card: var(--radius-card);
+  --radius-brand-figure: var(--radius-figure);
+  --radius-brand-field: var(--radius-field);
+  --radius-brand-cv: var(--radius-cv);
+
+  --shadow-brand-header: var(--shadow-header);
+  --shadow-brand-menu: var(--shadow-menu);
+  --shadow-brand-hero-card: var(--shadow-hero-card);
+  --shadow-brand-card: var(--shadow-card-light);
+  --shadow-brand-card-dark: var(--shadow-card-dark);
+  --shadow-brand-card-coral: var(--shadow-card-coral);
+  --shadow-brand-chip: var(--shadow-chip);
+  --shadow-brand-cv: var(--shadow-cv);
+  --shadow-brand-cv-glow: var(--shadow-cv-glow);
+
+  --ease-brand-out: var(--ease-out);
+  --ease-brand-in-out: var(--ease-in-out);
+  --ease-brand-pop: var(--ease-pop);
+  --ease-brand-drop: var(--ease-drop);
+  --ease-brand-place: var(--ease-place);
+}
