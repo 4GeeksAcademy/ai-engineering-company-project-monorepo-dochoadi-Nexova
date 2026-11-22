@@ -68,6 +68,7 @@ Type: status
   - **Pull request** to `main` opened, not merged.
 - **2026-10-23 — S13 (`M2-S13`):** fix from the final audit (Run 2). Its only FAIL (E3) was the memory bank: `projectbrief.md` and `techContext.md` still described the state after S10; both updated, plus the stale SEC-2 "review in S11" notes. `evaluation.md` S2 and S3 set to Met (PR #2); `content-decisions.md` records the LinkedIn field placement; the teacher-fix example is now `[M2-S14]` (`git-workflow.md`, memory bank, PR #2 description).
 - **2026-11-22 — Milestone 3 started, kickoff (`M3-S00`):** Milestone 2 confirmed merged (`ee14825`); readiness and consistency review done; domain model and benchmark saved on `feature/domain-models`; work paused before S01.
+- **2026-11-22 — Next.js security patch (`M3-S00d`):** after S00b's installs, `pnpm build` was blocked by 7 moderate advisories in Next.js 16.4.1; `next` and `eslint-config-next` updated to 16.4.6 in both apps (only Next.js's own 12 packages changed in the lockfile). Lint, typecheck, build, 30 tests and the security gate (7 PASS) exit 0; both apps answer 200; `pnpm audit` keeps 1 moderate `minimatch` advisory (development tools only), left for the end-of-milestone review.
 
 ## Pending
 
