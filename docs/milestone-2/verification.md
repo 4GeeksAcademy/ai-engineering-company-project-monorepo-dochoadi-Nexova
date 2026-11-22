@@ -16,7 +16,7 @@ How to re-check every step of Milestone 2 (S01–S12). Each section is filled in
 ```bash
 git branch --show-current
 git diff --quiet origin/main -- CONTEXT.md && echo "CONTEXT.md unchanged"
-sha256sum BRIEFING.md docs/milestone-2/BRIEFING.es.md
+sha256sum docs/milestone-2/BRIEFING.md docs/milestone-2/BRIEFING.es.md
 grep -cE "^\| E([1-9]|[12][0-9]|30) " docs/milestone-2/evaluation.md
 grep -cE "^\| (L|A)[0-9]+ " docs/milestone-2/evaluation.md
 grep -rn "merge your own" AGENTS.md .agents/rules/ || echo "old merge wording gone"
@@ -26,7 +26,7 @@ bash .agents/skills/update-memory-bank/check.sh; echo "exit=$?"
 ### Expected
 
 - `milestone-your-companys-public-website`; `CONTEXT.md unchanged`.
-- `de3eef75c30e5861d9ac4b1fef1e91dce4013d532f96f0f425ba6912976aedb6  BRIEFING.md` and `562b1ecf2f4d5593a78d1234abf42a0f27e11ddcce73b5ddcbcd9e9392082740  docs/milestone-2/BRIEFING.es.md`.
+- `de3eef75c30e5861d9ac4b1fef1e91dce4013d532f96f0f425ba6912976aedb6  docs/milestone-2/BRIEFING.md` and `562b1ecf2f4d5593a78d1234abf42a0f27e11ddcce73b5ddcbcd9e9392082740  docs/milestone-2/BRIEFING.es.md`.
 - `30` criteria rows and `30` landing/form deliverable rows.
 - `old merge wording gone`; `check.sh` prints 5× `PASS` and `exit=0`.
 
@@ -443,7 +443,7 @@ pnpm install --frozen-lockfile && pnpm build:site && pnpm test; echo "build+test
 bash .agents/skills/security-gate/check.sh 2; echo "security exit=$?"
 bash .agents/skills/a11y-gate/check.sh 2; echo "a11y exit=$?"
 bash .agents/skills/update-memory-bank/check.sh; echo "memory bank exit=$?"
-git diff --quiet origin/main -- CONTEXT.md && echo "CONTEXT.md unchanged"; sha256sum BRIEFING.md docs/milestone-2/BRIEFING.es.md
+git diff --quiet origin/main -- CONTEXT.md && echo "CONTEXT.md unchanged"; sha256sum docs/milestone-2/BRIEFING.md docs/milestone-2/BRIEFING.es.md
 ```
 
 Expected:
@@ -513,16 +513,32 @@ gh pr view 2 --json body --jq .body | grep -c "M2-S14"
 - The S2 and S3 rows say "Met (S11)".
 - `1` match of `M2-S14` in `git-workflow.md` and `1` in the PR description.
 
-## S12 — Merge (after the instructor's approval)
+## S14 — Merge (planned as S12)
 
 ### Delivered
 
-_To be filled in this step._
+- Merged as `[M2-S14]`, commit `ee14825`, PR #2, on 2026-11-16, with "Create a merge commit".
+- S12 was the planned number; S13 was taken by the final-audit fix, so the merge took S14.
+- The instructor approved through the 4Geeks platform before the merge. There is no approval comment in the PR (developer's choice).
+- This section was filled in on 2026-11-22 (M3-S01).
 
 ### Commands
 
-_To be filled in this step._
+```bash
+git log -1 --format='%h %cs %s' ee14825
+git show -s --format=%P ee14825 | wc -w
+git merge-base --is-ancestor e73aa42 origin/main; echo "in main exit=$?"
+gh pr view 2 --json state,mergedAt,mergeCommit,reviews
+```
 
 ### Expected
 
-_To be filled in this step._
+- `ee14825`, dated 2026-11-16, with a `[M2-S14]` title.
+- `2` parents (a merge commit, not a squash).
+- `in main exit=0` (the last milestone commit is in `main`).
+- PR #2 is `MERGED`, with `ee14825` as its merge commit.
+
+### Result (run on 2026-11-22)
+
+- `ee14825 2026-11-16 [M2-S14]…`; `2` parents; `in main exit=0`.
+- PR #2: `MERGED` at 2026-11-16T18:45:34Z, merge commit `ee14825`, 0 reviews in the PR. The platform approval is stated by the developer and cannot be checked from the repository.

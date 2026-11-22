@@ -74,3 +74,64 @@ What was done in each step, in plain words.
 - Next: S01.
 
 **Commit:** `fix(deps): update Next.js to 16.4.6 for security advisories`
+
+## S01 — Setup: branch, briefing, model and evaluation matrix (2026-11-22)
+
+**What was done**
+- Put the official Milestone 3 briefing (the assignment) at the top of the project and archived the Milestone 2 one, so we build from the real text.
+- Wrote the evaluation table: every point the instructor will check, with where and how we will prove it.
+- Wrote down how we read the unclear parts of the briefing, so the later tests have one right answer.
+- Created one problems list per milestone, one list of improvement ideas and a short history of the milestones.
+- Updated the agent's rules: your approval before every save to history, and nothing reaches `main` until you ask.
+- Made the check that protects the project's memory stricter: it now notices a step that forgot to update it.
+
+**How it works**
+- **Candidate:** a person looking for a job, with skills, experience, English level and salary. Example: Carolina, 8 years, English C1.
+- **Vacancy:** a job a client wants to fill, with what it requires. Example: "Senior Full-Stack Developer", needs TypeScript.
+- **SelectionProcess:** one candidate in one vacancy, with a stage and a score. It stores both ids, and that is the link. Example: "Carolina, that developer job, Interview, 100".
+- **The six extensions:**
+
+| Extension | What it is | Used by |
+| --- | --- | --- |
+| `ClientCompany` | The client whose data must stay separate | Both agents |
+| `ClientVacancy` | A vacancy plus its client and its consultant | CV matching |
+| `NexovaEmployee` | A consultant or a support agent | Both agents |
+| `RankingDecision` | Whether the consultant accepted or changed the ranking | CV matching |
+| `SupportTicket` | One support request from a client | HelpDesk |
+| `KnowledgeBaseArticle` | A solved case, kept for that client | HelpDesk |
+
+- **Type:** the kind of value allowed. Example: `age: number` accepts 30, not "thirty".
+- **Interface:** the list of fields an object must have. Example: `interface Person { name: string; age: number }`.
+- **Union type:** a fixed list of allowed values. Example: `type Level = "L1" | "L2"` accepts only those two.
+- This step adds no function, so there is none to explain yet.
+
+**Result**
+- 15 of 15 website tests and 30 of 30 tests in total pass.
+- Lint (style check), typecheck (type check) and build (preparing the apps) finish without errors.
+- The security check passes 7 of 7 and the memory check 5 of 5.
+- Two things failed on the way and were fixed: 2 website tests and 1 memory link.
+
+**Problems found and fixed**
+- M3-04: 2 tests read the briefing from its old place; they now read the archived copy.
+- M3-51: the memory linked to a file before it was written; the file now exists.
+- M3-31: the memory check said yes without an update; tested and fixed.
+- M2-13 and M2-14: the Milestone 2 merge was never recorded; it is now.
+
+**What I learned**
+- A fixed list of values is safer than free text: a typing mistake such as "Intervew" is caught at once.
+- A test can depend on where a file is, so moving a file can break it.
+- A check must be tested with a case that should fail, or we don't know that it works.
+- Extending a type adds fields without changing the original that is graded.
+
+**How to check it yourself**
+- Open `docs/milestone-3/model.png` to see the map of the data.
+- Read `docs/milestone-3/decisions.md`.
+- Open `docs/milestone-3/issues-log-m3.md` and read the Status column.
+
+**Decisions or open questions**
+- Decide before S05 and S06 (M3-53): the score when a vacancy has no required skills, the order of equal scores, and how to spell a repeated skill.
+- Allow or not completing four value lists in `model.md` (M3-48).
+- The briefing says "no AI" (M3-47): your decision is recorded; it is worth confirming with the instructor.
+- For the end-of-milestone review: two outdated rule or check texts (M2-15, M3-52) and a weak date check (M1-34).
+
+**Commit:** `[M3-S01] docs: start Milestone 3 with official briefing, evaluation matrix, decisions, conventions and issue logs`

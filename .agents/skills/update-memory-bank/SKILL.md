@@ -17,7 +17,7 @@ Keep the memory bank in sync with the real state of the repository after every c
 
 | Name | Source | Format |
 | --- | --- | --- |
-| `diff` | `git diff --name-status main...HEAD` plus `git diff main...HEAD` | text |
+| `diff` | the pending step: `git diff --name-status HEAD` plus `git diff HEAD` (staged and unstaged), plus the untracked files (`git ls-files --others --exclude-standard`), because steps are not committed before approval | text |
 | `change_description` | the developer's request or the PR title | one or two sentences |
 | `date` | `date +%F` | `YYYY-MM-DD` |
 | `current_memory_bank` | the 6 files in `memory-bank/` | Markdown |
@@ -49,7 +49,7 @@ Each criterion is checked by `check.sh`, in this order:
 2. `progress.md` contains an entry dated today (`YYYY-MM-DD`).
 3. No file in `memory-bank/` contains the placeholder markers `TODO`, `TBD` or `lorem` (case-insensitive).
 4. Every relative Markdown link in `memory-bank/` points to an existing file.
-5. If the branch changes files outside `memory-bank/` compared with `main`, it also changes at least one file inside `memory-bank/`.
+5. If this step changes files outside `memory-bank/`, it also changes at least one file inside `memory-bank/`. "This step" is the pending changes, or the last commit when nothing is pending.
 
 ## Example
 

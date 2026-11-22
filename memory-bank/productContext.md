@@ -68,6 +68,12 @@ Source: `CONTEXT.md` (department profiles) and `Company-choice.md`. Nexova has 1
 - **Problem:** there is no telemetry or centralised logging; when something fails, they find out through users.
 - **What they need:** centralised telemetry and logging, a data pipeline that feeds each area's dashboards, real-time monitoring with automatic alerts, and an internal engineering agent that answers architecture questions by querying technical documentation.
 
+## Candidate scoring and vacancy matching engine (Milestone 3)
+
+- **What it is:** the logic that scores each candidate from 0 to 100 against a vacancy (skills 40, experience 20, seniority 15, English 15, salary 10), ranks them and reports on the selection pipeline.
+- **Who uses it:** Javier Almeida's 40 selection consultants, later through a UI. Consultants rank candidates with it and see why each one got their score.
+- **Limit:** the score is a ranking aid, never an automatic rejection; the consultant decides. Candidates with invalid data go to manual review.
+
 ## Users of what we build
 
 | User | Who they are | What they expect from our systems |

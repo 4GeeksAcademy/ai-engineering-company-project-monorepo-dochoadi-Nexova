@@ -113,6 +113,6 @@ The teacher pointed out missing entities: the guide derives the model from `Comp
 - **Add 6:** `ClientCompany` (tenant for both agents), `ClientVacancy extends Vacancy` (link without touching the graded interface), `NexovaEmployee` with `role` (consultants and support agents share the same fields: one type, not two), `RankingDecision`, `SupportTicket`, `KnowledgeBaseArticle`.
 - **Computed, not stored:** score breakdown, SLA status, validation result, high match, escalation (= L2 ticket).
 - **Not included:** `ClientRequest` (only in a peer's model, not in Company-choice).
-- **Purity:** time-based functions take `now` as a parameter; thresholds in named constants (`SLA_HOURS = 24`, `SLA_AT_RISK_HOURS = 20`).
+- **Purity:** time-based functions take `now` as a parameter; thresholds in named constants (`SLA_HOURS` (24, imported from `packages/shared/company.ts`), `SLA_AT_RISK_HOURS = 20`).
 - **Risk control:** the extensions live under a clear divider in `models.ts`; briefing reports first; extension reports labelled as Company-choice metrics; no new steps (folded into S02–S07).
 Sources: [Zendesk organizations API](https://developer.zendesk.com/api-reference/ticketing/organizations/organizations/), [Zendesk data dictionary (Panoply)](https://panoply-documentation.document360.io/docs/data-dictionary-zendesk), [Stitch Zendesk integration](https://stitchdata.com/docs/integrations/saas/zendesk), plus the Bullhorn sources in Part 1.

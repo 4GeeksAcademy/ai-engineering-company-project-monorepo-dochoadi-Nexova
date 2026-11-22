@@ -4,7 +4,9 @@ Type: status
 
 ## Current state
 
-**Milestone 2 ("Your Company's Public Website") is complete** on the branch `milestone-your-companys-public-website`: S01 done (official briefing, evaluation matrix, conventions); S02 done (security and accessibility gates, dev MCP servers, Milestone 1 baseline, Next.js 16.4.1 security patch); S03 done (compiled Tailwind, the `dist/` server command and the bilingual semantic skeleton of the four pages); S04 done (the bilingual landing page); S05 done (the bilingual form markup); S06 done (validation with tests); S07 done (the Milestone 1 landing experience); S08 done (quality gates); S09 done (public URL and performance evidence); S10 done (documentation, memory bank, devcontainer); S11 done ("Why Nexova" two-column fix, final security and accessibility reviews, recap, report and the pull request). S13 done (final audit items closed). PR #2 open, waiting for the teacher's validation; the merge (S12 in the plan; it takes the next free step number) only after the instructor's recorded approval.
+**Milestone 3 ("Building Scripts to Automate Tasks") is in progress** on the branch `feature/domain-models`: S00, S00b, S00d and S01 done; next S02 (TypeScript setup and the models). No domain code yet.
+
+**Milestone 2 ("Your Company's Public Website") is complete and merged** into `main` on 2026-11-16 as `ee14825` (PR #2). The instructor approved Milestone 2 through the 4Geeks platform before the 2026-11-16 merge; the developer chose not to comment in the PR. It does not block Milestone 3.
 
 **Milestone 1 ("Monorepo AI Setup") is complete and merged**: all 13 steps done, E1–E9 met, merged into `main` on 2026-10-13 as PR #1 (merge commit `30f8e47`). The instructor's feedback (branch name, `BRIEFING.md`, and the PR having been merged by its author) is answered in [`docs/milestone-1/instructor-feedback.md`](../docs/milestone-1/instructor-feedback.md). The Next.js website (`uis/website`, port 3000) and backoffice (`uis/backoffice`, port 3001, no authentication yet) run in development from shared data and shared brand tokens; no agents, API or live data yet.
 
@@ -67,19 +69,22 @@ Type: status
   - **Docs:** `docs/milestone-2/recap.md` (`milestone-recap` check: all 6 criteria passed) and `report.md`; `evaluation.md` with P3 and P4 met and E26 re-verified; every report linked from `docs/milestone-2/README.md` and `docs/README.md`.
   - **Pull request** to `main` opened, not merged.
 - **2026-10-23 — S13 (`M2-S13`):** fix from the final audit (Run 2). Its only FAIL (E3) was the memory bank: `projectbrief.md` and `techContext.md` still described the state after S10; both updated, plus the stale SEC-2 "review in S11" notes. `evaluation.md` S2 and S3 set to Met (PR #2); `content-decisions.md` records the LinkedIn field placement; the teacher-fix example is now `[M2-S14]` (`git-workflow.md`, memory bank, PR #2 description).
+- **2026-11-16 — Milestone 2 merged (`M2-S14`):** PR #2 merged into `main` as `ee14825` with a merge commit (recorded on 2026-11-22). The instructor approved Milestone 2 through the 4Geeks platform before the 2026-11-16 merge; the developer chose not to comment in the PR. It does not block Milestone 3.
 - **2026-11-22 — Milestone 3 started, kickoff (`M3-S00`):** Milestone 2 confirmed merged (`ee14825`); readiness and consistency review done; domain model and benchmark saved on `feature/domain-models`; work paused before S01.
 - **2026-11-22 — Next.js security patch (`M3-S00d`):** after S00b's installs, `pnpm build` was blocked by 7 moderate advisories in Next.js 16.4.1; `next` and `eslint-config-next` updated to 16.4.6 in both apps (only Next.js's own 12 packages changed in the lockfile). Lint, typecheck, build, 30 tests and the security gate (7 PASS) exit 0; both apps answer 200; `pnpm audit` keeps 1 moderate `minimatch` advisory (development tools only), left for the end-of-milestone review.
+- **2026-11-22 — Milestone 3 started, S01 (`M3-S01`):** official M3 briefing at the root and the M2 one archived unchanged (hashes checked; site tests repointed); `docs/milestone-3/` with the evaluation matrix, decisions, verification and index; one issues log per milestone; `docs/improvements.md`; Milestone log in `docs/README.md`; rules updated (approval before commit, merge wording, `src/` and tenant exceptions, records, protected checks); memory check criterion 5 now checks the pending step (M3-31); Milestone 2 merge `ee14825` (PR #2, 2026-11-16) recorded.
 
 ## Pending
 
-- Milestone 2 merge (S12 in the plan; it takes the next free step number): merge PR #2 with a merge commit, only after the instructor's recorded approval; then set port 8080 back to Private.
-- The next milestone: to be defined.
+- Milestone 3: S02–S11, then the merge only when the developer asks, after the instructor's approval.
+- The end-of-milestone decision review, before the Milestone 3 recap and PR.
 - Authentication for the backoffice (open question in `activeContext.md`).
 - Confirm the real public contact email (open question in `activeContext.md`). The office photos were confirmed by the developer on 2026-10-23.
 - The development-infrastructure step (Docker, Postgres + pgvector) moves to the first milestone that needs a database.
 
 ## Known issues
 
+- **Issues logs, one per milestone:** [M1](../docs/milestone-1/issues-log-m1.md), [M2](../docs/milestone-2/issues-log-m2.md), [M3](../docs/milestone-3/issues-log-m3.md); new problems go there, not here.
 - **Resolved on 2026-10-12 (step 10): Alpine container and manual push.** Work now runs in a real GitHub Codespace built from the step 9 devcontainer (Debian 13, Node 24, pnpm 12.11.2, Python 3.12, `gh`), so the Alpine workarounds are no longer needed and the coding agent can `git push` itself.
 - **Fixed in step 10: office photos never appeared.** In the original design export, `setupPhotos()` observed the `<figure>` it clipped with `clip-path: inset(100% …)`, which an `IntersectionObserver` never reports as intersecting. `uis/website/components/OfficePhotos.tsx` observes the grid wrapper and animates the figures; a Playwright check confirms both photos reveal on scroll.
 - **Fixed in step 12: typecheck on a fresh clone.** `next-env.d.ts` is generated and gitignored, so `tsc --noEmit` failed until `next dev` or `next build` had run once. Both apps' `typecheck` script now runs `next typegen` first.

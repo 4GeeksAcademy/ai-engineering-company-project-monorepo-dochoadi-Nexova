@@ -62,13 +62,18 @@ Summary flow:
 
 ## Milestone 2 goal
 
-Milestone 2 ("Your Company's Public Website", briefing in `BRIEFING.md`) gives Nexova its first public digital touchpoint for Carmen Ruiz's Marketing team: a landing page presenting who Nexova is, what it does and why companies choose it, plus a separate application form where professionals join Nexova's talent pool. Plain HTML + Tailwind CSS + vanilla JavaScript at the repo root, bilingual (English base, Spanish under `es/`), responsive, accessible (WCAG 2.2 AA), SEO-optimised with Schema.org, with full JavaScript validation and a simulated submission (no backend).
+Milestone 2 ("Your Company's Public Website", briefing in `docs/milestone-2/BRIEFING.md`) gives Nexova its first public digital touchpoint for Carmen Ruiz's Marketing team: a landing page presenting who Nexova is, what it does and why companies choose it, plus a separate application form where professionals join Nexova's talent pool. Plain HTML + Tailwind CSS + vanilla JavaScript at the repo root, bilingual (English base, Spanish under `es/`), responsive, accessible (WCAG 2.2 AA), SEO-optimised with Schema.org, with full JavaScript validation and a simulated submission (no backend).
 
-**Status (2026-10-23, after M2-S11):** Milestone 2 complete, PR #2 open, waiting for the teacher's validation.
+**Status:** Milestone 2 complete, approved by the instructor and merged on 2026-11-16 (`ee14825`, PR #2).
 - **Delivered:** the four pages with the Milestone 1 look and motion, and the form with real-time validation in both languages.
 - **Quality:** both gates pass; Lighthouse Performance 95–100 on the public Codespaces URL.
 - **Evidence:** in `docs/milestone-2/` (report, recap, evaluation matrix); every criterion in `docs/milestone-2/evaluation.md` is met. The final audit's items were closed in M2-S13.
-- **Remaining:** the merge (S12 in the plan; it takes the next free step number) after approval.
+- **Record:** the merge is `[M2-S14]` in `docs/milestone-2/verification.md`.
+
+## Milestone 3 goal
+
+Milestone 3 ("Building Scripts to Automate Tasks", briefing in `BRIEFING.md`) builds the first internal logic layer: pure, typed TypeScript utilities in root `src/` for candidate scoring and vacancy matching, with search, reports and validations.
+It implements the briefing's 3 entities and 18 functions exactly, plus 6 extension entities for both agents (`docs/milestone-3/model.md`). The agents, LLM calls, database and API are out of scope.
 
 ## Out of scope for Milestone 1
 

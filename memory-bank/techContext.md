@@ -8,7 +8,7 @@ Type: technical
 | --- | --- | --- |
 | Frontends | Next.js (App Router) + TypeScript in `strict` mode | `uis/website`, `uis/backoffice` |
 | Public site (Milestone 2) | Plain HTML + compiled Tailwind CSS v4 + vanilla JavaScript, served with `npx http-server` on port 8080 | Repo root (`index.html`, `application.html`, `validation.js`, `es/`) |
-| Runtime | Node.js 24.18.1 (`engines: >=24 <25`) | Repo root |
+| Runtime | Node 24 (`engines: >=24 <25`) | Repo root |
 | JS/TS package management | pnpm 12.11.2 workspace (`packageManager` pinned, enabled via Corepack) | Repo root |
 | TypeScript | 5.9.3, a root dev dependency (with `tailwindcss` and `@tailwindcss/cli` 4.3.3 for the root site, S03); shared options in `tsconfig.base.json` (`strict`, `noUncheckedIndexedAccess`, `ESNext`/`Bundler`, `verbatimModuleSyntax`, `allowImportingTsExtensions`, `noEmit`) | Repo root |
 | Shared types and data | `@repo/shared-types` package | `packages/shared` |
@@ -19,7 +19,7 @@ Type: technical
 - **Layout:** `pnpm-workspace.yaml` includes `uis/*` and `packages/*`. Workspace packages: `packages/shared`, `uis/website` (package name `website`) and `uis/backoffice` (package name `backoffice`).
 - **Build scripts:** pnpm 12 refuses unapproved dependency build scripts. `pnpm-workspace.yaml` lists `allowBuilds` with `sharp` and `unrs-resolver` set to `false` (both ship prebuilt binaries); any new entry needs a justification.
 - **Root scripts:** `pnpm dev` (all `uis/*` apps in parallel), `pnpm dev:website`, `pnpm dev:backoffice`, and `pnpm build` / `lint` / `typecheck` / `test`, which run each package's script when it exists (`pnpm -r --if-present`).
-- **Tests:** `node --test` with the native `node:test` and `node:assert` modules, no test dependency. Node 24 strips TypeScript types natively, so `*.test.ts` files run without `--experimental-strip-types`. Test files are excluded from `tsc` (`@types/node` is not installed), and imports between `.ts` files use explicit `.ts` extensions.
+- **Tests:** `node --test` with the native `node:test` and `node:assert` modules, no test dependency. Node 24 strips TypeScript types natively, so `*.test.ts` files run without `--experimental-strip-types`. Test files of `packages/shared` are excluded from `tsc` (`@types/node` is not installed there); this does not apply to the Milestone 3 code, whose tests are type-checked with a pinned `@types/node` (from S02). Imports between `.ts` files use explicit `.ts` extensions.
 - **Company data:** Nexova's company data (company profile, business lines, the 8 departments, support SLA, flagship agents) lives only in `packages/shared/company.ts`, taken from `CONTEXT.md` and `Company-choice.md`, with no computed values. Apps import it from `@repo/shared-types` and must list the package in Next.js `transpilePackages`, because it ships TypeScript source.
 - **TypeScript version:** 5.9.3 was chosen over 7.0.2 (`latest`, the native compiler) because Next.js type-checks through the JavaScript `typescript` API.
 
@@ -53,12 +53,12 @@ Type: technical
 - **`validation.js` (S06):** one plain-JavaScript file at the root, no library and no build step, loaded with `defer` by both form pages (CSP `script-src 'self'`). An IIFE exports `{ MESSAGES, FIELDS, validateField, validateAll, remaining }` through `module.exports` for Node, and runs its DOM layer only when `document` exists. The language comes from `<html lang>`. Tested by `tests/site/validation.test.cjs` (`require("../../validation.js")`; the root `package.json` has no `"type"`, so `.js` loads as CommonJS). Utility classes added from JavaScript (error icon, summary, success panel, `aria-[invalid=false]:border-brand-green`, `content-start`) are compiled because `tailwind.css` scans `validation.js`.
 - **Cache busting (S06, S07):** `scripts/build-site.mjs` rewrites, in the `dist/` HTML only, `styles.css`, `validation.js` and `motion.js` to `?v=<first 8 hex of the SHA-256>`; together with `-c-1` (no caching, S07), a reload always shows the latest files.
 - **`motion.js` (S07):** plain JavaScript at the root (`defer`, no module, no dependency, ~16 KB unminified, slightly above the 15 KB target), loaded by all four pages and on the `dist/` allowlist; `tailwind.css` scans it (`@source`). It ports M1's `lib/motion.ts` (`inView`, `observeOnce`, `onScrollFrame`) and the behaviour of Reveal, CountUp, CvCascade (with the seeded `cvField`, seed 2011, 72 cards), Marquee, OfficePhotos and OfficeClock, plus the header shadow. Everything is animated with the Web Animations API (`element.animate`) or Tailwind class toggles, never `style=`: the cascade timeline is scheduled up front with delays, so one pause control pauses it, and phase labels follow a master animation's clock. Easing values come from the brand tokens (`--ease-*`). Because Tailwind v4 `translate-*`/`scale-*` classes set the separate `translate`/`scale` properties, the elements `motion.js` animates do not use them for state. Pause state: `localStorage` key `nexova-motion-paused` (inside `try`/`catch`, not personal data).
-- **Renumbered Milestone 2 steps (S07):** S07 the M1 landing experience, S08 quality gates, S09 performance evidence and public URL, S10 documentation (and the devcontainer: port 8080 and the SEC-4 pins), S11 recap and pull request, S12 merge after the instructor's approval. S13 closed the final audit's items, so the merge takes the next free step number and a teacher-requested fix is `[M2-S14]`.
+- **Renumbered Milestone 2 steps (S07):** S07 the M1 landing experience, S08 quality gates, S09 performance evidence and public URL, S10 documentation (and the devcontainer: port 8080 and the SEC-4 pins), S11 recap and pull request, S12 merge after the instructor's approval. S13 closed the final audit's items, so the merge became `[M2-S14]`.
 - **Lighthouse (S08):** `lighthouse@13.5.0` (the current release, pinned) through `npx`, against the documented server on port 8080, with Playwright's Chromium: `CHROME_PATH=~/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome npx lighthouse@13.5.0 <url> --chrome-flags="--headless=new --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output=html --output-path=docs/milestone-2/lighthouse/<page>`. Reports in `docs/milestone-2/lighthouse/` (skipped by `security-gate` criterion 3: browser version strings look like IPv4). S08 results: Performance 100, Accessibility 100, Best practices 100, SEO 92 on all four pages (SEO only misses `robots.txt`).
 - **`motion.js` start-up (S08):** the cards are built in one task and each cascade phase creates its animations when the master clock reaches it, so no long task blocks the page (Total Blocking Time 480–500 ms → 0–50 ms in Lighthouse). The score bars animate the `scale` property from a `scale-x-0` class.
 - **SEO files and public URL (S09):** `robots.txt` (allow all, `Sitemap: https://nexova.com/sitemap.xml`) and `sitemap.xml` (four pages, `hreflang` alternates) at the root, copied into `dist/`. The public Codespaces URL carries `x-robots-tag: noindex, nofollow` (added by GitHub's port forwarding), so Lighthouse SEO reads 61 there (PageSpeed Insights cannot test the site at all: it only reaches GitHub's development-port warning page); locally SEO is 92 because Lighthouse fetches `robots.txt` from the page and the CSP `connect-src 'none'` blocks it (search engines fetch it directly). Allowing `connect-src 'self'` would make it 100; not done (security trade-off, developer's call).
 - **pnpm settings in `pnpm-workspace.yaml`:** `allowBuilds` also lists `"@parcel/watcher": false` (a `@tailwindcss/cli` dependency whose install script is only a build-from-source fallback; the prebuilt `@parcel/watcher-linux-x64-glibc` is used). `auditConfig.ignoreGhsas: [GHSA-vfj7-8cjw-p6xm]` is the accepted SEC-2 exception (`braces` via `eslint-config-next`: dev-only, not shipped, no fix; reviewed in S11: still accepted until a fix is published). pnpm 12 ignores the old `"pnpm"` field in `package.json`, so these settings live in `pnpm-workspace.yaml`.
-- **Content:** `BRIEFING.md` (unmodified) is the source of truth; deliberate differences in `docs/milestone-2/content-decisions.md`.
+- **Content:** `docs/milestone-2/BRIEFING.md` (unmodified) is the source of truth; deliberate differences in `docs/milestone-2/content-decisions.md`.
 - **Approved new dev tools for Milestone 2** (each pinned, installed in its step): `tailwindcss` and `@tailwindcss/cli` 4.3.3 (installed in S03 as root devDependencies); `http-server` 14.1.1 via `npx` (S03, never installed); the dev MCP servers `@playwright/mcp`, `chrome-devtools-mcp` and `@upstash/context7-mcp` (S02).
 - **Pinned dev tools in use (M2-S02):** `http-server@14.1.1` via `npx` (both gates start it on `127.0.0.1:8099`; S03 serves the site on 8080); `axe-playwright-python==0.1.8` (MIT, bundles axe-core 4.12.1), installed with `pip install --user -r .agents/skills/a11y-gate/requirements.txt` on top of Playwright for Python from `post-create.sh`.
 - **`http-server` caveat (SEC-1):** in 14.1.1, `--no-dotfiles` only hides dotfiles from directory listings; files such as `/.git/config` and `/.mcp.json` are still served by direct URL. Serving the repo root would expose the whole repository, which is why only `dist/` is served (above). Both gates build and serve `dist/` the same way on `127.0.0.1:8099` (`security-gate` since S03, `a11y-gate` since S04); neither ever serves the repo root.
@@ -74,6 +74,33 @@ Type: technical
 - **Design source:** `docs/milestone-1/design/nexova-backoffice.html`, a Claude Design bundle of the same kind as the website's; its inline data was a stand-in, replaced by `@repo/shared-types`.
 - **Structure:** `app/` (own layout with sidebar, top bar and `main`; route `/` "Operations overview"; `globals.css`), `components/` (`Sidebar`, `TopBar` + `LiveClock`, `SlaKpi`, `HeadcountKpi`, `WorkByType` + `NeedsFilter` context, `DepartmentCard` + `SpotlightCard`/`NeedList`/`SupportClock`, `AgentCard`, `OpenQuestions`), `content/overview.ts` (copy, department display order and short labels), `lib/` (`metrics.ts` pure calculations with `node:test`, `departments.ts`, `format.ts`, `motion.ts`).
 - **Conventions:** same as the website; it never imports from `uis/website`. Clocks use `useSyncExternalStore` with a `null` server snapshot (no hydration mismatch) and refresh every 30 s.
+
+## Domain utilities at the root (Milestone 3, planned from S02)
+
+- **Layout:** everything in root `src/` (`types/models.ts`, `utils/{collections,search,transformations,validations,levels}.ts`, `data/sampleData.ts`, `demo.ts`, `index.html`), with the tests in `src/tests/`.
+- **Runtime:** Node 24 runs the `.ts` files directly (type stripping), with no extra runner.
+- **Compiler:** TypeScript 5.9.3, already in the root devDependencies. A root `tsconfig.json` with `erasableSyntaxOnly` and no `rootDir: "src"`; the command is `npx tsc --noEmit`.
+- **Checks:** root typecheck and tests will also cover `src/`, with the tests type-checked, a no-any check, and the quoted glob `"src/tests/**/*.test.ts"`. The root `package.json` gets no `"type": "module"`.
+- **Shared SLA:** imported with a relative `.ts` path from `packages/shared/company.ts`; the S08 page build must include that file.
+
+## How the pieces connect
+
+```mermaid
+flowchart LR
+  shared["packages/shared: brand tokens + company data"]
+  web["uis/website"]
+  back["uis/backoffice"]
+  site["root public site"]
+  types["src/types"] --> utils["src/utils"] --> demo["src demo and test page"]
+  shared --> web
+  shared --> back
+  shared -- "tokens only" --> site
+  shared -- "24 h SLA" --> utils
+  utils -. future .-> api["services/: single API"]
+  utils -. future .-> agents["agents/: both agents"]
+```
+
+`packages/shared` is the one source of company data and brand tokens; the root public site takes only the tokens from it. The Milestone 3 domain code goes from types to utils to the demo, and the future API and agents will reuse its models. The entity map is in [`model.md`](../docs/milestone-3/model.md).
 
 ## MCP servers
 
@@ -117,9 +144,10 @@ According to `Company-choice.md`:
 | `CONTEXT.md` | Single source of truth for the Nexova domain |
 | `CLAUDE.md` | Loaded automatically by Claude Code in every session; imports `AGENTS.md` and `.agents/rules/git-workflow.md` with `@` lines and contains nothing else |
 | `.agents/rules/` | Coding-agent rules, one file each, with a frontmatter scope: `alwaysApply: true` (always active), `globs` (by file pattern) or neither (requested by the agent from its `description`) |
-| `.agents/skills/` | Coding-agent skills, catalogued in its `README.md`: `update-memory-bank/` (own; keeps this bank in sync, and its `check.sh` verifies it from the repo root, exit code 0 = pass), `milestone-recap/` (own; writes `docs/milestone-<n>/recap.md` at the end of every milestone, verified by `check.sh <n>`), `frontend-design/` and `webapp-testing/` (external, vendored unchanged from `anthropics/skills`, Apache 2.0, with a `SOURCE.md` each) |
+| `.agents/skills/` | Coding-agent skills, catalogued in its `README.md` (6 skills): `update-memory-bank/` (own; keeps this bank in sync, and its `check.sh` verifies it from the repo root, exit code 0 = pass), `milestone-recap/` (own; writes `docs/milestone-<n>/recap.md` at the end of every milestone, verified by `check.sh <n>`), `security-gate/` and `a11y-gate/` (own; the gates before every PR), `frontend-design/` and `webapp-testing/` (external, vendored unchanged from `anthropics/skills`, Apache 2.0, with a `SOURCE.md` each) |
 | `.claude/skills` | Symlink to `../.agents/skills`, so Claude Code discovers the same skills without duplicating them; `.claude/settings.local.json` (personal settings) is gitignored |
 | `memory-bank/` | Persistent project memory for the coding agent (this bank) |
+| `src/` | Milestone 3 domain utilities (from S02): types, utils, sample data, tests, demo and test page; documented exception in `.agents/rules/monorepo-structure.md` |
 | `uis/` | Any application with screens: `website/` (public website) and `backoffice/` (internal application) |
 | `services/` | Centralised FastAPI API and, only when needed, background workers |
 | `data/raw/` | Untransformed source data, with its origin and PII rules documented |
@@ -164,7 +192,7 @@ According to `Company-choice.md`:
 | 8000 | FastAPI API (future) in `services/` |
 | 5678 | n8n (`workflows/`) |
 
-The devcontainer forwards 3000, 3001, 8000 and 5678, labelled Website, Backoffice, API and n8n; port 8080 is not in the devcontainer yet (Codespaces forwards it automatically when the server starts).
+The devcontainer forwards 3000, 3001, 8000, 5678 and 8080, labelled Website, Backoffice, API, n8n and Public site.
 
 ## Infrastructure plan
 
@@ -182,5 +210,8 @@ The devcontainer forwards 3000, 3001, 8000 and 5678, labelled Website, Backoffic
 ## Open decisions
 
 - **Vector store:** Qdrant (proposed in `Company-choice.md`, native hybrid search) versus pgvector (fewer moving parts, reusing the metadata Postgres).
-- **CV scoring language:** `Company-choice.md` proposes TypeScript end to end, aligned with the course's Milestone 2 scoring spec, while the API and the support agent use Python + FastAPI. It must be decided whether scoring lives in TypeScript or in Python.
 - **LLM provider:** Anthropic versus OpenAI, for RAG answers, ticket summarisation and CV normalisation.
+
+## Closed decisions
+
+- **CV scoring language (closed 2026-11-22, M1-29):** TypeScript for the deterministic score; the API and the support agent stay Python + FastAPI. `Company-choice.md` calls the scoring specification "Milestone 2", the course's numbering: it is Milestone 3 in this repository, and that file is not edited.

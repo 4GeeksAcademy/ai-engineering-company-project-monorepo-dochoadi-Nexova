@@ -46,3 +46,7 @@ Put each change in the folder that owns it (source: each folder's `README.md`):
 ## Documented exception: the Milestone 2 public site
 
 The Milestone 2 public site lives at the repository ROOT (`index.html`, `application.html`, `validation.js`, `styles.css`, `tailwind.css`, `assets/`, `tests/site/`, and the Spanish pages in `es/`) because the 4Geeks brief requires those files at the root. The Next.js apps stay in `uis/`.
+
+## Documented exception: the Milestone 3 domain utilities
+
+All Milestone 3 code lives in root `src/` (`src/types/`, `src/utils/`, `src/data/`, `src/tests/`, `src/demo.ts`, `src/index.html`), because the 4Geeks brief requires the code inside `src/`; only configuration (`tsconfig.json`, `package.json` scripts) and docs live outside it. Later milestones may move them into a `packages/` library when a UI or service imports them. Its entity types live there too; company data such as the 24 h SLA is still imported from `packages/shared`, never copied.

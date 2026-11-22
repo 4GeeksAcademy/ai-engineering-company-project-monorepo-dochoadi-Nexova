@@ -7,6 +7,7 @@ Patterns that any code in the monorepo must follow. Each one includes its reason
 ## 1. `tenant_id` on every record, filtered in the data layer
 
 - **Rule:** every client-company entity (tickets, knowledge base cases, vacancies, candidates, CVs) carries a `tenant_id`. Every query to Postgres and to the vector store filters by `tenant_id` in the query itself. A prompt instruction is never relied on to separate clients.
+- **Exception (Milestone 3 in-memory domain code only, decision 10c in `docs/milestone-3/decisions.md`):** `clientId` is the tenant id; briefing entities and `RankingDecision` reach it through `ClientVacancy.clientId`; stored records still carry `tenant_id`.
 - **Why:** Nexova provides support and selection to several technology, retail and finance companies at once. Mixing their data would break client trust and the GDPR, and a prompt instruction can be bypassed; a query filter cannot.
 
 ## 2. Tickets and CVs are untrusted input
@@ -42,6 +43,7 @@ Patterns that any code in the monorepo must follow. Each one includes its reason
 ## 8. Company data defined once in `packages/shared`
 
 - **Rule:** Nexova's common types and data (departments, managers, business lines, company figures) are defined in `packages/shared` (`@repo/shared-types`) and imported from `uis/website` and `uis/backoffice`, never copied.
+- **Exception (Milestone 3):** the domain entity types live in root `src/` because the brief requires it; the SLA is still imported from `packages/shared/company.ts` (`supportSla`).
 - **Why:** `CONTEXT.md` already has an inconsistency (two Sales managers); duplicating the data in each app would multiply that kind of error.
 
 ## 9. Brand tokens defined once in `packages/shared`
@@ -95,7 +97,7 @@ Every tool, service, API, MCP server and library used in this project must be fr
 
 ## 18. The static server serves only the `dist/` allowlist
 
-- **Rule:** the site files stay at the repo root, but no server ever serves the root. `pnpm build:site` copies an allowlist into the git-ignored `dist/`, and only `dist/` is served (`npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false`). A new public file must be added to the allowlist in `scripts/build-site.mjs`.
+- **Rule:** the site files stay at the repo root, but no server ever serves the root. `pnpm build:site` copies an allowlist into the git-ignored `dist/`, and only `dist/` is served (`npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false -c-1`). A new public file must be added to the allowlist in `scripts/build-site.mjs`.
 - **Why:** `http-server --no-dotfiles` still serves dotfiles by direct URL (SEC-1). An allowlist means nothing private (`.git`, `.env`, `.mcp.json`, `docs/`, `memory-bank/`) can ever be reached, even once the Codespaces port is public.
 
 ## 19. Landing section order and the Milestone 1 motion
@@ -113,7 +115,7 @@ Every tool, service, API, MCP server and library used in this project must be fr
 
 ## 20. Talent form field contract: ids, values and grouping
 
-- **Rule:** every field's `id` equals its `name`, in snake_case from the briefing's field name, and is the same on the English and Spanish pages. Option `value`s are identical in both languages; only the visible labels change. No field outside this table (only the 11 `BRIEFING.md` fields).
+- **Rule:** every field's `id` equals its `name`, in snake_case from the briefing's field name, and is the same on the English and Spanish pages. Option `value`s are identical in both languages; only the visible labels change. No field outside this table (only the 11 `docs/milestone-2/BRIEFING.md` fields).
 
   | Briefing field | `id` / `name` | Element | Values | Required |
   | --- | --- | --- | --- | --- |
@@ -135,7 +137,7 @@ Every tool, service, API, MCP server and library used in this project must be fr
 ## 21. Form validation: pure rules, verbatim messages, no data leaves the browser
 
 - **Rule:**
-  - `validation.js` keeps pure functions (`validateField`, `validateAll`, `remaining`) and a `MESSAGES` table with every error, success and counter text copied verbatim from `BRIEFING.md` (EN) and `BRIEFING.es.md` (ES); tests parse both briefings and compare them.
+  - `validation.js` keeps pure functions (`validateField`, `validateAll`, `remaining`) and a `MESSAGES` table with every error, success and counter text copied verbatim from `docs/milestone-2/BRIEFING.md` (EN) and `docs/milestone-2/BRIEFING.es.md` (ES); tests parse both briefings and compare them.
   - A thin DOM layer:
     - sets `noValidate` (native validation remains the fallback without JavaScript);
     - validates on blur, then on every change once a field is touched;
@@ -152,12 +154,22 @@ Every tool, service, API, MCP server and library used in this project must be fr
 
 - **Rule:**
   - **Structure:** English is the base language at the root, and Spanish lives under `es/` as full pages, not machine-translated.
-  - **Same contract in both languages:** form field ids, names and option values are identical; only visible labels change. Briefing copy and every error, success and counter message are taken verbatim from `BRIEFING.md` (EN) and `BRIEFING.es.md` (ES), and tests compare them.
+  - **Same contract in both languages:** form field ids, names and option values are identical; only visible labels change. Briefing copy and every error, success and counter message are taken verbatim from `docs/milestone-2/BRIEFING.md` (EN) and `docs/milestone-2/BRIEFING.es.md` (ES), and tests compare them.
   - **Language markup:** `lang` on each page, `lang="en"` on English words in Spanish text, absolute `hreflang` alternates (`en`, `es`, `x-default` → English), and a language switcher that opens the twin page.
   - **Deliberate differences** from the briefing text are listed in `docs/milestone-2/content-decisions.md` and nowhere else.
 - **Why:** Nexova works between Spain and Miami. One contract for both languages keeps validation and a future backend simple, and verbatim messages are what the evaluation checks.
 
 Pattern 15 applies to every pull request of this site: `security-gate` and `a11y-gate` must exit 0 (both now run against the built `dist/` copy).
+
+## 23. Step protocol: approval, records and review (from Milestone 3)
+
+- **Approval before commit:** a step ends with its changes staged, not committed, plus a review patch. The agent commits and pushes to the milestone branch only when the developer sends that step's commit prompt, after approving the result, and only if the staged tree is the approved one. Fixes requested in the review are made before the commit, so there is still one commit per step.
+- **Milestone log:** before handing over, every step records what was done, the real result and any problem in `docs/milestone-<n>/verification.md` and `learning-log.md`, and updates that milestone's row in the Milestone log of `docs/README.md` (and `README.es.md`); a merge is recorded at the start of the next milestone.
+- **Issues log:** every error, conflict or failed check is added to that milestone's `docs/milestone-<n>/issues-log-m<n>.md` when found (cause, fix, step, status, evidence); every step updates it before handing over, and other docs cite its ID.
+- **Improvement backlog:** every step that notices something worth improving (at any level) appends it to `docs/improvements.md` with its source; it is never built in the same step unless the step's prompt says so.
+- **Review on GitHub:** after each approved commit, the report ends with a "Review on GitHub" section: the commit link, the files to open on GitHub, and the branch comparison link, so the developer can see the changes in the GitHub web interface.
+- **AI-assisted code must be explained:** every step's learning log describes each new function in plain words, and the PR states how AI was used.
+- **Why:** the developer approves what they have seen and understood, and later sessions find real results instead of expected ones.
 
 ## How the UIs relate
 
@@ -181,10 +193,10 @@ This convention applies to all milestones, not only Milestone 1.
 
 ## Milestone lifecycle
 
-1. **Start:** `git switch main && git pull`, then create the milestone branch from the up-to-date `main`: the branch name the brief asks for; only if the brief names none, the milestone title from the brief in lowercase with hyphens (M1 was `chore/hito-1-ai-setup`; M2 is `milestone-your-companys-public-website`, from "Milestone — Your Company's Public Website"). Put the milestone briefing in `BRIEFING.md` at the root, unmodified.
+1. **Start:** `git switch main && git pull`, then create the milestone branch from the up-to-date `main`: the branch name the brief asks for; only if the brief names none, the milestone title from the brief in lowercase with hyphens (M1 was `chore/hito-1-ai-setup`; M2 was `milestone-your-companys-public-website`, from "Milestone — Your Company's Public Website"; M3 is `feature/domain-models`, named by the brief). Put the milestone briefing in `BRIEFING.md` at the root, unmodified.
 2. **Work:** one commit per step on that branch, then a PR to `main`.
-3. **Review:** the PR stays open until the teacher has reviewed and validated it. Any fix the teacher requests goes on the same branch as an extra step commit (e.g. `[M2-S14] fix(form): …`), never directly on `main`.
-4. **Merge only after validation:** the coding agent never merges a PR. The PR is merged only after the instructor has reviewed and approved it: by the instructor, or by the developer once that approval is recorded in the PR (an approving review or a comment).
+3. **Review:** the PR stays open until the teacher has reviewed and validated it. Any fix the teacher requests goes on the same branch as an extra step commit (e.g. `[M<n>-S<next>] fix(<scope>): …`; in Milestone 3 the next one after the PR is `[M3-S13] fix(…): …`), never directly on `main`.
+4. **Merge only after validation:** The coding agent never merges a PR. The developer merges it, only when they decide to, after the instructor has approved it; recording the approval in the PR is recommended, not required. Nothing is merged into `main` until the developer explicitly asks for it (after the instructor's approval); then "Create a merge commit". No step prompt merges, rebases onto or pushes to `main`, and finishing all steps does not mean merging.
 5. **Next milestone:** only then does the next milestone start again from step 1.
 
 ## Milestone merge

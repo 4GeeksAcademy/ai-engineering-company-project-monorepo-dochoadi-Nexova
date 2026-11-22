@@ -5,7 +5,7 @@ globs: ["uis/**", "*.html", "es/*.html", "validation.js"]
 
 Scope: files matching uis/**, *.html, es/*.html and validation.js
 
-Target: **WCAG 2.2 AA** on every page. Nexova's 2019 website is "slow and not accessible" (`BRIEFING.md`); the new site must work for people with disabilities, older adults, people in harsh environments (bright sun, noise) and everyone else. Verify with the `a11y-gate` skill (`.agents/skills/a11y-gate/check.sh <milestone>`) before every PR.
+Target: **WCAG 2.2 AA** on every page. Nexova's 2019 website is "slow and not accessible" (`docs/milestone-2/BRIEFING.md`); the new site must work for people with disabilities, older adults, people in harsh environments (bright sun, noise) and everyone else. Verify with the `a11y-gate` skill (`.agents/skills/a11y-gate/check.sh <milestone>`) before every PR.
 
 ## Language
 

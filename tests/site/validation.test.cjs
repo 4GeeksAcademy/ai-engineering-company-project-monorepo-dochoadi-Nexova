@@ -80,7 +80,7 @@ test("data policy: must be checked", () => {
   [false, undefined, "", "on"].forEach((v) => invalid("data_policy", v));
 });
 
-for (const [lang, file, heading] of [["en", "BRIEFING.md", "Expected error messages"], ["es", "docs/milestone-2/BRIEFING.es.md", "Mensajes de error esperados"]]) {
+for (const [lang, file, heading] of [["en", "docs/milestone-2/BRIEFING.md", "Expected error messages"], ["es", "docs/milestone-2/BRIEFING.es.md", "Mensajes de error esperados"]]) {
   test(`${lang}: every error message equals the briefing text`, () => {
     const expected = briefingErrors(file, heading);
     assert.equal(expected.length, MESSAGE_KEYS.length, "the briefing lists one message per field");
@@ -88,7 +88,7 @@ for (const [lang, file, heading] of [["en", "BRIEFING.md", "Expected error messa
   });
 }
 
-for (const [lang, file, heading] of [["en", "BRIEFING.md", "Success message"], ["es", "docs/milestone-2/BRIEFING.es.md", "Mensaje de éxito"]]) {
+for (const [lang, file, heading] of [["en", "docs/milestone-2/BRIEFING.md", "Success message"], ["es", "docs/milestone-2/BRIEFING.es.md", "Mensaje de éxito"]]) {
   test(`${lang}: the success message equals the briefing text`, () => {
     const { title, body } = briefingSuccess(file, heading);
     assert.equal(MESSAGES[lang].successTitle, title);

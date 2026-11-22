@@ -29,15 +29,24 @@ Follow these steps in order. No step may be skipped.
 3. Run the affected tests with `pnpm test`; all must pass.
 4. Review the full staged diff (`git diff --staged`): no secrets, no `.env` files, no real personal data, no files unrelated to the task.
 5. Update the memory bank with the `update-memory-bank` skill (`.agents/skills/update-memory-bank/`) and make sure its `check.sh` exits with code 0.
-6. Commit once per step, following the commit naming convention below.
+6. Commit once per step, following the commit naming convention below. **Approval before commit:** a step ends with its changes staged, not committed, plus a review patch. The agent commits and pushes to the milestone branch only when the developer sends that step's commit prompt, after approving the result, and only if the staged tree is the approved one. Fixes requested in the review are made before the commit, so there is still one commit per step.
 7. Before delivering, run `security-gate` and `a11y-gate` (`.agents/skills/security-gate/`, `.agents/skills/a11y-gate/`); both must exit 0.
-8. Deliver through a pull request with the checklist from `.agents/rules/git-workflow.md`. The coding agent never merges a PR: it is merged only after the instructor has reviewed and approved it, by the instructor or by the developer once that approval is recorded in the PR (an approving review or a comment).
+8. Deliver through a pull request with the checklist from `.agents/rules/git-workflow.md`. The coding agent never merges a PR. The developer merges it, only when they decide to, after the instructor has approved it; recording the approval in the PR is recommended, not required.
 
 At the end of every milestone, run the `milestone-recap` skill (`.agents/skills/milestone-recap/`) before opening the pull request.
 
 Every step report ends with a "Summary in plain words" for the developer: what was done and why, what to check yourself, decisions needed, and what's next, in simple non-technical language.
 
 Every milestone keeps `docs/milestone-<n>/learning-log.md`; each step appends its plain-language section before committing.
+
+## Language and records
+
+- **Language:** the developer may write in Spanish; everything written to the repo (code, comments, docs, commits, PRs) and every step report is in English. Exceptions: official Spanish briefings, the Spanish site pages and the existing `README.es.md` files.
+- **Milestone log:** before handing over, every step records what was done, the real result and any problem in `docs/milestone-<n>/verification.md` and `learning-log.md`, and updates that milestone's row in the Milestone log of `docs/README.md` (and `README.es.md`); a merge is recorded at the start of the next milestone.
+- **Issues log:** every error, conflict or failed check is added to that milestone's `docs/milestone-<n>/issues-log-m<n>.md` when found (cause, fix, step, status, evidence); every step updates it before handing over, and other docs cite its ID.
+- **Improvement backlog:** every step that notices something worth improving (at any level) appends it to `docs/improvements.md` with its source; it is never built in the same step unless the step's prompt says so.
+- **Review on GitHub:** after each approved commit, the report ends with a "Review on GitHub" section: the commit link, the files to open on GitHub, and the branch comparison link, so the developer can see the changes in the GitHub web interface.
+- **AI-assisted code must be explained:** every step's learning log describes each new function in plain words, and the PR states how AI was used.
 
 ## Commit naming
 
@@ -60,6 +69,7 @@ This convention applies to all milestones, not only Milestone 1.
 - `data/raw/`: original source data.
 - `/agents`, `/skills` and `/mcps`: product code, out of scope unless the task says so.
 - Any `.env*` file: secrets.
+- **Protected checks:** a step must not edit the gate scripts (`.agents/skills/*/check.sh`, `a11y_check.py`) or weaken any check unless its prompt explicitly authorises it; the code is never allowed to change the checks that judge it.
 
 ## Stop and ask when
 
@@ -86,5 +96,7 @@ This convention applies to all milestones, not only Milestone 1.
 | `memory-bank/` | Persistent project memory: business context, technical context, patterns, current focus and progress. |
 | `.agents/rules/` | Coding-agent rules, each with an explicit scope (always active, by `globs`, or requested by the agent). |
 | `.agents/skills/` | Coding-agent skills, such as `update-memory-bank`. |
-| `docs/milestone-1/evaluation.md` | Milestone 1 evidence matrix: criteria E1–E9, files, how to verify and result. |
+| `docs/milestone-<n>/evaluation.md` | Each milestone's evidence matrix: criteria, files, how to verify and result. |
+| `docs/milestone-<n>/issues-log-m<n>.md` | Each milestone's issues and fixes log: problem, fix, step, status and evidence. |
+| `docs/improvements.md` | Improvement backlog across milestones; nothing in it is built until the developer chooses. |
 | `CONTEXT.md` | Nexova company briefing: departments, managers, figures and problems. |

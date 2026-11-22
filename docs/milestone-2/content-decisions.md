@@ -1,6 +1,6 @@
 # Milestone 2 — Content decisions
 
-`BRIEFING.md` (root, English, base language) is the single source of truth for the public site's content, and `docs/milestone-2/BRIEFING.es.md` is the official Spanish version used for the `es/` pages. Both are the official 4Geeks files (repo `4GeeksAcademy/ai-engineering-syllabus`, commit `ae89516`), kept unmodified and checked by SHA-256 (see `verification.md`, S01).
+`docs/milestone-2/BRIEFING.md` (English, base language) is the single source of truth for the public site's content, and `docs/milestone-2/BRIEFING.es.md` is the official Spanish version used for the `es/` pages. Both are the official 4Geeks files (repo `4GeeksAcademy/ai-engineering-syllabus`, commit `ae89516`), kept unmodified and checked by SHA-256 (see `verification.md`, S01).
 
 These are the only places where the site deliberately differs from the briefing text:
 

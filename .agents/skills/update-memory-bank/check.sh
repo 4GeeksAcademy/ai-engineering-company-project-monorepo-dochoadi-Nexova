@@ -69,14 +69,18 @@ if [ -z "$base" ]; then
   fail 5 "$desc" "neither main nor origin/main exists"
 else
   # Committed, staged, unstaged and untracked changes since the branch left main.
-  merge_base="$(git merge-base "$base" HEAD)"
+  # One commit per step: check the pending step, or the last commit when nothing is pending.
+  merge_base="HEAD"
+  if [ -z "$(git status --porcelain)" ] && [ "$(git rev-parse HEAD)" != "$(git rev-parse "$base")" ]; then
+    merge_base="HEAD^"
+  fi
   changed="$( { git diff --name-only "$merge_base"; git ls-files --others --exclude-standard; } | sort -u)"
   outside="$(echo "$changed" | grep -v -e "^$MB/" -e '^$' | wc -l)"
   inside="$(echo "$changed" | grep -c "^$MB/")"
   if [ "$outside" -eq 0 ] || [ "$inside" -gt 0 ]; then
     pass 5 "$desc"
   else
-    fail 5 "$desc" "$outside file(s) changed outside memory-bank/ against $base, none inside"
+    fail 5 "$desc" "$outside file(s) changed outside memory-bank/ in this step, none inside"
   fi
 fi
 

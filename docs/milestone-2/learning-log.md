@@ -364,3 +364,22 @@ _Correction (2026-10-23, S10): the public-link scores above were measured with L
 - None new. Still open: the teacher's review, the merge after approval, and setting port 8080 back to Private.
 
 **Commit:** `[M2-S13] docs(memory-bank): record Milestone 2 completion and close final audit items`
+
+## S14 — Merge into main (2026-11-16, recorded on 2026-11-22)
+
+**What was done**
+- Pull request #2 was merged into `main` (the official version of the project) as commit `ee14825`.
+- The instructor had approved Milestone 2 through the 4Geeks platform. The developer chose not to add a comment in the pull request.
+- The merge was planned as step 12 and became step 14, because the final-audit fix had taken number 13.
+
+**What I learned**
+- **Merge commit:** a commit that joins two histories. It keeps every step visible, where a "squash" would fold them into one.
+- **A merge happens after the last step's notes:** that is why it is written down at the start of the next milestone.
+
+**How to check it yourself**
+- Open pull request #2 on GitHub: it says "Merged".
+
+**Decisions or open questions**
+- None. The merge record was filled in at the start of Milestone 3 (M3-S01).
+
+**Commit:** `[M2-S14][E1][E2][E3][E4][E5][E6][E7][E8][E9][E10][E11][E12][E13][E14][E15][E16][E17][E18][E19][E20][E21][E22][E23][E24][E25][E26][E27][E28][E29][E30] chore(release): merge Milestone 2 Public Website into main (#2)`

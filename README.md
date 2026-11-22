@@ -49,9 +49,9 @@ You are building **one company** across many milestones and projects. Each top-l
 
 ## Current status
 
-This repository is the Nexova Solutions monorepo, built on the template below. Milestone 1 ("Monorepo AI Setup") is merged into `main` (PR #1); Milestone 2 ("Your Company's Public Website") is on the branch `milestone-your-companys-public-website`.
+This repository is the Nexova Solutions monorepo, built on the template below. Milestone 1 ("Monorepo AI Setup", PR #1) and Milestone 2 ("Your Company's Public Website", PR #2) are merged into `main`. Milestone 3 ("Building Scripts to Automate Tasks") is in progress on the branch `feature/domain-models`.
 
-**Current milestone briefing:** [`BRIEFING.md`](./BRIEFING.md) (Milestone 2, "Your Company's Public Website": the official 4Geeks file, unmodified).
+**Current milestone briefing:** [`BRIEFING.md`](./BRIEFING.md) (Milestone 3, "Building Scripts to Automate Tasks": the official 4Geeks file, unmodified). Earlier briefing: [Milestone 2](./docs/milestone-2/BRIEFING.md).
 
 **What exists:**
 
@@ -60,6 +60,7 @@ This repository is the Nexova Solutions monorepo, built on the template below. M
 | Corporate website | [`uis/website/`](./uis/website/README.md) | Public landing page, Next.js 16, port **3000**. |
 | Backoffice | [`uis/backoffice/`](./uis/backoffice/README.md) | Internal operations overview, Next.js 16, port **3001**, no authentication yet. |
 | Public website (Milestone 2) | repo root (`index.html`, `application.html`, `es/`) | The official public site of the brief: landing page and talent pool form, EN + ES, port **8080** (see "Public website" below). |
+| Domain utilities (Milestone 3, in progress) | root `src/` (from S02) | TypeScript models and pure functions for candidate scoring, vacancy matching and support KPIs ([model](./docs/milestone-3/model.md)). No code yet. |
 | Shared package | [`packages/shared/`](./packages/shared/README.md) | `@repo/shared-types`: Nexova company data, types and the brand tokens (`styles/tokens.css`), defined once and imported by both UIs. |
 | Coding-agent configuration | [`AGENTS.md`](./AGENTS.md), [`.agents/`](./.agents/skills/README.md), [`memory-bank/`](./memory-bank/) | Operating protocol, rules with explicit scope, skills, and the persistent project memory. `CLAUDE.md` loads `AGENTS.md` for Claude Code. |
 
@@ -72,16 +73,18 @@ pnpm install          # install the workspace
 pnpm dev              # website (3000) and backoffice (3001) in parallel
 pnpm dev:website      # website only, http://localhost:3000
 pnpm dev:backoffice   # backoffice only, http://localhost:3001
-pnpm test             # unit tests (node:test) of every package
+pnpm test             # unit tests (node:test) of every package, plus the site tests
 ```
 
 `pnpm lint`, `pnpm typecheck` and `pnpm build` run the other checks across the workspace.
 
-**Milestone documentation:** [`docs/milestone-1/`](./docs/milestone-1/README.md): the evaluation matrix (`evaluation.md`), the verification guide (`verification.md`), the approved designs and the screenshots.
+**Milestone documentation:** [`docs/milestone-1/`](./docs/milestone-1/README.md), [`docs/milestone-2/`](./docs/milestone-2/README.md) and [`docs/milestone-3/`](./docs/milestone-3/README.md), summarised in the [Milestone log](./docs/README.md#milestone-log). Each has its evaluation matrix, verification guide, learning log and issues log.
+
+**Improvement backlog:** [`docs/improvements.md`](./docs/improvements.md), ideas to compare and apply in the final milestone.
 
 ## Public website
 
-Milestone 2 ("Your Company's Public Website") builds Nexova's public website from [`BRIEFING.md`](./BRIEFING.md): plain HTML, compiled Tailwind CSS 4.3.3 and vanilla JavaScript at the repository root (the brief requires them there), bilingual, WCAG 2.2 AA, with the Milestone 1 look and motion.
+Milestone 2 ("Your Company's Public Website") builds Nexova's public website from [`docs/milestone-2/BRIEFING.md`](./docs/milestone-2/BRIEFING.md): plain HTML, compiled Tailwind CSS 4.3.3 and vanilla JavaScript at the repository root (the brief requires them there), bilingual, WCAG 2.2 AA, with the Milestone 1 look and motion.
 
 | Page | What it is |
 | --- | --- |

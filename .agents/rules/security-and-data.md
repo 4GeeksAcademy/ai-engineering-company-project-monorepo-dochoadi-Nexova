@@ -14,11 +14,13 @@ Scope: always active
 ## Multi-tenant isolation
 
 4. Every client-company record (tickets, knowledge base cases, vacancies, candidates, CVs) carries a `tenant_id`.
+   - Exception, only for the Milestone 3 in-memory domain code in `src/` (decision 10c in `docs/milestone-3/decisions.md`): `clientId` is the tenant id, the briefing's 3 entities and `RankingDecision` reach it through `ClientVacancy.clientId`, and stored records still carry `tenant_id`.
 5. Filter by `tenant_id` in the data layer: in the SQL query and in the vector store query. Never rely only on a prompt instruction to separate tenants. Nexova serves several technology, retail and finance client companies, and their data must never mix.
 
 ## Personal data (GDPR)
 
 6. Never commit real PII: no real CVs, tickets, candidate or employee data. Use synthetic or anonymised data only, in `data/`, and document its origin in the folder README.
+   - Exception: the synthetic, in-memory sample data of Milestone 3 lives in `src/data/`, marked as test data.
 
 ## Untrusted input
 
@@ -72,3 +74,4 @@ Scope: always active
 ## Verification
 
 32. Run the `security-gate` skill (`.agents/skills/security-gate/check.sh <milestone>`) before every PR and at the end of every milestone; it must exit 0.
+33. **Protected checks:** a step must not edit the gate scripts (`.agents/skills/*/check.sh`, `a11y_check.py`) or weaken any check unless its prompt explicitly authorises it; the code is never allowed to change the checks that judge it.

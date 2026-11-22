@@ -4,27 +4,36 @@ Type: status
 
 ## Current focus
 
-**Milestone 3 (Building Scripts to Automate Tasks) is paused at its start (2026-11-22)**, on the branch `feature/domain-models`. This note replaces any older note below that says Milestone 2's PR is open or that the next milestone is undefined.
+**Milestone 3 — Building Scripts to Automate Tasks** (branch `feature/domain-models`, started 2026-11-22): TypeScript domain utilities for Nexova's candidate scoring and vacancy matching engine, from the official [`BRIEFING.md`](../BRIEFING.md), plus the extensions for both agents ([model](../docs/milestone-3/model.md), [decisions](../docs/milestone-3/decisions.md)).
 
-- **Milestone 2:** merged on 2026-11-16 (`ee14825`, PR #2), approved by the instructor through the 4Geeks platform; the developer chose not to comment in the PR.
-- **Saved so far:** the domain model and the benchmark in `docs/milestone-3/`. No code yet.
-- **Approved by the developer:** `clientId` is the tenant id in the Milestone 3 extensions, and the briefing's 3 entities keep their exact fields; S01 may update the rules to resolve the kickoff findings.
-- **Approval before commit:** every step stops with its changes staged; commit and push only when the developer sends that step's commit prompt. Nothing reaches `main` until the developer asks.
-- **S00b, environment (2026-11-22):** the three pinned installs are done (workspace packages, axe, Chromium 1247). All checks passed except `pnpm build`, which Next.js 16.4.1 stopped because of 7 moderate security advisories.
-- **S00d, security patch (2026-11-22):** `next` and `eslint-config-next` updated to 16.4.6 in both apps. Lint, typecheck, build, 30 tests and the security gate exit 0, both apps answer 200, and the baseline is READY.
-- **Open from S00d, for the end-of-milestone review:** the moderate `minimatch` advisory (development tools only), and the SEC-2 exception, whose advisory GitHub lists as withdrawn since 2026-10-23.
-- **To resume:** run the session kickoff (S00), then **S01, the next step** (official briefing, evaluation matrix, decisions, conventions). Run S00b again only if the kickoff finds an install missing or outdated, for example after a container rebuild. The root `BRIEFING.md` is still the Milestone 2 one until S01.
+- **S00 (`95e64c5`):** model and benchmark saved.
+- **S00b, environment (2026-11-22):** the three pinned installs are done (workspace packages, axe, Chromium 1247); all checks passed except `pnpm build`, blocked by 7 moderate Next.js advisories (M1-31). Recorded in [verification](../docs/milestone-3/verification.md): do not repeat S00b unless a kickoff finds an install missing or outdated, for example after a container rebuild.
+- **S00d (`f2ded98`):** Next.js 16.4.6 in both apps; the baseline is READY (lint, typecheck, build, 30 tests and the security gate exit 0).
+- **S01:** official briefing, evaluation matrix, decisions, conventions, issues logs and backlog.
 
-**Milestone 2 — Your Company's Public Website** (branch `milestone-your-companys-public-website`, from `main`). Goal: Nexova's first public digital touchpoint, built from the official [`BRIEFING.md`](../BRIEFING.md) at the repo root: a landing page plus a separate talent pool application form, in plain HTML + compiled Tailwind CSS + vanilla JavaScript, responsive, WCAG 2.2 AA, SEO with Schema.org, full JavaScript form validation and a simulated submission (no backend). Evidence matrix: `docs/milestone-2/evaluation.md` (E1–E30, deliverables L/A/S, standards P1–P5). The M1 Next.js apps in `uis/` are not touched, except the approved Next.js 16.4.1 security patch (M2-S02).
+**Milestone 2 — Your Company's Public Website is complete and merged** into `main` on 2026-11-16 as `ee14825` (PR #2). The instructor approved Milestone 2 through the 4Geeks platform before the 2026-11-16 merge; the developer chose not to comment in the PR. It does not block Milestone 3. Briefing: `docs/milestone-2/BRIEFING.md`; evidence: `docs/milestone-2/evaluation.md`.
 
 **Milestone 1 — Monorepo AI Setup is complete and merged** into `main` on 2026-10-13 as PR #1 (merge commit `30f8e47`). Evidence: `docs/milestone-1/evaluation.md`; report: `docs/milestone-1/report.md`; recap: `docs/milestone-1/recap.md`; instructor feedback and the actions taken: [`docs/milestone-1/instructor-feedback.md`](../docs/milestone-1/instructor-feedback.md).
 
 ## Next steps
 
-1. **PR open, waiting for the teacher's validation.** Milestone 2 is complete (S01–S11; S13 closed the final audit's items). The next action is the developer's: review PR #2 and, after the instructor's recorded approval, merge it into `main` (S12 in the plan; it takes the next free step number) with "Create a merge commit" (rule in `.agents/rules/git-workflow.md`). The coding agent never merges.
-2. **Teacher's changes, if any:** made on this same branch as extra step commits (`[M2-S14] fix(...): …`; S13 was the final-audit fix), never on `main`.
-3. **Make port 8080 private after the PR review:** the public Codespaces URL (L15) stays public only until the instructor has reviewed the pull request; then the developer sets it back to Private in the Ports tab.
-4. **Next milestone:** to be defined; it starts from an up-to-date `main` only after the M2 merge.
+1. **S02:** TypeScript setup (root `tsconfig.json`, scripts, pinned `@types/node`, no-any check) and the models with the sample data.
+2. **Every step:** ends staged with a review patch; commit and push only with the developer's commit prompt.
+3. **Before the recap and PR:** the end-of-milestone decision review.
+
+## Milestone 3 decisions (approved by the developer, 2026-11-22)
+
+- **Location:** all code in root `src/`, tests in `src/tests/` (documented exception); only configuration and docs outside.
+- **Exact briefing:** 3 entities and 18 functions never renamed or widened; pure functions, explicit types, no any, inputs never mutated.
+- **Extensions:** 6 entities traced to `Company-choice.md`; `ClientRequest` is not included (backlog). One approved extra from the benchmark: the score breakdown.
+- **Tenant:** `clientId` is the tenant id in this code (decision 10c); briefing entities reach it through the vacancy; staff have no tenant.
+- **Shared SLA:** imported from `packages/shared/company.ts`, never retyped; entity types live in `src/`.
+- **Scoring language:** TypeScript for the deterministic score.
+- **Test page:** included, served from a `dist` copy on its own port (S08; gate coverage S09; devcontainer S10).
+- **AI use:** allowed; every function is explained in plain words in the learning log and the PR says how AI was used.
+- **Records:** real results in verification, problems in the issues logs by ID, ideas in `docs/improvements.md`.
+- **Merge:** the agent never merges; nothing reaches `main` until the developer asks, after the instructor's approval (recording it in the PR is recommended, not required).
+- **End-of-milestone decision review (developer, 2026-11-22):** after the last build and audit steps of Milestone 3, and before its recap and PR, the developer reviews every open question, open issue (M1, M2, M3 logs) and improvement, and decides: do now, plan for a later milestone, accept, or reject. Until then they are recorded, not built, unless a step needs them.
 
 ## Milestone 1 history
 
@@ -55,12 +64,12 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
 - **M2-S02 gates and tools:** `security-gate` and `a11y-gate` run before every PR; three pinned dev MCP servers in `.mcp.json` (no keys); every tool, service, API, MCP server and library must be free to use. Next.js 16.4.1 approved and applied in both M1 apps as the one exception to "report only".
 - **Alpha Playwright kept on purpose:** `@playwright/mcp@0.0.83` pins `playwright@1.64.0-alpha-1790635538000` exactly, so `post-create.sh` installs Chromium with that same version (one-line comment there).
 
-- **Milestone 2 briefing:** the official 4Geeks `BRIEFING.md` (repo `4GeeksAcademy/ai-engineering-syllabus`, commit `ae89516`, SHA-256 checked) at the root, never edited, with the official Spanish copy in `docs/milestone-2/BRIEFING.es.md`. The only deliberate differences from its text are listed in `docs/milestone-2/content-decisions.md` (e.g. "Spanish and US markets" instead of "Latin American market"; plain URLs in the JSON-LD).
-- **Branch-name and merge rules (from the M1 instructor feedback):** the milestone branch uses the name the brief asks for, or the milestone title in lowercase with hyphens; the coding agent never merges a PR, which is merged only after the instructor's recorded approval, with "Create a merge commit" and a `[M<n>-S<last>][E1]…[E<all>] chore(release): …` title.
+- **Milestone 2 briefing:** the official 4Geeks file, now `docs/milestone-2/BRIEFING.md` (repo `4GeeksAcademy/ai-engineering-syllabus`, commit `ae89516`, SHA-256 checked; at the root until M3-S01), never edited, with the official Spanish copy in `docs/milestone-2/BRIEFING.es.md`. The only deliberate differences from its text are listed in `docs/milestone-2/content-decisions.md` (e.g. "Spanish and US markets" instead of "Latin American market"; plain URLs in the JSON-LD).
+- **Branch-name and merge rules (from the M1 instructor feedback):** the milestone branch uses the name the brief asks for, or the milestone title in lowercase with hyphens; the coding agent never merges a PR, which the developer merges after the instructor's approval, with "Create a merge commit" and a `[M<n>-S<last>][E1]…[E<all>] chore(release): …` title.
 - **Bilingual site:** English (base language) at the root, Spanish under `es/`; option `value`s identical in both languages.
 - **Root location:** the public site lives at the repo root because the brief requires it (documented exception in `.agents/rules/monorepo-structure.md`); `uis/website` stays as the M1 company-facing landing prototype.
 - **Compiled Tailwind CSS v4** for the root site only, served with `npx http-server` on port 8080; the M1 Next.js apps keep CSS Modules.
-- **Form fields:** exactly the 11 fields of `BRIEFING.md`, no extra fields.
+- **Form fields:** exactly the 11 fields of `docs/milestone-2/BRIEFING.md`, no extra fields.
 - **Hero:** static in M2-S04; the M1 CV cascade was added in M2-S07 (developer's decision), with reduced motion and a Pause control.
 - **Sales manager = Marcos Ibáñez.** Source: the detailed department profile in `CONTEXT.md` ("Sales and Business Development" section, line 62), which matches the forecasting brief `docs/briefs/sales-forecasting.md`. This is the name used throughout the memory bank and the code. `CONTEXT.md` is not modified.
 - **Milestone 1 has 13 steps:** 9 devcontainer, 10 website, 11 backoffice, 12 conventions and cleanup, 13 final report and PR.
@@ -74,13 +83,14 @@ Done in step 13: `milestone-recap` skill, findings report (`docs/milestone-1/rep
 - **Carried forward from Milestone 2:**
   - the Milestone 1 baseline findings not fixed in this milestone (SEC-3, SEC-5, SEC-6, SEC-7 and A11Y-1 to A11Y-6 in the M1 Next.js apps, "Planned: M1 hardening (separate change, needs approval)");
   - the office photos: the developer confirmed permission to use them (S05), but for a real public launch the licence and consent of the source photos must still be on record;
-  - make the Codespaces port 8080 private again after the PR review.
+  - port 8080 is Private again (confirmed by the developer on 2026-11-22, M2-12).
 - **Milestone 1 baseline findings (decided after S02):** SEC-1 resolved in S03 (`dist/` allowlist); SEC-2 accepted as a documented exception (reviewed in S11: still accepted until a fix is published); SEC-4 fixed in S10 with the other `.devcontainer/` changes; SEC-3, SEC-5–7 and A11Y-1–6 stay in the backlog as "Planned: M1 hardening (separate change, needs approval)" (`docs/milestone-2/security.md`, `accessibility.md`).
 
-- **Official briefing quirks (cannot be fixed, the file stays unmodified):** `BRIEFING.md` is headed "Milestone 1: Your Company's Public Website" (the course's own numbering; in this repo it is Milestone 2), and its link to the Spanish version (`./nexova-BRIEFING.es.md`) does not resolve, because the Spanish copy lives in `docs/milestone-2/BRIEFING.es.md`.
+- **Official briefing quirks (cannot be fixed, the file stays unmodified):** `docs/milestone-2/BRIEFING.md` is headed "Milestone 1: Your Company's Public Website" (the course's own numbering; in this repo it is Milestone 2), and its link to the Spanish version (`./nexova-BRIEFING.es.md`) does not resolve, because the Spanish copy lives in `docs/milestone-2/BRIEFING.es.md`.
 - **Backoffice authentication:** `uis/backoffice` has no sign-in yet ("Internal tool. Sign-in comes later."). Who may access it, and with which identity provider (e.g. Google Workspace, which Nexova already uses), is still to be decided; it must not be exposed publicly until then.
 - **Sales contradiction in `CONTEXT.md`:** the general description (line 24) names **Megan Clarke** as head of the 18-person team, while the department profile (line 62) names **Marcos Ibáñez**. The decision is to use Marcos Ibáñez, but it still needs to be confirmed with the author of the context whether Megan Clarke is an error or has another role.
 - **`data/raw/nexova_sales.csv` is missing:** the forecasting brief (`docs/briefs/sales-forecasting.md`) assumes it exists, with 120 `consolidated` rows from 2016-01 to 2025-12, but it is not in the repo. It must be obtained or generated with `random_state=42` before tackling that deliverable.
 - **Public contact email:** the website uses the placeholder `hello@nexova.example` (`CONTACT_EMAIL` in `uis/website/content/home.ts`) until Nexova confirms the real address.
 - **Office headcount split:** the briefing does not say how the 120 employees divide between Valencia and Miami; the backoffice lists it as an open question instead of inventing it.
-- **Open technical decisions** (details in `techContext.md`): Qdrant versus pgvector; the LLM provider (Anthropic or OpenAI); Python versus TypeScript for CV scoring.
+- **Open technical decisions** (details in `techContext.md`): Qdrant versus pgvector; the LLM provider (Anthropic or OpenAI).
+- **Milestone 3, to decide before the step that needs it** (end of `docs/milestone-3/decisions.md`): the score with no required skills and the order of tied scores (S05); the spelling shown by `findTopSkills` (S06).

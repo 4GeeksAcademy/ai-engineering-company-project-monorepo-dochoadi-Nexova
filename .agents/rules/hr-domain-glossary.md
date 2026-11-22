@@ -27,3 +27,15 @@ Use these terms and identifiers consistently in code, routes, types and database
 | Account manager | One of the 6 Sales team members who look after existing clients. | `accountManager` |
 | SDR | One of the 12 sales development representatives who prospect new clients. | `sdr` |
 | Deal | A sales opportunity tracked in HubSpot, from first contact to close or discard. | `deal` |
+
+## Aliases in the Milestone 3 domain code (`src/`)
+
+The official Milestone 3 briefing and its model fix these names; `clientId` is the tenant id in that code.
+
+| Glossary identifier | Milestone 3 name |
+| --- | --- |
+| `tenantId` | `clientId` (references `ClientCompany.id`) |
+| `search` | `SelectionProcess` (one candidate in one vacancy) |
+| `kbArticle` | `KnowledgeBaseArticle` |
+| `level1` | `L1` (a `SupportLevel` value) |
+| `level2` | `L2` (a `SupportLevel` value) |
