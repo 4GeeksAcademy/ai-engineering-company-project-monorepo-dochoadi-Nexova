@@ -67,6 +67,7 @@ Type: status
   - **Docs:** `docs/milestone-2/recap.md` (`milestone-recap` check: all 6 criteria passed) and `report.md`; `evaluation.md` with P3 and P4 met and E26 re-verified; every report linked from `docs/milestone-2/README.md` and `docs/README.md`.
   - **Pull request** to `main` opened, not merged.
 - **2026-10-23 — S13 (`M2-S13`):** fix from the final audit (Run 2). Its only FAIL (E3) was the memory bank: `projectbrief.md` and `techContext.md` still described the state after S10; both updated, plus the stale SEC-2 "review in S11" notes. `evaluation.md` S2 and S3 set to Met (PR #2); `content-decisions.md` records the LinkedIn field placement; the teacher-fix example is now `[M2-S14]` (`git-workflow.md`, memory bank, PR #2 description).
+- **2026-11-22 — Milestone 3 started, kickoff (`M3-S00`):** Milestone 2 confirmed merged (`ee14825`); readiness and consistency review done; domain model and benchmark saved on `feature/domain-models`; work paused before S01.
 
 ## Pending
 

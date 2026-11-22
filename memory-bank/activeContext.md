@@ -4,6 +4,14 @@ Type: status
 
 ## Current focus
 
+**Milestone 3 (Building Scripts to Automate Tasks) is paused at its start (2026-11-22)**, on the branch `feature/domain-models`. This note replaces any older note below that says Milestone 2's PR is open or that the next milestone is undefined.
+
+- **Milestone 2:** merged on 2026-11-16 (`ee14825`, PR #2), approved by the instructor through the 4Geeks platform; the developer chose not to comment in the PR.
+- **Saved so far:** the domain model and the benchmark in `docs/milestone-3/`. No code yet.
+- **Approved by the developer:** `clientId` is the tenant id in the Milestone 3 extensions, and the briefing's 3 entities keep their exact fields; S01 may update the rules to resolve the kickoff findings.
+- **Approval before commit:** every step stops with its changes staged; commit and push only when the developer sends that step's commit prompt. Nothing reaches `main` until the developer asks.
+- **To resume:** run the session kickoff (S00), then S00b (pinned installs and baseline checks, unless already reported READY), then S01 (official briefing, evaluation matrix, decisions, conventions). The root `BRIEFING.md` is still the Milestone 2 one until S01.
+
 **Milestone 2 — Your Company's Public Website** (branch `milestone-your-companys-public-website`, from `main`). Goal: Nexova's first public digital touchpoint, built from the official [`BRIEFING.md`](../BRIEFING.md) at the repo root: a landing page plus a separate talent pool application form, in plain HTML + compiled Tailwind CSS + vanilla JavaScript, responsive, WCAG 2.2 AA, SEO with Schema.org, full JavaScript form validation and a simulated submission (no backend). Evidence matrix: `docs/milestone-2/evaluation.md` (E1–E30, deliverables L/A/S, standards P1–P5). The M1 Next.js apps in `uis/` are not touched, except the approved Next.js 16.4.1 security patch (M2-S02).
 
 **Milestone 1 — Monorepo AI Setup is complete and merged** into `main` on 2026-10-13 as PR #1 (merge commit `30f8e47`). Evidence: `docs/milestone-1/evaluation.md`; report: `docs/milestone-1/report.md`; recap: `docs/milestone-1/recap.md`; instructor feedback and the actions taken: [`docs/milestone-1/instructor-feedback.md`](../docs/milestone-1/instructor-feedback.md).
