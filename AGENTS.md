@@ -58,6 +58,7 @@ This convention applies to all milestones, not only Milestone 1.
 - **`<type>`:** one of `feat`, `fix`, `docs`, `chore`, `refactor`, `test`.
 - **One commit per step**, on the milestone branch.
 - **Commits outside a milestone** use only `<type>(<scope>): <description>`.
+- **No trailer:** the commit message is exactly the convention line, with no trailer (no `Co-Authored-By` or similar); AI use is recorded in the learning log, `decisions.md` and the PR description.
 - **Example:** `[M1-S04][E3] docs(agents): add development rules with explicit scope`.
 
 ## Do not modify without explicit confirmation from the developer

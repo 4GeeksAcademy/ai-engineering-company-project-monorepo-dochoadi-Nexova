@@ -50,6 +50,7 @@
 | TS-01 | Typecheck the tests of the shared package and apply the same strict options everywhere | The Milestone 3 tests will be type-checked; older shared tests are excluded | A: only the M3 code / B: every package | S | Med | M1, S08, `memory-bank/techContext.md` (tests); M3, S01, `docs/milestone-3/decisions.md` | Open |
 | TS-02 | Import shared data by package name instead of a relative path | The relative `.ts` path breaks if the domain code moves | A: keep the relative path / B: a root workspace dependency on `@repo/shared-types` | S | Low | M3, S01, `docs/milestone-3/issues-log-m3.md` (M3-35) | Open |
 | TS-03 | Lint the domain code in `src/` | `pnpm lint` only runs the apps' ESLint; `src/` is checked by `tsc` and the no-any test, not by a linter (unused variables, `let` vs `const`) | A: ESLint with `typescript-eslint` at the root (new dependency) / B: keep `tsc` strict options plus review in S09 | S | Med | M3, S02, root `package.json` (`lint` = `pnpm -r`) | Open |
+| TS-04 | Sort names with a fixed locale | `localeCompare` without a locale uses the machine's default, so a name sort could differ between computers | A: `localeCompare(b, "es")` / B: one shared `Intl.Collator("es")` | S | Low | M3-S04, `src/utils/collections.ts` (`sortCandidatesByFields`) | Open |
 
 ## CSS and Tailwind
 
@@ -120,6 +121,7 @@
 | TEST-01 | Test the briefing's layout requirements | A redesign dropped the 2-column layout until the final audit | A: a Playwright assertion / B: a checklist after each redesign | S | Med | M2, S11, `docs/milestone-2/recap.md` (what I would do differently) | Open |
 | TEST-02 | Keep the "deliberate mistake" checks as a script | S02 proved the conformance and no-any tests can fail by editing `models.ts` by hand; nothing repeats that proof later | A: a small script that breaks a copy and expects failures / B: keep it as a manual step in `verification.md` | S | Low | M3, S02, `docs/milestone-3/verification.md` (Result) | Open |
 | TEST-03 | Guard against an endless loop in binary search | A deliberate `high = mid` mistake made the test run hang until it was killed, instead of failing with a test name | A: a loop limit in the function (at most log2(n) + 1 rounds) / B: run the domain tests with an outer time limit | S | Low | M3-S03, deliberate-mistake check (`docs/milestone-3/verification.md`) | Open |
+| TEST-04 | One shared helper for frozen test inputs | `search.test.ts` keeps its own `deepFrozen`, while S04 added `src/tests/helpers/frozen.ts`; two copies can drift | A: import the helper in `search.test.ts` / B: keep both | S | Low | M3-S04, `src/tests/helpers/frozen.ts` | Open |
 
 ## DevOps and Codespaces
 

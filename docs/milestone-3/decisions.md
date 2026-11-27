@@ -58,6 +58,8 @@ Exactly one `@`, a non-empty part before it, a `.` after the `@` with characters
   - `countProcessesByStage`: the pipeline funnel.
   - `calculateAverageTimeToHire`: average days from `createdAt` to `updatedAt` of "Hired" processes.
 - Helpers `compareEnglishLevel` and `seniorityDistance`.
+- `sortCandidatesByFields(candidates, criteria)` (S04), for deliverable D3 ("sorting … by multiple fields"): each criterion is `{ field: "expectedSalary" | "yearsOfExperience" | "fullName", order: "asc" | "desc" }`; the first decides and the next ones break ties; names use `localeCompare`. Its type `CandidateSortCriterion` lives in `src/utils/collections.ts`, because only that file and its tests use it.
+- Sorting is stable: equal values keep their original order (S04). `filterCandidatesByAvailability` and `filterTicketsByStatus` with an empty status list return `[]` (nothing to match).
 - Extra sample data marked as test data, including a worked case: one vacancy with several candidates, and one candidate in selection processes for two different vacancies (it shows the relationships).
 
 ### 10. Assumptions

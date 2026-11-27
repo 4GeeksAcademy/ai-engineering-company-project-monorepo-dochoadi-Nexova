@@ -270,3 +270,56 @@ bash .agents/skills/security-gate/check.sh 3
 - M3-60: a binary-search mistake that loops forever hangs the run instead of naming a failing test; accepted (a hang is still a failure), option recorded as TEST-03. Mistake 1b was added so that binary search also has a named failing run.
 - M3-61: the first draft of the non-mutation test copied the frozen list (`[...frozen]`), which made it changeable again; rewritten before the first run to pass deeply frozen lists to the functions.
 
+## S04 — Filters and sorting (2026-11-27)
+
+### Delivered
+
+- `src/utils/collections.ts`: the 5 briefing functions (`filterCandidatesBySkills`, `filterCandidatesBySeniority`, `filterCandidatesByAvailability`, `sortCandidatesBySalary`, `sortCandidatesByExperience`); the addition `sortCandidatesByFields` with its type `CandidateSortCriterion` (in this file, the only user); the extensions `filterTicketsByClient`, `filterTicketsByStatus`, `sortTicketsByAge`.
+- `src/tests/collections.test.ts` (18 tests) and the helper `src/tests/helpers/frozen.ts`.
+- The no-trailer rule in `AGENTS.md`, `.agents/rules/git-workflow.md` and `systemPatterns.md` (M3-62).
+
+### Commands
+
+```bash
+npx tsc --noEmit; echo "tsc exit=$?"
+pnpm test:domain; echo "test:domain exit=$?"
+pnpm lint; pnpm typecheck; pnpm build; pnpm test
+grep -nE "^export function" src/utils/collections.ts
+git diff --stat HEAD -- package.json pnpm-lock.yaml tsconfig.json src/data src/utils/search.ts
+# Deliberate mistakes (one at a time, then restored)
+sed -i 's/  return \[...candidates\].sort((a, b) => byNumber(a.expectedSalary/  return candidates.sort((a, b) => byNumber(a.expectedSalary/' src/utils/collections.ts  # 1
+sed -i 's/  return skill.trim().toLowerCase();/  return skill.trim();/' src/utils/collections.ts                                                       # 2
+sed -i 's/  return tickets.filter((ticket) => ticket.clientId === clientId);/  return [...tickets];/' src/utils/collections.ts                     # 3
+node --test src/tests/collections.test.ts
+bash .agents/skills/update-memory-bank/check.sh
+bash .agents/skills/security-gate/check.sh 3
+```
+
+### Expected
+
+- Every check exits 0; 9 exported functions; no change to `package.json`, the lockfile, `tsconfig.json`, the sample data or `search.ts`.
+- Every deliberate mistake makes at least one test fail by name.
+
+### Result
+
+- `npx tsc --noEmit` exit 0; `pnpm test:domain` 74 tests, 74 pass, 0 fail (18 new; the no-any test also covers the 3 new files).
+- `pnpm lint`, `pnpm typecheck`, `pnpm build` and `pnpm test` exit 0; `pnpm test` runs 104 tests: 15 package, 15 site, 74 domain.
+- `grep` lists 9 exported functions; the protected files are unchanged.
+- Deliberate mistakes:
+
+  | Mistake | Result |
+  | --- | --- |
+  | 1. Salary sort on the original (`candidates.sort`) | 1 fails: "no function changes its input (frozen lists passed directly, compared with a copy)" |
+  | 2. Case-sensitive skills | 1 fails: "filterCandidatesBySkills ignores capital letters and spaces" |
+  | 3. No client filter in `filterTicketsByClient` | 3 fail: "filterTicketsByClient never returns another client's ticket", "filterTicketsByStatus after filterTicketsByClient: one client's open tickets", "no function changes its input …" |
+  | Restored | 18 of 18 collection tests pass; 74 of 74 domain tests |
+
+- Mistake 1 is caught only by the frozen-input test: the ascending-salary test still passes, because sorting the shared sample in place also gives the right order. That is exactly the case the frozen test exists for (M3-61 lesson).
+- Memory check 5 PASS (exit 0). `security-gate` (Milestone 3), run with everything staged: 7 PASS, exit 0. The accessibility gate was not run (no page changed).
+
+### Problems found and fixed
+
+- M3-62: the S02 commit `093ce54` has a `Co-Authored-By` trailer; accepted (history is never rewritten), with the no-trailer rule added.
+- M3-18 (ticket part): tested here; the KPI part stays for S06.
+- No new defect in the code: every test passed on the first run.
+

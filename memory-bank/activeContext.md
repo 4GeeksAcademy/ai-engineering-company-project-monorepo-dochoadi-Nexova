@@ -11,7 +11,8 @@ Type: status
 - **S00d (`f2ded98`):** Next.js 16.4.6 in both apps; the baseline is READY (lint, typecheck, build, 30 tests and the security gate exit 0).
 - **S01 (`dc68963`):** official briefing, evaluation matrix, decisions, conventions, issues logs and backlog.
 - **S02 (`093ce54`):** the 4Geeks project page (`docs/milestone-3/brief.md`), the TypeScript toolchain for `src/`, the domain types, the level ladders, the sample data and 34 tests; the README top now presents Nexova.
-- **S03 (2026-11-27, staged for approval):** `src/utils/search.ts` (`findCandidateById`, `findCandidateByEmail`, `binarySearchCandidateBySalary`, client-scoped `searchKnowledgeBase`) with 17 tests and deliberate-mistake runs.
+- **S03 (`50d8b05`):** `src/utils/search.ts` (`findCandidateById`, `findCandidateByEmail`, `binarySearchCandidateBySalary`, client-scoped `searchKnowledgeBase`) with 17 tests and deliberate-mistake runs.
+- **S04 (2026-11-27, staged for approval):** `src/utils/collections.ts` (the 5 briefing filters and sorts, `sortCandidatesByFields`, and the ticket functions `filterTicketsByClient`, `filterTicketsByStatus`, `sortTicketsByAge`) with 18 tests; the no-trailer commit rule.
 
 **Milestone 2 — Your Company's Public Website is complete and merged** into `main` on 2026-11-16 as `ee14825` (PR #2). The instructor approved Milestone 2 through the 4Geeks platform before the 2026-11-16 merge; the developer chose not to comment in the PR. It does not block Milestone 3. Briefing: `docs/milestone-2/BRIEFING.md`; evidence: `docs/milestone-2/evaluation.md`.
 
@@ -19,7 +20,7 @@ Type: status
 
 ## Next steps
 
-1. **S04:** filters and sorting in `src/utils/collections.ts` (the 5 briefing functions, plus `filterTicketsByClient`, `filterTicketsByStatus`, `sortTicketsByAge`).
+1. **S05:** scoring and ranking in `src/utils/transformations.ts` (`getCandidateScoreBreakdown`, `calculateCandidateScore`, `rankCandidatesForVacancy`, `groupCandidatesBySeniority`, `isHighMatch`).
 2. **Before S05, the developer decides** (`docs/milestone-3/decisions.md`, "Not decided yet"): the score with no required skills; the order of tied scores (recommended: more required skills matched, then sooner availability, never salary); a salary below the vacancy minimum (0 points, or 10 plus a "below range" warning); where the demo evidence goes (M3-57); the `ScoreBreakdown` fields chosen in S02. Before S06: the spelling shown by `findTopSkills` (recommended: the most common).
 3. **Every step:** ends staged with a review patch; commit and push only with the developer's commit prompt.
 4. **Before the recap and PR:** the end-of-milestone decision review.
@@ -36,6 +37,7 @@ Type: status
 - **AI use (developer decision, 2026-11-27):** the 4Geeks project page encourages solving the milestone "without AI support or, if needed, with only minimal AI usage"; the developer decided that the coding agent writes the code, every step's learning log explains each new function in plain words, and the PR (S11) says so honestly (M3-47, `docs/milestone-3/decisions.md`).
 - **Project page:** the 4Geeks project page is kept unmodified in `docs/milestone-3/brief.md` (M3-55).
 - **Records:** real results in verification, problems in the issues logs by ID, ideas in `docs/improvements.md`.
+- **Commit messages (developer, 2026-11-27):** exactly the convention line, no trailer (no `Co-Authored-By`); AI use goes in the learning log, `decisions.md` and the PR (M3-62).
 - **Merge:** the agent never merges; nothing reaches `main` until the developer asks, after the instructor's approval (recording it in the PR is recommended, not required).
 - **End-of-milestone decision review (developer, 2026-11-22):** after the last build and audit steps of Milestone 3, and before its recap and PR, the developer reviews every open question, open issue (M1, M2, M3 logs) and improvement, and decides: do now, plan for a later milestone, accept, or reject. Until then they are recorded, not built, unless a step needs them.
 

@@ -273,3 +273,70 @@ What was done in each step, in plain words.
 
 **Commit:** `[M3-S03][E4][E5] feat(search): add linear and binary candidate search and client-scoped knowledge-base search`
 
+## S04 — Filters and sorting (2026-11-27)
+
+**What was done**
+- Wrote the filters and sorts in `src/utils/collections.ts`:
+  - the 5 functions the briefing asks for;
+  - a sort by several fields at once;
+  - three ticket functions for the support agent.
+- Wrote 18 tests, and broke the code on purpose three times to prove they notice.
+- Wrote down a new rule: a commit message is exactly the agreed line, with nothing added under it.
+
+**How it works**
+- **`filter`:** builds a new list with only the items that pass a test. Example: from [María (Semi-Senior), Juan (Junior), Carolina (Senior)], `filterCandidatesBySeniority(…, "Senior")` keeps only Carolina. The original list is untouched.
+- **The "all skills" check (`every` inside `filter`):** for each candidate, `every` asks "does this candidate have each required skill?" and says yes only if all answers are yes. Skills are trimmed and put in lower case first, so " react " matches "React". Example: ["TypeScript", "Node.js"] keeps María and Carolina; Juan has neither. With no required skills, every candidate passes, because nothing is missing.
+- **`filterCandidatesByAvailability` and `filterTicketsByStatus`:** keep an item if its status is in the list you give (`includes`). Example: ["Immediate", "2 weeks"] keeps Juan and Carolina. An empty list keeps nobody.
+- **Sorting on a copy, and "mutating":** to mutate means to change the original. JavaScript's `sort` reorders the list it is given, so `[...candidates].sort(...)` first makes a copy (`...` spreads the items into a new list) and sorts that copy. Other code that still uses the original list sees it unchanged.
+- **The compare function:** `sort` asks it about two items, `a` and `b`. A negative answer means "a goes first", a positive one "b goes first", and 0 means "keep their order".
+  - Ascending is `a - b`: for 2800 and 4200 it gives −1400, so 2800 goes first.
+  - Descending is `b - a`, the same subtraction the other way round.
+  - Equal values give 0 and keep their original order (JavaScript's sort is "stable").
+- **Multi-field sort (`sortCandidatesByFields`):** a list of rules, such as "salary high to low, then experience high to low". It compares by the first rule; only if that says 0 (a tie) does it try the next rule, and so on. Example: two candidates both ask for 4000, so the one with 7 years goes before the one with 3. Names are compared with `localeCompare`, which knows that "Óscar" goes between "Bruno" and "Zoe".
+- **Ticket functions:**
+  - `filterTicketsByClient` keeps one client's tickets.
+  - `filterTicketsByStatus` keeps "Open", "Resolved" or both.
+  - `sortTicketsByAge` puts the oldest first with `"asc"`, because those are the closest to breaking the 24 h SLA.
+  - The client filter always comes first, so a supervisor of one client never sees another client's tickets.
+
+**Check your understanding**
+1. *Why does `sortCandidatesBySalary` start with `[...candidates]`?* Because `sort` changes the list it is given; the copy keeps the caller's list as it was.
+2. *What does a compare function that returns `b - a` do?* It sorts from the highest to the lowest (descending).
+3. *In a sort by salary then name, when is the name used?* Only when two candidates have the same salary.
+
+**Result**
+- 74 of 74 domain tests pass (18 new); 104 of 104 in `pnpm test`.
+- Type check, lint and build finish without errors.
+- Broken on purpose:
+  - a sort that changes the original: 1 test failed;
+  - case-sensitive skills: 1 failed;
+  - no client filter: 3 failed;
+  - restored: everything passes.
+- Memory check 5 of 5; security check 7 of 7.
+
+**Problems found and fixed**
+- M3-62: the S02 commit has an extra "Co-Authored-By" line; history is never rewritten, so it stays, and the new rule prevents it again.
+- M3-18: the ticket part is now tested; the reports part comes in S06.
+
+**What I learned**
+- A sort that changes the original can still give the right answer, so only a test with a frozen list catches it.
+- "Stable" sorting means ties keep their order, which makes results predictable.
+- Several sort rules are just "try the next rule when there is a tie".
+
+**How to check it yourself**
+- Run `pnpm test:domain`: `pass 74`, `fail 0`.
+- Open `src/utils/collections.ts`: each function is one or a few lines.
+- Read the test "sortCandidatesByFields: three levels deep …" in `src/tests/collections.test.ts`.
+
+**Decisions or open questions**
+- Recorded (decision 9): the multi-field sort; an empty status list returns nothing.
+- Before S05 you still decide:
+  - the score when a vacancy has no required skills;
+  - the order of tied scores;
+  - the points for a salary below the minimum;
+  - where the demo evidence goes (M3-57);
+  - the score breakdown fields.
+- Next: S05, scoring and ranking.
+
+**Commit:** `[M3-S04][E2][E3] feat(collections): add candidate filters, single and multi-field sorting, and ticket filters`
+
