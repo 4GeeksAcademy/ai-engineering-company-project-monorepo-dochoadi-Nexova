@@ -75,6 +75,12 @@ Source: `CONTEXT.md` (department profiles) and `Company-choice.md`. Nexova has 1
 - **Explains itself (since M3-S05):** each score comes with its five parts, the matched and missing skills, and warnings (for example `salary-below-range`, `remote-mismatch`, `candidate-not-active`) that tell the consultant what to check. Equal scores are ordered by required skills matched, then availability, never by salary.
 - **Limit:** the score is a ranking aid, never an automatic rejection: a warning never lowers a score or removes a candidate, and the consultant decides. Candidates with invalid data go to manual review.
 
+## Reports and KPIs (Milestone 3, S06)
+
+- **Recruitment (Javier Almeida's team):** candidates by status, average expected salary, the most common skills, the vacancy fill rate, processes by stage, the average time to hire, and how often consultants override the ranking (the signal for calibrating the score).
+- **Customer Support (Roberto Díaz's team):** the SLA traffic light per ticket (On time, At risk from 20 h, Breached after the 24 h SLA, imported from `packages/shared`), the Level 1 resolution rate (target ≥ 40 %) and the average resolution time (target < 24 h).
+- **One client at a time:** every report receives one client's data only, so a client's numbers never include another client's records.
+
 ## Users of what we build
 
 | User | Who they are | What they expect from our systems |

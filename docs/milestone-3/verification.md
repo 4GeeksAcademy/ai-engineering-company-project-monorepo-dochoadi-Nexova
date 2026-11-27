@@ -219,6 +219,10 @@ bash .agents/skills/security-gate/check.sh 3
 - M3-59: a script that edited the issues logs deleted the M3 log's blank lines and put the M2-16 row outside its table; caught in the diff review and fixed before staging.
 - Left open: M3-56 (rest of the README, S10), M3-57 (demo evidence, before S05), M3-58 (DOM types, S08), M3-35 (S06, S08).
 
+### Commit
+
+- `093ce54` `[M3-S02][E1][E9][E13] feat(domain): add TypeScript setup, domain models, level ladders and sample data` (recorded in S06).
+
 ## S03 — Search: linear and binary (2026-11-27)
 
 ### Delivered
@@ -269,6 +273,10 @@ bash .agents/skills/security-gate/check.sh 3
 
 - M3-60: a binary-search mistake that loops forever hangs the run instead of naming a failing test; accepted (a hang is still a failure), option recorded as TEST-03. Mistake 1b was added so that binary search also has a named failing run.
 - M3-61: the first draft of the non-mutation test copied the frozen list (`[...frozen]`), which made it changeable again; rewritten before the first run to pass deeply frozen lists to the functions.
+
+### Commit
+
+- `50d8b05` `[M3-S03][E4][E5] feat(search): add linear and binary candidate search and client-scoped knowledge-base search` (recorded in S06).
 
 ## S04 — Filters and sorting (2026-11-27)
 
@@ -322,6 +330,10 @@ bash .agents/skills/security-gate/check.sh 3
 - M3-62: the S02 commit `093ce54` has a `Co-Authored-By` trailer; accepted (history is never rewritten), with the no-trailer rule added.
 - M3-18 (ticket part): tested here; the KPI part stays for S06.
 - No new defect in the code: every test passed on the first run.
+
+### Commit
+
+- `bf6b86b` `[M3-S04][E2][E3] feat(collections): add candidate filters, single and multi-field sorting, and ticket filters` (recorded in S06).
 
 ## S05 — Scoring, ranking and grouping (2026-11-27)
 
@@ -461,4 +473,96 @@ Candidates by seniority:
 
 - **Checks with everything staged:** memory check 5 PASS (exit 0); `security-gate` (Milestone 3) 7 PASS, exit 0.
 - **Problems found and fixed:** M3-63 (stored scores) and M3-64 (missing must-have without a warning) fixed; M3-53 fully decided (spelling built in S06).
+
+### Commit
+
+- `37acd6e` `[M3-S05][E6][E15] feat(scoring): add explainable candidate score with warnings, ranking, grouping and demo` (recorded in S06; includes the S05b review fixes).
+
+## S06 — Reports and KPIs (2026-11-27)
+
+### Delivered
+
+- `src/utils/transformations.ts`:
+  - the 4 briefing reports: `countCandidatesByStatus`, `calculateAverageSalary`, `findTopSkills` (most common spelling, decision 13G), `calculateVacancyFillRate`;
+  - the extensions `countProcessesByStage`, `calculateAverageTimeToHire`, `getSlaStatus`, `calculateL1ResolutionRate`, `calculateAverageResolutionHours`, `calculateOverrideRate` (decision 14);
+  - the constants `SLA_HOURS` (imported from `packages/shared/company.ts`) and `SLA_AT_RISK_HOURS`.
+- `src/demo.ts`: the recruitment report and the per-client KPIs with SLA status at a fixed `REPORT_TIME`.
+- `src/tests/reports.test.ts`: 26 tests.
+- Records: decision 14 (pending approval); the S02–S05 commit hashes added to this guide and the learning log.
+
+### Commands
+
+```bash
+npx tsc --noEmit; echo "tsc exit=$?"
+pnpm test:domain; echo "test:domain exit=$?"
+pnpm demo; echo "demo exit=$?"
+pnpm lint; pnpm typecheck; pnpm build; pnpm test
+grep -nE "^export (function|const)" src/utils/transformations.ts
+grep -rnE "new Date\(\)|Date\.now\(" src/utils src/demo.ts
+git diff --stat HEAD -- pnpm-lock.yaml package.json tsconfig.json packages src/data src/types src/utils/search.ts src/utils/collections.ts src/utils/levels.ts
+# Deliberate mistakes (one at a time, then restored)
+sed -i 's/      if (key === "" || seen.has(key)) continue;/      if (key === "") continue;/' src/utils/transformations.ts                                  # a
+sed -i 's/  if (elapsed > SLA_HOURS) return "Breached";/  if (elapsed >= SLA_HOURS) return "Breached";/' src/utils/transformations.ts             # b
+sed -i 's/  const resolved = tickets.filter((ticket) => ticket.status === "Resolved");/  const resolved = tickets;/' src/utils/transformations.ts  # c
+node --test src/tests/reports.test.ts
+bash .agents/skills/update-memory-bank/check.sh
+bash .agents/skills/security-gate/check.sh 3
+```
+
+### Expected
+
+- Every check exits 0, except the no-current-date `grep` (exit 1 = none found).
+- 15 exported functions and 2 constants in `transformations.ts`.
+- The demo shows the values of decision 12 (S06 rows).
+- No change to the lockfile, `package.json`, `tsconfig.json`, `packages/`, the sample data, the types, `search.ts`, `collections.ts` or `levels.ts`.
+
+### Result
+
+- `npx tsc --noEmit` exit 0; it now also checks `packages/shared/company.ts` (reached through the SLA import).
+- `pnpm test:domain` 135 tests, 135 pass, 0 fail (26 new; the no-any test also covers `reports.test.ts`).
+- `pnpm demo`, `pnpm lint`, `pnpm typecheck`, `pnpm build` and `pnpm test` exit 0; `pnpm test` runs 165 tests: 15 package, 15 site, 135 domain.
+- 17 exports (15 functions, 2 constants); no current date in `src/utils` or the demo; the protected files are unchanged.
+- Demo output (the part added in S06):
+
+```text
+Recruitment report (all sample data):
+   candidates by status: Active 3 · In process 0 · Hired 0 · Inactive 0
+   average expected salary: 4500 USD
+   top 4 skills: Node.js (2), PostgreSQL (2), React (2), TypeScript (2)
+   fill rate: 25 %
+   processes by stage: Screening 1 · Interview 1 · Technical test 0 · Final interview 1 · Offer 0 · Rejected 0 · Hired 1
+   average time to hire: 42.33 days
+
+Per client (one client's data only; SLA 24 h, report time 2026-11-05T10:00:00.000Z):
+   TechCorp Solutions (CL-001, Valencia):
+      ranking override rate: 33.33 % of 3 decisions
+      L1 resolution rate: 100 % · average resolution: 1.5 h
+      TK-2026-0001 Resolved L1: On time
+      TK-2026-0002 Open L2: Breached
+   Palmera Retail (CL-002, Miami):
+      ranking override rate: 0 % of 0 decisions
+      L1 resolution rate: 0 % · average resolution: 20 h
+      TK-2026-0003 Open L1: At risk
+      TK-2026-0004 Resolved L2: On time
+```
+
+- Deliberate mistakes:
+
+  | Mistake | Result |
+  | --- | --- |
+  | a. A skill counted every time it appears | 1 fails: "findTopSkills counts a skill once per candidate, even when listed twice" |
+  | b. `>=` instead of `>` for the 24 h breach | 1 fails: "SLA boundaries for an open ticket: 19.99 h On time, 20 h At risk, 24 h At risk, 24 h + 1 ms Breached" |
+  | c. No resolved-only filter in the L1 rate | 4 fail: "CL-001 (filtered by client): L1 rate 100 …", "CL-002 (filtered by client): L1 rate 0 …", "no hired process or no resolved ticket gives 0, not an error", "one client's support KPIs never include another client's tickets" |
+  | Restored | 26 of 26 report tests pass; 135 of 135 domain tests |
+
+- Memory check 5 PASS (exit 0). `security-gate` (Milestone 3), run with everything staged: 7 PASS, exit 0. The accessibility gate was not run (no page changed).
+- In mistake c, the "all tickets: L1 rate 50" test still passed: the 4 sample tickets give 2 L1 of 4, which is also 50 % (TEST-05).
+
+### Problems found and fixed
+
+- M3-18 (KPI part), M3-21 (the SLA import) and M3-33 (the two-client composition): fixed and tested.
+- M3-35: the S06 part is done; the S08 page build is left.
+- M3-53: the spelling rule is built.
+- S00 gap 2: the S02–S05 commit hashes are now recorded.
+- No defect in the new code: every test passed on the first run.
 

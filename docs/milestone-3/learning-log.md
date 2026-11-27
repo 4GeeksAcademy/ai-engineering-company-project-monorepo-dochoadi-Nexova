@@ -211,6 +211,8 @@ What was done in each step, in plain words.
 
 **Commit:** `[M3-S02][E1][E9][E13] feat(domain): add TypeScript setup, domain models, level ladders and sample data`
 
+**Commit hash:** `093ce54` (recorded in S06)
+
 ## S03 — Search: linear and binary (2026-11-27)
 
 **What was done**
@@ -272,6 +274,8 @@ What was done in each step, in plain words.
 - Next: S04, filters and sorting.
 
 **Commit:** `[M3-S03][E4][E5] feat(search): add linear and binary candidate search and client-scoped knowledge-base search`
+
+**Commit hash:** `50d8b05` (recorded in S06)
 
 ## S04 — Filters and sorting (2026-11-27)
 
@@ -339,6 +343,8 @@ What was done in each step, in plain words.
 - Next: S05, scoring and ranking.
 
 **Commit:** `[M3-S04][E2][E3] feat(collections): add candidate filters, single and multi-field sorting, and ticket filters`
+
+**Commit hash:** `bf6b86b` (recorded in S06)
 
 ## S05 — Scoring, ranking and grouping (2026-11-27)
 
@@ -412,4 +418,74 @@ What was done in each step, in plain words.
 - **Result:** 108 of 108 domain tests and 138 of 138 in total pass. Removing the new warning made 5 tests fail, and putting 82 back made 1 fail. Memory check 5 of 5; security check 7 of 7.
 
 **Commit:** `[M3-S05][E6][E15] feat(scoring): add explainable candidate score with warnings, ranking, grouping and demo`
+
+**Commit hash:** `37acd6e` (recorded in S06)
+
+## S06 — Reports and KPIs (2026-11-27)
+
+**What was done**
+- Wrote the 4 reports the briefing asks for: candidates by status, average expected salary, top skills and the vacancy fill rate.
+- Wrote 6 more for both agents:
+  - processes by stage;
+  - average time to hire;
+  - the SLA traffic light;
+  - the Level 1 (L1) resolution rate;
+  - the average resolution time;
+  - the consultant override rate.
+- Grew the demo: a recruitment report, then each client's own numbers.
+- Wrote 26 tests, including one that proves one client's numbers never include another client's records.
+- Recorded the saved-step codes (commit hashes) of S02–S05 in the verification guide and this log.
+
+**How it works**
+- **Top skills (`findTopSkills`):** each candidate counts a skill only once, even if they list it twice. Spellings are grouped without spaces or capital letters, so " react", "React" and "REACT" are the same skill. The name shown is the spelling used most often; on a tie, the first one found. The list is sorted by count, then alphabetically. Example: TypeScript, React, Node.js and PostgreSQL each appear for 2 of the 3 candidates, so the top 4 are those, in alphabetical order.
+- **Fill rate, 25 %:** there are 4 selection processes and 1 of them reached "Hired"; 1 ÷ 4 × 100 = 25.
+- **Time to hire, 42.33 days:** the hired process started on 1 August at 09:00 and ended on 12 September at 17:00. That is 42 days and 8 hours; 8 hours is a third of a day, so 42.33.
+- **The SLA traffic light (`getSlaStatus`):** it counts the hours since the ticket was opened, up to "now" if it is still open, or up to when it was solved.
+  - Under 20 h: "On time".
+  - From 20 h to 24 h, still open: "At risk", so a supervisor can step in.
+  - Over 24 h: "Breached".
+  - Example: TK-2026-0003 was opened on 4 November at 14:00. At the report time, 5 November at 10:00, exactly 20 hours have passed, so it is "At risk". A solved ticket can no longer be at risk: TK-2026-0004 took 20 hours and is "On time".
+- **The L1 rate:** of the tickets that are solved, how many the Level 1 agent solved alone. Open tickets are left out because nobody knows yet who will solve them; counting them would make the rate look better or worse than it is. CL-001's only solved ticket was L1, so 100 %; CL-002's was L2, so 0 %.
+- **One client at a time:** every report gets one client's list, already filtered: tickets with `filterTicketsByClient`, processes and decisions through that client's vacancies. The two-client test adds a hired process and an overridden decision for CL-002. TechCorp's (CL-001) numbers stay exactly the same (25, 42.33, 33.33), while CL-002 gets its own (100, 10, 100). Mixed together, they would read 40 and 50, numbers that belong to nobody.
+- **Why the SLA is imported:** `SLA_HOURS` reads the 24 from `packages/shared/company.ts`, the one place where Nexova's company facts live. If the promise ever changes to 12 h, it changes in one place, and the website, the backoffice and these reports all follow.
+
+**Check your understanding**
+1. *Why is TK-2026-0003 "At risk" and not "On time"?* It is still open and has been open for exactly 20 hours, the start of the at-risk window.
+2. *Why are open tickets left out of the L1 rate?* They have no outcome yet; we can't say whether L1 or a human will solve them.
+3. *A client asks for its fill rate. Which processes go into it?* Only the processes of that client's vacancies, never all processes.
+
+**Result**
+- 135 of 135 domain tests pass (26 new); 165 of 165 in `pnpm test`.
+- Type check, lint and build finish without errors; `pnpm demo` exit 0.
+- The demo prints:
+  - **recruitment:** Active 3; average 4500 USD; top skills Node.js, PostgreSQL, React, TypeScript (2 each); fill rate 25 %; stages Screening 1, Interview 1, Final interview 1, Hired 1; time to hire 42.33 days;
+  - **TechCorp Solutions:** override rate 33.33 %, L1 rate 100 %, 1.5 h, TK-0001 On time, TK-0002 Breached;
+  - **Palmera Retail:** override rate 0 %, L1 rate 0 %, 20 h, TK-0003 At risk, TK-0004 On time.
+- Broken on purpose:
+  - counting a skill every time: 1 test failed;
+  - `>=` at 24 h: 1 failed;
+  - no resolved-only filter: 4 failed;
+  - restored: everything passes.
+- Memory check 5 of 5; security check 7 of 7.
+
+**Problems found and fixed**
+- M3-18, M3-21 and M3-33: fixed and tested (client isolation of the KPIs, the shared SLA, the two-client composition).
+- M3-35: the import works; only the S08 page build is left.
+- M3-53: the spelling rule is built.
+
+**What I learned**
+- A rate needs a clear "out of what": here, out of the solved tickets, not all tickets.
+- Keeping each client's data apart is easiest when every report only ever receives one client's list.
+- Fixed report times make time-based results repeatable.
+
+**How to check it yourself**
+- Run `pnpm demo` and read the two new blocks at the end.
+- Run `pnpm test:domain`: `pass 135`, `fail 0`.
+- In `src/tests/reports.test.ts`, read "one client's recruitment numbers never include another client's records".
+
+**Decisions or open questions**
+- Decision 14 (A–E: the L1 rate, the average resolution, the SLA traffic light, the override rate and the time to hire) waits for your approval of S06.
+- Next: S07, validations.
+
+**Commit:** `[M3-S06][E6][E15] feat(reports): add recruitment reports, support KPIs and SLA status`
 

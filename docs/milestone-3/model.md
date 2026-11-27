@@ -82,6 +82,6 @@ Match score 0–100: skills 40 (capped) · experience 20 · seniority 15 · Engl
 | Search | `src/utils/search.ts` | S03 | Done ([M3-S03]) |
 | Filters and sorts | `src/utils/collections.ts` | S04 | Done ([M3-S04]) |
 | Score breakdown, score, ranking, grouping | `src/utils/transformations.ts` | S05 | Done ([M3-S05]): warnings added to `ScoreBreakdown` (`ScoreWarning`), `AVAILABILITY_ORDER` in `levels.ts`, `src/demo.ts` started. Review fixes (S05b): `missing-required-skills` for any missing must-have plus `under-half-required-skills`; stored sample scores match the rule (M3-63); `model.png` updated by the developer (adds `sortCandidatesByFields` and `AVAILABILITY_ORDER`) |
-| Reports and KPIs (recruitment + support) | `src/utils/transformations.ts` | S06 | Pending |
+| Reports and KPIs (recruitment + support) | `src/utils/transformations.ts` | S06 | Done ([M3-S06]) |
 | Validations | `src/utils/validations.ts` | S07 | Pending |
 | Demo and test page | `src/demo.ts`, `src/index.html` | S08 | Pending |

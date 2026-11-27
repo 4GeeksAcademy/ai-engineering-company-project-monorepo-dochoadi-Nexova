@@ -17,7 +17,7 @@ Two flagship AI agents, chosen in [`Company-choice.md`](./Company-choice.md):
 
 - **Milestone 1 — Monorepo AI Setup:** merged (PR #1); criteria E1–E9 met.
 - **Milestone 2 — Your Company's Public Website:** merged (PR #2); criteria E1–E30 met.
-- **Milestone 3 — Building Scripts to Automate Tasks:** in progress on `feature/domain-models` (S00–S05 done).
+- **Milestone 3 — Building Scripts to Automate Tasks:** in progress on `feature/domain-models` (S00–S06 done).
 
 Details per milestone: the [Milestone log](./docs/README.md#milestone-log).
 
@@ -56,7 +56,7 @@ This repository is the Nexova Solutions monorepo, built on the 4Geeks template (
 | Corporate website | [`uis/website/`](./uis/website/README.md) | Public landing page, Next.js 16, port **3000**. |
 | Backoffice | [`uis/backoffice/`](./uis/backoffice/README.md) | Internal operations overview, Next.js 16, port **3001**, no authentication yet. |
 | Public website (Milestone 2) | repo root (`index.html`, `application.html`, `es/`) | The official public site of the brief: landing page and talent pool form, EN + ES, port **8080** (see "Public website" below). |
-| Domain utilities (Milestone 3, in progress) | root `src/` (from S02) | TypeScript models and pure functions for candidate scoring, vacancy matching and support KPIs ([model](./docs/milestone-3/model.md)). So far (S05): the domain types, the English and seniority ladders, the sample data, the search functions, the filters and sorts, the explainable match score with its warnings and the ranking, and their tests. |
+| Domain utilities (Milestone 3, in progress) | root `src/` (from S02) | TypeScript models and pure functions for candidate scoring, vacancy matching and support KPIs ([model](./docs/milestone-3/model.md)). So far (S06): the domain types, the English and seniority ladders, the sample data, the search functions, the filters and sorts, the explainable match score with its warnings and the ranking, the recruitment reports and support KPIs (SLA status, L1 rate), and their tests. |
 | Shared package | [`packages/shared/`](./packages/shared/README.md) | `@repo/shared-types`: Nexova company data, types and the brand tokens (`styles/tokens.css`), defined once and imported by both UIs. |
 | Coding-agent configuration | [`AGENTS.md`](./AGENTS.md), [`.agents/`](./.agents/skills/README.md), [`memory-bank/`](./memory-bank/) | Operating protocol, rules with explicit scope, skills, and the persistent project memory. `CLAUDE.md` loads `AGENTS.md` for Claude Code. |
 
@@ -72,7 +72,7 @@ pnpm dev:backoffice   # backoffice only, http://localhost:3001
 pnpm test             # unit tests (node:test) of every package, the site tests and the domain tests
 npx tsc --noEmit      # Milestone 3: type-check src/ (same as pnpm typecheck:domain)
 pnpm test:domain      # Milestone 3: the domain tests in src/tests/
-pnpm demo             # Milestone 3: print the briefing ranking with points per part and warnings
+pnpm demo             # Milestone 3: print the ranking, the recruitment report and each client's support KPIs
 ```
 
 `pnpm lint`, `pnpm typecheck` and `pnpm build` run the other checks across the workspace.

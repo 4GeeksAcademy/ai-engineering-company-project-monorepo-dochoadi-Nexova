@@ -118,6 +118,11 @@ Approved by the developer after an architecture review.
 | Status counts | Active 3, all others 0 |
 | Binary search on expected salaries [2800, 4200, 6500] | 4200 → index 1; 5000 → -1 |
 | Top skills (2 each, alphabetical among ties) | Node.js, PostgreSQL, React, TypeScript |
+| Fill rate and stages (S06) | 25 (1 Hired of 4); Screening 1, Interview 1, Final interview 1, Hired 1, the others 0 |
+| Average time to hire (S06, 14E) | 42.33 days (SP-2026-0004: 2026-08-01 09:00 to 2026-09-12 17:00) |
+| Support KPIs (S06, 14A, 14B) | CL-001: L1 rate 100, average 1.5 h; CL-002: L1 rate 0, average 20 h; all tickets: L1 rate 50, average 10.75 h |
+| Override rate (S06, 14D) | 33.33 on all decisions (1 Overridden of 3) |
+| SLA at 2026-11-05T10:00:00Z (S06, 14C) | TK-2026-0001 On time, TK-2026-0002 Breached, TK-2026-0003 At risk (exactly 20 h), TK-2026-0004 On time (resolved in 20 h) |
 
 ### 13. Scoring decisions (developer, 2026-11-27, after a recruitment-practice review)
 
@@ -133,6 +138,14 @@ Decided in the S05 review (developer, 2026-11-27, recruitment-practice review):
 - **F. Stored scores follow the current rule (M3-63).** Every `SelectionProcess.score` in `src/data/sampleData.ts` equals `calculateCandidateScore` for its candidate and vacancy; a test checks it. Reason: stored data that disagrees with the rule misleads whoever reads it.
 - **G. `findTopSkills` shows the most common spelling** of a skill; on a tie, the first one found (built in S06; M3-53).
 
+### 14. Report and KPI rules (S06; proposed by the planner, pending the developer's approval of S06)
+
+- **A. L1 resolution rate:** tickets with status "Resolved" and level "L1", divided by all resolved tickets, × 100, rounded to 2 decimals. Open tickets are left out, because they have no outcome yet. No resolved tickets → 0. Target from `Company-choice.md`: ≥ 40 %.
+- **B. Average resolution hours:** the average of `resolvedAt − createdAt` in hours over the tickets with `resolvedAt` set, rounded to 2 decimals; none → 0. Target: < 24 h.
+- **C. SLA status:** elapsed hours = (`resolvedAt` if resolved, otherwise `now`) − `createdAt`. More than `SLA_HOURS` (24, imported from `packages/shared/company.ts`) → "Breached". A resolved ticket within 24 h → "On time" (it can no longer be at risk). An open ticket from `SLA_AT_RISK_HOURS` (20) up to 24 h inclusive → "At risk"; under 20 → "On time". Exactly 24 h is not breached (ranges inclusive, decision 3). A `now` before `createdAt` counts as 0 h ("On time"); S07's validation catches bad dates.
+- **D. Override rate:** decisions with `decision` "Overridden", divided by all decisions, × 100, rounded to 2 decimals; none → 0.
+- **E. Average time to hire:** in days (hours / 24) from `createdAt` to `updatedAt` of the "Hired" processes, rounded to 2 decimals; none → 0.
+
 ## Toolchain (recorded in S01, built in S02)
 
 - A root `tsconfig.json` with `erasableSyntaxOnly` and no `rootDir: "src"`.
@@ -145,4 +158,4 @@ Decided in the S05 review (developer, 2026-11-27, recruitment-practice review):
 
 ## Not decided yet (found in S01; decide before the step that needs it)
 
-The three S05 questions were decided on 2026-11-27 (decision 13A–C); the missing must-have warning and the `findTopSkills` spelling were decided in the S05 review (13E, 13G). Nothing is open now.
+The three S05 questions were decided on 2026-11-27 (decision 13A–C); the missing must-have warning and the `findTopSkills` spelling were decided in the S05 review (13E, 13G). Decision 14 (report and KPI rules) waits for the developer's approval of S06.

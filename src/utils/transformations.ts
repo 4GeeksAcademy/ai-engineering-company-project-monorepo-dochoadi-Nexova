@@ -1,4 +1,17 @@
-import type { Candidate, ScoreBreakdown, ScoreWarning, SeniorityLevel, Vacancy } from "../types/models.ts";
+import { supportSla } from "../../packages/shared/company.ts";
+import type {
+  Candidate,
+  CandidateStatus,
+  ProcessStage,
+  RankingDecision,
+  ScoreBreakdown,
+  ScoreWarning,
+  SelectionProcess,
+  SeniorityLevel,
+  SlaStatus,
+  SupportTicket,
+  Vacancy,
+} from "../types/models.ts";
 import { AVAILABILITY_ORDER, compareEnglishLevel, seniorityDistance } from "./levels.ts";
 
 const HIGH_MATCH_SCORE = 90;
@@ -150,3 +163,130 @@ export function groupCandidatesBySeniority(candidates: Candidate[]): Record<Seni
 export function isHighMatch(score: number): boolean {
   return score >= HIGH_MATCH_SCORE;
 }
+
+// ===== Reports and KPIs (S06) =====
+// Ticket, process and decision lists are expected to be one client's already (decision 10c).
+
+export const SLA_HOURS: number = supportSla.committedHours;
+export const SLA_AT_RISK_HOURS = 20;
+
+const MS_PER_HOUR = 60 * 60 * 1000;
+
+// Decision 8: round to 2 decimals.
+function roundTo2(value: number): number {
+  return Math.round(value * 100) / 100;
+}
+
+function percentage(part: number, total: number): number {
+  return total === 0 ? 0 : roundTo2((part / total) * 100);
+}
+
+function average(values: number[]): number {
+  return values.length === 0 ? 0 : roundTo2(values.reduce((sum, value) => sum + value, 0) / values.length);
+}
+
+function hoursBetween(start: Date, end: Date): number {
+  return (end.getTime() - start.getTime()) / MS_PER_HOUR;
+}
+
+export function countCandidatesByStatus(candidates: Candidate[]): Record<CandidateStatus, number> {
+  const countOf = (status: CandidateStatus): number => candidates.filter((candidate) => candidate.status === status).length;
+  return {
+    Active: countOf("Active"),
+    "In process": countOf("In process"),
+    Hired: countOf("Hired"),
+    Inactive: countOf("Inactive"),
+  };
+}
+
+export function calculateAverageSalary(candidates: Candidate[]): number {
+  return average(candidates.map((candidate) => candidate.expectedSalary));
+}
+
+interface SkillTally {
+  count: number;
+  spellings: Map<string, number>;
+}
+
+// Each candidate counts a skill once; the label is the most common spelling, the first found on a tie (decision 13G).
+export function findTopSkills(candidates: Candidate[], topN: number): Array<{ skill: string; count: number }> {
+  if (topN <= 0) return [];
+  const tallies = new Map<string, SkillTally>();
+  for (const candidate of candidates) {
+    const seen = new Set<string>();
+    for (const rawSkill of candidate.skills) {
+      const spelling = rawSkill.trim();
+      const key = spelling.toLowerCase();
+      if (key === "" || seen.has(key)) continue;
+      seen.add(key);
+      const tally = tallies.get(key) ?? { count: 0, spellings: new Map<string, number>() };
+      tally.count += 1;
+      tally.spellings.set(spelling, (tally.spellings.get(spelling) ?? 0) + 1);
+      tallies.set(key, tally);
+    }
+  }
+  return [...tallies.values()]
+    .map((tally) => ({ skill: mostCommonSpelling(tally.spellings), count: tally.count }))
+    .sort((a, b) => b.count - a.count || a.skill.localeCompare(b.skill))
+    .slice(0, topN);
+}
+
+// Map keeps insertion order, so with `>` the first spelling found wins a tie.
+function mostCommonSpelling(spellings: Map<string, number>): string {
+  let best = "";
+  let bestCount = 0;
+  for (const [spelling, count] of spellings) {
+    if (count > bestCount) {
+      best = spelling;
+      bestCount = count;
+    }
+  }
+  return best;
+}
+
+export function calculateVacancyFillRate(processes: SelectionProcess[]): number {
+  return percentage(processes.filter((process) => process.stage === "Hired").length, processes.length);
+}
+
+export function countProcessesByStage(processes: SelectionProcess[]): Record<ProcessStage, number> {
+  const countOf = (stage: ProcessStage): number => processes.filter((process) => process.stage === stage).length;
+  return {
+    Screening: countOf("Screening"),
+    Interview: countOf("Interview"),
+    "Technical test": countOf("Technical test"),
+    "Final interview": countOf("Final interview"),
+    Offer: countOf("Offer"),
+    Rejected: countOf("Rejected"),
+    Hired: countOf("Hired"),
+  };
+}
+
+// Days from createdAt to updatedAt of the "Hired" processes (decision 14E).
+export function calculateAverageTimeToHire(processes: SelectionProcess[]): number {
+  const hired = processes.filter((process) => process.stage === "Hired");
+  return average(hired.map((process) => hoursBetween(process.createdAt, process.updatedAt) / 24));
+}
+
+// Decision 14C: resolved tickets stop the clock; a `now` before createdAt counts as 0 h.
+export function getSlaStatus(ticket: SupportTicket, now: Date): SlaStatus {
+  const end = ticket.resolvedAt ?? now;
+  const elapsed = Math.max(0, hoursBetween(ticket.createdAt, end));
+  if (elapsed > SLA_HOURS) return "Breached";
+  if (ticket.resolvedAt === null && elapsed >= SLA_AT_RISK_HOURS) return "At risk";
+  return "On time";
+}
+
+// Decision 14A: open tickets have no outcome yet, so only resolved tickets count.
+export function calculateL1ResolutionRate(tickets: SupportTicket[]): number {
+  const resolved = tickets.filter((ticket) => ticket.status === "Resolved");
+  return percentage(resolved.filter((ticket) => ticket.level === "L1").length, resolved.length);
+}
+
+export function calculateAverageResolutionHours(tickets: SupportTicket[]): number {
+  return average(tickets.flatMap((ticket) => (ticket.resolvedAt === null ? [] : [hoursBetween(ticket.createdAt, ticket.resolvedAt)])));
+}
+
+export function calculateOverrideRate(decisions: RankingDecision[]): number {
+  return percentage(decisions.filter((decision) => decision.decision === "Overridden").length, decisions.length);
+}
+
