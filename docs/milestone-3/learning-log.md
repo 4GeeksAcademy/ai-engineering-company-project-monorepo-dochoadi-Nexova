@@ -134,4 +134,80 @@ What was done in each step, in plain words.
 - The briefing says "no AI" (M3-47): your decision is recorded; it is worth confirming with the instructor.
 - For the end-of-milestone review: two outdated rule or check texts (M2-15, M3-52) and a weak date check (M1-34).
 
-**Commit:** `[M3-S01] docs: start Milestone 3 with official briefing, evaluation matrix, decisions, conventions and issue logs`
+**Commit:** `[M3-S01] docs: start Milestone 3 with official briefing, evaluation matrix, decisions, conventions and issue logs` (`dc68963`)
+
+## S02 — TypeScript setup, models and sample data (2026-11-27)
+
+**What was done**
+- Saved the official 4Geeks project page in the project (`docs/milestone-3/brief.md`), so the source of every evaluation point is kept next to the work.
+- Set up the type checker for the new code in `src/`, with one command to run it and one to run the tests.
+- Wrote the data types: the 3 entities of the briefing, copied exactly, and the 6 extensions for our two agents.
+- Wrote two small helper functions that compare English levels and seniority levels.
+- Wrote the sample data: the briefing's 3 candidates and 1 vacancy, plus fictional clients, staff, processes, tickets and knowledge-base articles.
+- Wrote 34 tests that prove the types match the briefing, the data is consistent and there is no `any`.
+- Rewrote the top of the README, so it now presents Nexova, what we automate and the progress.
+
+**How it works**
+- **`tsconfig.json`:** the settings file of the TypeScript checker. Ours says "check every `.ts` file inside `src/`, and know Node's own functions". Example: `include: ["src/**/*.ts"]`.
+- **`npx tsc --noEmit`:** runs the checker without producing any output file. It only answers "are the types right?". If a function promises a `number` and gives back text, it stops with an error and a line number. `pnpm typecheck:domain` runs the same command.
+- **`src/package.json`:** one line, `"type": "module"`, telling Node that the files in `src/` use modern `import`/`export`. Without it Node guesses and prints a warning every time.
+- **Interface:** the shape an object must have. Example: a `Candidate` must have `fullName: string` and `yearsOfExperience: number`. `{ fullName: "Ana", yearsOfExperience: "five" }` is rejected.
+- **Union type:** a closed list of allowed values. Example: `type TicketStatus = "Open" | "Resolved"`, so `"Closed"` is a mistake the checker catches.
+- **`ClientVacancy extends Vacancy`:** a client vacancy is a normal vacancy plus two fields, `clientId` and `consultantId`. Every function that accepts a `Vacancy` also accepts a `ClientVacancy`, so the briefing's functions never change. Example: the briefing vacancy plus `clientId: "CL-001"`.
+- **`ENGLISH_LEVELS` and `SENIORITY_LEVELS`:** the two ladders in order, lowest first: A1 … Native and Junior … Executive. They are read-only, so no code can reorder them by accident.
+- **`compareEnglishLevel(a, b)`:**
+  1. it finds the position of `a` on the English ladder (A1 = 0, B2 = 3, Native = 6);
+  2. it finds the position of `b`;
+  3. it returns the first minus the second.
+  Example: `compareEnglishLevel("C1", "B2")` = 4 − 3 = 1, positive, so C1 is above B2. Equal levels give 0, and a lower level gives a negative number.
+- **`seniorityDistance(a, b)`:**
+  1. it finds both positions on the seniority ladder;
+  2. it subtracts them;
+  3. it drops the sign (`Math.abs`).
+  Example: `seniorityDistance("Lead", "Senior")` = |3 − 2| = 1, "one level away", which the scoring step (S05) will use.
+- **Sample data:** the briefing's candidates and vacancy, copied exactly. Then fictional data: 2 clients (TechCorp Solutions in Valencia, Palmera Retail in Miami), 4 staff (2 consultants, 2 support agents), 3 client vacancies, 4 selection processes, 3 ranking decisions, 4 tickets and 2 knowledge-base articles. The worked case: Carolina Silva applies to two vacancies, both of the same client, so no data crosses between clients.
+- **Why the dates are fixed:** every date is written out, e.g. `new Date("2026-10-01T09:00:00Z")`. If the data used "now", a test that passes today could fail tomorrow.
+- **What each test file proves:**
+  - `levels.test.ts`: the ladders are in order, and both functions give the right answer for equal, lower, higher and extreme levels (4 tests).
+  - `sampleData.test.ts`: the briefing sample is identical to `BRIEFING.md` value by value; every id points to a record that exists; a candidate never crosses clients; consultants and agents have the right role (11 tests).
+  - `briefingConformance.test.ts`: it reads `BRIEFING.md` and `models.ts` and compares every field name, field order, type and allowed value (10 tests).
+  - `noAny.test.ts`: it opens every `.ts` file in `src/` and fails if it finds the type `any`, which would switch the checker off (9 tests).
+  - `helpers/briefing.ts` (not a test): shared code that reads the files and turns the briefing's examples into data without running them.
+
+**Check your understanding**
+1. *Why does `ClientVacancy` extend `Vacancy` instead of adding `clientId` to `Vacancy`?* Because the briefing's `Vacancy` must stay exactly as written (it is graded field by field). Extending adds the fields without changing the original.
+2. *What does `compareEnglishLevel("B1", "B2")` return, and what does it mean?* 2 − 3 = −1: negative, so B1 is below B2.
+3. *Why are there no "now" dates in the sample data?* So the tests give the same answer every day.
+
+**Result**
+- `npx tsc --noEmit` exit 0, and it checks only the 8 files in `src/`.
+- `pnpm test:domain`: 34 of 34 pass. `pnpm test`: 64 of 64 (15 package, 15 site, 34 domain).
+- Lint, typecheck and build exit 0; 0 Node warnings.
+- Memory check 5 of 5; security check 7 of 7.
+- A deliberate mistake test: 3 wrong lines in `models.ts` made 3 tests fail; with the file restored, all pass again.
+
+**Problems found and fixed**
+- M3-54: Node warned about every new file; fixed with `src/package.json`.
+- M3-55: the project page was missing from the repo; now `brief.md`.
+- M3-59: one of my editing scripts removed blank lines from the issues log; seen in the review and fixed.
+- M2-16: an old link opened the wrong briefing; fixed.
+- Closed: M3-10 to M3-13, M3-17, M3-48; M3-47 accepted as your decision.
+
+**What I learned**
+- A test that compares the code with the official text catches copy mistakes that a human eye misses.
+- A check is only trusted after we have watched it fail on purpose.
+- Fixed dates make tests repeatable.
+
+**How to check it yourself**
+- Run `npx tsc --noEmit`: no output means no type errors.
+- Run `pnpm test:domain` and read the last lines: `pass 34`, `fail 0`.
+- Open `src/types/models.ts` next to `BRIEFING.md` and compare the `Candidate` fields.
+
+**Decisions or open questions**
+- Recorded: the coding agent writes the code, each function explained here (M3-47, 2026-11-27).
+- For you, from the review: the fields of `ScoreBreakdown` (points per part plus four skill lists, no total) were chosen in this step, because `model.md` only says "points per part + matched/missing skills".
+- Still open: M3-53 (three ambiguities, before S05 and S06), M3-57 (where the demo evidence goes, before S05).
+- Next: S03, the search functions.
+
+**Commit:** `[M3-S02][E1][E9][E13] feat(domain): add TypeScript setup, domain models, level ladders and sample data`
+

@@ -4,7 +4,7 @@ Deliverable report for the instructor on Milestone 2 ("Your Company's Public Web
 
 ## Summary
 
-The milestone built Nexova's public website from the official [`BRIEFING.md`](../../BRIEFING.md), at the repository root as the brief requires:
+The milestone built Nexova's public website from the official [`BRIEFING.md`](./BRIEFING.md), at the repository root as the brief requires:
 
 - **Pages:** `index.html` (landing) and `application.html` (talent pool form), with their Spanish twins in `es/`. Plain HTML, compiled Tailwind CSS 4.3.3 and vanilla JavaScript (`validation.js`, `motion.js`).
 - **Content:** the briefing's sections, order and texts verbatim, plus three extra sections from the Milestone 1 landing page (marquee, process, offices) that use briefing facts only.

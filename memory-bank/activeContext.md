@@ -9,7 +9,8 @@ Type: status
 - **S00 (`95e64c5`):** model and benchmark saved.
 - **S00b, environment (2026-11-22):** the three pinned installs are done (workspace packages, axe, Chromium 1247); all checks passed except `pnpm build`, blocked by 7 moderate Next.js advisories (M1-31). Recorded in [verification](../docs/milestone-3/verification.md): do not repeat S00b unless a kickoff finds an install missing or outdated, for example after a container rebuild.
 - **S00d (`f2ded98`):** Next.js 16.4.6 in both apps; the baseline is READY (lint, typecheck, build, 30 tests and the security gate exit 0).
-- **S01:** official briefing, evaluation matrix, decisions, conventions, issues logs and backlog.
+- **S01 (`dc68963`):** official briefing, evaluation matrix, decisions, conventions, issues logs and backlog.
+- **S02 (2026-11-27, staged for approval):** the 4Geeks project page (`docs/milestone-3/brief.md`), the TypeScript toolchain for `src/`, the domain types, the level ladders, the sample data and 34 tests; the README top now presents Nexova.
 
 **Milestone 2 — Your Company's Public Website is complete and merged** into `main` on 2026-11-16 as `ee14825` (PR #2). The instructor approved Milestone 2 through the 4Geeks platform before the 2026-11-16 merge; the developer chose not to comment in the PR. It does not block Milestone 3. Briefing: `docs/milestone-2/BRIEFING.md`; evidence: `docs/milestone-2/evaluation.md`.
 
@@ -17,9 +18,10 @@ Type: status
 
 ## Next steps
 
-1. **S02:** TypeScript setup (root `tsconfig.json`, scripts, pinned `@types/node`, no-any check) and the models with the sample data.
-2. **Every step:** ends staged with a review patch; commit and push only with the developer's commit prompt.
-3. **Before the recap and PR:** the end-of-milestone decision review.
+1. **S03:** the search functions in `src/utils/search.ts` (`findCandidateById`, `findCandidateByEmail`, `binarySearchCandidateBySalary`, `searchKnowledgeBase`).
+2. **Before S05:** decide M3-53 (three briefing ambiguities) and M3-57 (where the demo evidence goes).
+3. **Every step:** ends staged with a review patch; commit and push only with the developer's commit prompt.
+4. **Before the recap and PR:** the end-of-milestone decision review.
 
 ## Milestone 3 decisions (approved by the developer, 2026-11-22)
 
@@ -30,7 +32,8 @@ Type: status
 - **Shared SLA:** imported from `packages/shared/company.ts`, never retyped; entity types live in `src/`.
 - **Scoring language:** TypeScript for the deterministic score.
 - **Test page:** included, served from a `dist` copy on its own port (S08; gate coverage S09; devcontainer S10).
-- **AI use:** allowed; every function is explained in plain words in the learning log and the PR says how AI was used.
+- **AI use (developer decision, 2026-11-27):** the 4Geeks project page encourages solving the milestone "without AI support or, if needed, with only minimal AI usage"; the developer decided that the coding agent writes the code, every step's learning log explains each new function in plain words, and the PR (S11) says so honestly (M3-47, `docs/milestone-3/decisions.md`).
+- **Project page:** the 4Geeks project page is kept unmodified in `docs/milestone-3/brief.md` (M3-55).
 - **Records:** real results in verification, problems in the issues logs by ID, ideas in `docs/improvements.md`.
 - **Merge:** the agent never merges; nothing reaches `main` until the developer asks, after the instructor's approval (recording it in the PR is recommended, not required).
 - **End-of-milestone decision review (developer, 2026-11-22):** after the last build and audit steps of Milestone 3, and before its recap and PR, the developer reviews every open question, open issue (M1, M2, M3 logs) and improvement, and decides: do now, plan for a later milestone, accept, or reject. Until then they are recorded, not built, unless a step needs them.

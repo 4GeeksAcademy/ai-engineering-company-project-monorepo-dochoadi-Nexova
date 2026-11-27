@@ -21,13 +21,13 @@ Evidence matrix for Milestone 3 of the Nexova Solutions monorepo: TypeScript uti
 
 ## A — What we will evaluate (E1–E18)
 
-Criteria copied verbatim from the brief.
+Criteria copied verbatim from the brief ([`brief.md`](./brief.md), the 4Geeks project page; its images' text is in sections A, B and E here).
 
 ### Technical correctness
 
 | ID | Criterion | Step | Files | How to verify | Result |
 | --- | --- | --- | --- | --- | --- |
-| E1 | TypeScript interfaces correctly model the entities specified in BRIEFING.md with all their fields and types | S02 | `src/types/models.ts` | Compare each interface and union with the briefing, field by field; typecheck | Pending |
+| E1 | TypeScript interfaces correctly model the entities specified in BRIEFING.md with all their fields and types | S02 | `src/types/models.ts` | Compare each interface and union with the briefing, field by field; typecheck | Met (S02): the 3 interfaces and 6 unions in `src/types/models.ts`; `npx tsc --noEmit` exit 0 and `src/tests/briefingConformance.test.ts` (10 tests) pass |
 | E2 | Filtering functions correctly return elements that meet the specified criteria | S04 | `src/utils/collections.ts` | `node --test "src/tests/**/*.test.ts"`: filter cases | Pending |
 | E3 | Sorting works correctly in ascending and descending order | S04 | `src/utils/collections.ts` | Sort tests in both orders; the input is unchanged | Pending |
 | E4 | Linear search finds elements in unsorted arrays without errors | S03 | `src/utils/search.ts` | Search tests on unsorted arrays, found and not found | Pending |
@@ -35,7 +35,7 @@ Criteria copied verbatim from the brief.
 | E6 | Aggregations correctly calculate totals, averages, counts, and extreme values | S05, S06 | `src/utils/transformations.ts` | Expected values of decision 12 | Pending |
 | E7 | Validations reject data that does not comply with the business rules in BRIEFING.md | S07 | `src/utils/validations.ts` | One failing test per rule, plus valid data | Pending |
 | E8 | There are no TypeScript compilation errors in any file | S09 | `tsconfig.json`, `src/` | `npx tsc --noEmit` exits 0 | Pending |
-| E9 | There is a documented command to run TypeScript validation or execution locally (npx tsc --noEmit, npm run typecheck, etc.) | S02 | `README.md`, `package.json`, `tsconfig.json` | Run the documented command | Pending |
+| E9 | There is a documented command to run TypeScript validation or execution locally (npx tsc --noEmit, npm run typecheck, etc.) | S02 | `README.md`, `package.json`, `tsconfig.json` | Run the documented command | Met (S02): `npx tsc --noEmit` (= `pnpm typecheck:domain`) and `pnpm test:domain`, documented in `README.md` "Current status"; both exit 0 |
 
 ### Structure and organization
 
@@ -49,7 +49,7 @@ Criteria copied verbatim from the brief.
 
 | ID | Criterion | Step | Files | How to verify | Result |
 | --- | --- | --- | --- | --- | --- |
-| E13 | All entity names, fields, and types match exactly those specified in BRIEFING.md | S02 | `src/types/models.ts`, `BRIEFING.md` | Automatic field-by-field comparison with the briefing | Pending |
+| E13 | All entity names, fields, and types match exactly those specified in BRIEFING.md | S02 | `src/types/models.ts`, `BRIEFING.md` | Automatic field-by-field comparison with the briefing | Met (S02): `src/tests/briefingConformance.test.ts` parses `BRIEFING.md` and `models.ts` (TypeScript compiler API): same names, field order, types and union values; `pnpm test:domain` exit 0 |
 | E14 | Implemented validations correspond to the business rules defined in BRIEFING.md | S07 | `src/utils/validations.ts` | Each briefing rule has a check and a test | Pending |
 | E15 | Generated reports respond to the specific needs described in BRIEFING.md | S05, S06 | `src/utils/transformations.ts`, `src/demo.ts` | Ranking and reports on the briefing sample | Pending |
 
@@ -69,16 +69,16 @@ From the brief.
 
 | ID | Criterion | Step | Files | How to verify | Result |
 | --- | --- | --- | --- | --- | --- |
-| D1 | TypeScript interfaces for all main entities in BRIEFING.md | S02 | `src/types/models.ts` | Compare with the briefing | Pending |
+| D1 | TypeScript interfaces for all main entities in BRIEFING.md | S02 | `src/types/models.ts` | Compare with the briefing | Met (S02): `Candidate`, `Vacancy`, `SelectionProcess` and their unions in `src/types/models.ts`; `briefingConformance.test.ts` passes |
 | D2 | Filtering by one or more criteria | S04 | `src/utils/collections.ts` | Filter tests | Pending |
 | D3 | Sorting (ascending, descending, by multiple fields) | S04 | `src/utils/collections.ts` | Sort tests: by salary and by experience, both orders | Pending |
 | D4 | Linear search in unsorted arrays | S03 | `src/utils/search.ts` | Search tests | Pending |
 | D5 | Binary search in sorted arrays | S03 | `src/utils/search.ts` | Binary search tests | Pending |
 | D6 | Aggregation functions (count by category, totals, averages, maximums, minimums) | S05, S06 | `src/utils/transformations.ts` | Report tests | Pending |
 | D7 | Business validations per BRIEFING.md before processing | S07 | `src/utils/validations.ts`, `src/demo.ts` | Validation tests; the demo validates before scoring | Pending |
-| D8 | Explicit types in parameters and return values | S09 | `src/utils/` | Typecheck and review | Pending |
+| D8 | Explicit types in parameters and return values | S09 | `src/utils/` | Typecheck and review | Met (S02) for the code so far: `src/utils/levels.ts` declares every parameter and return type, `noAny.test.ts` passes; re-checked for every function in S09 |
 | D9 | Single responsibility principle | S09 | `src/utils/` | Review each function | Pending |
-| D10 | A clear command to validate or execute the TypeScript code | S02 | `README.md`, `package.json` | Run the documented command | Pending |
+| D10 | A clear command to validate or execute the TypeScript code | S02 | `README.md`, `package.json` | Run the documented command | Met (S02): `npx tsc --noEmit` / `pnpm typecheck:domain` and `pnpm test:domain` in `package.json` and `README.md`; both exit 0 |
 
 ### Frontend / Testing (optional, included)
 
@@ -146,12 +146,12 @@ Fields as in [`model.md`](./model.md). Not part of the briefing.
 
 | ID | Criterion | Step | Files | How to verify | Result |
 | --- | --- | --- | --- | --- | --- |
-| X1 | `ClientCompany`: `id: string`, `name: string`, `taxId: string`, `contactEmail: string`, `office: NexovaOffice`, `services: NexovaService[]` | S02 | `src/types/models.ts` | Compare with `model.md`; typecheck | Pending |
-| X2 | `ClientVacancy` (extends `Vacancy`): `clientId: string`, `consultantId: string` | S02 | `src/types/models.ts` | Compare with `model.md`; typecheck | Pending |
-| X3 | `NexovaEmployee`: `id: string`, `fullName: string`, `email: string`, `role: EmployeeRole`, `office: NexovaOffice` | S02 | `src/types/models.ts` | Compare with `model.md`; typecheck | Pending |
-| X4 | `RankingDecision`: `id: string`, `vacancyId: string`, `candidateId: string`, `consultantId: string`, `suggestedRank: number`, `finalRank: number`, `decision: RankingDecisionType`, `reason: string`, `decidedAt: Date` | S02 | `src/types/models.ts` | Compare with `model.md`; typecheck | Pending |
-| X5 | `SupportTicket`: `id: string`, `clientId: string`, `channel: TicketChannel`, `query: string`, `status: TicketStatus`, `level: SupportLevel`, `assignedAgentId: string \| null`, `escalationSummary: string`, `createdAt: Date`, `resolvedAt: Date \| null` | S02 | `src/types/models.ts` | Compare with `model.md`; typecheck | Pending |
-| X6 | `KnowledgeBaseArticle`: `id: string`, `clientId: string`, `title: string`, `problem: string`, `solution: string`, `keywords: string[]`, `sourceTicketId: string \| null`, `createdAt: Date` | S02 | `src/types/models.ts` | Compare with `model.md`; typecheck | Pending |
+| X1 | `ClientCompany`: `id: string`, `name: string`, `taxId: string`, `contactEmail: string`, `office: NexovaOffice`, `services: NexovaService[]` | S02 | `src/types/models.ts` | Compare with `model.md`; typecheck | Met (S02): in `src/types/models.ts` with the `model.md` fields; `npx tsc --noEmit` exit 0; used by `src/data/sampleData.ts` (`sampleData.test.ts` passes) |
+| X2 | `ClientVacancy` (extends `Vacancy`): `clientId: string`, `consultantId: string` | S02 | `src/types/models.ts` | Compare with `model.md`; typecheck | Met (S02): in `src/types/models.ts` with the `model.md` fields; `npx tsc --noEmit` exit 0; used by `src/data/sampleData.ts` (`sampleData.test.ts` passes) |
+| X3 | `NexovaEmployee`: `id: string`, `fullName: string`, `email: string`, `role: EmployeeRole`, `office: NexovaOffice` | S02 | `src/types/models.ts` | Compare with `model.md`; typecheck | Met (S02): in `src/types/models.ts` with the `model.md` fields; `npx tsc --noEmit` exit 0; used by `src/data/sampleData.ts` (`sampleData.test.ts` passes) |
+| X4 | `RankingDecision`: `id: string`, `vacancyId: string`, `candidateId: string`, `consultantId: string`, `suggestedRank: number`, `finalRank: number`, `decision: RankingDecisionType`, `reason: string`, `decidedAt: Date` | S02 | `src/types/models.ts` | Compare with `model.md`; typecheck | Met (S02): in `src/types/models.ts` with the `model.md` fields; `npx tsc --noEmit` exit 0; used by `src/data/sampleData.ts` (`sampleData.test.ts` passes) |
+| X5 | `SupportTicket`: `id: string`, `clientId: string`, `channel: TicketChannel`, `query: string`, `status: TicketStatus`, `level: SupportLevel`, `assignedAgentId: string \| null`, `escalationSummary: string`, `createdAt: Date`, `resolvedAt: Date \| null` | S02 | `src/types/models.ts` | Compare with `model.md`; typecheck | Met (S02): in `src/types/models.ts` with the `model.md` fields; `npx tsc --noEmit` exit 0; used by `src/data/sampleData.ts` (`sampleData.test.ts` passes) |
+| X6 | `KnowledgeBaseArticle`: `id: string`, `clientId: string`, `title: string`, `problem: string`, `solution: string`, `keywords: string[]`, `sourceTicketId: string \| null`, `createdAt: Date` | S02 | `src/types/models.ts` | Compare with `model.md`; typecheck | Met (S02): in `src/types/models.ts` with the `model.md` fields; `npx tsc --noEmit` exit 0; used by `src/data/sampleData.ts` (`sampleData.test.ts` passes) |
 | X7 | `searchKnowledgeBase`: linear, client filter first | S03 | `src/utils/search.ts` | Two-client search test | Pending |
 | X8 | `filterTicketsByClient`: tenant isolation | S04 | `src/utils/collections.ts` | Two-client test | Pending |
 | X9 | `filterTicketsByStatus`: by ticket status | S04 | `src/utils/collections.ts` | Filter tests | Pending |

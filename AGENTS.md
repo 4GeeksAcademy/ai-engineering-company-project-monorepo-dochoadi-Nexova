@@ -41,7 +41,7 @@ Every milestone keeps `docs/milestone-<n>/learning-log.md`; each step appends it
 
 ## Language and records
 
-- **Language:** the developer may write in Spanish; everything written to the repo (code, comments, docs, commits, PRs) and every step report is in English. Exceptions: official Spanish briefings, the Spanish site pages and the existing `README.es.md` files.
+- **Language:** the developer may write in Spanish; everything written to the repo (code, comments, docs, commits, PRs) and every step report is in English. Exceptions: official Spanish briefings, official 4Geeks texts (e.g. `docs/milestone-3/brief.md`), the Spanish site pages and the existing `README.es.md` files.
 - **Milestone log:** before handing over, every step records what was done, the real result and any problem in `docs/milestone-<n>/verification.md` and `learning-log.md`, and updates that milestone's row in the Milestone log of `docs/README.md` (and `README.es.md`); a merge is recorded at the start of the next milestone.
 - **Issues log:** every error, conflict or failed check is added to that milestone's `docs/milestone-<n>/issues-log-m<n>.md` when found (cause, fix, step, status, evidence); every step updates it before handing over, and other docs cite its ID.
 - **Improvement backlog:** every step that notices something worth improving (at any level) appends it to `docs/improvements.md` with its source; it is never built in the same step unless the step's prompt says so.

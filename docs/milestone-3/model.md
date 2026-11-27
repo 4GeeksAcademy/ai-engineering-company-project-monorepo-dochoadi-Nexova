@@ -33,7 +33,7 @@ classDiagram
 ```
 
 ## Union types
-- Briefing: `EnglishLevel` A1<A2<B1<B2<C1<C2<Native · `SeniorityLevel` Junior<Semi-Senior<Senior<Lead<Executive · `AvailabilityStatus` · `CandidateStatus` · `VacancyStatus` · `ProcessStage`.
+- Briefing: `EnglishLevel` A1<A2<B1<B2<C1<C2<Native · `SeniorityLevel` Junior<Semi-Senior<Senior<Lead<Executive · `AvailabilityStatus` = "Immediate" | "2 weeks" | "1 month" | "Not available" · `CandidateStatus` = "Active" | "In process" | "Hired" | "Inactive" · `VacancyStatus` = "Open" | "In progress" | "Closed" | "On hold" · `ProcessStage` = "Screening" | "Interview" | "Technical test" | "Final interview" | "Offer" | "Rejected" | "Hired".
 - Extensions: `NexovaOffice` = "Valencia" | "Miami" · `NexovaService` = "Talent Selection" | "Customer Support" · `EmployeeRole` = "Selection Consultant" | "Support Agent" · `TicketChannel` = "Chat" | "Email" | "Widget" | "Phone" · `TicketStatus` = "Open" | "Resolved" · `SupportLevel` = "L1" | "L2" · `RankingDecisionType` = "Accepted" | "Overridden".
 - Computed, not stored: `ScoreBreakdown` (points per part + matched/missing skills), `SlaStatus` = "On time" | "At risk" | "Breached" (SLA 24 h, imported from `packages/shared/company.ts`; at risk from 20 h), `ValidationResult` = `{ valid: boolean; errors: string[] }`, `isHighMatch(score)` (score ≥ 90). An escalation is a ticket with `level === "L2"`.
 
@@ -78,7 +78,7 @@ Match score 0–100: skills 40 (capped) · experience 20 · seniority 15 · Engl
 ## Progress (updated by every step)
 | Part | Files | Step | Status |
 |---|---|---|---|
-| Types (briefing + extensions), ladders, sample data | `src/types/models.ts`, `src/utils/levels.ts`, `src/data/sampleData.ts` | S02 | Pending |
+| Types (briefing + extensions), ladders, sample data | `src/types/models.ts`, `src/utils/levels.ts`, `src/data/sampleData.ts` | S02 | Done ([M3-S02]) |
 | Search | `src/utils/search.ts` | S03 | Pending |
 | Filters and sorts | `src/utils/collections.ts` | S04 | Pending |
 | Score breakdown, score, ranking, grouping | `src/utils/transformations.ts` | S05 | Pending |

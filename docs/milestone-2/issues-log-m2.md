@@ -25,6 +25,7 @@ Compiled on 2026-11-22 from what was recorded during the milestone, plus what wa
 | M2-13 | Merge was never recorded; its section is a placeholder | Filled in M3-S01 as S14: `grep -n "To be filled in this step"` finds nothing in the guide; `git show -s --format=%P ee14825` gives 2 parents | M3-S01 | Fixed | [verification](./verification.md) |
 | M2-14 | Memory still says PR #2 is open | Corrected in M3-S01: merge `ee14825` in `progress.md`, `activeContext.md` and `projectbrief.md`; `gh pr view 2` says MERGED | M3-S01 | Fixed | [verification](./verification.md) |
 | M2-15 | Security rule 16 gives `--no-dotfiles` instead of the documented server flags (`dist`, `-d false -c-1`) | Correct the rule, for the decision review | Found in M3-S01 | Open | [Milestone 3 log](../milestone-3/issues-log-m3.md) (M3-49) |
+| M2-16 | `docs/milestone-2/report.md` linked `../../BRIEFING.md`, which became the Milestone 3 briefing in M3-S01 | Repointed to `./BRIEFING.md` (the archived M2 briefing) | Found in the M3 kickoff (2026-11-27), fixed in M3-S02 | Fixed (M3-S02) | `grep -n "BRIEFING.md" docs/milestone-2/report.md` |
 
 ## Security review findings
 

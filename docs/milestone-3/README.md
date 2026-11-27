@@ -6,6 +6,7 @@ Documentation of Milestone 3: TypeScript utilities for Nexova's candidate scorin
 | --- | --- |
 | [`README.md`](./README.md) | This index. |
 | [`BRIEFING.es.md`](./BRIEFING.es.md) | Official Spanish version of the briefing (4Geeks, unmodified). |
+| [`brief.md`](./brief.md) | The official 4Geeks project page (the brief): challenge, tech lead email, expected `src/` structure, typecheck command and the Spanish phase guide (unmodified text). |
 | [`model.md`](./model.md) | The domain model: 3 briefing entities, 6 extensions, functions by module and progress. |
 | [`model.png`](./model.png) | The same model as a diagram. |
 | [`benchmark.md`](./benchmark.md) | Comparison with Greenhouse, Lever, Bullhorn and schema.org, plus market research. |

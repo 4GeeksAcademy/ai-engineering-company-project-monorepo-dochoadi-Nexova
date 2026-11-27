@@ -165,3 +165,57 @@ bash .agents/skills/security-gate/check.sh 3; echo "security exit=$?"
 - M2-13 and M2-14: the missing merge record and stale memory; fixed.
 - M3-47: the briefing says "no AI"; accepted by the developer's decision.
 - Left open: M3-48 (four unions named only in `model.md`), M3-52 (stale comment in the check), M3-53 (three ambiguities), M1-34 and M2-15 (for the decision review).
+
+### Commit
+
+- `dc68963` `[M3-S01] docs: start Milestone 3 with official briefing, evaluation matrix, decisions, conventions and issue logs` (recorded in S02).
+
+## S02 — TypeScript setup, models and sample data (2026-11-27)
+
+### Delivered
+
+- `docs/milestone-3/brief.md`: the 4Geeks project page, unmodified (M3-55).
+- Toolchain: root `tsconfig.json` (`src/` only, `erasableSyntaxOnly`, `types: ["node"]`, no `rootDir`), `src/package.json` (`"type": "module"`, M3-54), `@types/node` 24.19.2 at the root, scripts `typecheck:domain` and `test:domain`, both included in `typecheck` and `test`.
+- `src/types/models.ts` (3 briefing interfaces and 6 unions, exact; 6 extensions, their unions and the computed types), `src/utils/levels.ts`, `src/data/sampleData.ts`.
+- Tests: `levels.test.ts`, `sampleData.test.ts`, `briefingConformance.test.ts`, `noAny.test.ts`, with the helper `src/tests/helpers/briefing.ts`.
+- README top rewritten (Nexova, what we automate, progress, 5 existing screenshots, the M3 commands); `model.md` union values (M3-48); the AI decision (M3-47); the M2 report link (M2-16).
+
+### Commands
+
+```bash
+npx tsc --noEmit; echo "tsc exit=$?"
+npx tsc --noEmit --listFilesOnly | grep -v node_modules
+pnpm test:domain; echo "test:domain exit=$?"
+pnpm lint; pnpm typecheck; pnpm build; pnpm test
+node --test "src/tests/**/*.test.ts" 2>&1 | grep -c MODULE_TYPELESS
+sha256sum BRIEFING.md docs/milestone-3/brief.md
+git diff --cached HEAD -- pnpm-lock.yaml
+bash .agents/skills/update-memory-bank/check.sh
+bash .agents/skills/security-gate/check.sh 3
+```
+
+### Expected
+
+- Every command exits 0; `tsc` checks only `src/`; 0 `MODULE_TYPELESS` warnings.
+- `BRIEFING.md` `7a2dead9…` and `brief.md` `10e0a7cb…`; the lockfile changes only for `@types/node`.
+
+### Result
+
+- `npx tsc --noEmit` exit 0; `--listFilesOnly` lists the 8 files under `src/` and nothing from the apps.
+- `pnpm test:domain`: 34 tests, 34 pass, 0 fail (levels 4, sample data 11, briefing conformance 10, no-any 9).
+- `pnpm lint`, `pnpm typecheck` (both apps plus `typecheck:domain`), `pnpm build` and `pnpm test` exit 0; `pnpm test` runs 64 tests: 15 package, 15 site, 34 domain.
+- 0 `MODULE_TYPELESS` warnings (the same check in a throwaway folder without `src/package.json` printed the warning).
+- The checks can fail: with a temporary `phone: number`, `"Tech test"` and `taxId: any` in `models.ts`, 3 tests failed (31 pass); with the file restored, 34 pass.
+- `brief.md` hash `10e0a7cb5f45cd42f8c4758a0d8f6ce82d390dfb430122eb6cdce5a47f578323`; `BRIEFING.md` unchanged.
+- The lockfile diff is 3 lines: the root `@types/node` 24.19.2 entry.
+- Memory check 5 PASS (exit 0). `security-gate` (Milestone 3), run with everything staged: 7 PASS, exit 0. The accessibility gate was not run (no page changed; the test page comes in S08).
+
+### Problems found and fixed
+
+- M3-54: the Node module-type warning; fixed with `src/package.json`.
+- M3-55: the project page was not in the repo; `brief.md` added.
+- M2-16: the M2 report linked the root briefing; repointed.
+- M3-10 to M3-13, M3-17, M3-48 fixed; M3-47 accepted (developer decision, 2026-11-27).
+- M3-59: a script that edited the issues logs deleted the M3 log's blank lines and put the M2-16 row outside its table; caught in the diff review and fixed before staging.
+- Left open: M3-56 (rest of the README, S10), M3-57 (demo evidence, before S05), M3-58 (DOM types, S08), M3-35 (S06, S08).
+

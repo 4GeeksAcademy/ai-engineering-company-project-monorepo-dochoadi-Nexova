@@ -1,55 +1,51 @@
-# AI Engineering Nexova — Student Template
+# Nexova Solutions — AI engineering monorepo
 
-[![4Geeks Academy](https://img.shields.io/badge/4Geeks-Academy-blue)](https://4geeksacademy.com)
-[![AI Engineering](https://img.shields.io/badge/track-AI%20Engineering-green)](https://4geeksacademy.com/es/programas-de-carrera/ingenieria-ia)
+Nexova Solutions is a human resources consulting and talent acquisition firm headquartered in Valencia (Spain), with an expansion office in Miami (Florida). It sells executive and mid-management headhunting, customer support team outsourcing for technology companies, and corporate training in soft skills and leadership.
 
-_Base template for transversal projects in the AI Engineering Career Program — 4Geeks Academy._
+This is an academic project for the 4Geeks Academy AI Engineering programme: Nexova is a fictional company and the repository holds no real data.
 
----
+## What we are automating
 
-## Purpose
+Two flagship AI agents, chosen in [`Company-choice.md`](./Company-choice.md):
 
-This repository is the **starter template** for transversal projects. You will work on real company scenarios (Brasaland, TrackFlow, Nexova), building deliverables that map to course milestones (Web, Programming, Backend, Telemetry, RAG, Agents, Workflows, Real-time).
+- **L1 HelpDesk Support Agent** (Customer Support): incidents take 48 h on average against a committed 24 h SLA; the target is to resolve at least 40 % of tickets at Level 1, without human intervention, with each client's data strictly isolated.
+- **CV–Vacancy Matching Agent** (Talent Selection): 40 consultants read 30–80 CVs by hand per search; the target is an explainable candidate ranking (measured by top-5 recall and the consultant override rate), where the consultant always makes the final decision.
 
-- Create a template from this repository.
-- Replace the placeholder `CONTEXT.md` with your assigned company context.
-- Use `skills/` and the directory-level `README.md` files as working guidance.
+**Milestone 3** builds the data layer both agents will use: typed TypeScript models and pure functions in [`src/`](./src/) for candidate scoring, vacancy matching, search, reports and validations, plus the support tickets, knowledge base and SLA data ([domain model](./docs/milestone-3/model.md)).
 
----
+## Progress
 
-## How to start
+- **Milestone 1 — Monorepo AI Setup:** merged (PR #1); criteria E1–E9 met.
+- **Milestone 2 — Your Company's Public Website:** merged (PR #2); criteria E1–E30 met.
+- **Milestone 3 — Building Scripts to Automate Tasks:** in progress on `feature/domain-models` (S00–S02 done).
 
-1. **Use this repository as a template** and create your own project repo.
-2. **Clone** your repository (or open it in Codespaces).
-3. **Replace** `CONTEXT.md` with the full context for your assigned company.
-4. **Read this folder guide** and open the `README.md` of the folder you are working in.
-5. **Start implementing** in the right folder — do not dump everything in the root.
-6. **Document** what you add: each new app, service, agent, or pipeline gets a subfolder + README.
+Details per milestone: the [Milestone log](./docs/README.md#milestone-log).
 
----
+## Screenshots
 
-## How to think about this monorepo
+![Nexova corporate landing page in the Next.js website at desktop width: hero with the CV cascade and the main call to action](./docs/milestone-1/screenshots/website-desktop.png)
 
-You are building **one company** across many milestones and projects. Each top-level folder has a **single responsibility** — like a real engineering team repo.
+_Milestone 1: the corporate website (`uis/website`, Next.js)._
 
-| Layer               | Folders                           | What lives here                                                  |
-| ------------------- | --------------------------------- | ---------------------------------------------------------------- |
-| **Company context** | `CONTEXT.md`                      | Domain facts, field names, constraints for your assigned company |
-| **User-facing**     | `uis/`, `services/`               | Frontends and backends users (or operators) interact with        |
-| **Data**            | `data/`                           | Raw files, pipelines, processed datasets, evaluation sets        |
-| **AI**              | `agents/`, `skills/`, `mcps/`     | Agents, reusable agent capabilities, MCP tool servers            |
-| **Automation**      | `workflows/`                      | n8n flows and cross-system orchestration                         |
-| **Reuse**           | `packages/`, `shared/`            | Shared types, SDKs, schemas, templates                           |
-| **Operations**      | `infra/`, `scripts/`, `internal/` | Docker, deploy configs, one-off scripts, internal CLIs           |
-| **Documentation**   | `docs/`                           | Architecture, decisions, conventions for the whole repo          |
+![Nexova backoffice operations overview at desktop width: SLA and headcount tiles, work by type and the department cards](./docs/milestone-1/screenshots/backoffice-desktop.png)
 
-**Rule of thumb:** if it has a UI → `uis/`. If it exposes an API or runs in the background → `services/`. If it moves or transforms data → `data/`. If an AI model does the work → `agents/` (+ `skills/` or `mcps/` as needed).
+_Milestone 1: the internal backoffice (`uis/backoffice`, Next.js)._
 
----
+![Nexova public landing page in English at 1280 pixels wide: header, hero and services](./docs/milestone-2/screenshots/landing-en-1280.png)
+
+_Milestone 2: the public landing page (plain HTML and Tailwind CSS)._
+
+![Talent pool application form in English after an empty submission: error summary and a specific message under each required field](./docs/milestone-2/screenshots/form-en-errors.png)
+
+_Milestone 2: the talent pool form with its real-time validation errors._
+
+![Class diagram of the Milestone 3 domain model: Candidate, Vacancy and SelectionProcess from the briefing, and the six extensions for both agents](./docs/milestone-3/model.png)
+
+_Milestone 3: the data model (3 briefing entities, 6 extensions)._
 
 ## Current status
 
-This repository is the Nexova Solutions monorepo, built on the template below. Milestone 1 ("Monorepo AI Setup", PR #1) and Milestone 2 ("Your Company's Public Website", PR #2) are merged into `main`. Milestone 3 ("Building Scripts to Automate Tasks") is in progress on the branch `feature/domain-models`.
+This repository is the Nexova Solutions monorepo, built on the 4Geeks template (guide at the end). Milestone 1 ("Monorepo AI Setup", PR #1) and Milestone 2 ("Your Company's Public Website", PR #2) are merged into `main`. Milestone 3 ("Building Scripts to Automate Tasks") is in progress on the branch `feature/domain-models`.
 
 **Current milestone briefing:** [`BRIEFING.md`](./BRIEFING.md) (Milestone 3, "Building Scripts to Automate Tasks": the official 4Geeks file, unmodified). Earlier briefing: [Milestone 2](./docs/milestone-2/BRIEFING.md).
 
@@ -60,7 +56,7 @@ This repository is the Nexova Solutions monorepo, built on the template below. M
 | Corporate website | [`uis/website/`](./uis/website/README.md) | Public landing page, Next.js 16, port **3000**. |
 | Backoffice | [`uis/backoffice/`](./uis/backoffice/README.md) | Internal operations overview, Next.js 16, port **3001**, no authentication yet. |
 | Public website (Milestone 2) | repo root (`index.html`, `application.html`, `es/`) | The official public site of the brief: landing page and talent pool form, EN + ES, port **8080** (see "Public website" below). |
-| Domain utilities (Milestone 3, in progress) | root `src/` (from S02) | TypeScript models and pure functions for candidate scoring, vacancy matching and support KPIs ([model](./docs/milestone-3/model.md)). No code yet. |
+| Domain utilities (Milestone 3, in progress) | root `src/` (from S02) | TypeScript models and pure functions for candidate scoring, vacancy matching and support KPIs ([model](./docs/milestone-3/model.md)). So far (S02): the domain types, the English and seniority ladders, the sample data and their tests. |
 | Shared package | [`packages/shared/`](./packages/shared/README.md) | `@repo/shared-types`: Nexova company data, types and the brand tokens (`styles/tokens.css`), defined once and imported by both UIs. |
 | Coding-agent configuration | [`AGENTS.md`](./AGENTS.md), [`.agents/`](./.agents/skills/README.md), [`memory-bank/`](./memory-bank/) | Operating protocol, rules with explicit scope, skills, and the persistent project memory. `CLAUDE.md` loads `AGENTS.md` for Claude Code. |
 
@@ -73,7 +69,9 @@ pnpm install          # install the workspace
 pnpm dev              # website (3000) and backoffice (3001) in parallel
 pnpm dev:website      # website only, http://localhost:3000
 pnpm dev:backoffice   # backoffice only, http://localhost:3001
-pnpm test             # unit tests (node:test) of every package, plus the site tests
+pnpm test             # unit tests (node:test) of every package, the site tests and the domain tests
+npx tsc --noEmit      # Milestone 3: type-check src/ (same as pnpm typecheck:domain)
+pnpm test:domain      # Milestone 3: the domain tests in src/tests/
 ```
 
 `pnpm lint`, `pnpm typecheck` and `pnpm build` run the other checks across the workspace.
@@ -133,11 +131,34 @@ bash .agents/skills/a11y-gate/check.sh 2       # WCAG 2.2 AA: axe, structure, la
 
 ---
 
-## Folder guide — what goes where
+## Repository guide (from the 4Geeks template)
+
+The original template's guide to the folders, kept for orientation.
+
+### How to think about this monorepo
+
+You are building **one company** across many milestones and projects. Each top-level folder has a **single responsibility** — like a real engineering team repo.
+
+| Layer               | Folders                           | What lives here                                                  |
+| ------------------- | --------------------------------- | ---------------------------------------------------------------- |
+| **Company context** | `CONTEXT.md`                      | Domain facts, field names, constraints for your assigned company |
+| **User-facing**     | `uis/`, `services/`               | Frontends and backends users (or operators) interact with        |
+| **Data**            | `data/`                           | Raw files, pipelines, processed datasets, evaluation sets        |
+| **AI**              | `agents/`, `skills/`, `mcps/`     | Agents, reusable agent capabilities, MCP tool servers            |
+| **Automation**      | `workflows/`                      | n8n flows and cross-system orchestration                         |
+| **Reuse**           | `packages/`, `shared/`            | Shared types, SDKs, schemas, templates                           |
+| **Operations**      | `infra/`, `scripts/`, `internal/` | Docker, deploy configs, one-off scripts, internal CLIs           |
+| **Documentation**   | `docs/`                           | Architecture, decisions, conventions for the whole repo          |
+
+**Rule of thumb:** if it has a UI → `uis/`. If it exposes an API or runs in the background → `services/`. If it moves or transforms data → `data/`. If an AI model does the work → `agents/` (+ `skills/` or `mcps/` as needed).
+
+---
+
+### Folder guide — what goes where
 
 Read the linked `README.md` inside each folder before you start coding there.
 
-### Root files
+#### Root files
 
 | Path                         | Purpose                                                                   | What you do here                                                                                              |
 | ---------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -145,7 +166,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 | `docker-compose.yml`         | Local dev orchestration for the whole stack                               | Keep at repo root — wires `services/`, databases, and other containers from one place                         |
 | `README.md`                  | This guide                                                                | Orientation — you are here                                                                                    |
 
-### `uis/` — user interfaces
+#### `uis/` — user interfaces
 
 **Purpose:** All frontend applications — anything a human sees and clicks.
 
@@ -159,7 +180,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 
 → See [`uis/README.md`](./uis/README.md)
 
-### `services/` — centralized company API (FastAPI)
+#### `services/` — centralized company API (FastAPI)
 
 **Purpose:** One **centralized FastAPI backend** for the whole company — a single entry point that keeps complexity low as the project grows.
 
@@ -174,7 +195,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 
 → See [`services/README.md`](./services/README.md)
 
-### `data/` — datasets, pipelines, and evaluation
+#### `data/` — datasets, pipelines, and evaluation
 
 **Purpose:** Everything data-related, from raw files to production-ready tables.
 
@@ -187,7 +208,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 
 **Flow:** `raw` → `pipelines` → `process` → consumed by `services/`, `uis/`, or `agents/`. Use `eval` to prove quality.
 
-### `agents/` — AI agents
+#### `agents/` — AI agents
 
 **Purpose:** Autonomous or semi-autonomous AI assistants for the company.
 
@@ -201,7 +222,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 
 → See [`agents/README.md`](./agents/README.md)
 
-### `skills/` — reusable agent capabilities
+#### `skills/` — reusable agent capabilities
 
 **Purpose:** Packaged instructions + scripts that agents (or you in Cursor) reuse across the repo.
 
@@ -214,7 +235,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 
 → See [`skills/README.md`](./skills/README.md)
 
-### `mcps/` — Model Context Protocol servers
+#### `mcps/` — Model Context Protocol servers
 
 **Purpose:** Bridge AI models to your systems — databases, APIs, GitHub, custom tools.
 
@@ -227,7 +248,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 
 → See [`mcps/README.md`](./mcps/README.md)
 
-### `workflows/` — automation and orchestration
+#### `workflows/` — automation and orchestration
 
 **Purpose:** Connect systems without writing full apps — scheduled jobs, webhooks, notifications.
 
@@ -240,7 +261,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 
 → See [`workflows/README.md`](./workflows/README.md)
 
-### `packages/` — shared libraries
+#### `packages/` — shared libraries
 
 **Purpose:** Versionable code reused by multiple apps, agents, or pipelines.
 
@@ -253,7 +274,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 
 → See [`packages/README.md`](./packages/README.md)
 
-### `shared/` — loose shared assets
+#### `shared/` — loose shared assets
 
 **Purpose:** Resources that are not a full package — schemas, templates, static assets, short docs.
 
@@ -264,7 +285,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 
 → See [`shared/README.md`](./shared/README.md)
 
-### `docs/` — cross-cutting documentation
+#### `docs/` — cross-cutting documentation
 
 **Purpose:** Architecture and decisions that span the whole company project.
 
@@ -275,7 +296,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 
 → See [`docs/README.md`](./docs/README.md)
 
-### `infra/` — infrastructure and deployment
+#### `infra/` — infrastructure and deployment
 
 **Purpose:** How the company project runs in Docker, cloud, or CI.
 
@@ -287,7 +308,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 
 → See [`infra/README.md`](./infra/README.md)
 
-### `scripts/` — helper scripts
+#### `scripts/` — helper scripts
 
 **Purpose:** Small, repeatable automation — not full apps.
 
@@ -300,7 +321,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 
 → See [`scripts/README.md`](./scripts/README.md)
 
-### `internal/` — internal developer tools
+#### `internal/` — internal developer tools
 
 **Purpose:** Robust utilities for the engineering team.
 
@@ -313,7 +334,7 @@ Read the linked `README.md` inside each folder before you start coding there.
 
 ---
 
-## Where should I put this?
+### Where should I put this?
 
 Quick decision guide:
 
@@ -338,7 +359,7 @@ Is it a CLI tool with its own package?     → internal/
 
 ---
 
-## Repository structure (tree)
+### Repository structure (tree)
 
 ```text
 ai-engineering-company-project-monorepo/
@@ -366,14 +387,14 @@ ai-engineering-company-project-monorepo/
 
 ---
 
-## Links
+### Links
 
 - [4Geeks Academy — AI Engineering](https://4geeksacademy.com/es/programas-de-carrera/ingenieria-ia)
 - [How to start a coding project](https://4geeks.com/lesson/how-to-start-a-project)
 
 ---
 
-## Contributors
+### Contributors
 
 This template was built as part of the 4Geeks Academy AI Engineering Career Program by [@marcogonzalo](https://www.linkedin.com/in/marcogonzalo) and [@alesanchezr](https://x.com/alesanchezr) and many other contributors. Find out more about our [AI Engineering Course](https://4geeksacademy.com/en/career-programs/ai-engineering), and [other courses](https://4geeksacademy.com/en/program-comparison).
 

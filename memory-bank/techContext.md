@@ -10,7 +10,7 @@ Type: technical
 | Public site (Milestone 2) | Plain HTML + compiled Tailwind CSS v4 + vanilla JavaScript, served with `npx http-server` on port 8080 | Repo root (`index.html`, `application.html`, `validation.js`, `es/`) |
 | Runtime | Node 24 (`engines: >=24 <25`) | Repo root |
 | JS/TS package management | pnpm 12.11.2 workspace (`packageManager` pinned, enabled via Corepack) | Repo root |
-| TypeScript | 5.9.3, a root dev dependency (with `tailwindcss` and `@tailwindcss/cli` 4.3.3 for the root site, S03); shared options in `tsconfig.base.json` (`strict`, `noUncheckedIndexedAccess`, `ESNext`/`Bundler`, `verbatimModuleSyntax`, `allowImportingTsExtensions`, `noEmit`) | Repo root |
+| TypeScript | 5.9.3, a root dev dependency (with `tailwindcss` and `@tailwindcss/cli` 4.3.3 for the root site, S03, and `@types/node` 24.19.2 for the Milestone 3 code, M3-S02); shared options in `tsconfig.base.json` (`strict`, `noUncheckedIndexedAccess`, `ESNext`/`Bundler`, `verbatimModuleSyntax`, `allowImportingTsExtensions`, `noEmit`) | Repo root |
 | Shared types and data | `@repo/shared-types` package | `packages/shared` |
 | Backend (future) | Python + FastAPI as the company's **single API**, with one router per domain | `services/` |
 
@@ -19,7 +19,7 @@ Type: technical
 - **Layout:** `pnpm-workspace.yaml` includes `uis/*` and `packages/*`. Workspace packages: `packages/shared`, `uis/website` (package name `website`) and `uis/backoffice` (package name `backoffice`).
 - **Build scripts:** pnpm 12 refuses unapproved dependency build scripts. `pnpm-workspace.yaml` lists `allowBuilds` with `sharp` and `unrs-resolver` set to `false` (both ship prebuilt binaries); any new entry needs a justification.
 - **Root scripts:** `pnpm dev` (all `uis/*` apps in parallel), `pnpm dev:website`, `pnpm dev:backoffice`, and `pnpm build` / `lint` / `typecheck` / `test`, which run each package's script when it exists (`pnpm -r --if-present`).
-- **Tests:** `node --test` with the native `node:test` and `node:assert` modules, no test dependency. Node 24 strips TypeScript types natively, so `*.test.ts` files run without `--experimental-strip-types`. Test files of `packages/shared` are excluded from `tsc` (`@types/node` is not installed there); this does not apply to the Milestone 3 code, whose tests are type-checked with a pinned `@types/node` (from S02). Imports between `.ts` files use explicit `.ts` extensions.
+- **Tests:** `node --test` with the native `node:test` and `node:assert` modules, no test dependency. Node 24 strips TypeScript types natively, so `*.test.ts` files run without `--experimental-strip-types`. Test files of `packages/shared` are excluded from `tsc` (`@types/node` is not installed there); this does not apply to the Milestone 3 code, whose tests are type-checked with the root `@types/node` 24.19.2 (M3-S02). Imports between `.ts` files use explicit `.ts` extensions.
 - **Company data:** Nexova's company data (company profile, business lines, the 8 departments, support SLA, flagship agents) lives only in `packages/shared/company.ts`, taken from `CONTEXT.md` and `Company-choice.md`, with no computed values. Apps import it from `@repo/shared-types` and must list the package in Next.js `transpilePackages`, because it ships TypeScript source.
 - **TypeScript version:** 5.9.3 was chosen over 7.0.2 (`latest`, the native compiler) because Next.js type-checks through the JavaScript `typescript` API.
 
@@ -75,13 +75,14 @@ Type: technical
 - **Structure:** `app/` (own layout with sidebar, top bar and `main`; route `/` "Operations overview"; `globals.css`), `components/` (`Sidebar`, `TopBar` + `LiveClock`, `SlaKpi`, `HeadcountKpi`, `WorkByType` + `NeedsFilter` context, `DepartmentCard` + `SpotlightCard`/`NeedList`/`SupportClock`, `AgentCard`, `OpenQuestions`), `content/overview.ts` (copy, department display order and short labels), `lib/` (`metrics.ts` pure calculations with `node:test`, `departments.ts`, `format.ts`, `motion.ts`).
 - **Conventions:** same as the website; it never imports from `uis/website`. Clocks use `useSyncExternalStore` with a `null` server snapshot (no hydration mismatch) and refresh every 30 s.
 
-## Domain utilities at the root (Milestone 3, planned from S02)
+## Domain utilities at the root (Milestone 3, from S02)
 
-- **Layout:** everything in root `src/` (`types/models.ts`, `utils/{collections,search,transformations,validations,levels}.ts`, `data/sampleData.ts`, `demo.ts`, `index.html`), with the tests in `src/tests/`.
-- **Runtime:** Node 24 runs the `.ts` files directly (type stripping), with no extra runner.
-- **Compiler:** TypeScript 5.9.3, already in the root devDependencies. A root `tsconfig.json` with `erasableSyntaxOnly` and no `rootDir: "src"`; the command is `npx tsc --noEmit`.
-- **Checks:** root typecheck and tests will also cover `src/`, with the tests type-checked, a no-any check, and the quoted glob `"src/tests/**/*.test.ts"`. The root `package.json` gets no `"type": "module"`.
-- **Shared SLA:** imported with a relative `.ts` path from `packages/shared/company.ts`; the S08 page build must include that file.
+- **Layout:** everything in root `src/`: `types/models.ts`, `utils/levels.ts` and `data/sampleData.ts` (S02); `utils/{collections,search,transformations,validations}.ts`, `demo.ts` and `index.html` come in S03–S08. Tests in `src/tests/*.test.ts`, with shared test code in `src/tests/helpers/briefing.ts`.
+- **Runtime:** Node 24 runs the `.ts` files directly (type stripping), with no extra runner. `src/package.json` (`"private": true, "type": "module"`) makes Node treat `src/` as ES modules without the `MODULE_TYPELESS_PACKAGE_JSON` warning (M3-54); the root `package.json` stays without `"type"`, so the site's CommonJS scripts keep working (M3-13). `src/package.json` is not a pnpm workspace package (`pnpm-workspace.yaml` lists only `uis/*` and `packages/*`).
+- **Compiler:** TypeScript 5.9.3. Root `tsconfig.json` extends `tsconfig.base.json` with `erasableSyntaxOnly: true` (no `enum` or `namespace`, which type stripping cannot run), `types: ["node"]`, `include: ["src/**/*.ts"]` and no `rootDir`, so it checks only `src/` (the apps keep their own configs). Imports use `.ts` extensions and `import type` for types (`verbatimModuleSyntax`).
+- **Commands:** `npx tsc --noEmit` = `pnpm typecheck:domain` (E9); `pnpm test:domain` = `node --test "src/tests/**/*.test.ts"` (quoted glob). The root `typecheck` and `test` also run them (`pnpm test`: 15 package + 15 site + 34 domain tests after S02).
+- **Guard tests:** `briefingConformance.test.ts` compares `models.ts` with the code blocks of `BRIEFING.md` through the TypeScript compiler API (field names, order, types, union values); `noAny.test.ts` fails on any `any` type under `src/`; `sampleData.test.ts` checks the briefing sample value by value and every reference in the extra data.
+- **Shared SLA:** imported with a relative `.ts` path from `packages/shared/company.ts` (S06); the S08 page build must include that file. The base config has only `lib: ["ES2022"]`, so the S08 page script needs the DOM types (M3-58).
 
 ## How the pieces connect
 

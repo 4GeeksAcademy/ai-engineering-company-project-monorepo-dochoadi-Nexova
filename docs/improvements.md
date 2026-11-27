@@ -49,6 +49,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | TS-01 | Typecheck the tests of the shared package and apply the same strict options everywhere | The Milestone 3 tests will be type-checked; older shared tests are excluded | A: only the M3 code / B: every package | S | Med | M1, S08, `memory-bank/techContext.md` (tests); M3, S01, `docs/milestone-3/decisions.md` | Open |
 | TS-02 | Import shared data by package name instead of a relative path | The relative `.ts` path breaks if the domain code moves | A: keep the relative path / B: a root workspace dependency on `@repo/shared-types` | S | Low | M3, S01, `docs/milestone-3/issues-log-m3.md` (M3-35) | Open |
+| TS-03 | Lint the domain code in `src/` | `pnpm lint` only runs the apps' ESLint; `src/` is checked by `tsc` and the no-any test, not by a linter (unused variables, `let` vs `const`) | A: ESLint with `typescript-eslint` at the root (new dependency) / B: keep `tsc` strict options plus review in S09 | S | Med | M3, S02, root `package.json` (`lint` = `pnpm -r`) | Open |
 
 ## CSS and Tailwind
 
@@ -112,6 +113,7 @@
 | ID | Improvement | Why it matters | Options to compare (A / B) | Effort (S/M/L) | Impact (Low/Med/High) | Source (milestone, step, file) | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | TEST-01 | Test the briefing's layout requirements | A redesign dropped the 2-column layout until the final audit | A: a Playwright assertion / B: a checklist after each redesign | S | Med | M2, S11, `docs/milestone-2/recap.md` (what I would do differently) | Open |
+| TEST-02 | Keep the "deliberate mistake" checks as a script | S02 proved the conformance and no-any tests can fail by editing `models.ts` by hand; nothing repeats that proof later | A: a small script that breaks a copy and expects failures / B: keep it as a manual step in `verification.md` | S | Low | M3, S02, `docs/milestone-3/verification.md` (Result) | Open |
 
 ## DevOps and Codespaces
 
