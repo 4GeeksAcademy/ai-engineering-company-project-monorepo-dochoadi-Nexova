@@ -211,3 +211,65 @@ What was done in each step, in plain words.
 
 **Commit:** `[M3-S02][E1][E9][E13] feat(domain): add TypeScript setup, domain models, level ladders and sample data`
 
+## S03 — Search: linear and binary (2026-11-27)
+
+**What was done**
+- Wrote the four search functions in `src/utils/search.ts`: find a candidate by id, by email, or by expected salary, and search a client's knowledge base.
+- Wrote 17 tests, including empty lists, items that are not there, and a check that no search changes the data it receives.
+- Broke the code on purpose three times to prove the tests notice, then put it back.
+- Wrote down three recommendations for later decisions, plus six improvement ideas. None of them is built yet.
+
+**How it works**
+- **Linear search:** look at each item in turn until one matches. Example: finding "C-2024-0453" in [María, Juan, Carolina] checks María (no), then Juan (no), then Carolina (yes). The list doesn't need any order. If nothing matches, the answer is `null` ("nothing found").
+- **`findCandidateById`:** a linear search that compares ids exactly.
+- **`findCandidateByEmail`:** a linear search that first trims the spaces and turns both emails into lower case. People type "Carolina.Silva@EMAIL.com" or add a space by mistake, but it is the same address. The briefing asks for this ("case-insensitive").
+- **Binary search (`binarySearchCandidateBySalary`):** works on a list sorted from the lowest salary to the highest. Each step looks at the middle and throws away the half that cannot contain the answer.
+  - Looking for **4200** in [2800, 4200, 6500] (positions 0, 1, 2): the range is 0 to 2, so the middle is position 1, which holds 4200. Found: the answer is 1.
+  - Looking for **5000**:
+    1. The middle is position 1 (4200). 4200 is smaller than 5000, so the answer can only be to the right; keep positions 2 to 2.
+    2. The middle is position 2 (6500). 6500 is bigger than 5000, so keep the positions to its left, 2 to 1. That range is empty.
+    3. Nothing is left, so the answer is −1 ("not found").
+  - **Why the list must be sorted:** "smaller, so go right" is only true if everything to the right is bigger. On an unsorted list the search can throw away the half that holds the answer.
+  - **How the middle is chosen:** `Math.floor((low + high) / 2)`, the middle position rounded down.
+- **`searchKnowledgeBase`:**
+  1. it keeps only the articles of the requested client;
+  2. it keeps those whose title, problem, solution or keywords contain the word (spaces trimmed, capital letters ignored).
+  Filtering by client first means another client's articles are never even looked at. Nexova's clients must never see each other's data (decision 10c). Example: "password" for CL-001 returns only CL-001's article, even if CL-002 has the same one. An empty word returns an empty list, never "everything".
+
+**Check your understanding**
+1. *When is binary search faster than linear search?* On long sorted lists: each step halves what is left, so 1,000 items take about 10 steps instead of up to 1,000.
+2. *When does binary search give a wrong answer?* When the list is not sorted by the same value it searches (here, the expected salary). It may say −1 for a salary that is there.
+3. *Why does the knowledge-base search filter by client before matching the word?* So no other client's data is ever part of the result, even by mistake.
+
+**Result**
+- 53 of 53 domain tests pass (17 new); 83 of 83 in `pnpm test`.
+- Type check, lint and build finish without errors.
+- Broken on purpose:
+  - `high = mid`: the search never stopped (M3-60);
+  - `low < high`: 4 tests failed;
+  - client filter removed: 3 tests failed.
+  - Restored: everything passes again.
+- Memory check 5 of 5; security check 7 of 7.
+
+**Problems found and fixed**
+- M3-60: one deliberate mistake made the tests hang instead of failing; accepted, idea TEST-03.
+- M3-61: my first test copied the frozen list, which unfreezes it; fixed before running.
+
+**What I learned**
+- Binary search is fast but has two traps: the list must be sorted, and the range must shrink every round, or it never ends.
+- A copy of a frozen list is not frozen.
+- Searching inside one client's data first is the simplest way to keep clients apart.
+
+**How to check it yourself**
+- Run `pnpm test:domain`: `pass 53`, `fail 0`.
+- Open `src/utils/search.ts`: each function is a few lines.
+- In `src/tests/search.test.ts`, read the test "binary search finds every briefing salary at its sorted index".
+
+**Decisions or open questions**
+- New for S05 (in `decisions.md`): a salary below the vacancy minimum, 0 points or 10 plus a warning?
+- Recommendations: break score ties by more required skills, then sooner availability, never by salary; for repeated skills, show the most common spelling (S06).
+- Still open: M3-53, M3-57 (before S05); the score breakdown fields from S02.
+- Next: S04, filters and sorting.
+
+**Commit:** `[M3-S03][E4][E5] feat(search): add linear and binary candidate search and client-scoped knowledge-base search`
+

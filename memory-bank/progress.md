@@ -4,7 +4,7 @@ Type: status
 
 ## Current state
 
-**Milestone 3 ("Building Scripts to Automate Tasks") is in progress** on the branch `feature/domain-models`: S00, S00b, S00d, S01 and S02 done (S02 staged for approval); next S03 (search functions).
+**Milestone 3 ("Building Scripts to Automate Tasks") is in progress** on the branch `feature/domain-models`: S00, S00b, S00d, S01, S02 and S03 done (S03 staged for approval); next S04 (filters and sorting).
 
 **Milestone 2 ("Your Company's Public Website") is complete and merged** into `main` on 2026-11-16 as `ee14825` (PR #2). The instructor approved Milestone 2 through the 4Geeks platform before the 2026-11-16 merge; the developer chose not to comment in the PR. It does not block Milestone 3.
 
@@ -74,10 +74,11 @@ Type: status
 - **2026-11-22 — Next.js security patch (`M3-S00d`):** after S00b's installs, `pnpm build` was blocked by 7 moderate advisories in Next.js 16.4.1; `next` and `eslint-config-next` updated to 16.4.6 in both apps (only Next.js's own 12 packages changed in the lockfile). Lint, typecheck, build, 30 tests and the security gate (7 PASS) exit 0; both apps answer 200; `pnpm audit` keeps 1 moderate `minimatch` advisory (development tools only), left for the end-of-milestone review.
 - **2026-11-22 — Milestone 3 started, S01 (`M3-S01`):** official M3 briefing at the root and the M2 one archived unchanged (hashes checked; site tests repointed); `docs/milestone-3/` with the evaluation matrix, decisions, verification and index; one issues log per milestone; `docs/improvements.md`; Milestone log in `docs/README.md`; rules updated (approval before commit, merge wording, `src/` and tenant exceptions, records, protected checks); memory check criterion 5 now checks the pending step (M3-31); Milestone 2 merge `ee14825` (PR #2, 2026-11-16) recorded.
 - **2026-11-27 — S02 (`M3-S02`):** the 4Geeks project page saved unmodified as `docs/milestone-3/brief.md` (`10e0a7cb…`, M3-55); toolchain for `src/`: root `tsconfig.json` (`src/` only, `erasableSyntaxOnly`, `types: ["node"]`), `src/package.json` with `"type": "module"` (M3-54), `@types/node` 24.19.2 at the root (lockfile: that entry only), scripts `typecheck:domain` and `test:domain` added to `typecheck` and `test`; `src/types/models.ts` (3 briefing interfaces and 6 unions exact, 6 extensions, `ScoreBreakdown`, `SlaStatus`, `ValidationResult`), `src/utils/levels.ts` (ladders, `compareEnglishLevel`, `seniorityDistance`), `src/data/sampleData.ts` (briefing sample exact, plus 2 clients, 4 staff, 3 client vacancies, 4 processes, 3 ranking decisions, 4 tickets, 2 articles); 34 domain tests (conformance with `BRIEFING.md`, no-any, sample data, levels), 64 in total, all passing; README top presents Nexova; AI decision recorded (M3-47); `model.md` union values (M3-48); M2 report link (M2-16). E1, E9, E13, X1–X6, D1, D8, D10 met.
+- **2026-11-27 — S03 (`M3-S03`):** `src/utils/search.ts`: linear `findCandidateById` and `findCandidateByEmail` (trimmed, case-insensitive), iterative `binarySearchCandidateBySalary` on ascending `expectedSalary` (index or -1), and `searchKnowledgeBase` (client filter first, decision 10c; blank keyword → `[]`); `src/tests/search.test.ts` 17 tests (53 domain, 83 in total, all passing); deliberate mistakes caught (`low < high`: 4 failures; client filter removed: 3; `high = mid`: the run hangs, M3-60); M3-61 fixed; S05/S06 recommendations in `decisions.md`; DATA-20 to DATA-24 and TEST-03 in the backlog. E4, E5, X7, D4, D5, F6–F8 met.
 
 ## Pending
 
-- Milestone 3: S03–S11, then the merge only when the developer asks, after the instructor's approval.
+- Milestone 3: S04–S11, then the merge only when the developer asks, after the instructor's approval.
 - The end-of-milestone decision review, before the Milestone 3 recap and PR.
 - Authentication for the backoffice (open question in `activeContext.md`).
 - Confirm the real public contact email (open question in `activeContext.md`). The office photos were confirmed by the developer on 2026-10-23.

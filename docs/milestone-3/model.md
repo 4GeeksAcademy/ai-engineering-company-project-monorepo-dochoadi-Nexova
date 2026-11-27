@@ -79,7 +79,7 @@ Match score 0–100: skills 40 (capped) · experience 20 · seniority 15 · Engl
 | Part | Files | Step | Status |
 |---|---|---|---|
 | Types (briefing + extensions), ladders, sample data | `src/types/models.ts`, `src/utils/levels.ts`, `src/data/sampleData.ts` | S02 | Done ([M3-S02]) |
-| Search | `src/utils/search.ts` | S03 | Pending |
+| Search | `src/utils/search.ts` | S03 | Done ([M3-S03]) |
 | Filters and sorts | `src/utils/collections.ts` | S04 | Pending |
 | Score breakdown, score, ranking, grouping | `src/utils/transformations.ts` | S05 | Pending |
 | Reports and KPIs (recruitment + support) | `src/utils/transformations.ts` | S06 | Pending |

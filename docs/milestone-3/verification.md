@@ -219,3 +219,54 @@ bash .agents/skills/security-gate/check.sh 3
 - M3-59: a script that edited the issues logs deleted the M3 log's blank lines and put the M2-16 row outside its table; caught in the diff review and fixed before staging.
 - Left open: M3-56 (rest of the README, S10), M3-57 (demo evidence, before S05), M3-58 (DOM types, S08), M3-35 (S06, S08).
 
+## S03 — Search: linear and binary (2026-11-27)
+
+### Delivered
+
+- `src/utils/search.ts`: `findCandidateById`, `findCandidateByEmail` (trimmed, case-insensitive), `binarySearchCandidateBySalary` (iterative, ascending `expectedSalary`), and the extension `searchKnowledgeBase` (client filter first, then title, problem, solution or keywords; blank keyword → `[]`).
+- `src/tests/search.test.ts`: 17 tests (linear search, binary search including empty, one element, repeated salaries and a longer list, the client-scoped knowledge base, and frozen inputs).
+- Recorded only: three S05/S06 recommendations in `decisions.md`; DATA-20 to DATA-24 and TEST-03 in `docs/improvements.md`.
+
+### Commands
+
+```bash
+npx tsc --noEmit; echo "tsc exit=$?"
+pnpm test:domain; echo "test:domain exit=$?"
+pnpm lint; pnpm typecheck; pnpm build; pnpm test
+grep -nE "^export function" src/utils/search.ts
+git diff --stat HEAD -- package.json pnpm-lock.yaml tsconfig.json src/types src/data
+# Deliberate mistakes (each on a copy, then restored)
+sed -i 's/      high = mid - 1;/      high = mid;/' src/utils/search.ts            # 1
+sed -i 's/while (low <= high)/while (low < high)/' src/utils/search.ts           # 1b
+sed -i 's/articles.filter((article) => article.clientId === clientId).filter/articles.filter/' src/utils/search.ts  # 2
+node --test src/tests/search.test.ts
+bash .agents/skills/update-memory-bank/check.sh
+bash .agents/skills/security-gate/check.sh 3
+```
+
+### Expected
+
+- Every check exits 0; 4 exported functions; no change to `package.json`, the lockfile, `tsconfig.json`, the types or the sample data.
+- Every deliberate mistake makes at least one test fail.
+
+### Result
+
+- `npx tsc --noEmit` exit 0; `pnpm test:domain` 53 tests, 53 pass, 0 fail (17 new in `search.test.ts`; the no-any test now also covers the 2 new files).
+- `pnpm lint`, `pnpm typecheck`, `pnpm build` and `pnpm test` exit 0; `pnpm test` runs 83 tests: 15 package, 15 site, 53 domain.
+- `grep` lists 4 exported functions; the protected files and folders are unchanged.
+- Deliberate mistakes:
+
+  | Mistake | Result |
+  | --- | --- |
+  | 1. `high = mid` | The run never ended: the search loops forever and was killed after 120 s (`--test-timeout` cannot stop a loop that never yields; M3-60) |
+  | 1b. `while (low < high)` | 4 fail: "binary search finds every briefing salary at its sorted index", "… on a longer list finds every element", "… on one element: found and not found", "… with repeated salaries returns any matching index" |
+  | 2. Client filter removed | 3 fail: "searchKnowledgeBase returns only the requested client's articles", "… keeps the original order", "… returns [] for a blank keyword, an unknown client or no match" |
+  | Restored | 17 of 17 search tests pass; 53 of 53 domain tests |
+
+- Memory check 5 PASS (exit 0). `security-gate` (Milestone 3), run with everything staged: 7 PASS, exit 0. The accessibility gate was not run (no page changed).
+
+### Problems found and fixed
+
+- M3-60: a binary-search mistake that loops forever hangs the run instead of naming a failing test; accepted (a hang is still a failure), option recorded as TEST-03. Mistake 1b was added so that binary search also has a named failing run.
+- M3-61: the first draft of the non-mutation test copied the frozen list (`[...frozen]`), which made it changeable again; rewritten before the first run to pass deeply frozen lists to the functions.
+

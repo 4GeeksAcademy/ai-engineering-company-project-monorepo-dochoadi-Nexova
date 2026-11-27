@@ -10,7 +10,8 @@ Type: status
 - **S00b, environment (2026-11-22):** the three pinned installs are done (workspace packages, axe, Chromium 1247); all checks passed except `pnpm build`, blocked by 7 moderate Next.js advisories (M1-31). Recorded in [verification](../docs/milestone-3/verification.md): do not repeat S00b unless a kickoff finds an install missing or outdated, for example after a container rebuild.
 - **S00d (`f2ded98`):** Next.js 16.4.6 in both apps; the baseline is READY (lint, typecheck, build, 30 tests and the security gate exit 0).
 - **S01 (`dc68963`):** official briefing, evaluation matrix, decisions, conventions, issues logs and backlog.
-- **S02 (2026-11-27, staged for approval):** the 4Geeks project page (`docs/milestone-3/brief.md`), the TypeScript toolchain for `src/`, the domain types, the level ladders, the sample data and 34 tests; the README top now presents Nexova.
+- **S02 (`093ce54`):** the 4Geeks project page (`docs/milestone-3/brief.md`), the TypeScript toolchain for `src/`, the domain types, the level ladders, the sample data and 34 tests; the README top now presents Nexova.
+- **S03 (2026-11-27, staged for approval):** `src/utils/search.ts` (`findCandidateById`, `findCandidateByEmail`, `binarySearchCandidateBySalary`, client-scoped `searchKnowledgeBase`) with 17 tests and deliberate-mistake runs.
 
 **Milestone 2 — Your Company's Public Website is complete and merged** into `main` on 2026-11-16 as `ee14825` (PR #2). The instructor approved Milestone 2 through the 4Geeks platform before the 2026-11-16 merge; the developer chose not to comment in the PR. It does not block Milestone 3. Briefing: `docs/milestone-2/BRIEFING.md`; evidence: `docs/milestone-2/evaluation.md`.
 
@@ -18,8 +19,8 @@ Type: status
 
 ## Next steps
 
-1. **S03:** the search functions in `src/utils/search.ts` (`findCandidateById`, `findCandidateByEmail`, `binarySearchCandidateBySalary`, `searchKnowledgeBase`).
-2. **Before S05:** decide M3-53 (three briefing ambiguities) and M3-57 (where the demo evidence goes).
+1. **S04:** filters and sorting in `src/utils/collections.ts` (the 5 briefing functions, plus `filterTicketsByClient`, `filterTicketsByStatus`, `sortTicketsByAge`).
+2. **Before S05, the developer decides** (`docs/milestone-3/decisions.md`, "Not decided yet"): the score with no required skills; the order of tied scores (recommended: more required skills matched, then sooner availability, never salary); a salary below the vacancy minimum (0 points, or 10 plus a "below range" warning); where the demo evidence goes (M3-57); the `ScoreBreakdown` fields chosen in S02. Before S06: the spelling shown by `findTopSkills` (recommended: the most common).
 3. **Every step:** ends staged with a review patch; commit and push only with the developer's commit prompt.
 4. **Before the recap and PR:** the end-of-milestone decision review.
 

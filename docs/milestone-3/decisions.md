@@ -129,5 +129,6 @@ Approved by the developer after an architecture review.
 | Question | Needed by |
 | --- | --- |
 | Score of a vacancy with no required skills (invalid per the briefing, but the scoring function can still receive one) | S05 |
-| Order of candidates with equal scores in the ranking | S05 |
-| Which spelling `findTopSkills` shows when a skill appears with different capital letters | S06 |
+| Order of candidates with equal scores in the ranking. Recommendation (M3-S03, recruitment-practice review): break ties by more required skills matched, then sooner availability, never by salary | S05 |
+| Which spelling `findTopSkills` shows when a skill appears with different capital letters. Recommendation (M3-S03): show the most common spelling | S06 |
+| Salary below the vacancy minimum: keep 0 points (current reading) or give 10 points plus a 'below range' warning (recruitment-practice recommendation) | S05 |

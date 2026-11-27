@@ -107,6 +107,11 @@
 | DATA-17 | CV confidence and manual-review fields | Low-confidence CVs must be flagged, never silently scored | A: fields on an extension / B: a parsing-result record | S | High | M3, S01, `docs/milestone-3/issues-log-m3.md` (M3-22) | Open |
 | DATA-18 | A sensitive-case flag on tickets | Sensitive cases must escalate to Level 2 | A: a boolean / B: a category with its reason | S | High | M3, S01, `docs/milestone-3/issues-log-m3.md` (M3-22) | Open |
 | DATA-19 | A decision log for every agent decision | Pattern 6 requires input, decision, confidence and sources | A: one log entity for both agents / B: telemetry events | M | High | M3, S01, `docs/milestone-3/issues-log-m3.md` (M3-22) | Open |
+| DATA-20 | Duplicate-candidate detection (same email or phone) | The same person can enter the talent pool twice and be scored twice | A: a check on create, using `findCandidateByEmail` / B: a periodic report of duplicates for the consultant | S | Med | M3-S03, recruitment-practice review | Open |
+| DATA-21 | Profile freshness: when the candidate last confirmed availability and salary | Old availability or salary data gives misleading scores | A: a `lastConfirmedAt` date on a client-side extension / B: a reminder flow when the date is old | S | Med | M3-S03, recruitment-practice review | Open |
+| DATA-22 | An override-reason category on `RankingDecision` | Free-text reasons cannot be counted, so the score weights cannot be calibrated from them | A: a fixed union of reasons plus free text / B: free text, classified later | S | High | M3-S03, recruitment-practice review | Open |
+| DATA-23 | Fairness rule: the score never uses name, phone, email or location | Those fields can carry bias (GDPR Art. 22, `Company-choice.md` risks) | A: a test that changes those fields and expects the same score / B: a written rule reviewed in S09 | S | High | M3-S03, recruitment-practice review | Open |
+| DATA-24 | Warning flags on the score breakdown: missing must-have skills, preferred points capped, remote mismatch, not available or already hired, experience outside the range, salary outside the range | The consultant sees why a score is low, and what the number does not show | A: flags on `ScoreBreakdown` / B: a separate `getScoreWarnings` function | M | High | M3-S03, recruitment-practice review | Planned (M3-S05) |
 
 ## Testing
 
@@ -114,6 +119,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | TEST-01 | Test the briefing's layout requirements | A redesign dropped the 2-column layout until the final audit | A: a Playwright assertion / B: a checklist after each redesign | S | Med | M2, S11, `docs/milestone-2/recap.md` (what I would do differently) | Open |
 | TEST-02 | Keep the "deliberate mistake" checks as a script | S02 proved the conformance and no-any tests can fail by editing `models.ts` by hand; nothing repeats that proof later | A: a small script that breaks a copy and expects failures / B: keep it as a manual step in `verification.md` | S | Low | M3, S02, `docs/milestone-3/verification.md` (Result) | Open |
+| TEST-03 | Guard against an endless loop in binary search | A deliberate `high = mid` mistake made the test run hang until it was killed, instead of failing with a test name | A: a loop limit in the function (at most log2(n) + 1 rounds) / B: run the domain tests with an outer time limit | S | Low | M3-S03, deliberate-mistake check (`docs/milestone-3/verification.md`) | Open |
 
 ## DevOps and Codespaces
 
