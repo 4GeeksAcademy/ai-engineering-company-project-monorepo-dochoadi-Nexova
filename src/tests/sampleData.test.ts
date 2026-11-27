@@ -11,6 +11,7 @@ import {
   sampleSupportTickets,
   sampleVacancy,
 } from "../data/sampleData.ts";
+import { calculateCandidateScore } from "../utils/transformations.ts";
 import { briefingConstant } from "./helpers/briefing.ts";
 
 const candidateIds = new Set(sampleCandidates.map((candidate) => candidate.id));
@@ -114,4 +115,12 @@ test("knowledge-base articles cover both clients; a source ticket is a resolved 
 
 test("the two clients are one per office", () => {
   assert.deepEqual(sampleClients.map((client) => client.office).sort(), ["Miami", "Valencia"]);
+});
+
+test("every stored process score equals the current calculated score", () => {
+  for (const process of sampleSelectionProcesses) {
+    const candidate = sampleCandidates.find((item) => item.id === process.candidateId) ?? assert.fail(process.id);
+    const vacancy = sampleClientVacancies.find((item) => item.id === process.vacancyId) ?? assert.fail(process.id);
+    assert.equal(process.score, calculateCandidateScore(candidate, vacancy), process.id);
+  }
 });

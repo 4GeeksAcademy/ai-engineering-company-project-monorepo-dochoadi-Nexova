@@ -12,7 +12,8 @@ Type: status
 - **S01 (`dc68963`):** official briefing, evaluation matrix, decisions, conventions, issues logs and backlog.
 - **S02 (`093ce54`):** the 4Geeks project page (`docs/milestone-3/brief.md`), the TypeScript toolchain for `src/`, the domain types, the level ladders, the sample data and 34 tests; the README top now presents Nexova.
 - **S03 (`50d8b05`):** `src/utils/search.ts` (`findCandidateById`, `findCandidateByEmail`, `binarySearchCandidateBySalary`, client-scoped `searchKnowledgeBase`) with 17 tests and deliberate-mistake runs.
-- **S04 (2026-11-27, staged for approval):** `src/utils/collections.ts` (the 5 briefing filters and sorts, `sortCandidatesByFields`, and the ticket functions `filterTicketsByClient`, `filterTicketsByStatus`, `sortTicketsByAge`) with 18 tests; the no-trailer commit rule.
+- **S04 (`bf6b86b`):** `src/utils/collections.ts` (the 5 briefing filters and sorts, `sortCandidatesByFields`, and the ticket functions `filterTicketsByClient`, `filterTicketsByStatus`, `sortTicketsByAge`) with 18 tests; the no-trailer commit rule.
+- **S05 (2026-11-27, staged for approval):** `src/utils/transformations.ts` (`getCandidateScoreBreakdown` with 12 warnings, `calculateCandidateScore`, `rankCandidatesForVacancy`, `groupCandidatesBySeniority`, `isHighMatch`), `AVAILABILITY_ORDER`, `src/demo.ts` (`pnpm demo`) and 27 tests. Review fixes (S05b): `missing-required-skills` for any missing must-have plus `under-half-required-skills`; stored sample scores match the rule (92, 20); the developer's updated `model.png`.
 
 **Milestone 2 — Your Company's Public Website is complete and merged** into `main` on 2026-11-16 as `ee14825` (PR #2). The instructor approved Milestone 2 through the 4Geeks platform before the 2026-11-16 merge; the developer chose not to comment in the PR. It does not block Milestone 3. Briefing: `docs/milestone-2/BRIEFING.md`; evidence: `docs/milestone-2/evaluation.md`.
 
@@ -20,8 +21,8 @@ Type: status
 
 ## Next steps
 
-1. **S05:** scoring and ranking in `src/utils/transformations.ts` (`getCandidateScoreBreakdown`, `calculateCandidateScore`, `rankCandidatesForVacancy`, `groupCandidatesBySeniority`, `isHighMatch`).
-2. **Before S05, the developer decides** (`docs/milestone-3/decisions.md`, "Not decided yet"): the score with no required skills; the order of tied scores (recommended: more required skills matched, then sooner availability, never salary); a salary below the vacancy minimum (0 points, or 10 plus a "below range" warning); where the demo evidence goes (M3-57); the `ScoreBreakdown` fields chosen in S02. Before S06: the spelling shown by `findTopSkills` (recommended: the most common).
+1. **S06:** reports and KPIs in `src/utils/transformations.ts` (`countCandidatesByStatus`, `calculateAverageSalary`, `findTopSkills`, `calculateVacancyFillRate`, plus `countProcessesByStage`, `calculateAverageTimeToHire`, `getSlaStatus`, `calculateL1ResolutionRate`, `calculateAverageResolutionHours`, `calculateOverrideRate`), with the SLA imported from `packages/shared`.
+2. **S06 builds** `findTopSkills` with the most common spelling (first found on a tie, decision 13G). Nothing in `decisions.md` is open now.
 3. **Every step:** ends staged with a review patch; commit and push only with the developer's commit prompt.
 4. **Before the recap and PR:** the end-of-milestone decision review.
 
@@ -37,6 +38,7 @@ Type: status
 - **AI use (developer decision, 2026-11-27):** the 4Geeks project page encourages solving the milestone "without AI support or, if needed, with only minimal AI usage"; the developer decided that the coding agent writes the code, every step's learning log explains each new function in plain words, and the PR (S11) says so honestly (M3-47, `docs/milestone-3/decisions.md`).
 - **Project page:** the 4Geeks project page is kept unmodified in `docs/milestone-3/brief.md` (M3-55).
 - **Records:** real results in verification, problems in the issues logs by ID, ideas in `docs/improvements.md`.
+- **Scoring (developer, 2026-11-27, decision 13):** A. a salary below the vacancy minimum gives 10 points plus `salary-below-range`; B. ties by required skills matched, then sooner availability, then original order, never salary; C. no required skills gives 0 skills points plus `vacancy-has-no-required-skills`; D. `src/demo.ts` grows from S05 to S08; E. `missing-required-skills` for any missing required skill, `under-half-required-skills` below 50 %; F. stored process scores equal `calculateCandidateScore`; G. `findTopSkills` shows the most common spelling. Expected sample: Carolina 100 (`missing-required-skills`), María 92, Juan 20.
 - **Commit messages (developer, 2026-11-27):** exactly the convention line, no trailer (no `Co-Authored-By`); AI use goes in the learning log, `decisions.md` and the PR (M3-62).
 - **Merge:** the agent never merges; nothing reaches `main` until the developer asks, after the instructor's approval (recording it in the PR is recommended, not required).
 - **End-of-milestone decision review (developer, 2026-11-22):** after the last build and audit steps of Milestone 3, and before its recap and PR, the developer reviews every open question, open issue (M1, M2, M3 logs) and improvement, and decides: do now, plan for a later milestone, accept, or reject. Until then they are recorded, not built, unless a step needs them.

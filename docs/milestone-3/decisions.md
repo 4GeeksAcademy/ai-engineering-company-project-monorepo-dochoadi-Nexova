@@ -19,7 +19,7 @@ Base 40 with all required skills, 20 with at least 50 %, 0 otherwise; plus 10 pe
 
 ### 2. Ranges are inclusive
 
-Both bounds count as inside. An expected salary below the vacancy minimum gets 0 salary points (literal reading of the briefing).
+Both bounds count as inside. An expected salary below the vacancy minimum gets 10 salary points plus the warning `salary-below-range` (decision 13A, 2026-11-27; it replaces the earlier "0 points" reading).
 
 ### 3. Experience "1–2 years outside"
 
@@ -57,7 +57,8 @@ Exactly one `@`, a non-empty part before it, a `.` after the `@` with characters
 - Two recruiting reports built only from existing fields (`benchmark.md`, Part 2):
   - `countProcessesByStage`: the pipeline funnel.
   - `calculateAverageTimeToHire`: average days from `createdAt` to `updatedAt` of "Hired" processes.
-- Helpers `compareEnglishLevel` and `seniorityDistance`.
+- Helpers `compareEnglishLevel` and `seniorityDistance`, and the ordered `AVAILABILITY_ORDER` for the ranking tie-break (S05).
+- Warnings on the score breakdown (S05): `ScoreBreakdown.warnings` lists every `ScoreWarning` that applies (`missing-required-skills` when any required skill is missing, `under-half-required-skills` when fewer than 50 % match (both since the S05 review, decision 13E), `vacancy-has-no-required-skills`, `preferred-points-capped`, `remote-mismatch`, `candidate-not-available`, `candidate-not-active`, `experience-below-range`, `experience-above-range`, `seniority-mismatch` when more than one level away, `english-below-required`, `salary-below-range`, `salary-above-range`), in that order. A warning never changes a score and never removes a candidate (GDPR Art. 22, decision 10).
 - `sortCandidatesByFields(candidates, criteria)` (S04), for deliverable D3 ("sorting … by multiple fields"): each criterion is `{ field: "expectedSalary" | "yearsOfExperience" | "fullName", order: "asc" | "desc" }`; the first decides and the next ones break ties; names use `localeCompare`. Its type `CandidateSortCriterion` lives in `src/utils/collections.ts`, because only that file and its tests use it.
 - Sorting is stable: equal values keep their original order (S04). `filterCandidatesByAvailability` and `filterTicketsByStatus` with an empty status list return `[]` (nothing to match).
 - Extra sample data marked as test data, including a worked case: one vacancy with several candidates, and one candidate in selection processes for two different vacancies (it shows the relationships).
@@ -109,12 +110,28 @@ Approved by the developer after an architecture review.
 
 | Check | Expected |
 | --- | --- |
-| Scores | Carolina Silva 100, María González 82, Juan Pérez 10 |
+| Scores (since S05, decision 13A) | Carolina Silva 100 (40/20/15/15/10), María González 92 (40/20/7/15/10), Juan Pérez 20 (0/10/0/0/10) |
+| Warnings (since the S05 review, decision 13E) | Carolina `missing-required-skills` (React); María `preferred-points-capped`, `salary-below-range` (a high match, ≥ 90); Juan `missing-required-skills`, `under-half-required-skills`, `experience-below-range`, `seniority-mismatch`, `english-below-required`, `salary-below-range` |
+| Stored process scores | SP-2026-0001 100, SP-2026-0002 92, SP-2026-0003 20, SP-2026-0004 100 (equal to `calculateCandidateScore`, decision 13F) |
 | Ranking | Carolina, María, Juan |
 | Average expected salary | 4500 |
 | Status counts | Active 3, all others 0 |
 | Binary search on expected salaries [2800, 4200, 6500] | 4200 → index 1; 5000 → -1 |
 | Top skills (2 each, alphabetical among ties) | Node.js, PostgreSQL, React, TypeScript |
+
+### 13. Scoring decisions (developer, 2026-11-27, after a recruitment-practice review)
+
+- **A. Salary below the vacancy minimum:** 10 points plus the warning `salary-below-range`. Reason: the candidate is within the client's budget; the consultant checks whether the level fits.
+- **B. Equal scores in the ranking:** first more required skills matched, then sooner availability (Immediate, 2 weeks, 1 month, Not available), then the original order. Never by salary. Reason: breaking ties by salary pushes pay down and can discriminate.
+- **C. Vacancy with no required skills:** 0 points for the skills part plus the warning `vacancy-has-no-required-skills`. Reason: the vacancy is incomplete; the consultant fixes it with the client.
+- **D. Demo (M3-57):** `src/demo.ts` starts in S05 (`pnpm demo`) and grows in later steps; finished in S08.
+- **Score breakdown fields:** five point fields plus four skill lists, no total (approved with S02); S05 adds `warnings`.
+
+Decided in the S05 review (developer, 2026-11-27, recruitment-practice review):
+
+- **E. A missing must-have skill always shows.** `missing-required-skills` now means any required skill is missing (as its name says); the new `under-half-required-skills` means fewer than 50 % match (the old meaning). The score stays as the briefing defines it. Reason: recruiting tools show a missing requirement on its own, whatever the score; Carolina Silva scored 100 while missing React with no warning.
+- **F. Stored scores follow the current rule (M3-63).** Every `SelectionProcess.score` in `src/data/sampleData.ts` equals `calculateCandidateScore` for its candidate and vacancy; a test checks it. Reason: stored data that disagrees with the rule misleads whoever reads it.
+- **G. `findTopSkills` shows the most common spelling** of a skill; on a tie, the first one found (built in S06; M3-53).
 
 ## Toolchain (recorded in S01, built in S02)
 
@@ -128,9 +145,4 @@ Approved by the developer after an architecture review.
 
 ## Not decided yet (found in S01; decide before the step that needs it)
 
-| Question | Needed by |
-| --- | --- |
-| Score of a vacancy with no required skills (invalid per the briefing, but the scoring function can still receive one) | S05 |
-| Order of candidates with equal scores in the ranking. Recommendation (M3-S03, recruitment-practice review): break ties by more required skills matched, then sooner availability, never by salary | S05 |
-| Which spelling `findTopSkills` shows when a skill appears with different capital letters. Recommendation (M3-S03): show the most common spelling | S06 |
-| Salary below the vacancy minimum: keep 0 points (current reading) or give 10 points plus a 'below range' warning (recruitment-practice recommendation) | S05 |
+The three S05 questions were decided on 2026-11-27 (decision 13A–C); the missing must-have warning and the `findTopSkills` spelling were decided in the S05 review (13E, 13G). Nothing is open now.

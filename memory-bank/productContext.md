@@ -72,7 +72,8 @@ Source: `CONTEXT.md` (department profiles) and `Company-choice.md`. Nexova has 1
 
 - **What it is:** the logic that scores each candidate from 0 to 100 against a vacancy (skills 40, experience 20, seniority 15, English 15, salary 10), ranks them and reports on the selection pipeline.
 - **Who uses it:** Javier Almeida's 40 selection consultants, later through a UI. Consultants rank candidates with it and see why each one got their score.
-- **Limit:** the score is a ranking aid, never an automatic rejection; the consultant decides. Candidates with invalid data go to manual review.
+- **Explains itself (since M3-S05):** each score comes with its five parts, the matched and missing skills, and warnings (for example `salary-below-range`, `remote-mismatch`, `candidate-not-active`) that tell the consultant what to check. Equal scores are ordered by required skills matched, then availability, never by salary.
+- **Limit:** the score is a ranking aid, never an automatic rejection: a warning never lowers a score or removes a candidate, and the consultant decides. Candidates with invalid data go to manual review.
 
 ## Users of what we build
 

@@ -35,7 +35,7 @@ classDiagram
 ## Union types
 - Briefing: `EnglishLevel` A1<A2<B1<B2<C1<C2<Native · `SeniorityLevel` Junior<Semi-Senior<Senior<Lead<Executive · `AvailabilityStatus` = "Immediate" | "2 weeks" | "1 month" | "Not available" · `CandidateStatus` = "Active" | "In process" | "Hired" | "Inactive" · `VacancyStatus` = "Open" | "In progress" | "Closed" | "On hold" · `ProcessStage` = "Screening" | "Interview" | "Technical test" | "Final interview" | "Offer" | "Rejected" | "Hired".
 - Extensions: `NexovaOffice` = "Valencia" | "Miami" · `NexovaService` = "Talent Selection" | "Customer Support" · `EmployeeRole` = "Selection Consultant" | "Support Agent" · `TicketChannel` = "Chat" | "Email" | "Widget" | "Phone" · `TicketStatus` = "Open" | "Resolved" · `SupportLevel` = "L1" | "L2" · `RankingDecisionType` = "Accepted" | "Overridden".
-- Computed, not stored: `ScoreBreakdown` (points per part + matched/missing skills), `SlaStatus` = "On time" | "At risk" | "Breached" (SLA 24 h, imported from `packages/shared/company.ts`; at risk from 20 h), `ValidationResult` = `{ valid: boolean; errors: string[] }`, `isHighMatch(score)` (score ≥ 90). An escalation is a ticket with `level === "L2"`.
+- Computed, not stored: `ScoreBreakdown` (points per part + matched/missing skills + `warnings: ScoreWarning[]`, since S05), `ScoreWarning` (13 values: "missing-required-skills" (any required skill missing), "under-half-required-skills", "vacancy-has-no-required-skills", "preferred-points-capped", "remote-mismatch", "candidate-not-available", "candidate-not-active", "experience-below-range", "experience-above-range", "seniority-mismatch", "english-below-required", "salary-below-range", "salary-above-range"; informs the consultant, never changes a score or removes a candidate), `SlaStatus` = "On time" | "At risk" | "Breached" (SLA 24 h, imported from `packages/shared/company.ts`; at risk from 20 h), `ValidationResult` = `{ valid: boolean; errors: string[] }`, `isHighMatch(score)` (score ≥ 90). An escalation is a ticket with `level === "L2"`.
 
 ## Linking without changing the briefing
 `interface ClientVacancy extends Vacancy { clientId: string; consultantId: string }`: a `ClientVacancy` can be passed wherever a `Vacancy` is expected, so the 18 briefing functions are unchanged. A process reaches its consultant through `process.vacancyId → ClientVacancy.consultantId`. Candidate isolation per client: client → its vacancies → their processes → candidates.
@@ -73,7 +73,7 @@ classDiagram
 | `src/utils/levels.ts` | — | compareEnglishLevel, seniorityDistance |
 | `src/data/sampleData.ts` | briefing samples | worked case (one vacancy, several candidates; one candidate in two vacancies of the same client), 2 clients, employees, tickets, KB articles, ranking decisions |
 
-Match score 0–100: skills 40 (capped) · experience 20 · seniority 15 · English 15 · salary 10. Sample: Carolina 100 · María 82 · Juan 10. Company-choice KPIs: L1 ≥ 40 %, average resolution < 24 h, override rate.
+Match score 0–100: skills 40 (capped) · experience 20 · seniority 15 · English 15 · salary 10. Sample (since S05, decision 13A): Carolina 100 · María 92 · Juan 20. Company-choice KPIs: L1 ≥ 40 %, average resolution < 24 h, override rate.
 
 ## Progress (updated by every step)
 | Part | Files | Step | Status |
@@ -81,7 +81,7 @@ Match score 0–100: skills 40 (capped) · experience 20 · seniority 15 · Engl
 | Types (briefing + extensions), ladders, sample data | `src/types/models.ts`, `src/utils/levels.ts`, `src/data/sampleData.ts` | S02 | Done ([M3-S02]) |
 | Search | `src/utils/search.ts` | S03 | Done ([M3-S03]) |
 | Filters and sorts | `src/utils/collections.ts` | S04 | Done ([M3-S04]) |
-| Score breakdown, score, ranking, grouping | `src/utils/transformations.ts` | S05 | Pending |
+| Score breakdown, score, ranking, grouping | `src/utils/transformations.ts` | S05 | Done ([M3-S05]): warnings added to `ScoreBreakdown` (`ScoreWarning`), `AVAILABILITY_ORDER` in `levels.ts`, `src/demo.ts` started. Review fixes (S05b): `missing-required-skills` for any missing must-have plus `under-half-required-skills`; stored sample scores match the rule (M3-63); `model.png` updated by the developer (adds `sortCandidatesByFields` and `AVAILABILITY_ORDER`) |
 | Reports and KPIs (recruitment + support) | `src/utils/transformations.ts` | S06 | Pending |
 | Validations | `src/utils/validations.ts` | S07 | Pending |
 | Demo and test page | `src/demo.ts`, `src/index.html` | S08 | Pending |

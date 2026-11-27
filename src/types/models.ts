@@ -141,7 +141,23 @@ export interface KnowledgeBaseArticle {
 
 // ===== Computed types (results of functions, never stored) =====
 
-// Points per part of the match score, plus which skills matched or are missing.
+// Facts the consultant should check. A warning never changes a score and never removes a candidate.
+export type ScoreWarning =
+  | "missing-required-skills"
+  | "under-half-required-skills"
+  | "vacancy-has-no-required-skills"
+  | "preferred-points-capped"
+  | "remote-mismatch"
+  | "candidate-not-available"
+  | "candidate-not-active"
+  | "experience-below-range"
+  | "experience-above-range"
+  | "seniority-mismatch"
+  | "english-below-required"
+  | "salary-below-range"
+  | "salary-above-range";
+
+// Points per part of the match score, which skills matched or are missing, and the warnings.
 export interface ScoreBreakdown {
   skills: number;
   experience: number;
@@ -152,6 +168,7 @@ export interface ScoreBreakdown {
   missingRequiredSkills: string[];
   matchedPreferredSkills: string[];
   missingPreferredSkills: string[];
+  warnings: ScoreWarning[];
 }
 
 export type SlaStatus = "On time" | "At risk" | "Breached";

@@ -340,3 +340,76 @@ What was done in each step, in plain words.
 
 **Commit:** `[M3-S04][E2][E3] feat(collections): add candidate filters, single and multi-field sorting, and ticket filters`
 
+## S05 — Scoring, ranking and grouping (2026-11-27)
+
+**What was done**
+- Wrote the match score: a number from 0 to 100 that says how well a candidate fits a vacancy, with its five parts and a list of warnings.
+- Wrote the ranking (best first, with fair tie rules), the grouping by seniority and the "high match" check.
+- Started the demo, `pnpm demo`, which prints the ranking for the briefing's vacancy.
+- Wrote 27 tests, and broke the code on purpose three times to prove they notice.
+- Recorded your four decisions (13A–D): a salary below the range, tied scores, a vacancy with no required skills, and the demo.
+
+**How it works**
+- **María's score, part by part** (vacancy "Senior Full-Stack Developer"):
+  - **Skills, 40.** She has all three required skills (TypeScript, React, Node.js), which gives 40. She also has one preferred skill, PostgreSQL, worth +10, so 50. The skills part is capped at 40, so it stays 40, and the warning `preferred-points-capped` says she "earned" more than the cap allows.
+  - **Experience, 20.** 5 years is inside the range 4–8.
+  - **Seniority, 7.** She is Semi-Senior and the vacancy wants Senior: one level away gives 7, not 15.
+  - **English, 15.** B2 meets the required B2.
+  - **Salary, 10.** She asks 4200, below the range 5000–7000. Your decision: still 10, because she is within the client's budget, plus the warning `salary-below-range`, so the consultant checks whether the level fits.
+  - **Total: 40 + 20 + 7 + 15 + 10 = 92.** That is at least 90, so she is a "high match".
+- **The warnings:** short labels that tell the consultant what to check. For example, `remote-mismatch` means the candidate only works remotely but the job is at the office, and `candidate-not-active` means the person is already hired or inactive. A warning never changes the score and never removes anyone from the list. The consultant always decides, which matters under the GDPR (Art. 22) and avoids silent unfair filters.
+- **The tie-break (decision 13B):** when two scores are equal, the candidate with more required skills matched goes first. If that is equal too, the one available sooner goes first (Immediate, then 2 weeks, 1 month, Not available). If everything is equal, they keep their original order. Never by salary. Example: two candidates with 100, one available in 2 weeks and one in 1 month: the 2-week candidate goes first.
+- **Grouping:** `groupCandidatesBySeniority` always returns all five levels, Junior to Executive. Each level holds its candidates in the original order, or an empty list `[]`. Example: no Lead in the sample, so `Lead: []`. Code that reads the groups never meets a missing level.
+- **Why `calculateCandidateScore` reuses the breakdown:** it adds up the five parts of `getCandidateScoreBreakdown`. The rules are written once, so the number and its explanation can never disagree.
+
+**Check your understanding**
+1. *Why does María get 40 and not 50 for skills?* The skills part is capped at 40; the extra 10 shows up as the warning `preferred-points-capped`.
+2. *Does a warning lower a score?* No. It only tells the consultant what to check; the score and the list stay the same.
+3. *Two candidates both score 100 and match the same number of required skills. One is available immediately, the other in 1 month. Who goes first?* The one available immediately.
+
+**Result**
+- 104 of 104 domain tests pass (27 new); 134 of 134 in `pnpm test`.
+- Type check, lint and build finish without errors; `pnpm demo` exit 0.
+- The demo prints:
+  - Carolina Silva 100 (40/20/15/15/10), a high match, no warnings;
+  - María González 92 (40/20/7/15/10), a high match, warnings `preferred-points-capped` and `salary-below-range`;
+  - Juan Pérez 20 (0/10/0/0/10), with five warnings;
+  - then the groups: Junior Juan, Semi-Senior María, Senior Carolina, Lead and Executive none.
+- Broken on purpose:
+  - no 40 cap: 3 tests failed;
+  - `<` instead of `≤` at 120 %: 1 failed;
+  - no availability tie-break: 1 failed;
+  - restored: everything passes.
+- Memory check 5 of 5; security check 7 of 7.
+
+**Problems found and fixed**
+- M3-57: fixed, the demo now starts here.
+- M3-53: two of the three questions are decided; the spelling one stays for S06.
+- M3-63 (open, needs your decision): the sample processes still store María 82 and Juan 10, and `model.md` still says so; the score now gives 92 and 20.
+
+**What I learned**
+- Writing the rules once (the breakdown) and adding them up elsewhere keeps the number and its explanation in step.
+- An exact limit such as 120 % is safer in whole numbers (`× 100 ≤ × 120`) than with decimals.
+- Explaining a score ("why") is as important as the score, because a person makes the decision.
+
+**How to check it yourself**
+- Run `pnpm demo` and compare María's line with the calculation above.
+- Run `pnpm test:domain`: `pass 104`, `fail 0`.
+- Open `src/utils/transformations.ts` and find each part: `scoreSkills`, `scoreExperience`, `scoreSeniority`, `scoreEnglish`, `scoreSalary`.
+
+**Decisions or open questions**
+- Recorded: decisions 13A–D.
+- New for you:
+  - Carolina scores 100 while missing React, and no warning says so: add a warning for any missing must-have skill (DATA-25), or keep the briefing's rule?
+  - May I update the two stale sample scores and the `model.md` line (M3-63)?
+- Still open: the spelling shown by `findTopSkills` (S06).
+- Next: S06, reports and KPIs.
+
+**Review fixes (S05b)**
+- **A missing must-have skill now always shows.** Carolina still scores 100 (the briefing's rule), but her breakdown now carries `missing-required-skills` because she lacks React. A recruiter needs to see a missing requirement on its own: a client may treat React as non-negotiable, and a perfect score could hide it. The old meaning, "fewer than half the required skills", is now its own warning, `under-half-required-skills` (Juan gets both).
+- **Stored scores match the rule.** María's process said 82 and Juan's said 10, the values from before your salary decision; the rule now gives 92 and 20. Stored data that disagrees with the rule misleads whoever reads it later, so both were updated. A new test compares every stored score with the calculation, so they can't drift apart again.
+- **Decided for S06:** `findTopSkills` will show the most common spelling of a skill.
+- **Result:** 108 of 108 domain tests and 138 of 138 in total pass. Removing the new warning made 5 tests fail, and putting 82 back made 1 fail. Memory check 5 of 5; security check 7 of 7.
+
+**Commit:** `[M3-S05][E6][E15] feat(scoring): add explainable candidate score with warnings, ranking, grouping and demo`
+

@@ -323,3 +323,142 @@ bash .agents/skills/security-gate/check.sh 3
 - M3-18 (ticket part): tested here; the KPI part stays for S06.
 - No new defect in the code: every test passed on the first run.
 
+## S05 — Scoring, ranking and grouping (2026-11-27)
+
+### Delivered
+
+- `src/types/models.ts` (extensions part only): `ScoreWarning` (12 values) and `ScoreBreakdown.warnings`. The briefing interfaces are unchanged (`briefingConformance.test.ts` passes).
+- `src/utils/levels.ts`: `AVAILABILITY_ORDER`.
+- `src/utils/transformations.ts`: `getCandidateScoreBreakdown`, `calculateCandidateScore` (the sum of the breakdown), `rankCandidatesForVacancy` (ties per decision 13B), `groupCandidatesBySeniority`, `isHighMatch`.
+- `src/demo.ts` and the script `pnpm demo` (decision 13D); `src/tests/transformations.test.ts` (27 tests).
+- Decisions 13A–D recorded; items 2, 9 and 12 updated.
+
+### Commands
+
+```bash
+npx tsc --noEmit; echo "tsc exit=$?"
+pnpm test:domain; echo "test:domain exit=$?"
+pnpm demo; echo "demo exit=$?"
+pnpm lint; pnpm typecheck; pnpm build; pnpm test
+grep -nE "^export function" src/utils/transformations.ts
+git diff --stat HEAD -- pnpm-lock.yaml tsconfig.json src/data src/utils/search.ts src/utils/collections.ts
+git diff HEAD -- package.json | grep "^[+-] "
+# Deliberate mistakes (one at a time, then restored)
+sed -i 's/points: Math.min(40, base + preferred)/points: base + preferred/' src/utils/transformations.ts                                    # 1
+sed -i 's/expected \* 100 <= vacancy.salaryRangeMax \* 120/expected * 100 < vacancy.salaryRangeMax * 120/' src/utils/transformations.ts   # 2
+# 3: delete the AVAILABILITY_ORDER line of the ranking comparison
+node --test src/tests/transformations.test.ts
+bash .agents/skills/update-memory-bank/check.sh
+bash .agents/skills/security-gate/check.sh 3
+```
+
+### Expected
+
+- Every check exits 0; 5 exported functions in `transformations.ts`; the demo prints Carolina 100, María 92, Juan 20 with their warnings.
+- No change to the lockfile, `tsconfig.json`, the sample data, `search.ts` or `collections.ts`; in `package.json` only the `demo` line.
+- Every deliberate mistake makes at least one test fail by name.
+
+### Result
+
+- `npx tsc --noEmit` exit 0; `pnpm test:domain` 104 tests, 104 pass, 0 fail (27 new; the no-any test also covers the 3 new files).
+- `pnpm demo` exit 0; `pnpm lint`, `pnpm typecheck`, `pnpm build` and `pnpm test` exit 0; `pnpm test` runs 134 tests: 15 package, 15 site, 104 domain.
+- 5 exported functions; the protected files are unchanged; `package.json` gains only `"demo": "node src/demo.ts"` (plus the comma on the line before it).
+- Demo output:
+
+```text
+Ranking for V-2024-0892 "Senior Full-Stack Developer" (TechCorp Solutions)
+Score = skills (40) + experience (20) + seniority (15) + English (15) + salary (10). A ranking aid: the consultant decides.
+
+1. Carolina Silva (C-2024-0453): 100/100  HIGH MATCH
+   skills 40 · experience 20 · seniority 15 · English 15 · salary 10
+   missing required skills: React
+   warnings: none
+2. María González (C-2024-0451): 92/100  HIGH MATCH
+   skills 40 · experience 20 · seniority 7 · English 15 · salary 10
+   missing required skills: none
+   warnings: preferred-points-capped, salary-below-range
+3. Juan Pérez (C-2024-0452): 20/100
+   skills 0 · experience 10 · seniority 0 · English 0 · salary 10
+   missing required skills: TypeScript, Node.js
+   warnings: missing-required-skills, experience-below-range, seniority-mismatch, english-below-required, salary-below-range
+
+Candidates by seniority:
+   Junior: Juan Pérez
+   Semi-Senior: María González
+   Senior: Carolina Silva
+   Lead: none
+   Executive: none
+```
+
+- Deliberate mistakes:
+
+  | Mistake | Result |
+  | --- | --- |
+  | 1. No 40-point cap | 3 fail: "María González scores 92 …", "ranking on the briefing sample: Carolina 100, María 92, Juan 20", "skills: 10 per preferred skill, at most 20, and the part at most 40 (preferred-points-capped)" |
+  | 2. `<` instead of `≤` for 120 % | 1 fails: "salary: exactly 120 % of the maximum gives 5; just above gives 0; both warn salary-above-range" |
+  | 3. No availability tie-break | 1 fails: "ranking tie: sooner availability goes first" |
+  | Restored | 27 of 27 scoring tests pass; 104 of 104 domain tests |
+
+- Memory check 5 PASS (exit 0). `security-gate` (Milestone 3), run with everything staged: 7 PASS, exit 0. The accessibility gate was not run (no page changed).
+
+### Problems found and fixed
+
+- M3-57: fixed, the demo starts here (decision 13D).
+- M3-53: two of three questions decided (13B, 13C); the spelling question stays for S06.
+- M3-63 (open, needs the developer): the stored process scores 82 and 10 in `sampleData.ts` and the `model.md` sample line are stale after decision 13A.
+- New open question (`decisions.md`, DATA-25): Carolina Silva scores 100 while missing React, with no warning.
+- The 120 % limit is computed in whole numbers (`expected × 100 ≤ max × 120`), so a rounding error cannot drop the exact limit.
+
+### Review fixes (S05b, 2026-11-27)
+
+The developer's review (decisions 13E–G) before the S05 commit.
+
+- **Delivered:**
+  - `"under-half-required-skills"` added to `ScoreWarning`;
+  - `missing-required-skills` now fires for any missing required skill; scores unchanged;
+  - stored scores SP-2026-0002 82 → 92 and SP-2026-0003 10 → 20 (SP-2026-0001 and SP-2026-0004 were already 100 = current);
+  - 3 new scoring tests and 1 new sample-data test ("every stored process score equals the current calculated score");
+  - `model.png` replaced by the developer (`4dfde36c…`).
+- **First attempt stopped:** `model.png` still had the old hash `5872dd18…` (the new file had not reached the Codespace); nothing was changed until the developer copied it.
+- **Result:**
+  - `npx tsc --noEmit` exit 0; `pnpm test:domain` 108 tests, 108 pass, 0 fail;
+  - `pnpm demo`, `pnpm lint`, `pnpm typecheck`, `pnpm build` and `pnpm test` exit 0; `pnpm test` runs 138 tests: 15 package, 15 site, 108 domain;
+  - in the sample data only the two `score` lines change.
+- **Deliberate mistakes:**
+
+  | Mistake | Result |
+  | --- | --- |
+  | 1. Any-missing warning removed | 5 fail: "Carolina Silva scores 100 (40/20/15/15/10) with missing-required-skills (React)", "Juan Pérez scores 20 (0/10/0/0/10) with six warnings, none of them capped points", "missing skills: below 50 % gives missing-required-skills and under-half-required-skills", "missing skills: exactly 50 % gives missing-required-skills only", "skills: 10 per preferred skill, at most 20, and the part at most 40 (preferred-points-capped)" |
+  | 2. SP-2026-0002 score back to 82 | 1 fails: "every stored process score equals the current calculated score" |
+  | Restored | 108 of 108 domain tests pass |
+
+- **Demo output after the fixes:**
+
+```text
+Ranking for V-2024-0892 "Senior Full-Stack Developer" (TechCorp Solutions)
+Score = skills (40) + experience (20) + seniority (15) + English (15) + salary (10). A ranking aid: the consultant decides.
+
+1. Carolina Silva (C-2024-0453): 100/100  HIGH MATCH
+   skills 40 · experience 20 · seniority 15 · English 15 · salary 10
+   missing required skills: React
+   warnings: missing-required-skills
+2. María González (C-2024-0451): 92/100  HIGH MATCH
+   skills 40 · experience 20 · seniority 7 · English 15 · salary 10
+   missing required skills: none
+   warnings: preferred-points-capped, salary-below-range
+3. Juan Pérez (C-2024-0452): 20/100
+   skills 0 · experience 10 · seniority 0 · English 0 · salary 10
+   missing required skills: TypeScript, Node.js
+   warnings: missing-required-skills, under-half-required-skills, experience-below-range, seniority-mismatch, english-below-required, salary-below-range
+
+Candidates by seniority:
+   Junior: Juan Pérez
+   Semi-Senior: María González
+   Senior: Carolina Silva
+   Lead: none
+   Executive: none
+```
+
+- **Checks with everything staged:** memory check 5 PASS (exit 0); `security-gate` (Milestone 3) 7 PASS, exit 0.
+- **Problems found and fixed:** M3-63 (stored scores) and M3-64 (missing must-have without a warning) fixed; M3-53 fully decided (spelling built in S06).
+

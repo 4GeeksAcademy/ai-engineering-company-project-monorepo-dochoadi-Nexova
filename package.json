@@ -18,7 +18,8 @@
     "serve:site": "pnpm build:site && npx http-server@14.1.1 dist -p 8080 -a 0.0.0.0 -d false -c-1",
     "test:site": "node --test \"tests/site/**/*.test.*\"",
     "typecheck:domain": "tsc --noEmit",
-    "test:domain": "node --test \"src/tests/**/*.test.ts\""
+    "test:domain": "node --test \"src/tests/**/*.test.ts\"",
+    "demo": "node src/demo.ts"
   },
   "devDependencies": {
     "@tailwindcss/cli": "4.3.3",
